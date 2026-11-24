@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Javier Gómez Pilar</title>
+<meta name="description" content="Javier Gómez Pilar — Profesor Contratado Doctor, Universidad de Valladolid. Neurociencia computacional, dinámica temporal del cerebro y procesado de señales biomédicas.">
+<meta name="author" content="Javier Gómez Pilar">
+<link rel="canonical" href="https://jgompil.github.io/Javier-Gomez-Pilar/">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Javier Gómez Pilar">
+<meta property="og:description" content="Neurociencia computacional y procesado de señales biomédicas. Universidad de Valladolid · CIBER-BBN.">
+<meta property="og:url" content="https://jgompil.github.io/Javier-Gomez-Pilar/">
+<meta property="og:image" content="https://jgompil.github.io/Javier-Gomez-Pilar/assets/img/javier.png">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-i18n="skip">Saltar al contenido</a>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="bar-name" href="#top">Javier&nbsp;Gómez&nbsp;Pilar</a>
+    <nav class="bar-nav" aria-label="Secciones">
+      <a href="#research" data-i18n="nav.research">Investigación</a>
+      <a href="#publications" data-i18n="nav.publications">Publicaciones</a>
+      <a href="#projects" data-i18n="nav.projects">Proyectos</a>
+      <a href="#teaching" data-i18n="nav.teaching">Docencia</a>
+      <a href="#recognition" data-i18n="nav.recognition">Reconocimiento</a>
+      <a href="#contact" data-i18n="nav.contact">Contacto</a>
+    </nav>
+    <div class="bar-tools">
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="es" aria-pressed="true">ES</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button type="button" class="theme" id="theme-toggle" aria-label="Cambiar tema">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17">
+          <g class="ico-sun">
+            <path d="M12 4.2V2.4m0 19.2v-1.8m7.8-7.8h1.8M2.4 12h1.8m13.46-5.66 1.27-1.27M4.87 19.13l1.27-1.27m0-11.52L4.87 4.87m14.26 14.26-1.27-1.27" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <circle cx="12" cy="12" r="3.9" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          </g>
+          <path class="ico-moon" d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ───────────────────────── hero ───────────────────────── -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <p class="eyebrow" data-i18n="hero.eyebrow">Universidad de Valladolid · CIBER-BBN</p>
+          <h1>Javier<br>Gómez&nbsp;Pilar</h1>
+          <p class="role" data-i18n="hero.role">Profesor Contratado Doctor · Grupo de Ingeniería Biomédica</p>
+          <p class="thesis" data-i18n="hero.thesis">El cerebro tiene escalas de tiempo propias. Mido cómo se desajustan en la esquizofrenia, la demencia, la migraña y la apnea del sueño, y convierto ese desajuste en biomarcadores que un clínico pueda usar.</p>
+          <ul class="hero-links">
+            <li><a href="https://orcid.org/0000-0001-7882-7890" rel="me noopener">ORCID</a></li>
+            <li><a href="https://scholar.google.es/citations?user=m8XACpMAAAAJ" rel="me noopener">Scholar</a></li>
+            <li><a href="https://www.scopus.com/authid/detail.url?authorId=55977922600" rel="me noopener">Scopus</a></li>
+            <li><a href="https://www.webofscience.com/wos/author/record/B-9123-2018" rel="me noopener">Web of Science</a></li>
+            <li><a href="https://gib.uva.es/member/16/javier-gomez-pilar/" rel="me noopener">GIB-UVa</a></li>
+          </ul>
+        </div>
+        <figure class="hero-photo">
+          <div class="portrait">
+            <img src="assets/img/javier.png" alt="Javier Gómez Pilar" width="800" height="800" loading="eager">
+          </div>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Las trazas son osciladores con escalas de tiempo crecientes:
+         el objeto de estudio, no un adorno. -->
+    <div class="trace" aria-hidden="true"><canvas id="trace"></canvas></div>
+
+    <div class="wrap">
+      <dl class="metrics" id="metrics">
+        <div class="metric"><dt data-i18n="m.jcr">Artículos JCR</dt><dd class="num" data-metric="jcr">—</dd><dd class="src" data-i18n="m.jcr.src">GIB-UVa</dd></div>
+        <div class="metric"><dt data-i18n="m.q1">En primer cuartil</dt><dd class="num" data-metric="q1">—</dd><dd class="src" data-metric="q1pct">—</dd></div>
+        <div class="metric"><dt data-i18n="m.cit">Citas</dt><dd class="num" data-metric="citations">—</dd><dd class="src" data-metric="cit-src">—</dd></div>
+        <div class="metric"><dt data-i18n="m.h">Índice h</dt><dd class="num" data-metric="h">—</dd><dd class="src" data-metric="h-src">—</dd></div>
+        <div class="metric"><dt data-i18n="m.funding">Financiación captada</dt><dd class="num">3,4 M€</dd><dd class="src" data-i18n="m.funding.src">28 proyectos</dd></div>
+      </dl>
+      <p class="stamp"><span data-i18n="stamp.pre">Métricas bibliométricas actualizadas automáticamente</span> · <span id="stamp-date">—</span></p>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── research ───────────────────────── -->
+  <section class="band" id="research">
+    <div class="wrap band-grid">
+      <p class="idx"><span data-i18n="idx.research">Investigación</span></p>
+      <div class="band-body">
+        <h2 data-i18n="research.h">Líneas de investigación</h2>
+        <p class="lede" data-i18n="research.lede">Cuatro líneas, un método común: tratar la actividad cerebral como un sistema dinámico en red y buscar en su geometría temporal lo que distingue un cerebro enfermo de uno sano.</p>
+        <div class="lines" id="lines"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── publications ───────────────────────── -->
+  <section class="band alt" id="publications">
+    <div class="wrap band-grid">
+      <p class="idx"><span data-i18n="idx.publications">Publicaciones</span></p>
+      <div class="band-body">
+        <h2 data-i18n="pub.h">Publicaciones</h2>
+        <p class="lede" data-i18n="pub.lede">Solo artículos en revistas indexadas en el JCR. La lista y los cuartiles se regeneran cada semana desde el repositorio del grupo, así que no hay una versión «de papel» que envejezca.</p>
+
+        <figure class="chart">
+          <figcaption data-i18n="chart.cap">Citas recibidas por año</figcaption>
+          <div id="chart" class="chart-box"></div>
+        </figure>
+
+        <div class="controls">
+          <div class="chips" role="group" aria-label="Filtros">
+            <button type="button" data-filter="all" aria-pressed="true" data-i18n="f.all">Todas</button>
+            <button type="button" data-filter="q1" aria-pressed="false" data-i18n="f.q1">Q1</button>
+            <button type="button" data-filter="d1" aria-pressed="false" data-i18n="f.d1">Primer decil</button>
+            <button type="button" data-filter="first" aria-pressed="false" data-i18n="f.first">Primer autor</button>
+          </div>
+          <label class="search">
+            <span class="sr" data-i18n="f.search">Buscar</span>
+            <input type="search" id="pub-search" placeholder="Buscar título, revista, coautor…" data-i18n-ph="f.search.ph">
+          </label>
+        </div>
+
+        <p class="count" id="pub-count" aria-live="polite"></p>
+        <div id="pub-list" class="pubs"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── projects ───────────────────────── -->
+  <section class="band" id="projects">
+    <div class="wrap band-grid">
+      <p class="idx"><span data-i18n="idx.projects">Proyectos</span></p>
+      <div class="band-body">
+        <h2 data-i18n="proj.h">Proyectos</h2>
+        <p class="lede" data-i18n="proj.lede">Selección de los proyectos en curso y de los concluidos que marcaron una línea. Cuando mi papel es de investigador principal o coordinador, está indicado.</p>
+        <div id="projects-list" class="projects"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── teaching ───────────────────────── -->
+  <section class="band alt" id="teaching">
+    <div class="wrap band-grid">
+      <p class="idx"><span data-i18n="idx.teaching">Docencia</span></p>
+      <div class="band-body">
+        <h2 data-i18n="teach.h">Docencia y supervisión</h2>
+        <article class="feature" id="atenea"></article>
+        <div class="two">
+          <div>
+            <h3 data-i18n="teach.courses">Asignaturas</h3>
+            <div id="teaching-list" class="courses"></div>
+          </div>
+          <div>
+            <h3 data-i18n="teach.sup">Supervisión</h3>
+            <div id="supervision" class="sup"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── recognition ───────────────────────── -->
+  <section class="band" id="recognition">
+    <div class="wrap band-grid">
+      <p class="idx"><span data-i18n="idx.recognition">Reconocimiento</span></p>
+      <div class="band-body">
+        <h2 data-i18n="rec.h">Reconocimiento</h2>
+        <p class="lede" data-i18n="rec.lede">La tesis doctoral, leída por compendio de publicaciones y con mención internacional, recibió tres premios nacionales. La lista se regenera desde el repositorio del grupo.</p>
+        <div class="two">
+          <div>
+            <h3 data-i18n="rec.awards">Premios y distinciones</h3>
+            <ol id="awards-list" class="awards"></ol>
+          </div>
+          <div>
+            <h3 data-i18n="rec.service">Servicio y evaluación</h3>
+            <ul id="service-list" class="service"></ul>
+            <h3 data-i18n="rec.ip">Propiedad intelectual</h3>
+            <ul id="ip-list" class="service"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── contact ───────────────────────── -->
+  <section class="band alt" id="contact">
+    <div class="wrap band-grid">
+      <p class="idx"><span data-i18n="idx.contact">Contacto</span></p>
+      <div class="band-body">
+        <h2 data-i18n="contact.h">Contacto</h2>
+        <div class="two">
+          <div>
+            <p class="lede" data-i18n="contact.lede">Abierto a colaboraciones en neurociencia computacional y a consultas de medios. Los estudiantes interesados en un TFG, TFM o doctorado pueden escribirme directamente.</p>
+            <address class="addr">
+              <a class="mail" href="mailto:javier.gomez.pilar@uva.es">javier.gomez.pilar@uva.es</a>
+              <span data-i18n="contact.dept">Dpto. de Teoría de la Señal y Comunicaciones e Ingeniería Telemática</span>
+              <span data-i18n="contact.school">E.T.S.I. de Telecomunicación, Universidad de Valladolid</span>
+              <span>Paseo de Belén 15, 47011 Valladolid, España</span>
+              <a href="tel:+34983185667">+34 983 185 667</a>
+            </address>
+          </div>
+          <div>
+            <h3 data-i18n="contact.profiles">Perfiles</h3>
+            <ul class="service">
+              <li><a href="https://orcid.org/0000-0001-7882-7890" rel="me noopener">ORCID 0000-0001-7882-7890</a></li>
+              <li><a href="https://scholar.google.es/citations?user=m8XACpMAAAAJ" rel="me noopener">Google Scholar</a></li>
+              <li><a href="https://www.scopus.com/authid/detail.url?authorId=55977922600" rel="me noopener">Scopus 55977922600</a></li>
+              <li><a href="https://www.webofscience.com/wos/author/record/B-9123-2018" rel="me noopener">Web of Science B-9123-2018</a></li>
+              <li><a href="https://openalex.org/authors/A5028137676" rel="me noopener">OpenAlex</a></li>
+              <li><a href="https://portaldelaciencia.uva.es/investigadores/180080/detalle" rel="me noopener" data-i18n="contact.portal">Portal de la Ciencia UVa</a></li>
+              <li><a href="https://cvn.fecyt.es/0000-0001-7882-7890" rel="me noopener" data-i18n="contact.cv">Currículum (CVN-FECYT)</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot-name">Javier Gómez Pilar</p>
+    <p class="muted" data-i18n="foot.note">Las cifras bibliométricas de esta página se recalculan cada semana desde GIB-UVa, OpenAlex y ORCID.</p>
+    <p class="muted">© <span id="year">2026</span> · Valladolid</p>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

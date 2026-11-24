@@ -1,0 +1,1106 @@
+{
+ "generated": "2026-11-24T18:54:12Z",
+ "metrics": {
+  "jcr_articles": 68,
+  "quartiles": {
+   "Q1": 44,
+   "Q2": 21,
+   "Q3": 1,
+   "Q4": 2,
+   "D1": 16
+  },
+  "openalex": {
+   "works": 122,
+   "citations": 3130,
+   "h_index": 35,
+   "i10_index": 60,
+   "citations_by_publication_year": [
+    {
+     "year": 2013,
+     "citations": 14
+    },
+    {
+     "year": 2014,
+     "citations": 42
+    },
+    {
+     "year": 2015,
+     "citations": 278
+    },
+    {
+     "year": 2016,
+     "citations": 221
+    },
+    {
+     "year": 2017,
+     "citations": 234
+    },
+    {
+     "year": 2018,
+     "citations": 400
+    },
+    {
+     "year": 2019,
+     "citations": 319
+    },
+    {
+     "year": 2020,
+     "citations": 419
+    },
+    {
+     "year": 2021,
+     "citations": 580
+    },
+    {
+     "year": 2022,
+     "citations": 524
+    },
+    {
+     "year": 2023,
+     "citations": 83
+    },
+    {
+     "year": 2024,
+     "citations": 0
+    },
+    {
+     "year": 2025,
+     "citations": 11
+    },
+    {
+     "year": 2026,
+     "citations": 5
+    }
+   ],
+   "profiles": [
+    "A5028137676",
+    "A5159625863"
+   ]
+  },
+  "citations_by_year": [
+   {
+    "year": 2012,
+    "citations": 1
+   },
+   {
+    "year": 2013,
+    "citations": 3
+   },
+   {
+    "year": 2014,
+    "citations": 2
+   },
+   {
+    "year": 2015,
+    "citations": 17
+   },
+   {
+    "year": 2016,
+    "citations": 41
+   },
+   {
+    "year": 2017,
+    "citations": 70
+   },
+   {
+    "year": 2018,
+    "citations": 64
+   },
+   {
+    "year": 2019,
+    "citations": 138
+   },
+   {
+    "year": 2020,
+    "citations": 232
+   },
+   {
+    "year": 2021,
+    "citations": 282
+   },
+   {
+    "year": 2022,
+    "citations": 343
+   },
+   {
+    "year": 2023,
+    "citations": 382
+   },
+   {
+    "year": 2024,
+    "citations": 590
+   },
+   {
+    "year": 2025,
+    "citations": 501
+   },
+   {
+    "year": 2026,
+    "citations": 465
+   }
+  ],
+  "orcid": {
+   "works": 70,
+   "title": "Multimodal Phenotyping of Sleep Apnea: Integrating SpO2 and HRV Through Subject-Based Correlation Networks",
+   "year": 2027
+  }
+ },
+ "publications": [
+  {
+   "year": 2026,
+   "month": 10,
+   "title": "The Potential of Clustering Methods for Pre-Test Triage in Sleep Medicine: A Systematic Review",
+   "authors": "Francisca Gomes-Almeida, Adrián Martín-Montero, Gonzalo C. Gutiérrez-Tobal, Javier Gomez-Pilar, Roberto Hornero, Pedro Pereira-Rodrigues, Pedro Amorim, Matilde Monteiro-Soares, Daniela Ferreira-Santos",
+   "journal": "Sleep Medicine Reviews",
+   "volume": "89",
+   "pages": "102308",
+   "doi": "10.1016/j.smrv.2026.102308",
+   "url": "https://www.sciencedirect.com/science/article/pii/S1087079226000808",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2026,
+   "month": 7,
+   "title": "Algometric assessment of sensitization and habituation as predictive markers for onabotulinumtoxina response in chronic migraine",
+   "authors": "Javier Gomez-Pilar, Fernando Vaquerizo-Villar, David García Azorín, Álvaro Sierra, Ángel Luis Guerrero, Roberto Hornero",
+   "journal": "Pain Medicine",
+   "volume": "27 (7)",
+   "pages": "753-762",
+   "doi": "10.1093/pm/pnag060",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2026,
+   "month": 7,
+   "title": "Influence of sex in medium-term survival and adverse cardiovascular events after surgery of acute type A aortic dissection",
+   "authors": "Yolanda Carrascal, Javier Gomez-Pilar, Rocío Bernal, Irene Velasco, Bárbara Segura-Méndez",
+   "journal": "Revista Espanola de Cardiologia",
+   "volume": "79",
+   "pages": "640-650",
+   "doi": "10.1016/j.rec.2025.12.013",
+   "url": "https://www.sciencedirect.com/science/article/pii/S1885585725003573",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2026,
+   "month": 2,
+   "title": "A subject-based association network defines new pediatric sleep apnea phenotypes with different odds of recovery after treatment",
+   "authors": "Gonzalo C. Gutiérrez-Tobal, Javier Gomez-Pilar, Daniela Ferreira-Santos, Pedro Pereira-Rodrigues, Daniel Álvarez, Félix del Campo, David Gozal, Roberto Hornero",
+   "journal": "Computer Methods and Programs in Biomedicine",
+   "volume": "275",
+   "pages": "109209",
+   "doi": "https://doi.org/10.1016/j.cmpb.2025.109209",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2025,
+   "month": 7,
+   "title": "Beyond the ground truth, XGBoost model applied to sleep spindle event detection",
+   "authors": "Enrique Gurdiel, Fernando Vaquerizo-Villar, Javier Gomez-Pilar, Gonzalo C. Gutiérrez-Tobal, Félix del Campo, Roberto Hornero",
+   "journal": "IEEE Journal of Biomedical and Health Informatics",
+   "volume": "29 (7)",
+   "pages": "",
+   "doi": "10.1109/jbhi.2025.3544966",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2024,
+   "month": 2,
+   "title": "Functional network properties in schizophrenia and bipolar disorder assessed with high-density electroencephalography",
+   "authors": "Álvaro Díez-Revuelta, Javier Gomez-Pilar, Jesús Poza, Rosa M. Beño-Ruiz-de-la-Sierra, Inés Fernández-Linsenbarth, María Recio-Barbero, Pablo Núñez, Pedro Holgado-Madera, Vicente Molina",
+   "journal": "Progress in Neuro-Psychopharmacology & Biological Psychiatry",
+   "volume": "129",
+   "pages": "110902",
+   "doi": "10.1016/j.pnpbp.2023.110902",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2024,
+   "month": 1,
+   "title": "Feeling out of synchrony: investigating the vulnerability of self in subclinical realms",
+   "authors": "Andrea Scalabrini, Michelangelo De Amicis, Agostino Brugnera, Marco Cavicchioli, Yasir Çatal, Kaan Keskin, Javier Gomez-Pilar, Jianfeng Zhang, Bella Osipova, Angelo Compare, Andrea Greco, Francesco Benedetti, Clara Mucci, Georg Northoff",
+   "journal": "Asian Journal of Psychiatry",
+   "volume": "91",
+   "pages": "103859",
+   "doi": "10.1016/j.ajp.2023.103859",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2023,
+   "month": 12,
+   "title": "Are we missing something? Different OSA phenotypes as a possible driver of discrepancies in cognitive recovery after CPAP treatment",
+   "authors": "Javier Gomez-Pilar, Gonzalo C. Gutiérrez-Tobal, David Gozal, Roberto Hornero",
+   "journal": "Sleep",
+   "volume": "46 (12)",
+   "pages": "zsad269",
+   "doi": "10.1093/sleep/zsad269",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2023,
+   "month": 12,
+   "title": "Gene Co-Expression Networks Offer New Perspectives on Sepsis Pathophysiology",
+   "authors": "Pedro Martínez-Paz, Javier Gomez-Pilar, Marta Martín-Fernández, Francisco Ceballos, Esther Gómez-Sánchez, Roberto Hornero, Eduardo Tamayo",
+   "journal": "IEEE-Acm Transactions on Computational Biology and Bioinformatics",
+   "volume": "20 (6)",
+   "pages": "3660-3668",
+   "doi": "10.1109/tcbb.2023.3309998",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2023,
+   "month": 11,
+   "title": "The Self and Our Perception of its Synchrony – Beyond Internal and External Cognition",
+   "authors": "Andrea Scalabrini, Michelangelo De Amicis, Agostino Brugnera, Marco Cavicchioli, Yasir Çatal, Kaan Keskin, Javier Gomez-Pilar, Jianfeng Zhang, Bella Osipova, Angelo Compare, Andrea Greco, Francesco Benedetti, Clara Mucci, Georg Northoff",
+   "journal": "Consciousness and Cognition",
+   "volume": "116",
+   "pages": "103600",
+   "doi": "10.1016/j.concog.2023.103600",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2023,
+   "month": 7,
+   "title": "Altered brain dynamics index levels of arousal in complete locked-in syndrome",
+   "authors": "Federico Zilio, Javier Gomez-Pilar, Ujwal Chaudhary, Stuart Fogel, Tatiana Fomina, Matthis Synofzik, Ludger Schoels, Shumei Cao, Jun Zhang, Zirui Huang, Niels Birbaumer, Georg Northoff",
+   "journal": "Communications Biology",
+   "volume": "6",
+   "pages": "757",
+   "doi": "10.1038/s42003-023-05109-1",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2023,
+   "month": 5,
+   "title": "Quantification of the robustness of functional neural networks: Application to the characterization of Alzheimer’s disease continuum",
+   "authors": "Marcos Revilla-Vallejo, Carlos Gómez, Javier Gomez-Pilar, Roberto Hornero, Miguel A. Tola-Arribas, Mónica Cano, Yoshihito Shigihara, Hideyuki Hoshi, Jesús Poza",
+   "journal": "Journal of Neural Engineering",
+   "volume": "20 (3)",
+   "pages": "036023",
+   "doi": "10.1088/1741-2552/acd41c",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2023,
+   "month": 1,
+   "title": "Disrupted relationship between intrinsic timescales and alpha peak frequency during unconscious states – A high-density EEG study",
+   "authors": "Andrea Buccellato, Di Zang, Federico Zilio, Javier Gomez-Pilar, Zhe Wang, Zengxin Qi, Ruizhe Zheng, Zeyu Xu, Xuehai Wu, Patrizia Bisiacchi, Alessandra Del Felice, Ying Mao, Georg Northoff",
+   "journal": "Neuroimage",
+   "volume": "265",
+   "pages": "119802",
+   "doi": "10.1016/j.neuroimage.2022.119802",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2022,
+   "month": 8,
+   "title": "Headache-related circuits and high frequencies evaluated by EEG, MRI, PET as potential biomarkers to differentiate chronic and episodic migraine: Evidence from a systematic review",
+   "authors": "Javier Gomez-Pilar, Víctor Martínez-Cagigal, David García Azorín, Carlos Gómez, Ángel Luis Guerrero, Roberto Hornero",
+   "journal": "Journal of Headache and Pain",
+   "volume": "23 (1)",
+   "pages": "95",
+   "doi": "10.1186/s10194-022-01465-1",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2022,
+   "month": 8,
+   "title": "Variability and task-responsiveness of electrophysiological dynamics: scale-free stability and oscillatory flexibility",
+   "authors": "Soren Wainio-Theberge, Annemarie Wolff, Javier Gomez-Pilar, Jianfeng Zhang, Georg Northoff",
+   "journal": "Neuroimage",
+   "volume": "256",
+   "pages": "119245",
+   "doi": "10.1016/j.neuroimage.2022.119245",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2022,
+   "month": 2,
+   "title": "(Attenuated) hallucinations join basic symptoms in a transdiagnostic network cluster analysis",
+   "authors": "Natalia Jimeno, Javier Gomez-Pilar, Jesús Poza, Roberto Hornero, Kai Vogeley, Eva Meisenzahl, Theresa Haidl, Marlene Rosen, Joseph Kambeitz, Joachim Klosterkötter, Frauke Schultze-Lutter",
+   "journal": "Schizophrenia Research",
+   "volume": "243",
+   "pages": "43-54",
+   "doi": "10.1016/j.schres.2022.02.018",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2022,
+   "month": 2,
+   "title": "From temporal to spatial topography – Hierarchy of neural dynamics in higher- and lower-order networks shapes their complexity",
+   "authors": "Mehrshad Golesorkhi, Javier Gomez-Pilar, Yasir Çatal, Shankar Tumati, Mustapha Yagoub, Emanuel A Stamatakis, Georg Northoff",
+   "journal": "Cerebral Cortex",
+   "volume": "",
+   "pages": "bhac042",
+   "doi": "10.1093/cercor/bhac042",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2022,
+   "month": 2,
+   "title": "Intrinsic neural timescales: temporal integration and segregation",
+   "authors": "Annemarie Wolff, Nareg Berberian, Mehrshad Golesorkhi, Javier Gomez-Pilar, Federico Zilio, Georg Northoff",
+   "journal": "Trends in Cognitive Sciences",
+   "volume": "26 (2)",
+   "pages": "159-173",
+   "doi": "10.1016/j.tics.2021.11.007",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2022,
+   "month": 2,
+   "title": "Schizophrenia induces abnormal frequency-dependent patterns of dynamic brain network reconﬁguration during an auditory oddball task",
+   "authors": "Pablo Núñez, Carlos Gómez, Víctor Rodríguez-González, Arjan Hillebrand, Prejaas Tewarie, Javier Gomez-Pilar, Vicente Molina, Roberto Hornero, Jesús Poza",
+   "journal": "Journal of Neural Engineering",
+   "volume": "19 (1)",
+   "pages": "016033",
+   "doi": "10.1088/1741-2552/ac514e",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2022,
+   "month": 1,
+   "title": "Intrinsic Dynamics and Topography of Sensory Input Systems",
+   "authors": "Yasir Çatal, Javier Gomez-Pilar, Georg Northoff",
+   "journal": "Cerebral Cortex",
+   "volume": "",
+   "pages": "bhab504",
+   "doi": "10.1093/cercor/bhab504",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 12,
+   "title": "It’s in the timing: Reduced temporal precision in neural activity of schizophrenia",
+   "authors": "Annemarie Wolff, Javier Gomez-Pilar, Jianfeng Zhang, Joelle Choueiry, Sara de la Salle, Verner Knott, Georg Northoff",
+   "journal": "Cerebral Cortex",
+   "volume": "",
+   "pages": "bhab425",
+   "doi": "10.1093/cercor/bhab425",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 12,
+   "title": "Search for schizophrenia and bipolar biotypes using functional network properties",
+   "authors": "Inés Fernández-Linsenbarth, Álvaro Planchuelo-Gómez, Rosa M. Beño-Ruiz-de-la-Sierra, Álvaro Díez-Revuelta, Antonio Arjona-Valladares, Adela Perez-Escudero, Alberto Rodríguez-Lorenzana, Pilar del Valle, Rodrigo de Luis-García, Guido Masciliano, Pedro Holgado-Madera, Rafael Segarra-Echeverría, Javier Gomez-Pilar, Pablo Núñez, Berta Bote-Boneaechea, Antonio Zambrana-Gómez, Alejandro Roig-Herrero, Vicente Molina",
+   "journal": "Brain and Behavior",
+   "volume": "11",
+   "pages": "e2415",
+   "doi": "10.1002/brb3.2415",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 11,
+   "title": "Pediatric Sleep Apnea: The Overnight Electroencephalogram as a Phenotypic Biomarker",
+   "authors": "Gonzalo C. Gutiérrez-Tobal, Javier Gomez-Pilar, Leila Kheirandish-Gozal, Adrián Martín-Montero, Jesús Poza, Daniel Álvarez, Félix del Campo, David Gozal, Roberto Hornero",
+   "journal": "Frontiers in Neuroscience",
+   "volume": "15",
+   "pages": "644697",
+   "doi": "10.3389/fnins.2021.644697",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 10,
+   "title": "Analysis of the functional EEG network in an Ecuadorian schizophrenia sample",
+   "authors": "Alberto Rodríguez-Lorenzana, Mabel Torres-Tapia, César Parra, Álvaro Díez-Revuelta, Antonio Arjona-Valladares, Javier Gomez-Pilar, Erika Pasquel, Diego Granizo, Vicente Molina",
+   "journal": "European Journal of Psychiatry",
+   "volume": "35 (4)",
+   "pages": "216-224",
+   "doi": "10.1016/j.ejpsy.2021.06.004",
+   "url": "",
+   "quartile": "Q4",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 9,
+   "title": "Editorial: Entropy in Brain Networks",
+   "authors": "Jesús Poza, María García, Javier Gomez-Pilar",
+   "journal": "Entropy",
+   "volume": "23 (9)",
+   "pages": "1157",
+   "doi": "10.3390/e23091157",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 9,
+   "title": "Prestimulus dynamics blend with the stimulus in neural variability quenching",
+   "authors": "Annemarie Wolff, Liang Chen, Shankar Tumati, Mehrshad Golesorkhi, Javier Gomez-Pilar, Jie Hu, Shize Jiang, Ying Mao, Andre Longtin, Georg Northoff",
+   "journal": "Neuroimage",
+   "volume": "238",
+   "pages": "118160",
+   "doi": "10.1016/j.neuroimage.2021.118160",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 8,
+   "title": "The brain and its time: Intrinsic neural timescales are key for input processing",
+   "authors": "Mehrshad Golesorkhi, Javier Gomez-Pilar, Federico Zilio, Nareg Berberian, Annemarie Wolff, Mustapha Yagoub, Georg Northoff",
+   "journal": "Communications Biology",
+   "volume": "4",
+   "pages": "970",
+   "doi": "10.1038/s42003-021-02483-6",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 5,
+   "title": "Overcoming rest-task divide – Abnormal temporo-spatial dynamics and its cognition in schizophrenia",
+   "authors": "Georg Northoff, Javier Gomez-Pilar",
+   "journal": "Schizophrenia Bulletin",
+   "volume": "47 (3)",
+   "pages": "751–765",
+   "doi": "10.1093/schbul/sbaa178",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 4,
+   "title": "Exploring the Alterations in the Distribution of Neural Network Weights in Dementia Due to Alzheimer’s Disease",
+   "authors": "Marcos Revilla-Vallejo, Jesús Poza, Javier Gomez-Pilar, Roberto Hornero, Miguel A. Tola-Arribas, Mónica Cano, Carlos Gómez",
+   "journal": "Entropy",
+   "volume": "23 (5)",
+   "pages": "500",
+   "doi": "10.3390/e23050500",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 3,
+   "title": "Neurobiological underpinnings of cognitive subtypes in Psychoses: a cross-diagnostic cluster analysis",
+   "authors": "Inés Fernández-Linsenbarth, Álvaro Planchuelo-Gómez, Álvaro Díez-Revuelta, Antonio Arjona-Valladares, Rodrigo de Luis-García, Oscar Martin-Santiago, José Antonio Benito-Sánchez, Ángela Pérez-Laureano, David González-Parra, Carmen Montes-Gonzalo, Raquel Melero-Lerma, Sonia Fernández Morante, Javier Sanz-Fuentenebro, Javier Gomez-Pilar, Pablo Núñez, Vicente Molina",
+   "journal": "Schizophrenia Research",
+   "volume": "229",
+   "pages": "102-111",
+   "doi": "10.1016/j.schres.2020.11.013",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 3,
+   "title": "Spectral and temporal characterization of sleep spindles – Methodological implications",
+   "authors": "Javier Gomez-Pilar, Gonzalo C. Gutiérrez-Tobal, Jesús Poza, Stuart Fogel, Julien Doyon, Georg Northoff, Roberto Hornero",
+   "journal": "Journal of Neural Engineering",
+   "volume": "18 (3)",
+   "pages": "036014",
+   "doi": "10.1088/1741-2552/abe8ad",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 3,
+   "title": "Temporal hierarchy of intrinsic neural timescales converges with spatial core-periphery organization",
+   "authors": "Mehrshad Golesorkhi, Javier Gomez-Pilar, Shankar Tumati, Maia Fraser, Georg Northoff",
+   "journal": "Communications Biology",
+   "volume": "4",
+   "pages": "277",
+   "doi": "10.1038/s42003-021-01785-z",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 2,
+   "title": "Are intrinsic neural timescales related to sensory processing? Evidence from abnormal behavioural states",
+   "authors": "Federico Zilio, Javier Gomez-Pilar, Shumei Cao, Jun Zhang, Di Zang, Zengxin Qi, Jiaxing Tan, Tanigawa Hiromi, Xuehai Wu, Stuart Fogel, Zirui Huang, Matthias R. Hohmann, Tatiana Fomina, Matthis Synofzik, Moritz Grosse-Wentrup, Adrian M. Owen, Georg Northoff",
+   "journal": "Neuroimage",
+   "volume": "226",
+   "pages": "117579",
+   "doi": "10.1016/j.neuroimage.2020.117579",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2021,
+   "month": 1,
+   "title": "The role of gene to gene interaction in the breast's genomic signature of pregnancy",
+   "authors": "Pedro J. Gutiérrez-Díez, Javier Gomez-Pilar, Roberto Hornero, Julia Martínez-Rodríguez, Miguel A. López-Marcos, Jose Russo",
+   "journal": "Scientific Reports",
+   "volume": "11",
+   "pages": "2643",
+   "doi": "10.1038/s41598-021-81704-8",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2020,
+   "month": 12,
+   "title": "Exploring EEG spectral patterns in episodic and chronic migraine during interictal state: Determining frequencies of interest in resting state",
+   "authors": "Javier Gomez-Pilar, David García Azorín, Claudia Gómez, Ángel Luis Guerrero, Roberto Hornero",
+   "journal": "Pain Medicine",
+   "volume": "21 (12)",
+   "pages": "3530-3538",
+   "doi": "10.1093/pm/pnaa117",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2020,
+   "month": 8,
+   "title": "Abnormal self-experiences related to a hypersynchronic brain state in schizophrenia",
+   "authors": "Marta Hernández, Carmen Martín-Gómez, Marta Gómez-García, Javier Gomez-Pilar, Pablo Núñez, Antonio Arjona-Valladares, María Victoria Alejos-Herrera, Maria Teresa Lozano López, Sinta Gamonal Limcaoco, Carlos Molina-Novoa, Vicente Molina",
+   "journal": "Schizophrenia Research",
+   "volume": "222",
+   "pages": "538-540",
+   "doi": "10.1016/j.schres.2020.03.056",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2020,
+   "month": 6,
+   "title": "Analysis of KCNH2 and CACNA1C schizophrenia risk genes on EEG functional network modulation during an auditory odd-ball task",
+   "authors": "Alba Lubeiro, Mar Fatjó-Vilas, María Guardiola, Carmen Almodóvar, Javier Gomez-Pilar, Benjamín Cea-Cañas, Jesús Poza, Marta García-Gómez, Vicente Molina",
+   "journal": "European Archives of Psychiatry and Clinical Neuroscience",
+   "volume": "270",
+   "pages": "433–442",
+   "doi": "10.1007/s00406-018-0977-0",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2020,
+   "month": 3,
+   "title": "Connectivity strength of the EEG functional network in schizophrenia and bipolar disorder",
+   "authors": "Benjamín Cea-Cañas, Javier Gomez-Pilar, Pablo Núñez, Eva Rodríguez-Vázquez, Nieves de Uribe, Álvaro Díez-Revuelta, Adela Perez-Escudero, Vicente Molina",
+   "journal": "Progress in Neuro-Psychopharmacology & Biological Psychiatry",
+   "volume": "98",
+   "pages": "109801",
+   "doi": "10.1016/j.pnpbp.2019.109801",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2020,
+   "month": 2,
+   "title": "Deficits of entropy modulation of the EEG: a biomarker for the altered function in schizophrenia and bipolar disorder?",
+   "authors": "Vicente Molina, Alba Lubeiro, Rodrigo de Luis-García, Javier Gomez-Pilar, Oscar Martin-Santiago, María Iglesias-Tejedor, Pedro Holgado-Madera, Rafael Segarra-Echeverría, María Recio-Barbero, Pablo Núñez, Mahmoun-Karim Haidar, Jessica Fernández-Sevillano, Javier Sanz-Fuentenebro",
+   "journal": "Journal of Psychiatry & Neuroscience",
+   "volume": "45 (3)",
+   "pages": "190032-190032",
+   "doi": "10.1503/jpn.190032",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2020,
+   "month": 2,
+   "title": "Identification of MRI-based psychosis subtypes: replication and refinement",
+   "authors": "Álvaro Planchuelo-Gómez, Alba Lubeiro, Pablo Núñez, Javier Gomez-Pilar, Rodrigo de Luis-García, Pilar del Valle, Oscar Martin-Santiago, Adela Perez-Escudero, Vicente Molina",
+   "journal": "Progress in Neuro-Psychopharmacology & Biological Psychiatry",
+   "volume": "100",
+   "pages": "109907",
+   "doi": "10.1016/j.pnpbp.2020.109907",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2020,
+   "month": 1,
+   "title": "Main symptomatic treatment targets in suspected and early psychosis: new insights from network analysis",
+   "authors": "Natalia Jimeno, Javier Gomez-Pilar, Jesús Poza, Roberto Hornero, Kai Vogeley, Eva Meisenzahl, Theresa Haidl, Marlene Rosen, Joachim Klosterkötter, Frauke Schultze-Lutter",
+   "journal": "Schizophrenia Bulletin",
+   "volume": "46 (4)",
+   "pages": "884–895",
+   "doi": "10.1093/schbul/sbz140",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2019,
+   "month": 11,
+   "title": "From Neuronal to Psychological noise – Long-range temporal correlations in EEG intrinsic activity reduce noise in internally-guided decision making",
+   "authors": "Takashi Nakao, Madoka Miyagi, Ryosuke Hiramoto, Annemarie Wolff, Javier Gomez-Pilar, Makoto Miyatani, Georg Northoff",
+   "journal": "Neuroimage",
+   "volume": "201",
+   "pages": "116015",
+   "doi": "10.1016/j.neuroimage.2019.116015",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2019,
+   "month": 8,
+   "title": "Asynchronous Control of ERP-based BCI Spellers Using Steady-State Visual Evoked Potentials Elicited by Peripheral Stimuli",
+   "authors": "Eduardo Santamaría-Vázquez, Víctor Martínez-Cagigal, Javier Gomez-Pilar, Roberto Hornero",
+   "journal": "IEEE Transactions on Neural Systems and Rehabilitation Engineering",
+   "volume": "27 (9)",
+   "pages": "1883 - 1892",
+   "doi": "10.1109/tnsre.2019.2934645",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2019,
+   "month": 6,
+   "title": "Social cognition in psychosis: Predictors and effects of METAcognitive training",
+   "authors": "Aldara Alvarez-Astorga, Eva Sotelo, Alba Lubeiro, Rodrigo de Luis-García, Javier Gomez-Pilar, Begoña Becoechea, Vicente Molina",
+   "journal": "Progress in Neuro-Psychopharmacology & Biological Psychiatry",
+   "volume": "94",
+   "pages": "109672",
+   "doi": "10.1016/j.pnpbp.2019.109672",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2019,
+   "month": 6,
+   "title": "Structural connectivity networks in schizophrenia and bipolar disorder: Effects of chronicity and antipsychotic treatment",
+   "authors": "Benjamín Cea-Cañas, Rodrigo de Luis-García, Alba Lubeiro, Javier Gomez-Pilar, Eva Sotelo, Pilar del Valle, Marta Gómez-García, Adrián Alonso-Sánchez, Vicente Molina",
+   "journal": "Progress in Neuro-Psychopharmacology & Biological Psychiatry",
+   "volume": "92",
+   "pages": "369-377",
+   "doi": "10.1016/j.pnpbp.2019.02.006",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2019,
+   "month": 5,
+   "title": "Neural variability quenching during decision-making: neural individuality and its prestimulus complexity",
+   "authors": "Annemarie Wolff, Lin Yao, Javier Gomez-Pilar, Mahsa Shoaran, Ning Jiang, Georg Northoff",
+   "journal": "Neuroimage",
+   "volume": "192",
+   "pages": "1-14",
+   "doi": "10.1016/j.neuroimage.2019.02.070",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2019,
+   "month": 4,
+   "title": "Towards an Accessible Use of Smartphone-Based Social Networks through Brain-Computer Interfaces",
+   "authors": "Víctor Martínez-Cagigal, Eduardo Santamaría-Vázquez, Javier Gomez-Pilar, Roberto Hornero",
+   "journal": "Expert Systems With Applications",
+   "volume": "120",
+   "pages": "155-166",
+   "doi": "10.1016/j.eswa.2018.11.026",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2019,
+   "month": 3,
+   "title": "Interindividual neural differences in moral decision-making are mediated by alpha power and delta/theta phase coherence",
+   "authors": "Annemarie Wolff, Javier Gomez-Pilar, Takashi Nakao, Georg Northoff",
+   "journal": "Scientific Reports",
+   "volume": "9",
+   "pages": "4432",
+   "doi": "10.1038/s41598-019-40743-y",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2019,
+   "month": 2,
+   "title": "Increased scale-free dynamics in salience network in adult high-functioning autism",
+   "authors": "Stefano Damiani, Andrea Scalabrini, Javier Gomez-Pilar, Natascia Brondino, Georg Northoff",
+   "journal": "Neuroimage-Clinical",
+   "volume": "29",
+   "pages": "101634",
+   "doi": "10.1016/j.nicl.2018.101634",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2019,
+   "month": 2,
+   "title": "The temporal signature of self: Temporal measures of resting-state EEG predict self-consciousness",
+   "authors": "Annemarie Wolff, Daniel A. Di Giovanni, Javier Gomez-Pilar, Takashi Nakao, Zirui Huang, Georg Northoff",
+   "journal": "Human Brain Mapping",
+   "volume": "40 (3)",
+   "pages": "789-803",
+   "doi": "10.1002/hbm.24412",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2018,
+   "month": 11,
+   "title": "Altered predictive capability of the brain network EEG model in schizophrenia during cognition",
+   "authors": "Javier Gomez-Pilar, Jesús Poza, Carlos Gómez, Georg Northoff, Alba Lubeiro, Benjamín Cea-Cañas, Vicente Molina, Roberto Hornero",
+   "journal": "Schizophrenia Research",
+   "volume": "201",
+   "pages": "120-129",
+   "doi": "10.1016/j.schres.2018.04.043",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2018,
+   "month": 9,
+   "title": "Alterations of Effective Connectivity Patterns in Mild Cognitive Impairment: An MEG Study",
+   "authors": "Carlos Gómez, Celia Juan-Cruz, Jesús Poza, Saúl J. Ruiz-Gómez, Javier Gomez-Pilar, Pablo Núñez, María García, Alberto Fernández, Roberto Hornero",
+   "journal": "Journal of Alzheimers Disease",
+   "volume": "65 (3)",
+   "pages": "843-854",
+   "doi": "10.3233/jad-170475",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2018,
+   "month": 8,
+   "title": "Relations between structural and EEG-based graph metrics in healthy controls and schizophrenia patients",
+   "authors": "Javier Gomez-Pilar, Rodrigo de Luis-García, Alba Lubeiro, Henar de la Red, Jesús Poza, Pablo Núñez, Roberto Hornero, Vicente Molina",
+   "journal": "Human Brain Mapping",
+   "volume": "39 (8)",
+   "pages": "3152-3165",
+   "doi": "10.1002/hbm.24066",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2018,
+   "month": 5,
+   "title": "Deficit of entropy modulation of the EEG in schizophrenia associated to cognitive performance and symptoms. A replication study",
+   "authors": "Vicente Molina, Alejandro Bachiller, Javier Gomez-Pilar, Alba Lubeiro, Roberto Hornero, Benjamín Cea-Cañas, Cesar Valcarcel, Mahmoun-Karim Haidar, Jesús Poza",
+   "journal": "Schizophrenia Research",
+   "volume": "195",
+   "pages": "334-342",
+   "doi": "10.1016/j.schres.2017.08.057",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2018,
+   "month": 3,
+   "title": "Potential benefits of a cognitive training program in MCI",
+   "authors": "Nuria Mendoza, Sagrario del Valle Díaz, Natalia Rioja Collado, Javier Gomez-Pilar, Roberto Hornero",
+   "journal": "Restorative Neurology and Neuroscience",
+   "volume": "36 (2)",
+   "pages": "207-213",
+   "doi": "10.3233/rnn-170754",
+   "url": "",
+   "quartile": "Q4",
+   "top_decile": false
+  },
+  {
+   "year": 2018,
+   "month": 2,
+   "title": "Deficits of entropy modulation in schizophrenia are predicted by functional connectivity strength in the theta band and structural clustering",
+   "authors": "Javier Gomez-Pilar, Rodrigo de Luis-García, Alba Lubeiro, Nieves de Uribe, Jesús Poza, Pablo Núñez, Marta Ayuso, Roberto Hornero, Vicente Molina",
+   "journal": "Neuroimage-Clinical",
+   "volume": "18",
+   "pages": "382-389",
+   "doi": "10.1016/j.nicl.2018.02.005",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2018,
+   "month": 2,
+   "title": "Quantification of graph complexity based on the edge weight distribution balance: Application to brain networks",
+   "authors": "Javier Gomez-Pilar, Jesús Poza, Alejandro Bachiller, Carlos Gómez, Pablo Núñez, Alba Lubeiro, Vicente Molina, Roberto Hornero",
+   "journal": "International Journal of Neural Systems",
+   "volume": "28 (1)",
+   "pages": "1750032",
+   "doi": "10.1142/s0129065717500320",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2017,
+   "month": 9,
+   "title": "An Asynchronous P300-Based Brain-Computer Interface Web Browser for Severely Disabled People",
+   "authors": "Víctor Martínez-Cagigal, Javier Gomez-Pilar, Daniel Álvarez, Roberto Hornero",
+   "journal": "IEEE Transactions on Neural Systems and Rehabilitation Engineering",
+   "volume": "25 (8)",
+   "pages": "1332-1342",
+   "doi": "10.1109/tnsre.2016.2623381",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2017,
+   "month": 8,
+   "title": "Exploring non-stationarity patterns in schizophrenia: neural reorganization abnormalities in the alpha band",
+   "authors": "Pablo Núñez, Jesús Poza, Alejandro Bachiller, Javier Gomez-Pilar, Alba Lubeiro, Vicente Molina, Roberto Hornero",
+   "journal": "Journal of Neural Engineering",
+   "volume": "14 (4)",
+   "pages": "046001",
+   "doi": "10.1088/1741-2552/aa6e05",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2017,
+   "month": 3,
+   "title": "Functional EEG network analysis in schizophrenia: Evidence of larger segregation and deficit of modulation",
+   "authors": "Javier Gomez-Pilar, Alba Lubeiro, Jesús Poza, Roberto Hornero, Marta Ayuso, Cesar Valcarcel, Mahmoun-Karim Haidar, José A. Blanco, Vicente Molina",
+   "journal": "Progress in Neuro-Psychopharmacology & Biological Psychiatry",
+   "volume": "76",
+   "pages": "116-123",
+   "doi": "10.1016/j.pnpbp.2017.03.004",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2017,
+   "month": 2,
+   "title": "Variation at NRG1 genotype related to modulation of small-world properties of the functional cortical network",
+   "authors": "Alba Lubeiro, Javier Gomez-Pilar, Oscar Martin-Santiago, Aitor Palomino, Myriam Fernandez, Ana González Pinto, Jesús Poza, Roberto Hornero, Vicente Molina",
+   "journal": "European Archives of Psychiatry and Clinical Neuroscience",
+   "volume": "267 (1)",
+   "pages": "25-32",
+   "doi": "10.1007/s00406-015-0659-0",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2016,
+   "month": 10,
+   "title": "Neurofeedback training with a motor imagery-based BCI: neurocognitive improvements and EEG changes in the elderly",
+   "authors": "Javier Gomez-Pilar, Rebeca Corralejo, Luis F. Nicolás-Alonso, Daniel Álvarez, Roberto Hornero",
+   "journal": "Medical & Biological Engineering & Computing",
+   "volume": "54 (11)",
+   "pages": "1655-1666",
+   "doi": "10.1007/s11517-016-1454-4",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2016,
+   "month": 7,
+   "title": "Association between EEG modulation, psychotic-like experiences and cognitive performance in the general population",
+   "authors": "Javier Gomez-Pilar, Oscar Martin-Santiago, Vanessa Suazo, Sonia Ruiz de Azua, Ricardo Gallardo, Jesús Poza, Roberto Hornero, Vicente Molina",
+   "journal": "Psychiatry and Clinical Neurosciences",
+   "volume": "70 (7)",
+   "pages": "286-294",
+   "doi": "10.1111/pcn.12390",
+   "url": "",
+   "quartile": "Q3",
+   "top_decile": false
+  },
+  {
+   "year": 2016,
+   "month": 4,
+   "title": "Modulation of brain network parameters associated with subclinical psychotic symptoms",
+   "authors": "Oscar Martin-Santiago, Javier Gomez-Pilar, Alba Lubeiro, Marta Ayuso, Jesús Poza, Roberto Hornero, Myriam Fernandez, Sonia Ruiz de Azua, Cesar Valcarcel, Vicente Molina",
+   "journal": "Progress in Neuro-Psychopharmacology & Biological Psychiatry",
+   "volume": "66",
+   "pages": "54-62",
+   "doi": "10.1016/j.pnpbp.2015.11.010",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2015,
+   "month": 7,
+   "title": "Adaptive Stacked Generalization for Multiclass Motor Imagery-based Brain Computer Interfaces",
+   "authors": "Luis F. Nicolás-Alonso, Rebeca Corralejo, Javier Gomez-Pilar, Daniel Álvarez, Roberto Hornero",
+   "journal": "IEEE Transactions on Neural Systems and Rehabilitation Engineering",
+   "volume": "23 (4)",
+   "pages": "702-712",
+   "doi": "10.1109/tnsre.2015.2398573",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": true
+  },
+  {
+   "year": 2015,
+   "month": 7,
+   "title": "Adaptive semi-supervised classification to reduce intersession non-stationarity in multiclass motor imagery-based brain computer interfaces",
+   "authors": "Luis F. Nicolás-Alonso, Rebeca Corralejo, Javier Gomez-Pilar, Daniel Álvarez, Roberto Hornero",
+   "journal": "Neurocomputing",
+   "volume": "159 (2)",
+   "pages": "186-196",
+   "doi": "10.1016/j.neucom.2015.02.005",
+   "url": "",
+   "quartile": "Q1",
+   "top_decile": false
+  },
+  {
+   "year": 2015,
+   "month": 7,
+   "title": "Neural Network Reorganization Analysis during an Auditory Oddball Task in Schizophrenia using Wavelet Entropy",
+   "authors": "Javier Gomez-Pilar, Jesús Poza, Alejandro Bachiller, Carlos Gómez, Vicente Molina, Roberto Hornero",
+   "journal": "Entropy",
+   "volume": "17",
+   "pages": "5241-5256",
+   "doi": "10.3390/e17085241",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  },
+  {
+   "year": 2015,
+   "month": 1,
+   "title": "Assessment of Time and Frequency Domain Entropies to Detect Sleep Apnoea in Heart Rate Variability Recordings from Men and Women",
+   "authors": "Gonzalo C. Gutiérrez-Tobal, Daniel Álvarez, Javier Gomez-Pilar, Félix del Campo, Roberto Hornero",
+   "journal": "Entropy",
+   "volume": "17 (1)",
+   "pages": "123-141",
+   "doi": "10.3390/e17010123",
+   "url": "",
+   "quartile": "Q2",
+   "top_decile": false
+  }
+ ],
+ "awards": [
+  {
+   "year": 2023,
+   "text": "Premio 'Mutual Médica Bioingeniería' otorgado por la Real Academia de Medicina y Cirugía de Valladolid por el trabajo: 'Nuevas perspectivas en la fisiopatología de la sepsis gracias a las redes de coexpresión genéticas' realizado por Javier Gómez, Pedro Martínez, Esther Gómez, Roberto Hornero y Eduardo Tamayo",
+   "confirmed": false
+  },
+  {
+   "year": 2022,
+   "text": "Premio al póster presentado en el European Headache Congress (EHC) 2022 por el trabajo titulado \"Characterization of the spectral content of resting-state electroencephalographic activity in chronic migraine female patients\", realizado por Víctor Gutiérrez-de Pablo, Ángel Luis Guerrero, David García-Azorín, Álvaro Sierra-Mencía, Javier Gomez-Pilar, Jesús Poza, Roberto Hornero y Carlos Gómez",
+   "confirmed": true
+  },
+  {
+   "year": 2020,
+   "text": "Premio Enrique Fuentes Quintana (FUNCAS) a la mejor tesis doctoral en la categoría de Ingeniería, Matemáticas, Arquitectura o Física por la tesis \"Characterization of neural activity using Complex Network Theory. Applucation to the identification of the altered neural substrates in schizophrenia\", realizada por Javier Gómez Pilar y dirigida por Roberto Hornero y Jesús Poza. (Convocatoria 2018-2019)",
+   "confirmed": true
+  },
+  {
+   "year": 2020,
+   "text": "Premio Extraordinario de Doctorado en la rama de 'Ingeniería y Arquitectura' por la Tesis Doctoral realizada por Javier Gómez Pilar bajo el título 'Characterization of Neural Activity using Complex Network Theory. Application to the Identification of the Altered Neural Substrates in Schizophrenia'. Directores: Roberto Hornero y Jesús Poza. Otorgado por la Universidad de Valladolid",
+   "confirmed": true
+  },
+  {
+   "year": 2019,
+   "text": "Premio a la Mejor Tesis en 'Bioingeniería y la Ingeniería Biomédica' por la Tesis Doctoral realizada por Javier Gómez Pilar bajo el título 'Characterization of Neural Activity using Complex Network Theory. Application to the Identification of the Altered Neural Substrates in Schizophrenia'. Directores: Roberto Hornero y Jesús Poza. Otorgado por el Comité Español de Automática (CEA)",
+   "confirmed": true
+  },
+  {
+   "year": 2019,
+   "text": "Segundo premio del Brain-Computer Interface Scientific Challenge otorgado por la International Federation of Medical and Biological Engineering durante la XV Mediterranean Conference on Medical and Biological Engineering and Computing (MEDICON 2019) por el trabajo ‘Deep learning architecture based on the combination of convolutional and recurrent layers for ERP-based brain-computer interfaces' realizado por Eduardo Santamaría Vázquez, Víctor Martínez Cagigal, Javier Gomez Pilar, Roberto Hornero Sánchez. Coimbra, Portugal",
+   "confirmed": true
+  },
+  {
+   "year": 2019,
+   "text": "Young Investigator Award en la competición para investigadores de menos de 45 años celebrada durante la XV Mediterranean Conference on Medical and Biological Engineering and Computing (MEDICON 2019) por el trabajo 'Network analysis on overnight EEG spectrum to assess relationships between paediatric sleep apnoea and cognition' realizado por Gonzalo César Gutiérrez Tobal, Javier Gomez Pilar, Leila Kheirandish-Gozal, Adrián Martín Montero, Jesús Poza Crespo, Daniel Álvarez González, Félix del Campo Matías, David Gozal y Roberto Hornero Sánchez. Coimbra, Portugal",
+   "confirmed": true
+  },
+  {
+   "year": 2017,
+   "text": "Premio a la mejor comunicación oral de la III Jornada de Investigación en Tecnologías de la Información y las Telecomunicaciones realizado por Javier Gomez-Pilar",
+   "confirmed": true
+  },
+  {
+   "year": 2017,
+   "text": "Premio de Soluciones Innovadoras para la mejora de la Calidad de Vida del Campus de Excelencia Internacional (CEI) Triangular E-3, en su modalidad grupal en la categoría de ‘Envejecimiento’, para el Proyecto titulado: “Plataforma Brain-Computer Interface de Entrenamiento Cognitivo para Atenuar los Efectos del Envejecimiento”, realizado por Víctor Martínez-Cagigal, Javier Gomez-Pilar y Roberto Hornero",
+   "confirmed": true
+  },
+  {
+   "year": 2015,
+   "text": "Segundo premio de la Competición de Estudiantes Investigadores celebrada durante el XXXIII Congreso Anual de la Sociedad Española de Ingeniería Biomédica (CASEIB 2015) por el trabajo 'Caracterización de la Dinámica en la Eficiencia de la Red Neuronal en Esquizofrenia en Tarea Cognitiva Auditiva' realizado por Javier Gomez-Pilar, Jesús Poza, Alejandro Bachiller, Carlos Gómez, Vicente Molina y Roberto Hornero",
+   "confirmed": true
+  },
+  {
+   "year": 2014,
+   "text": "Finalista en el Premio Anual de Investigación en BCI (The Annual BCI Research Award 2014) por el estudio titulado 'Neurofeedback training by motor imagery based-BCI improves neurocognitive areas in elderly people', realizado por Javier Gomez-Pilar, Rebeca Corralejo, Daniel Álvarez y Roberto Hornero, 5th International Brain-Computer Interface Meeting, University of Technology, Graz (Austria)",
+   "confirmed": true
+  },
+  {
+   "year": 2014,
+   "text": "Segundo premio de la Competición de Estudiantes Investigadores celebrada durante el XXXII Congreso Anual de la Sociedad Española de Ingeniería Biomédica (CASEIB 2014) por el trabajo 'Caracterización de Potenciales Evocados del EEG en Esquizofrenia mediante Teoría de Redes Complejas' realizado por Javier Gomez-Pilar, Alejandro Bachiller, Jesús Poza, Carlos Gómez, Vicente Molina y Roberto Hornero",
+   "confirmed": true
+  },
+  {
+   "year": 2013,
+   "text": "Premio Finalista ASISA en Ingeniería y Medicina al Mejor Proyecto Fin de Carrera bajo el título 'Análisis Espectral y No Lineal de la Variabilidad del Ritmo Cardiaco para la Ayuda al Diagnóstico del Síndrome de Apnea-Hipopnea del Sueño' otorgado a Javier Gómez Pilar. Tutor: Roberto Hornero y Daniel Álvarez",
+   "confirmed": true
+  },
+  {
+   "year": 2013,
+   "text": "Primer premio de la Young Investigator Competition celebrada durante la XIII Mediterranean Conference on Medical and Biological Engineering and Computing (MEDICON 2013) por el trabajo 'AdaBoost Classification to Detect Sleep Apnea from Airflow Recordings' realizado por Gonzalo César Gutiérrez Tobal, Daniel Álvarez González, Javier Gómez Pilar, Félix del Campo Matías y Roberto Hornero Sánchez",
+   "confirmed": true
+  }
+ ]
+}

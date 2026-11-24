@@ -1,0 +1,596 @@
+{
+ "_readme": "Contenido editado a mano. Las publicaciones, cuartiles, premios y la gráfica de citas viven en profile.json y se regeneran solos cada semana: no los toques aquí. Este fichero es para lo que cambia una o dos veces al año.",
+ "wos": {
+  "_readme": "Citas e índice h de Web of Science. WoS no tiene API gratuita con citas, así que estos valores son los de tu CVN y se actualizan a mano. Si consigues una clave de la Web of Science Starter API (tier de institución suscrita) y la guardas como secreto WOS_API_KEY en GitHub, el script la usará y este bloque dejará de hacer falta. Pon as_of con la fecha de consulta: la web la muestra.",
+  "citations": 1892,
+  "h_index": 27,
+  "as_of": "2026-07-10"
+ },
+ "ui": {
+  "es": {
+   "skip": "Saltar al contenido",
+   "nav.research": "Investigación",
+   "nav.publications": "Publicaciones",
+   "nav.projects": "Proyectos",
+   "nav.teaching": "Docencia",
+   "nav.recognition": "Reconocimiento",
+   "nav.contact": "Contacto",
+   "hero.eyebrow": "Universidad de Valladolid · CIBER-BBN",
+   "hero.role": "Profesor Contratado Doctor · Grupo de Ingeniería Biomédica",
+   "hero.thesis": "El cerebro tiene escalas de tiempo propias. Mido cómo se desajustan en la esquizofrenia, la demencia, la migraña y la apnea del sueño, y convierto ese desajuste en biomarcadores que un clínico pueda usar.",
+   "m.jcr": "Artículos JCR",
+   "m.jcr.src": "GIB-UVa",
+   "m.q1": "En primer cuartil",
+   "m.cit": "Citas",
+   "m.h": "Índice h",
+   "m.funding": "Financiación captada",
+   "m.funding.src": "28 proyectos · Portal UVa",
+   "stamp.pre": "Publicaciones y cuartiles actualizados automáticamente",
+   "research.h": "Líneas de investigación",
+   "research.lede": "Cuatro líneas, un método común: tratar la actividad cerebral como un sistema dinámico en red y buscar en su geometría temporal lo que distingue un cerebro enfermo de uno sano.",
+   "pub.h": "Publicaciones",
+   "pub.lede": "Solo artículos en revistas indexadas en el JCR. La lista y los cuartiles se regeneran cada semana desde el repositorio del grupo, así que no hay una versión «de papel» que envejezca.",
+   "chart.cap": "Citas recibidas por año",
+   "f.all": "Todas",
+   "f.q1": "Q1",
+   "f.d1": "Primer decil",
+   "f.first": "Primer autor",
+   "f.search": "Buscar",
+   "f.search.ph": "Buscar título, revista, coautor…",
+   "proj.h": "Proyectos",
+   "proj.lede": "Selección de los proyectos en curso y de los concluidos que marcaron una línea. Cuando mi papel es de investigador principal o coordinador, está indicado.",
+   "teach.h": "Docencia y supervisión",
+   "teach.courses": "Asignaturas",
+   "teach.sup": "Supervisión",
+   "atenea.h": "Programa ATENEA",
+   "atenea.visit": "atenea.uva.es",
+   "atenea.mentees": "Mentorizados",
+   "atenea.mentors": "Mentores",
+   "atenea.tutors": "Tutores",
+   "atenea.alumni": "Egresados",
+   "rec.h": "Reconocimiento",
+   "rec.lede": "La tesis doctoral, leída por compendio de publicaciones y con mención internacional, recibió tres premios nacionales. La lista se regenera desde el repositorio del grupo.",
+   "rec.awards": "Premios y distinciones",
+   "rec.service": "Servicio y evaluación",
+   "rec.ip": "Propiedad intelectual",
+   "contact.h": "Contacto",
+   "contact.lede": "Abierto a colaboraciones en neurociencia computacional y a consultas de medios. Los estudiantes interesados en un TFG, TFM o doctorado pueden escribirme directamente.",
+   "contact.dept": "Dpto. de Teoría de la Señal y Comunicaciones e Ingeniería Telemática",
+   "contact.school": "E.T.S.I. de Telecomunicación, Universidad de Valladolid",
+   "contact.profiles": "Perfiles",
+   "contact.portal": "Portal de la Ciencia UVa",
+   "contact.cv": "Currículum (CVN-FECYT)",
+   "foot.note": "La lista de publicaciones, los cuartiles y la gráfica de citas se recalculan cada semana desde GIB-UVa y OpenAlex. Las citas y el índice h son los de Web of Science, con su fecha de consulta a la vista.",
+   "pub.count": "{n} de {total} artículos",
+   "sup.phd": "tesis doctorales en curso",
+   "sup.note": "Dirijo tres tesis en tres programas de doctorado distintos: tecnologías de la información, ciencias de la salud e investigación transdisciplinar en educación.",
+   "sup.tfg": "Dirección de Trabajos de Fin de Grado y de Máster en el Grado en Ingeniería Biomédica, el Grado en Ingeniería de Telecomunicación y el Máster en Ingeniería Biomédica.",
+   "chart.axis": "citas",
+   "loading": "Cargando…",
+   "error": "No se han podido cargar los datos. Recarga la página.",
+   "idx.research": "Investigación",
+   "idx.publications": "Publicaciones",
+   "idx.projects": "Proyectos",
+   "idx.teaching": "Docencia",
+   "idx.recognition": "Reconocimiento",
+   "idx.contact": "Contacto"
+  },
+  "en": {
+   "skip": "Skip to content",
+   "nav.research": "Research",
+   "nav.publications": "Publications",
+   "nav.projects": "Projects",
+   "nav.teaching": "Teaching",
+   "nav.recognition": "Recognition",
+   "nav.contact": "Contact",
+   "hero.eyebrow": "University of Valladolid · CIBER-BBN",
+   "hero.role": "Associate Professor · Biomedical Engineering Group",
+   "hero.thesis": "The brain runs on timescales of its own. I measure how they fall out of step in schizophrenia, dementia, migraine and sleep apnoea, and turn that mistiming into biomarkers a clinician can act on.",
+   "m.jcr": "JCR articles",
+   "m.jcr.src": "GIB-UVa",
+   "m.q1": "In first quartile",
+   "m.cit": "Citations",
+   "m.h": "h-index",
+   "m.funding": "Funding secured",
+   "m.funding.src": "28 projects · UVa portal",
+   "stamp.pre": "Publications and quartiles updated automatically",
+   "research.h": "Research lines",
+   "research.lede": "Four lines, one method: treat brain activity as a dynamic network and look in its temporal geometry for what separates a diseased brain from a healthy one.",
+   "pub.h": "Publications",
+   "pub.lede": "JCR-indexed journal articles only. The list and the quartiles are rebuilt every week from the group's repository, so there is no printed version going stale.",
+   "chart.cap": "Citations received per year",
+   "f.all": "All",
+   "f.q1": "Q1",
+   "f.d1": "Top decile",
+   "f.first": "First author",
+   "f.search": "Search",
+   "f.search.ph": "Search title, journal, co-author…",
+   "proj.h": "Projects",
+   "proj.lede": "A selection of current projects and of the finished ones that set a direction. Where I act as principal investigator or coordinator, it is marked.",
+   "teach.h": "Teaching and supervision",
+   "teach.courses": "Courses",
+   "teach.sup": "Supervision",
+   "atenea.h": "The ATENEA programme",
+   "atenea.visit": "atenea.uva.es",
+   "atenea.mentees": "Mentees",
+   "atenea.mentors": "Mentors",
+   "atenea.tutors": "Tutors",
+   "atenea.alumni": "Alumni",
+   "rec.h": "Recognition",
+   "rec.lede": "My doctoral thesis, submitted as a compendium of publications and with an international mention, received three national awards. The list is rebuilt from the group's repository.",
+   "rec.awards": "Awards and distinctions",
+   "rec.service": "Service and evaluation",
+   "rec.ip": "Intellectual property",
+   "contact.h": "Contact",
+   "contact.lede": "Open to collaborations in computational neuroscience and to press enquiries. Students interested in a final-year project, a master's thesis or a PhD are welcome to write directly.",
+   "contact.dept": "Dept. of Signal Theory, Communications and Telematics Engineering",
+   "contact.school": "School of Telecommunications Engineering, University of Valladolid",
+   "contact.profiles": "Profiles",
+   "contact.portal": "UVa Science Portal",
+   "contact.cv": "Curriculum (CVN-FECYT)",
+   "foot.note": "The publication list, the quartiles and the citation chart are recomputed weekly from GIB-UVa and OpenAlex. Citations and h-index are the Web of Science figures, shown with the date they were taken.",
+   "pub.count": "{n} of {total} articles",
+   "sup.phd": "doctoral theses in progress",
+   "sup.note": "I supervise three theses across three different doctoral programmes: information technologies, health sciences, and transdisciplinary research in education.",
+   "sup.tfg": "Supervision of final-year and master's projects in Biomedical Engineering, Telecommunications Engineering and the Master's in Biomedical Engineering.",
+   "chart.axis": "citations",
+   "loading": "Loading…",
+   "error": "Could not load the data. Please reload the page.",
+   "idx.research": "Research",
+   "idx.publications": "Publications",
+   "idx.projects": "Projects",
+   "idx.teaching": "Teaching",
+   "idx.recognition": "Recognition",
+   "idx.contact": "Contact"
+  }
+ },
+ "lines": [
+  {
+   "signals": [
+    "EEG",
+    "MEG",
+    "fMRI"
+   ],
+   "es": {
+    "title": "Escalas de tiempo intrínsecas",
+    "text": "Cada región cortical integra información en su propia ventana temporal. Mido esas ventanas en reposo y durante la tarea, y muestro que su jerarquía converge con la organización centro-periferia del córtex. Es la línea que más me ha abierto puertas fuera de España."
+   },
+   "en": {
+    "title": "Intrinsic neural timescales",
+    "text": "Each cortical region integrates information within a window of its own. I measure those windows at rest and during task, and show that their hierarchy converges with the core-periphery organisation of the cortex. This is the line that opened the most doors abroad."
+   }
+  },
+  {
+   "signals": [
+    "EEG",
+    "Teoría de grafos",
+    "MRI"
+   ],
+   "es": {
+    "title": "Redes complejas en psiquiatría",
+    "text": "Modelo el EEG como un grafo funcional y cuantifico su reorganización durante la cognición. En esquizofrenia y trastorno bipolar encuentro un déficit de modulación de la red que correlaciona con el rendimiento cognitivo y los síntomas. Fue el objeto de mi tesis y sigue siendo el núcleo."
+   },
+   "en": {
+    "title": "Complex networks in psychiatry",
+    "text": "I model the EEG as a functional graph and quantify how it reorganises during cognition. In schizophrenia and bipolar disorder I find a deficit in network modulation that tracks cognitive performance and symptoms. This was the subject of my thesis and remains the core."
+   }
+  },
+  {
+   "signals": [
+    "SpO₂",
+    "HRV",
+    "Polisomnografía",
+    "Deep learning"
+   ],
+   "es": {
+    "title": "Fenotipado de la apnea del sueño",
+    "text": "La apnea no es una enfermedad única: distintos fenotipos responden de forma distinta al tratamiento. Construyo redes de correlación basadas en sujeto a partir de oximetría y variabilidad cardiaca para separar esos fenotipos y predecir quién se recupera. Es mi línea más activa y la que más financiación mueve."
+   },
+   "en": {
+    "title": "Sleep apnoea phenotyping",
+    "text": "Apnoea is not one disease: different phenotypes respond differently to treatment. I build subject-based correlation networks from oximetry and heart-rate variability to separate those phenotypes and predict who recovers. This is my most active line and the one that attracts the most funding."
+   }
+  },
+  {
+   "signals": [
+    "BCI",
+    "Neurofeedback",
+    "P300",
+    "c-VEP"
+   ],
+   "es": {
+    "title": "Interfaces cerebro-ordenador",
+    "text": "Sistemas no invasivos que convierten actividad cerebral en control: un navegador web manejado con P300 para personas con discapacidad severa, y entrenamiento cognitivo por neurofeedback para atenuar los efectos del envejecimiento. Donde empecé, y lo que mantiene el trabajo cerca del paciente."
+   },
+   "en": {
+    "title": "Brain-computer interfaces",
+    "text": "Non-invasive systems that turn brain activity into control: a P300-driven web browser for people with severe disabilities, and neurofeedback cognitive training to soften the effects of ageing. Where I started, and what keeps the work close to the patient."
+   }
+  }
+ ],
+ "projects": [
+  {
+   "acronym": "NET4SLEEP",
+   "role": "co-ip",
+   "from": "2023",
+   "to": "2026",
+   "funder": "Interreg · Unión Europea",
+   "es": {
+    "title": "Dinamización de una red I+D+i colaborativa transfronteriza para el fenotipado integral de la apnea del sueño",
+    "note": "Coordinación científica y económica de una red de 9 investigadores, con un presupuesto medio anual de 70.000 €."
+   },
+   "en": {
+    "title": "A cross-border collaborative R&D network for comprehensive sleep apnoea phenotyping",
+    "note": "Scientific and financial coordination of a 9-researcher network, averaging €70,000 a year."
+   }
+  },
+  {
+   "acronym": "PhenoXleep",
+   "role": "researcher",
+   "from": "2024",
+   "to": "2027",
+   "funder": "Plan Nacional · MICIU",
+   "es": {
+    "title": "Definición de fenotipos en la apnea del sueño mediante aprendizaje profundo multitarea e inteligencia artificial explicable",
+    "note": ""
+   },
+   "en": {
+    "title": "Defining sleep apnoea phenotypes through multitask deep learning and explainable AI",
+    "note": ""
+   }
+  },
+  {
+   "acronym": "CRONOS",
+   "role": "researcher",
+   "from": "2023",
+   "to": "2026",
+   "funder": "Plan Nacional · MICIU",
+   "es": {
+    "title": "El cerebro cronectómico: identificando las huellas neuropatológicas de la demencia",
+    "note": ""
+   },
+   "en": {
+    "title": "The chronnectomic brain: identifying the neuropathological signatures of dementia",
+    "note": ""
+   }
+  },
+  {
+   "acronym": "EuroAGE+",
+   "role": "researcher",
+   "from": "2023",
+   "to": "2026",
+   "funder": "Interreg POCTEP",
+   "es": {
+    "title": "Red internacional de investigación, innovación y transferencia de tecnologías para la promoción del envejecimiento activo",
+    "note": ""
+   },
+   "en": {
+    "title": "International network for research, innovation and technology transfer in active ageing",
+    "note": ""
+   }
+  },
+  {
+   "acronym": "",
+   "role": "researcher",
+   "from": "2026",
+   "to": "2030",
+   "funder": "Junta de Castilla y León",
+   "es": {
+    "title": "Identificación de las huellas neuropatológicas de la demencia mediante análisis dinámico de redes cerebrales",
+    "note": "Contrato predoctoral asociado a la línea de demencias."
+   },
+   "en": {
+    "title": "Identifying the neuropathological signatures of dementia through dynamic brain-network analysis",
+    "note": "Predoctoral contract attached to the dementia line."
+   }
+  },
+  {
+   "acronym": "",
+   "role": "researcher",
+   "from": "2025",
+   "to": "2028",
+   "funder": "ISCIII",
+   "es": {
+    "title": "Medicina de precisión y diagnóstico avanzado en la enfermedad de Stargardt en España",
+    "note": ""
+   },
+   "en": {
+    "title": "Precision medicine and advanced diagnosis of Stargardt disease in Spain",
+    "note": ""
+   }
+  },
+  {
+   "acronym": "DEEPSCREENAMD",
+   "role": "researcher",
+   "from": "2022",
+   "to": "2025",
+   "funder": "Junta de Castilla y León",
+   "es": {
+    "title": "Técnicas de deep learning e interpretación de inteligencia artificial en el cribado de la degeneración macular asociada a la edad",
+    "note": ""
+   },
+   "en": {
+    "title": "Deep learning and AI interpretability for age-related macular degeneration screening",
+    "note": ""
+   }
+  },
+  {
+   "acronym": "",
+   "role": "researcher",
+   "from": "2023",
+   "to": "2024",
+   "funder": "CIBER-BBN",
+   "es": {
+    "title": "Electrodos cutáneos tipo tatuaje para la monitorización de trastornos del sueño",
+    "note": "Proyecto intramural en colaboración con el IMB-CNM (CSIC)."
+   },
+   "en": {
+    "title": "Comfortable tattoo skin electrodes for sleep disorder monitoring",
+    "note": "Intramural project with IMB-CNM (CSIC)."
+   }
+  },
+  {
+   "acronym": "BRAINGYM",
+   "role": "researcher",
+   "from": "2022",
+   "to": "2025",
+   "funder": "Junta de Castilla y León",
+   "es": {
+    "title": "Hacia la digitalización del entrenamiento cognitivo mediante sistemas brain-computer interface, ejercicio físico y autoevaluación neuropsicológica",
+    "note": ""
+   },
+   "en": {
+    "title": "Digitalising cognitive training through brain-computer interfaces, physical exercise and neuropsychological self-assessment",
+    "note": ""
+   }
+  },
+  {
+   "acronym": "DEEPXSLEEP",
+   "role": "researcher",
+   "from": "2021",
+   "to": "2024",
+   "funder": "Plan Nacional",
+   "es": {
+    "title": "Diseño de modelos predictivos automáticos interpretables en la apnea del sueño pediátrica",
+    "note": ""
+   },
+   "en": {
+    "title": "Interpretable automatic predictive models for paediatric sleep apnoea",
+    "note": ""
+   }
+  },
+  {
+   "acronym": "MIGRAINEE",
+   "role": "researcher",
+   "from": "2017",
+   "to": "2022",
+   "funder": "Junta de Castilla y León",
+   "es": {
+    "title": "Análisis y correlación entre la epigenética y la actividad cerebral para evaluar el riesgo de migraña crónica y episódica en mujeres",
+    "note": ""
+   },
+   "en": {
+    "title": "Epigenetics and brain activity in chronic and episodic migraine risk in women",
+    "note": ""
+   }
+  },
+  {
+   "acronym": "SIMPLICITY",
+   "role": "researcher",
+   "from": "2018",
+   "to": "2021",
+   "funder": "Plan Nacional",
+   "es": {
+    "title": "Simplificación del diagnóstico de la apnea del sueño infantil mediante nuevas técnicas de procesado de señales cardiorrespiratorias",
+    "note": ""
+   },
+   "en": {
+    "title": "Simplifying paediatric sleep apnoea diagnosis through cardiorespiratory signal processing",
+    "note": ""
+   }
+  }
+ ],
+ "atenea": {
+  "url": "https://atenea.uva.es/",
+  "stats": [
+   {
+    "key": "atenea.mentees",
+    "value": 29
+   },
+   {
+    "key": "atenea.mentors",
+    "value": 27
+   },
+   {
+    "key": "atenea.tutors",
+    "value": 18
+   },
+   {
+    "key": "atenea.alumni",
+    "value": 28
+   }
+  ],
+  "es": {
+   "role": "Codirector",
+   "expansion": "Apoyo a la Transición Educativa y Nuevas Experiencias Académicas",
+   "text": "Codirijo ATENEA, el programa de mentoría y orientación del Grado en Ingeniería Biomédica de la UVa. Funciona en tres ramas: <b>Orienta</b>, donde el profesorado tutoriza a los estudiantes de primero y segundo; <b>Mentum</b>, donde los de tercero y cuarto acompañan a los más nuevos; y <b>Professio</b>, que trae a egresados y profesionales a hablar de salidas reales. Nació en 2019 como Programa Orienta, sobrevivió a la interrupción de la pandemia y se reconstruyó en 2023 con su forma actual.",
+   "award": "Premio a la Innovación en Mentoría de la Universidad de Valladolid, 2024-2025.",
+   "next": "La edición 2026-2027, <b>ATENEA 4.0</b>, ha sido concedida como Proyecto de Innovación Docente con calificación de excelente. Incorpora un estudiante de referencia por clase, seguimiento longitudinal del alumnado, uso crítico y responsable de IA generativa en la tutela del TFG, y un <b>Toolkit ATENEA</b> pensado para que otras titulaciones puedan reutilizar el modelo."
+  },
+  "en": {
+   "role": "Co-director",
+   "expansion": "Support for Educational Transition and New Academic Experiences",
+   "text": "I co-direct ATENEA, the mentoring and guidance programme of the Biomedical Engineering degree at UVa. It runs on three branches: <b>Orienta</b>, where faculty tutor first- and second-year students; <b>Mentum</b>, where third- and fourth-year students support the newer ones; and <b>Professio</b>, which brings graduates and working professionals in to talk about real career paths. It began in 2019 as Programa Orienta, survived the interruption of the pandemic, and was rebuilt in 2023 into its present form.",
+   "award": "University of Valladolid Award for Innovation in Mentoring, 2024-2025.",
+   "next": "The 2026-2027 edition, <b>ATENEA 4.0</b>, has been funded as a Teaching Innovation Project with a grade of excellent. It adds a student representative per class, longitudinal tracking of participants, critical and responsible use of generative AI in final-project supervision, and an <b>ATENEA Toolkit</b> designed so that other degrees can reuse the model."
+  }
+ },
+ "awards_extra": [
+  {
+   "year": 2025,
+   "es": "Premio a la Innovación en Mentoría de la Universidad de Valladolid por el Programa ATENEA, del que soy codirector",
+   "en": "University of Valladolid Award for Innovation in Mentoring, for the ATENEA programme, which I co-direct"
+  }
+ ],
+ "teaching": [
+  {
+   "es": {
+    "name": "Neurociencia Avanzada",
+    "degree": "Grado en Medicina"
+   },
+   "en": {
+    "name": "Advanced Neuroscience",
+    "degree": "Degree in Medicine"
+   }
+  },
+  {
+   "es": {
+    "name": "Investigación Biomédica y Nuevas Tecnologías",
+    "degree": "Grado en Medicina"
+   },
+   "en": {
+    "name": "Biomedical Research and New Technologies",
+    "degree": "Degree in Medicine"
+   }
+  },
+  {
+   "es": {
+    "name": "Introducción a la Ingeniería Biomédica",
+    "degree": "Grado en Ingeniería Biomédica"
+   },
+   "en": {
+    "name": "Introduction to Biomedical Engineering",
+    "degree": "Degree in Biomedical Engineering"
+   }
+  },
+  {
+   "es": {
+    "name": "Neumología Computacional",
+    "degree": "Grado en Ingeniería Biomédica"
+   },
+   "en": {
+    "name": "Computational Pulmonology",
+    "degree": "Degree in Biomedical Engineering"
+   }
+  },
+  {
+   "es": {
+    "name": "Inteligencia Artificial y Datos Biomédicos",
+    "degree": "Máster en Ingeniería Biomédica"
+   },
+   "en": {
+    "name": "Artificial Intelligence and Biomedical Data",
+    "degree": "MSc in Biomedical Engineering"
+   }
+  },
+  {
+   "es": {
+    "name": "Inteligencia Artificial y Big Data",
+    "degree": "Máster en Investigación Biomédica y Terapias Avanzadas"
+   },
+   "en": {
+    "name": "Artificial Intelligence and Big Data",
+    "degree": "MSc in Biomedical Research and Advanced Therapies"
+   }
+  },
+  {
+   "es": {
+    "name": "Tratamiento de Señales Biomédicas",
+    "degree": "Grado en Ingeniería de Telecomunicación"
+   },
+   "en": {
+    "name": "Biomedical Signal Processing",
+    "degree": "Degree in Telecommunications Engineering"
+   }
+  },
+  {
+   "es": {
+    "name": "Radiodeterminación y Sistemas de Radionavegación",
+    "degree": "Grado en Ingeniería de Telecomunicación"
+   },
+   "en": {
+    "name": "Radiodetermination and Radionavigation Systems",
+    "degree": "Degree in Telecommunications Engineering"
+   }
+  }
+ ],
+ "theses": [
+  {
+   "student": "Carla de León Morán",
+   "from": "2025",
+   "programme": {
+    "es": "Doctorado en Tecnologías de la Información y las Telecomunicaciones",
+    "en": "PhD in Information and Telecommunication Technologies"
+   },
+   "es": "Sistemas predictivos automáticos de detección de spindles del sueño y su utilidad en la caracterización y fenotipado de la apnea del sueño pediátrica",
+   "en": "Automatic predictive systems for sleep spindle detection and their use in characterising and phenotyping paediatric sleep apnoea"
+  },
+  {
+   "student": "Carlota Gordaliza Pastor",
+   "from": "2023",
+   "programme": {
+    "es": "Doctorado en Investigación en Ciencias de la Salud",
+    "en": "PhD in Health Sciences Research"
+   },
+   "es": "Análisis de la actividad neuronal para estimar la profundidad anestésica en niños y su relación con las alteraciones del comportamiento en el postoperatorio",
+   "en": "Neural activity analysis to estimate anaesthetic depth in children and its relation to postoperative behavioural disturbance"
+  },
+  {
+   "student": "Paula Borondo González",
+   "from": "2020",
+   "programme": {
+    "es": "Doctorado en Investigación Transdisciplinar en Educación",
+    "en": "PhD in Transdisciplinary Research in Education"
+   },
+   "es": "El sonido como materia plástica. Creación artística sonora bajo parámetros cognitivos visuales",
+   "en": "Sound as plastic material: sonic artistic creation under visual cognitive parameters"
+  }
+ ],
+ "service": [
+  {
+   "es": "Asesor científico del Science Fund of the Republic of Serbia (IDEAS), desde 2025",
+   "en": "Scientific advisor, Science Fund of the Republic of Serbia (IDEAS), since 2025"
+  },
+  {
+   "es": "Asesor científico de Northoff Mental Health Diagnostics, The Royal Ottawa, desde 2022",
+   "en": "Scientific advisor, Northoff Mental Health Diagnostics, The Royal Ottawa, since 2022"
+  },
+  {
+   "es": "Revisor científico de la Agència de Qualitat Universitària de les Illes Balears (AQUIB), desde 2023",
+   "en": "Scientific reviewer, Agència de Qualitat Universitària de les Illes Balears (AQUIB), since 2023"
+  },
+  {
+   "es": "Miembro de la Mind, Brain Imaging and Neuroethics Research Unit, Universidad de Ottawa, desde 2017",
+   "en": "Member, Mind, Brain Imaging and Neuroethics Research Unit, University of Ottawa, since 2017"
+  },
+  {
+   "es": "Comité científico y organizador del CASEIB 2020 y CASEIB 2022 (Sociedad Española de Ingeniería Biomédica)",
+   "en": "Scientific and organising committee, CASEIB 2020 and CASEIB 2022 (Spanish Society of Biomedical Engineering)"
+  },
+  {
+   "es": "Académico Corresponsal de la Real Academia de Medicina y Cirugía de Valladolid",
+   "en": "Corresponding Academician, Royal Academy of Medicine and Surgery of Valladolid"
+  },
+  {
+   "es": "Revisor de proyectos para el Brain and Mind Research Institute y de artículos en revistas JCR",
+   "en": "Project reviewer for the Brain and Mind Research Institute and reviewer for JCR journals"
+  }
+ ],
+ "ip": [
+  {
+   "es": "GABA — Graph Analysis of Brain Activation: herramienta de análisis de grafos para registros de actividad cerebral (VA-107-2018)",
+   "en": "GABA — Graph Analysis of Brain Activation: graph-analysis tool for brain activity recordings (VA-107-2018)"
+  },
+  {
+   "es": "Nonlinear C-Tool — herramienta en C++ para el análisis de señales cerebrales (VA-106-2018)",
+   "en": "Nonlinear C-Tool — a C++ toolkit for brain signal analysis (VA-106-2018)"
+  },
+  {
+   "es": "DOMO-BCI — control domótico mediante una interfaz cerebro-ordenador (VA-99-2015)",
+   "en": "DOMO-BCI — home automation control through a brain-computer interface (VA-99-2015)"
+  }
+ ],
+ "awards_confirmed_by_cv": [
+  "Mutual Médica Bioingeniería"
+ ]
+}

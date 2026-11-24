@@ -1,0 +1,19 @@
+# ── Carpeta de fuentes privadas: NUNCA se publica ────────────
+# Documentos de trabajo (CVN, TFGs, certificados, solicitudes).
+# Ver fuentes/LEEME.md
+fuentes/
+
+# ── Documentos: doble red de seguridad ───────────────────────
+# El CVN contiene DNI y fecha de nacimiento. Aunque un documento
+# acabe fuera de fuentes/ por error, estas reglas lo frenan.
+*.pdf
+*.docx
+*.doc
+*.odt
+*.xlsx
+
+# Entornos y temporales
+venv/
+__pycache__/
+*.pyc
+.DS_Store

@@ -24,7 +24,12 @@ jobs:
           python-version: "3.12"
 
       - name: Regenerate data/profile.json
+        # Sin el secreto WOS_API_KEY la variable llega vacia y el script
+        # mantiene las cifras de Web of Science escritas a mano en
+        # data/content.json, sin fallar.
         run: python3 scripts/update_data.py
+        env:
+          WOS_API_KEY: ${{ secrets.WOS_API_KEY }}
 
       - name: Commit if anything changed
         run: |

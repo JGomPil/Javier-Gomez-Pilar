@@ -90,11 +90,10 @@
 
     <div class="wrap">
       <dl class="metrics" id="metrics">
-        <div class="metric"><dt data-i18n="m.jcr">Artículos JCR</dt><dd class="num" data-metric="jcr">—</dd><dd class="src" data-i18n="m.jcr.src">GIB-UVa</dd></div>
+        <div class="metric"><dt data-i18n="m.jcr">Artículos JCR</dt><dd class="num" data-metric="jcr">—</dd><dd class="src" data-metric="jcr-src">—</dd></div>
         <div class="metric"><dt data-i18n="m.q1">En primer cuartil</dt><dd class="num" data-metric="q1">—</dd><dd class="src" data-metric="q1pct">—</dd></div>
         <div class="metric"><dt data-i18n="m.cit">Citas</dt><dd class="num" data-metric="citations">—</dd><dd class="src" data-metric="cit-src">—</dd></div>
         <div class="metric"><dt data-i18n="m.h">Índice h</dt><dd class="num" data-metric="h">—</dd><dd class="src" data-metric="h-src">—</dd></div>
-        <div class="metric"><dt data-i18n="m.funding">Financiación captada</dt><dd class="num">3,4 M€</dd><dd class="src" data-i18n="m.funding.src">28 proyectos</dd></div>
       </dl>
       <p class="stamp"><span data-i18n="stamp.pre">Métricas bibliométricas actualizadas automáticamente</span> · <span id="stamp-date">—</span></p>
     </div>
@@ -128,7 +127,10 @@
             <div id="chart-output" data-chart class="chart-box tall"></div>
           </figure>
           <figure class="chart">
-            <figcaption><span data-i18n="g.cites">Citas recibidas por año</span></figcaption>
+            <figcaption>
+              <span data-i18n="g.cites">Citas recibidas por año</span>
+              <small data-i18n="g.cites.src">OpenAlex · Web of Science no publica la serie anual</small>
+            </figcaption>
             <div id="chart-citations" data-chart class="chart-box"></div>
           </figure>
           <figure class="chart">

@@ -80,7 +80,7 @@
 
     return {
       textStyle: { fontFamily: css("--reading", "Inter, sans-serif"), color: ink },
-      grid: { left: 2, right: 8, top: 8, bottom: 0, containLabel: true },
+      grid: { left: 2, right: 16, top: 8, bottom: 0, containLabel: true },
       tooltip: {
         backgroundColor: paper,
         borderColor: rule,
@@ -177,8 +177,17 @@
     const net = ctx.profile.collaboration;
     if (!net?.nodes?.length) return false;
     const b = base();
-    const colour = css("--accent", "#1b4ea8");
     const max = Math.max(...net.nodes.map((n) => n.works));
+
+    // Grado = coautores distintos con los que comparte trabajos DENTRO de
+    // esta red. Es una magnitud, asi que rampa de un solo tono, nunca
+    // tonos distintos.
+    const degree = net.nodes.map(() => 0);
+    net.links.forEach((l) => { degree[l.source]++; degree[l.target]++; });
+    const maxDeg = Math.max(1, ...degree);
+    const steps = ramp(5);
+    const tone = (d) => steps[steps.length - 1
+      - Math.min(steps.length - 1, Math.floor((d / maxDeg) * steps.length))];
 
     mount(host, () => ({
       ...b,
@@ -186,6 +195,7 @@
         ...b.tooltip,
         formatter: (p) => p.dataType === "node"
           ? `<b>${p.data.name}</b><br>${p.data.works} ${t("g.net.works")}`
+            + `<br>${p.data.degree} ${t("g.net.degree")}`
           : "",
       },
       series: [{
@@ -194,11 +204,14 @@
         roam: true,
         draggable: true,
         force: { repulsion: 260, edgeLength: [40, 120], gravity: 0.12 },
-        data: net.nodes.map((n) => ({
+        data: net.nodes.map((n, i) => ({
           name: n.name,
           works: n.works,
+          degree: degree[i],
+          // El tamano codifica trabajos conjuntos; el color, el grado.
           symbolSize: 9 + Math.sqrt(n.works / max) * 27,
-          itemStyle: { color: colour, opacity: 0.35 + 0.6 * (n.works / max) },
+          itemStyle: { color: tone(degree[i]),
+                       borderColor: b.paper, borderWidth: 1 },
           label: {
             show: n.works >= max * 0.28,     // solo los centrales llevan nombre
             position: "right",
@@ -219,6 +232,21 @@
           lineStyle: { opacity: 0.7, width: 2 },
         },
         scaleLimit: { min: 0.6, max: 3 },
+      }],
+      graphic: [{
+        type: "group",
+        right: 4, bottom: 2,
+        children: [
+          { type: "text", left: 0, top: 0,
+            style: { text: t("g.net.legend"), fill: b.muted, fontSize: 9,
+                     fontFamily: b.data } },
+          ...steps.map((c, i) => ({
+            type: "rect", left: i * 13, top: 13,
+            shape: { width: 11, height: 5 },
+            style: { fill: c },
+          })),
+        ],
+        silent: true,
       }],
       animationDuration: 900,
     }));
@@ -288,9 +316,12 @@
           return `<b>${p.name}</b><br>${p.value}${partial}`;
         },
       },
+      grid: { ...b.grid, right: 22 },   // sitio para la etiqueta del último año
       xAxis: { type: "category", data: rows.map((r) => r.year),
                ...b.axisCommon, boundaryGap: false,
-               splitLine: { show: false } },
+               splitLine: { show: false },
+               axisLabel: { ...b.axisCommon.axisLabel,
+                            showMaxLabel: true, margin: 10 } },
       yAxis: { type: "value", ...b.axisCommon },
       series: [{
         type: "line",

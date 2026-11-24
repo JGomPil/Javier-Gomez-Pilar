@@ -15,15 +15,12 @@
    "nav.teaching": "Docencia",
    "nav.recognition": "Reconocimiento",
    "nav.contact": "Contacto",
-   "hero.eyebrow": "Neurociencia computacional · Procesado de señales biomédicas",
+   "hero.eyebrow": "Neurociencia computacional · Procesado de señales biomédicas · Inteligencia artificial",
    "hero.thesis": "Dinámica temporal de la actividad cerebral y su traducción a biomarcadores de esquizofrenia, demencia, migraña y apnea del sueño.",
    "m.jcr": "Artículos JCR",
-   "m.jcr.src": "GIB-UVa",
    "m.q1": "En primer cuartil",
    "m.cit": "Citas",
    "m.h": "Índice h",
-   "m.funding": "Financiación captada",
-   "m.funding.src": "28 proyectos · Portal UVa",
    "stamp.pre": "Publicaciones y cuartiles a fecha de",
    "research.h": "Líneas de investigación",
    "research.lede": "La actividad cerebral tratada como un sistema dinámico en red, y su geometría temporal como marcador de enfermedad.",
@@ -99,7 +96,10 @@
    "g.role.researcher": "Investigador",
    "g.loading": "Cargando gráficos…",
    "g.failed": "Los gráficos no han podido cargarse. Los datos siguen abajo.",
-   "g.total": "total"
+   "g.total": "total",
+   "g.cites.src": "OpenAlex · Web of Science no publica la serie anual",
+   "g.net.degree": "coautores en esta red",
+   "g.net.legend": "más conectado  →  menos"
   },
   "en": {
    "skip": "Skip to content",
@@ -109,15 +109,12 @@
    "nav.teaching": "Teaching",
    "nav.recognition": "Recognition",
    "nav.contact": "Contact",
-   "hero.eyebrow": "Computational neuroscience · Biomedical signal processing",
+   "hero.eyebrow": "Computational neuroscience · Biomedical signal processing · Artificial intelligence",
    "hero.thesis": "Temporal dynamics of brain activity, and their translation into biomarkers of schizophrenia, dementia, migraine and sleep apnoea.",
    "m.jcr": "JCR articles",
-   "m.jcr.src": "GIB-UVa",
    "m.q1": "In first quartile",
    "m.cit": "Citations",
    "m.h": "h-index",
-   "m.funding": "Funding secured",
-   "m.funding.src": "28 projects · UVa portal",
    "stamp.pre": "Publications and quartiles as of",
    "research.h": "Research lines",
    "research.lede": "Brain activity treated as a dynamic network, its temporal geometry read as a marker of disease.",
@@ -193,7 +190,10 @@
    "g.role.researcher": "Researcher",
    "g.loading": "Loading charts…",
    "g.failed": "The charts could not load. The data is still listed below.",
-   "g.total": "total"
+   "g.total": "total",
+   "g.cites.src": "OpenAlex · Web of Science publishes no yearly series",
+   "g.net.degree": "co-authors in this network",
+   "g.net.legend": "more connected  →  less"
   }
  },
  "lines": [
@@ -201,30 +201,16 @@
    "signals": [
     "EEG",
     "MEG",
-    "fMRI"
+    "fMRI",
+    "Teoría de grafos"
    ],
    "es": {
-    "title": "Escalas de tiempo intrínsecas",
-    "text": "Cada región cortical integra información en su propia ventana temporal. Medidas en reposo y durante la tarea, esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Es la línea con mayor proyección internacional."
+    "title": "Dinámica temporal y redes funcionales",
+    "text": "Cada región cortical integra información en su propia ventana temporal, y esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Modelado como grafo funcional, el EEG permite además cuantificar cómo esa red se reorganiza durante la cognición: en esquizofrenia y trastorno bipolar aparece un déficit de modulación que correlaciona con el rendimiento cognitivo y los síntomas. Fue el objeto de la tesis doctoral y sigue siendo el núcleo del trabajo."
    },
    "en": {
-    "title": "Intrinsic neural timescales",
-    "text": "Each cortical region integrates information within a window of its own. Measured at rest and during task, those windows form a hierarchy that converges with the core-periphery organisation of the cortex. This is the line with the widest international reach."
-   }
-  },
-  {
-   "signals": [
-    "EEG",
-    "Teoría de grafos",
-    "MRI"
-   ],
-   "es": {
-    "title": "Redes complejas en psiquiatría",
-    "text": "El EEG modelado como un grafo funcional permite cuantificar su reorganización durante la cognición. En esquizofrenia y trastorno bipolar aparece un déficit de modulación de la red que correlaciona con el rendimiento cognitivo y los síntomas. Fue el objeto de la tesis doctoral y sigue siendo el núcleo."
-   },
-   "en": {
-    "title": "Complex networks in psychiatry",
-    "text": "Modelling the EEG as a functional graph makes it possible to quantify how it reorganises during cognition. In schizophrenia and bipolar disorder a deficit in network modulation appears that tracks cognitive performance and symptoms. This was the subject of the doctoral thesis and remains the core."
+    "title": "Temporal dynamics and functional networks",
+    "text": "Each cortical region integrates information within a window of its own, and those windows form a hierarchy that converges with the core-periphery organisation of the cortex. Modelled as a functional graph, the EEG also makes it possible to quantify how that network reorganises during cognition: in schizophrenia and bipolar disorder a deficit in modulation appears that tracks cognitive performance and symptoms. This was the subject of the doctoral thesis and remains the core of the work."
    }
   },
   {

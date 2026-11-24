@@ -65,11 +65,17 @@
      stack: slower and wider as they go. The subject of the research,
      drawn rather than illustrated. */
 
-  /* Un EEG, no una onda decorativa. Seis derivaciones del montaje
-     longitudinal, cada una con su propia mezcla de ritmos: delta y theta
-     de fondo, husos de alfa que aparecen y se van, beta rapido encima y
-     alguna punta aislada. El trazado corre hacia la izquierda como en un
-     registro real. */
+  /* Un EEG, no una onda decorativa.
+   *
+   * Lo que delata a un EEG falso es que sea liso: una suma de senoides se
+   * repite y se nota. El EEG real tiene espectro 1/f, asi que aqui el
+   * fondo es ruido rosa de cinco octavas, y sobre el van los rasgos que
+   * un ojo entrenado busca: husos de alfa con envolvente en las
+   * derivaciones posteriores, beta rapido de poca amplitud, artefacto de
+   * parpadeo en las frontales y alguna punta en las temporales.
+   *
+   * La rejilla marca segundos, como en un registro a 30 mm/s.
+   */
   function initTrace() {
     const canvas = $("#trace");
     if (!canvas) return;
@@ -77,15 +83,19 @@
     if (!ctx) return;
 
     const CHANNELS = [
-      { label: "Fp1-F3", alpha: 0.22, beta: 0.55, theta: 0.80, spikes: 0.00 },
-      { label: "F3-C3",  alpha: 0.45, beta: 0.40, theta: 0.60, spikes: 0.00 },
-      { label: "C3-P3",  alpha: 0.70, beta: 0.30, theta: 0.45, spikes: 0.35 },
-      { label: "P3-O1",  alpha: 1.00, beta: 0.22, theta: 0.35, spikes: 0.00 },
-      { label: "T3-T5",  alpha: 0.35, beta: 0.48, theta: 0.70, spikes: 0.55 },
-      { label: "Fz-Cz",  alpha: 0.30, beta: 0.52, theta: 0.75, spikes: 0.00 },
+      { label: "Fp1-F3", alpha: .20, beta: .55, slow: .80, spike: 0, blink: 1 },
+      { label: "F3-C3",  alpha: .42, beta: .42, slow: .62, spike: 0, blink: .35 },
+      { label: "C3-P3",  alpha: .68, beta: .32, slow: .48, spike: .30, blink: 0 },
+      { label: "P3-O1",  alpha: 1.0, beta: .22, slow: .38, spike: 0, blink: 0 },
+      { label: "T3-T5",  alpha: .34, beta: .48, slow: .70, spike: .60, blink: 0 },
+      { label: "Fz-Cz",  alpha: .28, beta: .52, slow: .74, spike: 0, blink: .5 },
     ];
-    const SPEED = 42;          // pixeles por segundo, como la velocidad de barrido
-    const STEP = 1.5;          // resolucion horizontal del trazo
+    // 80 px por segundo, no los 30 mm/s del papel: a 30 px/s el alfa de
+    // 10 Hz cae a 3 pixeles por ciclo y se veria como ruido con moire.
+    // A 80 da 8 pixeles por ciclo, que es donde el ritmo se lee.
+    const PX_PER_S = 80;
+    const SPEED = 48;         // pixeles por segundo de desplazamiento
+    const STEP = 1;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let w = 0, h = 0, raf = 0, visible = true;
@@ -105,43 +115,75 @@
         .getPropertyValue(name).trim() || fallback;
     }
 
-    /* Ruido suave y reproducible: suma de senoides inconmensurables, de
-       modo que el trazo no se repita a la vista pero sea el mismo en cada
-       fotograma para una misma posicion. */
-    function band(t, seed, freq, n) {
-      let v = 0;
-      for (let k = 1; k <= n; k++) {
-        v += Math.sin(t * freq * (1 + k * 0.37) + seed * (k + 1.7)) / k;
+    /* Ruido de valor: determinista, asi que una misma posicion da siempre
+       el mismo valor y el trazo no tiembla entre fotogramas. */
+    function hash(n) {
+      const v = Math.sin(n * 127.1) * 43758.5453;
+      return v - Math.floor(v);
+    }
+    function vnoise(x, seed) {
+      const i = Math.floor(x), f = x - i;
+      const a = hash(i + seed * 57.3), b = hash(i + 1 + seed * 57.3);
+      return a + (b - a) * f * f * (3 - 2 * f);     // smoothstep
+    }
+    /* Varias octavas con amplitud decreciente: eso es el 1/f. */
+    function pink(x, seed, octaves) {
+      let v = 0, amp = 1, freq = 1, norm = 0;
+      for (let o = 0; o < octaves; o++) {
+        v += (vnoise(x * freq, seed + o * 13.7) - 0.5) * amp;
+        norm += amp; amp *= 0.56; freq *= 2.07;
       }
-      return v / n;
+      return (v / norm) * 2;
     }
 
-    /* Los husos de alfa van y vienen: una envolvente lenta que pasa por
-       cero, como en un registro con ojos cerrados de forma intermitente. */
+    /* Los husos de alfa aparecen y desaparecen, como con los ojos
+       cerrandose a ratos. */
     function spindle(t, seed) {
-      const env = Math.sin(t * 0.21 + seed) * Math.sin(t * 0.073 + seed * 2.1);
-      return Math.max(0, env);
+      const env = vnoise(t * 0.14, seed + 71) * 1.6 - 0.45;
+      return Math.max(0, Math.min(1, env));
+    }
+
+    /* Parpadeo: subida rapida, bajada lenta, solo en las frontales. */
+    function blink(t, seed) {
+      const period = 5.2 + hash(Math.floor(t / 5.2) + seed) * 3.4;
+      const phase = (t % period) / period;
+      if (phase > 0.085) return 0;
+      const k = phase / 0.085;
+      return Math.sin(Math.pow(k, 0.65) * Math.PI) * (1 - k * 0.25);
     }
 
     function draw(elapsed) {
       ctx.clearRect(0, 0, w, h);
-      ctx.strokeStyle = token("--accent", "#1b4ea8");
-      ctx.lineWidth = 1;
-      ctx.lineJoin = "round";
-      ctx.lineCap = "round";
+      const ink = token("--ink", "#121d2b");
+      const rule = token("--rule-soft", "#b8c3cb");
+      const muted = token("--muted", "#62748a");
 
       const rows = CHANNELS.length;
       const pad = h * 0.07;
-      const labels = w > 460;            // en movil estorban mas que informan
-      const left = labels ? 54 : 0;
+      const labels = w > 460;
+      const left = labels ? 56 : 0;
       const lane = (h - pad * 2) / rows;
-      const gain = lane * 0.40;
+      const gain = lane * 0.38;
       const shift = elapsed * SPEED / 1000;
+
+      // Rejilla de segundos, que se desplaza con el trazo.
+      ctx.save();
+      ctx.strokeStyle = rule;
+      ctx.globalAlpha = 0.5;
+      ctx.lineWidth = 1;
+      const offset = shift % PX_PER_S;
+      for (let x = left + PX_PER_S - offset; x <= w; x += PX_PER_S) {
+        ctx.beginPath();
+        ctx.moveTo(Math.round(x) + 0.5, pad * 0.5);
+        ctx.lineTo(Math.round(x) + 0.5, h - pad * 0.5);
+        ctx.stroke();
+      }
+      ctx.restore();
 
       if (labels) {
         ctx.save();
         ctx.font = '500 9px ui-monospace, SFMono-Regular, Menlo, monospace';
-        ctx.fillStyle = token("--muted", "#62748a");
+        ctx.fillStyle = muted;
         ctx.textBaseline = "middle";
         CHANNELS.forEach((ch, i) => {
           ctx.fillText(ch.label, 0, pad + lane * (i + 0.5));
@@ -149,33 +191,37 @@
         ctx.restore();
       }
 
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 1;
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+
       CHANNELS.forEach((ch, i) => {
         const mid = pad + lane * (i + 0.5);
-        const seed = i * 2.7 + 1.3;
+        const seed = i * 3.1 + 1.7;
 
-        ctx.globalAlpha = 0.30 + (rows - i) * 0.035;
+        ctx.globalAlpha = 0.52;
         ctx.beginPath();
 
         for (let x = left; x <= w; x += STEP) {
-          const t = (x + shift) / 26;        // tiempo en el eje horizontal
+          const t = (x + shift) / PX_PER_S;      // segundos
 
-          // Delta y theta: el fondo lento sobre el que va todo lo demas.
-          let v = band(t, seed, 0.30, 2) * ch.theta * 1.05
-                + band(t, seed + 9, 0.12, 2) * 0.55;
+          // Fondo 1/f: delta, theta y la deriva lenta.
+          let v = pink(t * 1.15, seed, 5) * ch.slow * 1.15;
 
-          // Alfa en husos, el ritmo dominante en las derivaciones posteriores.
-          v += Math.sin(t * 2.05 + seed) * spindle(t, seed) * ch.alpha * 0.95;
+          // Alfa a 10 Hz, en husos.
+          v += Math.sin(t * 62.8 + seed * 3) * spindle(t, seed) * ch.alpha * 0.62;
 
-          // Beta: la textura rapida de poca amplitud.
-          v += band(t, seed + 21, 4.4, 2) * ch.beta * 0.30;
+          // Beta: textura rapida de poca amplitud.
+          v += pink(t * 11, seed + 31, 2) * ch.beta * 0.26;
 
-          // Alguna punta aislada, estrecha y de amplitud alta.
-          if (ch.spikes) {
-            const phase = (t * 0.085 + seed * 0.31) % 1;
-            if (phase < 0.03) {
-              const k = phase / 0.03;
-              v -= Math.sin(k * Math.PI) * ch.spikes * 2.3;
-            }
+          // Parpadeo, hacia arriba y de amplitud alta.
+          if (ch.blink) v -= blink(t, seed) * ch.blink * 1.5;
+
+          // Punta aislada, estrecha.
+          if (ch.spike) {
+            const p = (t * 0.07 + seed * 0.37) % 1;
+            if (p < 0.012) v -= Math.sin((p / 0.012) * Math.PI) * ch.spike * 1.8;
           }
 
           const y = mid + v * gain;
@@ -185,6 +231,22 @@
       });
 
       ctx.globalAlpha = 1;
+
+      // Escala: "1 s", para que la rejilla se entienda.
+      if (labels) {
+        ctx.save();
+        ctx.font = '500 8px ui-monospace, SFMono-Regular, Menlo, monospace';
+        ctx.fillStyle = muted;
+        ctx.textAlign = "right";
+        ctx.textBaseline = "bottom";
+        ctx.fillText("1 s", w - 4, h - 2);
+        ctx.beginPath();
+        ctx.strokeStyle = muted;
+        ctx.moveTo(w - 4 - PX_PER_S, h - 11.5);
+        ctx.lineTo(w - 4, h - 11.5);
+        ctx.stroke();
+        ctx.restore();
+      }
     }
 
     let t0 = 0;
@@ -202,7 +264,6 @@
       raf = requestAnimationFrame(loop);
     }
 
-    // Para el bucle mientras la franja esta fuera de pantalla.
     if ("IntersectionObserver" in window) {
       new IntersectionObserver((entries) => {
         visible = entries[0].isIntersecting;
@@ -281,6 +342,10 @@
     const wosSrc = `Web of Science${asOf ? ` · ${asOf}` : ""}`;
     set("cit-src", wosSrc);
     set("h-src", wosSrc);
+    // Los cuartiles son dato del JCR, de Web of Science: la lista se
+    // refresca cada semana desde GIB, que es su espejo, pero la autoridad
+    // de la clasificacion es WoS y es lo que se acredita.
+    set("jcr-src", wosSrc);
 
     const pct = m.jcr_articles
       ? Math.round((m.quartiles.Q1 / m.jcr_articles) * 100)

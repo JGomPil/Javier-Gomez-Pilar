@@ -645,7 +645,7 @@ def main() -> int:
 
     print("Grouping co-authoring institutions by country ...", flush=True)
     countries = openalex_countries(OPENALEX_AUTHOR_IDS)
-    print(f"  {len(countries)} countries besides Spain"
+    print(f"  {len(countries)} countries with co-authoring institutions"
           + (f", top {countries[0]['name']} ({countries[0]['works']})"
              if countries else ""), flush=True)
 

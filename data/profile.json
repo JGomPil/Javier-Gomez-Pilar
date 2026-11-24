@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T21:09:55Z",
+ "generated": "2026-11-24T23:21:39Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -3200,89 +3200,430 @@
  },
  "countries": [
   {
+   "code": "ES",
+   "name": "Spain",
+   "works": 107,
+   "institutions": [
+    {
+     "name": "Universidad de Valladolid",
+     "works": 106
+    },
+    {
+     "name": "Biomedical Research Networking Center in Bioengineering, Biomaterials and Nanomedicine",
+     "works": 45
+    },
+    {
+     "name": "Hospital Clínico Universitario de Valladolid",
+     "works": 22
+    },
+    {
+     "name": "Universidad de Salamanca",
+     "works": 19
+    },
+    {
+     "name": "Instituto de Neurociencias de Castilla y León",
+     "works": 18
+    },
+    {
+     "name": "Hospital Universitario Río Hortega",
+     "works": 17
+    },
+    {
+     "name": "Centro de Investigación Biomédica en Red",
+     "works": 12
+    },
+    {
+     "name": "Instituto de Salud Carlos III",
+     "works": 7
+    },
+    {
+     "name": "Centro de Investigación Biomédica en Red de Salud Mental",
+     "works": 4
+    },
+    {
+     "name": "Hospital Universitario 12 De Octubre",
+     "works": 4
+    },
+    {
+     "name": "University of the Basque Country",
+     "works": 4
+    },
+    {
+     "name": "Hospital de Cruces",
+     "works": 3
+    }
+   ]
+  },
+  {
    "code": "CA",
    "name": "Canada",
-   "works": 24
+   "works": 24,
+   "institutions": [
+    {
+     "name": "University of Ottawa",
+     "works": 24
+    },
+    {
+     "name": "Institute of Mental Health Research",
+     "works": 20
+    },
+    {
+     "name": "uOttawa Brain and Mind Research Institute",
+     "works": 9
+    },
+    {
+     "name": "Royal Ottawa Mental Health Centre",
+     "works": 7
+    },
+    {
+     "name": "McGill University",
+     "works": 3
+    },
+    {
+     "name": "Institut Universitaire de Gériatrie de Montréal",
+     "works": 1
+    },
+    {
+     "name": "McConnell Brain Imaging Centre",
+     "works": 1
+    },
+    {
+     "name": "Montreal Neurological Institute and Hospital",
+     "works": 1
+    },
+    {
+     "name": "Sunnybrook Research Institute",
+     "works": 1
+    },
+    {
+     "name": "University of Toronto",
+     "works": 1
+    },
+    {
+     "name": "University of Waterloo",
+     "works": 1
+    },
+    {
+     "name": "Western University",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "CN",
    "name": "China",
-   "works": 20
+   "works": 20,
+   "institutions": [
+    {
+     "name": "Zhejiang University",
+     "works": 16
+    },
+    {
+     "name": "Hangzhou Normal University",
+     "works": 11
+    },
+    {
+     "name": "Fudan University",
+     "works": 4
+    },
+    {
+     "name": "Huashan Hospital",
+     "works": 4
+    },
+    {
+     "name": "Shenzhen University",
+     "works": 2
+    },
+    {
+     "name": "Frontiers Center for Brain Science of the Ministry of Education",
+     "works": 1
+    },
+    {
+     "name": "Fudan University Shanghai Cancer Center",
+     "works": 1
+    },
+    {
+     "name": "Shanghai Medical College of Fudan University",
+     "works": 1
+    },
+    {
+     "name": "State Key Laboratory of Medical Neurobiology",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "US",
    "name": "United States",
-   "works": 14
+   "works": 14,
+   "institutions": [
+    {
+     "name": "Marshall University",
+     "works": 5
+    },
+    {
+     "name": "University of Missouri",
+     "works": 4
+    },
+    {
+     "name": "Michigan Medicine",
+     "works": 3
+    },
+    {
+     "name": "University of Michigan",
+     "works": 3
+    },
+    {
+     "name": "Cornell University",
+     "works": 1
+    },
+    {
+     "name": "Fox Chase Cancer Center",
+     "works": 1
+    },
+    {
+     "name": "Temple University Health System",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "IT",
    "name": "Italy",
-   "works": 8
+   "works": 8,
+   "institutions": [
+    {
+     "name": "University of Padua",
+     "works": 5
+    },
+    {
+     "name": "IRCCS Ospedale San Raffaele",
+     "works": 2
+    },
+    {
+     "name": "University of Bergamo",
+     "works": 2
+    },
+    {
+     "name": "Vita-Salute San Raffaele University",
+     "works": 2
+    },
+    {
+     "name": "University of Chieti-Pescara",
+     "works": 1
+    },
+    {
+     "name": "University of Pavia",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "PT",
    "name": "Portugal",
-   "works": 5
+   "works": 5,
+   "institutions": [
+    {
+     "name": "Universidade do Porto",
+     "works": 5
+    },
+    {
+     "name": "Centre for Health Technology and Services Research",
+     "works": 2
+    },
+    {
+     "name": "Escola Superior de Saúde da Cruz Vermelha Portuguesa",
+     "works": 1
+    },
+    {
+     "name": "INESC TEC",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "DE",
    "name": "Germany",
-   "works": 4
+   "works": 4,
+   "institutions": [
+    {
+     "name": "Forschungszentrum Jülich",
+     "works": 2
+    },
+    {
+     "name": "Heinrich Heine University Düsseldorf",
+     "works": 2
+    },
+    {
+     "name": "Hertie Institute for Clinical Brain Research",
+     "works": 2
+    },
+    {
+     "name": "Max Planck Institute for Intelligent Systems",
+     "works": 2
+    },
+    {
+     "name": "Max Planck Society",
+     "works": 2
+    },
+    {
+     "name": "University Hospital Cologne",
+     "works": 2
+    },
+    {
+     "name": "University of Cologne",
+     "works": 2
+    },
+    {
+     "name": "German Center for Neurodegenerative Diseases",
+     "works": 1
+    },
+    {
+     "name": "University of Tübingen",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "JP",
    "name": "Japan",
-   "works": 4
+   "works": 4,
+   "institutions": [
+    {
+     "name": "Hiroshima University",
+     "works": 3
+    },
+    {
+     "name": "Hiroshima Bunkyo University",
+     "works": 1
+    },
+    {
+     "name": "Hokuto Hospital",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "EC",
    "name": "Ecuador",
-   "works": 2
+   "works": 2,
+   "institutions": [
+    {
+     "name": "Universidad de Las Américas",
+     "works": 2
+    }
+   ]
   },
   {
    "code": "NL",
    "name": "Netherlands",
-   "works": 2
+   "works": 2,
+   "institutions": [
+    {
+     "name": "Amsterdam Neuroscience",
+     "works": 1
+    },
+    {
+     "name": "Amsterdam UMC",
+     "works": 1
+    },
+    {
+     "name": "The Netherlands Cancer Institute",
+     "works": 1
+    },
+    {
+     "name": "Vrije Universiteit Amsterdam",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "RU",
    "name": "Russia",
-   "works": 2
+   "works": 2,
+   "institutions": [
+    {
+     "name": "Moscow State University of Psychology & Education",
+     "works": 2
+    }
+   ]
   },
   {
    "code": "TR",
    "name": "Turkey",
-   "works": 2
+   "works": 2,
+   "institutions": [
+    {
+     "name": "Ege University",
+     "works": 2
+    }
+   ]
   },
   {
    "code": "GB",
    "name": "United Kingdom",
-   "works": 2
+   "works": 2,
+   "institutions": [
+    {
+     "name": "University of Cambridge",
+     "works": 2
+    }
+   ]
   },
   {
    "code": "AT",
    "name": "Austria",
-   "works": 1
+   "works": 1,
+   "institutions": [
+    {
+     "name": "University of Vienna",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "BE",
    "name": "Belgium",
-   "works": 1
+   "works": 1,
+   "institutions": [
+    {
+     "name": "University of Liège",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "FI",
    "name": "Finland",
-   "works": 1
+   "works": 1,
+   "institutions": [
+    {
+     "name": "University of Eastern Finland",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "ID",
    "name": "Indonesia",
-   "works": 1
+   "works": 1,
+   "institutions": [
+    {
+     "name": "Universitas Airlangga",
+     "works": 1
+    }
+   ]
   },
   {
    "code": "CH",
    "name": "Switzerland",
-   "works": 1
+   "works": 1,
+   "institutions": [
+    {
+     "name": "University of Bern",
+     "works": 1
+    }
+   ]
   }
  ],
  "awards": [

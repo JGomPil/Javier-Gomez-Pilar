@@ -93,6 +93,7 @@
     const muted = css("--muted", "#62748a");
     const rule = css("--rule-soft", "#b8c3cb");
     const paper = css("--paper", "#cfd7dc");
+    const surface = css("--surface", "#dde3e7");
     const data = "IBM Plex Mono, ui-monospace, monospace";
 
     return {
@@ -119,7 +120,7 @@
         textStyle: { color: css("--ink-soft", "#35475a"), fontSize: 11,
                      fontFamily: data },
       },
-      ink, muted, rule, paper, data,
+      ink, muted, rule, paper, surface, data,
     };
   }
 
@@ -141,8 +142,9 @@
     return loading;
   }
 
-  function mount(host, build) {
-    const chart = window.echarts.init(host, null, { renderer: "svg" });
+  function mount(host, build, renderer) {
+    const chart = window.echarts.init(host, null,
+                                      { renderer: renderer || "svg" });
     chart.setOption(build());
     charts.push({ chart, host, build });
     return chart;
@@ -548,6 +550,143 @@
       }],
       animationDuration: 700,
     }));
+
+    // El ranking abre el mismo detalle que el mapa: son dos vistas de
+    // lo mismo, y seria raro que una respondiese al clic y la otra no.
+    const chart = charts[charts.length - 1]?.chart;
+    chart?.on("click", (pt) => {
+      pintaDetalle(rows.find((r) => r.name === pt.name) || null);
+    });
+    return true;
+  }
+
+  /* ── 7. el mapamundi ──────────────────────── */
+
+  const GEO_URL = "data/world.json";
+  let geoCargado = null;
+
+  /* Natural Earth 110m, de dominio publico, recortado a lo que hace
+     falta: el codigo ISO alfa-2 en properties.name — que es por donde
+     casa con OpenAlex, sin depender de como escriba cada fuente el
+     nombre del pais — y las coordenadas a dos decimales. 168 KB, y se
+     pide una sola vez, cuando el panel del mapa se abre por primera
+     vez. */
+  function loadGeo() {
+    if (geoCargado) return geoCargado;
+    geoCargado = fetch(GEO_URL)
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((geo) => {
+        window.echarts.registerMap("mundo", geo);
+        return geo;
+      });
+    return geoCargado;
+  }
+
+  /* Espana tiene 107 trabajos y el siguiente pais 24. En una escala
+     lineal eso deja a todos los demas practicamente del color del
+     fondo, que es justo lo que no se quiere ver. Tramos fijos. */
+  function tramos(maximo) {
+    const cortes = [1, 3, 6, 11, 26];
+    const tonos = ramp(cortes.length);
+    return cortes.map((desde, i) => {
+      const hasta = cortes[i + 1];
+      return {
+        min: desde,
+        max: hasta ? hasta - 1 : Math.max(maximo, desde),
+        label: hasta ? `${desde}\u2013${hasta - 1}` : `${desde}+`,
+        color: tonos[i],
+      };
+    });
+  }
+
+  function pintaDetalle(pais) {
+    const host = document.getElementById("country-detail");
+    if (!host) return;
+    if (!pais) {
+      host.innerHTML = `<p class="hint">${esc(t("g.countries.pick"))}</p>`;
+      return;
+    }
+    const centros = pais.institutions || [];
+    host.innerHTML = `
+      <h4>${esc(pais.name)}<span class="n">${pais.works}</span></h4>
+      ${centros.length
+        ? `<ol>${centros.map((c) => `
+            <li><span>${esc(c.name)}</span><b>${c.works}</b></li>`).join("")}</ol>`
+        : `<p class="hint">${esc(t("g.countries.none"))}</p>`}`;
+    host.scrollTop = 0;
+  }
+
+  function chartMap(host) {
+    const rows = ctx.profile.countries || [];
+    if (!rows.length) return false;
+    const b = base();
+    const porCodigo = new Map(rows.map((r) => [r.code, r]));
+    const maximo = Math.max(...rows.map((r) => r.works));
+    const piezas = tramos(maximo);
+
+    // El mapa no puede construirse hasta tener la geometria.
+    loadGeo().then(() => {
+      const chart = mount(host, () => ({
+        ...b,
+        tooltip: {
+          ...b.tooltip, trigger: "item",
+          formatter: (pt) => {
+            const pais = porCodigo.get(pt.name);
+            if (!pais) return "";
+            const centros = (pais.institutions || []).slice(0, 3)
+              .map((c) => `<br>\u00b7 ${esc(c.name)} (${c.works})`).join("");
+            return `<b>${esc(pais.name)}</b> \u2014 ${pais.works} `
+              + `${t("g.countries.works")}${centros}`;
+          },
+        },
+        visualMap: {
+          type: "piecewise",
+          left: 0, bottom: 0,
+          orient: "horizontal",
+          itemWidth: 18, itemHeight: 12, itemGap: 6,
+          textStyle: { color: b.muted, fontSize: 11,
+                       fontFamily: css("--ui", "Inter, sans-serif") },
+          pieces: piezas.map((x) => ({ min: x.min, max: x.max,
+                                       label: x.label, color: x.color })),
+        },
+        series: [{
+          type: "map",
+          map: "mundo",
+          roam: true,
+          scaleLimit: { min: 1, max: 6 },
+          // Sin la Antartida el mundo habitado ocupa el doble de alto.
+          boundingCoords: [[-180, 84], [180, -58]],
+          itemStyle: { areaColor: b.surface, borderColor: b.rule,
+                       borderWidth: 0.5 },
+          emphasis: {
+            label: { show: false },
+            itemStyle: { areaColor: mark(), borderColor: b.ink,
+                         borderWidth: 1 },
+          },
+          select: {
+            label: { show: false },
+            itemStyle: { borderColor: b.ink, borderWidth: 1.5 },
+          },
+          selectedMode: "single",
+          data: rows.map((r) => ({ name: r.code, value: r.works })),
+        }],
+        animationDuration: 600,
+      }), "canvas");
+
+      if (!chart) return;
+      chart.on("click", (pt) => {
+        const pais = porCodigo.get(pt.name);
+        pintaDetalle(pais || null);
+      });
+    }).catch((err) => {
+      console.error("mapa:", err);
+      host.innerHTML = `<p class="chart-note">${esc(t("g.failed"))}</p>`;
+    });
+
+    pintaDetalle(null);
     return true;
   }
 
@@ -560,6 +699,7 @@
     "chart-citations": chartCitations,
     "chart-projects": chartProjects,
     "chart-countries": chartCountries,
+    "chart-map": chartMap,
   };
 
   const built = new Set();

@@ -361,6 +361,16 @@
     if (!projects.length) return false;
 
     const b = base();
+    /* No todos los proyectos tienen acronimo. Antes de dejar la fila en
+       blanco, se prueba la referencia de la convocatoria y, en ultimo
+       termino, el arranque del titulo. */
+    function rotulo(p) {
+      if (p.acronym) return p.acronym;
+      if (p.ref) return p.ref.split("-")[0];
+      const titulo = (p[ctx.lang] || p.es || {}).title || "";
+      const corto = titulo.split(/\s+/).slice(0, 3).join(" ");
+      return corto.length > 22 ? corto.slice(0, 21) + "\u2026" : corto;
+    }
     // El rol es ordinal (IP > co-IP > investigador): rampa de un tono.
     const ROLES = ["ip", "co-ip", "researcher"];
     const colours = ramp(3);
@@ -376,8 +386,11 @@
         formatter: (p) => {
           const d = projects[p.dataIndex];
           if (!d) return "";
-          return `<b>${d.acronym}</b><br>${d.from}\u2013${d.to}`
-            + `<br>${t("g.role." + d.role)}<br>${esc(d.funder)}`;
+          const titulo = (d[ctx.lang] || d.es || {}).title || "";
+          return `<b>${esc(rotulo(d))}</b><br>${d.from}\u2013${d.to}`
+            + `<br>${esc(titulo)}`
+            + `<br>${t("g.role." + d.role)} · ${esc(d.funder)}`
+            + (d.ref ? `<br><span style="opacity:.6">${esc(d.ref)}</span>` : "");
         },
       },
       legend: {
@@ -391,7 +404,7 @@
                                             formatter: (v) => String(v) } },
       yAxis: {
         type: "category",
-        data: projects.map((p) => p.acronym),
+        data: projects.map(rotulo),
         inverse: true,
         ...b.axisCommon,
         splitLine: { show: false },

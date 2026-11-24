@@ -313,8 +313,8 @@
         <style>
           .grid { stroke: var(--rule); stroke-width: 1; }
           .grid.axis { stroke: var(--muted); }
-          .tick { font: 400 15px var(--mono); fill: var(--muted); }
-          .peak { font: 500 15px var(--mono); fill: var(--ink-soft); }
+          .tick { font: 400 15px var(--data); fill: var(--muted); }
+          .peak { font: 500 15px var(--data); fill: var(--ink-soft); }
           .bar path { fill: var(--accent); }
           .bar.partial path { fill: var(--accent); opacity: .42; }
           .bar:hover path { fill: var(--accent-ink); }
@@ -749,6 +749,11 @@
     initFilters();
     initForm();
     renderAll();
+
+    window.addEventListener("jgp:skinchange", () => {
+      renderChart();
+      state.repaintTrace?.();
+    });
 
     window.addEventListener("resize", () => {
       clearTimeout(window.__chartTimer);

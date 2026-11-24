@@ -212,6 +212,14 @@
     $$(".lang button").forEach((btn) => {
       btn.setAttribute("aria-pressed", String(btn.dataset.lang === state.lang));
     });
+
+    // textContent se lleva por delante a los hijos, asi que el icono
+    // de cada cabecera se repone despues de traducir y no antes.
+    $$("[data-icon]").forEach((el) => {
+      if (!el.querySelector(".icon")) {
+        el.insertAdjacentHTML("afterbegin", icon(el.dataset.icon, "h-icon"));
+      }
+    });
   }
 
   /* ── metrics ─────────────────────────────────────────────── */
@@ -277,7 +285,7 @@
       const L = line[state.lang];
       return `
         <article class="line">
-          <span class="line-n">${String(i + 1).padStart(2, "0")}</span>
+          <span class="line-n">${icon("i-line-" + (i + 1), "line-icon")}<b>${String(i + 1).padStart(2, "0")}</b></span>
           <h3>${esc(L.title)}</h3>
           <p>${esc(L.text)}</p>
           <ul class="signals">${line.signals.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>
@@ -666,7 +674,8 @@
     const serviceHost = $("#service-list");
     if (serviceHost) {
       serviceHost.innerHTML = state.content.service
-        .map((s) => `<li>${esc(s[state.lang])}</li>`).join("");
+        .map((s) => `<li>${icon("i-advise")}<span>${esc(s[state.lang])}</span></li>`)
+        .join("");
     }
 
     const patHost = $("#patents");
@@ -675,7 +684,7 @@
       // delante y con su propia ficha, no como un punto mas de lista.
       patHost.innerHTML = (state.content.patents || []).map((p) => `
         <article class="patent">
-          <p class="kicker">${esc(t("rec.patent"))}</p>
+          <p class="kicker">${icon("i-patent")}${esc(t("rec.patent"))}</p>
           <h4>${esc(p[state.lang])}</h4>
           <p class="refs">
             <span class="num">${esc(p.number)}</span>
@@ -688,7 +697,8 @@
     const ipHost = $("#ip-list");
     if (ipHost) {
       ipHost.innerHTML = state.content.ip
-        .map((s) => `<li>${esc(s[state.lang])}</li>`).join("");
+        .map((s) => `<li>${icon("i-code")}<span>${esc(s[state.lang])}</span></li>`)
+        .join("");
     }
   }
 

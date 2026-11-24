@@ -325,6 +325,10 @@
           <span class="line-n">${icon("i-line-" + (i + 1), "line-icon")}<b>${String(i + 1).padStart(2, "0")}</b></span>
           <h3>${esc(L.title)}</h3>
           <p>${esc(L.text)}</p>
+          <svg class="viz" viewBox="0 0 320 180" role="img"
+               aria-hidden="true" focusable="false">
+            <use href="#v-line-${i + 1}"></use>
+          </svg>
           <ul class="signals">${line.signals.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>
         </article>`;
     }).join("");

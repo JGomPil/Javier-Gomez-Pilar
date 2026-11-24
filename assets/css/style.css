@@ -1289,3 +1289,58 @@ h2[data-icon] {
 @media (max-width: 36rem) {
   .project.live { padding-left: .7rem; }
 }
+
+/* ── ilustraciones de las líneas de investigación ────────────── */
+
+/* Esquemas, no resultados: dicen de qué va la línea, no cuánto dio.
+   Al ser SVG en línea heredan las variables del tema, así que el modo
+   oscuro no necesita una segunda versión. */
+.line .viz {
+  display: block;
+  width: 100%;
+  max-width: 21rem;
+  height: auto;
+  margin: 1.1rem 0 .2rem;
+  overflow: visible;
+}
+
+.v-ink,
+.v-soft,
+.v-dash,
+.v-accent-s {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.v-ink      { stroke: var(--ink);    stroke-width: 1.4; opacity: .8; }
+.v-soft     { stroke: var(--muted);  stroke-width: 1.2; opacity: .62; }
+.v-accent-s { stroke: var(--accent); stroke-width: 1.8; }
+
+.v-dash {
+  stroke: var(--rule);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.v-accent-f { fill: var(--accent); stroke: none; }
+.v-soft-f   { fill: var(--muted);  stroke: none; opacity: .5; }
+
+/* El trazo del espectro y el de la oximetría se dibujan al entrar: es
+   el único movimiento, y solo una vez. */
+@media (prefers-reduced-motion: no-preference) {
+  .line .viz .v-accent-s {
+    stroke-dasharray: 620;
+    stroke-dashoffset: 620;
+  }
+  /* La clase "seen" la pone el observador en el contenedor de la
+     banda, no en cada tarjeta, asi que el trazo cuelga de ahi. */
+  .seen .viz .v-accent-s {
+    animation: trazo 1.5s var(--ease, ease-out) .25s forwards;
+  }
+  @keyframes trazo { to { stroke-dashoffset: 0; } }
+}
+
+@media (max-width: 44rem) {
+  .line .viz { max-width: 100%; }
+}

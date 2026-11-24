@@ -119,15 +119,14 @@
    "rec.patent": "Patente",
    "rec.patent.of": "Titular",
    "rec.ip.soft": "Registros de software",
-   "g.countries.map": "Mapa",
-   "g.countries.rank": "Ranking",
-   "g.countries.pick": "Pulsa un país para ver sus instituciones",
-   "g.countries.none": "Sin coautoría registrada",
    "g.q.d1": "Primer decil",
    "proj.active": "En curso",
    "proj.funding": "Financiación",
    "proj.ref": "Referencia",
-   "proj.ip": "IP"
+   "proj.ip": "IP",
+   "g.countries.n": "países",
+   "g.countries.orgs": "organizaciones",
+   "g.countries.back": "Todos los países"
   },
   "en": {
    "skip": "Skip to content",
@@ -241,15 +240,14 @@
    "rec.patent": "Patent",
    "rec.patent.of": "Holder",
    "rec.ip.soft": "Software registrations",
-   "g.countries.map": "Map",
-   "g.countries.rank": "Ranking",
-   "g.countries.pick": "Select a country to see its institutions",
-   "g.countries.none": "No recorded co-authorship",
    "g.q.d1": "First decile",
    "proj.active": "Ongoing",
    "proj.funding": "Funding",
    "proj.ref": "Reference",
-   "proj.ip": "PI"
+   "proj.ip": "PI",
+   "g.countries.n": "countries",
+   "g.countries.orgs": "organisations",
+   "g.countries.back": "All countries"
   }
  },
  "lines": [

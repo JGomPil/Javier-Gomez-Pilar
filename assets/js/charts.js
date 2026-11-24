@@ -526,67 +526,7 @@
     return true;
   }
 
-  /* ── 6. paises de colaboracion ─────────────────── */
-
-  function chartCountries(host) {
-    const rows = (ctx.profile.countries || [])
-      .filter((r) => r.code !== "ES");
-    if (!rows.length) return false;
-    const b = base();
-    const colour = css("--accent", "#1b4ea8");
-    const max = rows[0].works;
-
-    // Barras horizontales: los nombres de pais se leen de corrido y no
-    // hay que girar la cabeza.
-    const shown = rows.slice(0, 14).slice().reverse();
-
-    mount(host, () => ({
-      ...b,
-      grid: { ...b.grid, left: 2, right: 34, top: 6, bottom: 2 },
-      tooltip: {
-        ...b.tooltip, trigger: "item",
-        formatter: (pt) => `<b>${esc(pt.name)}</b><br>${pt.value} `
-          + `${t("g.countries.works")}`,
-      },
-      xAxis: { type: "value", ...b.axisCommon, minInterval: 1,
-               axisLabel: { show: false }, axisLine: { show: false },
-               splitLine: { lineStyle: { color: b.rule, type: [3, 4] } } },
-      yAxis: {
-        type: "category",
-        data: shown.map((r) => r.name),
-        ...b.axisCommon,
-        splitLine: { show: false },
-        axisLabel: { ...b.axisCommon.axisLabel, fontSize: 11,
-                     fontFamily: css("--reading", "Inter, sans-serif") },
-      },
-      series: [{
-        type: "bar",
-        data: shown.map((r) => ({
-          value: r.works,
-          // Un solo tono, mas intenso cuanto mas peso: es magnitud.
-          itemStyle: { color: colour, opacity: 0.32 + 0.68 * (r.works / max) },
-        })),
-        barMaxWidth: 16,
-        label: {
-          show: true, position: "right",
-          color: b.muted, fontSize: 10, fontFamily: b.data,
-          formatter: "{c}",
-        },
-        emphasis: { itemStyle: { color: colour, opacity: 1 } },
-      }],
-      animationDuration: 700,
-    }));
-
-    // El ranking abre el mismo detalle que el mapa: son dos vistas de
-    // lo mismo, y seria raro que una respondiese al clic y la otra no.
-    const chart = charts[charts.length - 1]?.chart;
-    chart?.on("click", (pt) => {
-      pintaDetalle(rows.find((r) => r.name === pt.name) || null);
-    });
-    return true;
-  }
-
-  /* ── 7. el mapamundi ──────────────────────── */
+  /* ── 6. colaboracion por pais: mapa y lista ──── */
 
   const GEO_URL = "data/world.json";
   let geoCargado = null;
@@ -594,9 +534,8 @@
   /* Natural Earth 110m, de dominio publico, recortado a lo que hace
      falta: el codigo ISO alfa-2 en properties.name — que es por donde
      casa con OpenAlex, sin depender de como escriba cada fuente el
-     nombre del pais — y las coordenadas a dos decimales. 168 KB, y se
-     pide una sola vez, cuando el panel del mapa se abre por primera
-     vez. */
+     nombre del pais —, las coordenadas a dos decimales y el punto
+     representativo de cada pais para colocar su burbuja. */
   function loadGeo() {
     if (geoCargado) return geoCargado;
     geoCargado = fetch(GEO_URL)
@@ -611,38 +550,75 @@
     return geoCargado;
   }
 
-  /* Espana tiene 107 trabajos y el siguiente pais 24. En una escala
-     lineal eso deja a todos los demas practicamente del color del
-     fondo, que es justo lo que no se quiere ver. Tramos fijos. */
-  function tramos(maximo) {
-    const cortes = [1, 3, 6, 11, 26];
-    const tonos = ramp(cortes.length);
-    return cortes.map((desde, i) => {
-      const hasta = cortes[i + 1];
-      return {
-        min: desde,
-        max: hasta ? hasta - 1 : Math.max(maximo, desde),
-        label: hasta ? `${desde}\u2013${hasta - 1}` : `${desde}+`,
-        color: tonos[i],
-      };
+  /* La lista lateral.
+   *
+   * En HTML y no en ECharts: son barras y un numero, para eso no hace
+   * falta un motor de graficos, y asi el texto se selecciona, se
+   * busca con el navegador y lo lee un lector de pantalla.
+   *
+   * Las barras van normalizadas al mayor de la vista. Espana tiene 107
+   * y el siguiente 24, de modo que las demas quedan cortas; pero el
+   * numero esta escrito al lado, que es lo que de verdad se lee, y la
+   * barra solo da la proporcion. Por eso aqui si cabe incluir Espana.
+   */
+  function pintaPanel(pais) {
+    const host = document.getElementById("country-panel");
+    if (!host) return;
+    const rows = ctx.profile.countries || [];
+
+    const filas = pais
+      ? (pais.institutions || []).map((c) => ({ etiqueta: c.name, n: c.works }))
+      : rows.map((r) => ({ etiqueta: r.name, n: r.works, code: r.code }));
+
+    const tope = Math.max(1, ...filas.map((f) => f.n));
+    const titulo = pais
+      ? esc(pais.name)
+      : `${rows.length} ${esc(t("g.countries.n"))}`;
+    const sub = pais
+      ? `${(pais.institutions || []).length} ${esc(t("g.countries.orgs"))}`
+      : `${rows.reduce((a, r) => a + r.works, 0)} ${esc(t("g.countries.works"))}`;
+
+    host.innerHTML = `
+      <header>
+        <div>
+          <h4>${titulo}</h4>
+          <p>${sub}</p>
+        </div>
+        ${pais ? `<button type="button" class="back">${esc(t("g.countries.back"))}</button>` : ""}
+      </header>
+      <ol>
+        ${filas.map((f) => `
+          <li${f.code ? ` data-code="${esc(f.code)}" tabindex="0" role="button"` : ""}>
+            <span class="nom">${esc(f.etiqueta)}</span>
+            <b>${f.n}</b>
+            <span class="bar"><i style="width:${Math.max(2, (f.n / tope) * 100)}%"></i></span>
+          </li>`).join("")}
+      </ol>`;
+
+    host.querySelector(".back")?.addEventListener("click", () => {
+      pintaPanel(null);
+      seleccionaEnMapa(null);
     });
+    host.querySelectorAll("li[data-code]").forEach((li) => {
+      const abre = () => {
+        const p2 = rows.find((r) => r.code === li.dataset.code);
+        if (!p2) return;
+        pintaPanel(p2);
+        seleccionaEnMapa(p2.code);
+      };
+      li.addEventListener("click", abre);
+      li.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); abre(); }
+      });
+    });
+    host.scrollTop = 0;
   }
 
-  function pintaDetalle(pais) {
-    const host = document.getElementById("country-detail");
-    if (!host) return;
-    if (!pais) {
-      host.innerHTML = `<p class="hint">${esc(t("g.countries.pick"))}</p>`;
-      return;
-    }
-    const centros = pais.institutions || [];
-    host.innerHTML = `
-      <h4>${esc(pais.name)}<span class="n">${pais.works}</span></h4>
-      ${centros.length
-        ? `<ol>${centros.map((c) => `
-            <li><span>${esc(c.name)}</span><b>${c.works}</b></li>`).join("")}</ol>`
-        : `<p class="hint">${esc(t("g.countries.none"))}</p>`}`;
-    host.scrollTop = 0;
+  let mapaChart = null;
+  function seleccionaEnMapa(code) {
+    if (!mapaChart) return;
+    mapaChart.dispatchAction({ type: "geoUnselect", name: undefined });
+    if (code) mapaChart.dispatchAction({ type: "geoSelect", name: code });
   }
 
   function chartMap(host) {
@@ -650,12 +626,27 @@
     if (!rows.length) return false;
     const b = base();
     const porCodigo = new Map(rows.map((r) => [r.code, r]));
-    const maximo = Math.max(...rows.map((r) => r.works));
-    const piezas = tramos(maximo);
+    const tope = Math.max(...rows.map((r) => r.works));
 
-    // El mapa no puede construirse hasta tener la geometria.
-    loadGeo().then(() => {
-      const chart = mount(host, () => ({
+    loadGeo().then((geo) => {
+      const centro = new Map(
+        geo.features.map((f) => [f.properties.name, f.properties.cp]));
+
+      // El area de la burbuja es proporcional al numero, no el radio:
+      // de lo contrario Espana, con 107 frente a 24, se dibujaria
+      // cuatro veces mas ancha y parecerian dieciseis veces mas
+      // trabajos. La raiz cuadrada lo corrige.
+      const radio = (n) => 5 + 24 * Math.sqrt(n / tope);
+
+      const burbujas = rows
+        .filter((r) => centro.get(r.code))
+        .map((r) => ({
+          name: r.code,
+          value: [...centro.get(r.code), r.works],
+          pais: r,
+        }));
+
+      mapaChart = mount(host, () => ({
         ...b,
         tooltip: {
           ...b.tooltip, trigger: "item",
@@ -668,51 +659,51 @@
               + `${t("g.countries.works")}${centros}`;
           },
         },
-        visualMap: {
-          type: "piecewise",
-          left: 0, bottom: 0,
-          orient: "horizontal",
-          itemWidth: 18, itemHeight: 12, itemGap: 6,
-          textStyle: { color: b.muted, fontSize: 11,
-                       fontFamily: css("--ui", "Inter, sans-serif") },
-          pieces: piezas.map((x) => ({ min: x.min, max: x.max,
-                                       label: x.label, color: x.color })),
-        },
-        series: [{
-          type: "map",
+        geo: {
           map: "mundo",
           roam: true,
-          scaleLimit: { min: 1, max: 6 },
+          scaleLimit: { min: 1, max: 8 },
           // Sin la Antartida el mundo habitado ocupa el doble de alto.
-          boundingCoords: [[-180, 84], [180, -58]],
+          boundingCoords: [[-168, 78], [180, -56]],
           itemStyle: { areaColor: b.surface, borderColor: b.rule,
                        borderWidth: 0.5 },
-          emphasis: {
-            label: { show: false },
-            itemStyle: { areaColor: mark(), borderColor: b.ink,
-                         borderWidth: 1 },
-          },
-          select: {
-            label: { show: false },
-            itemStyle: { borderColor: b.ink, borderWidth: 1.5 },
-          },
+          emphasis: { label: { show: false },
+                      itemStyle: { areaColor: b.surface } },
+          select: { label: { show: false },
+                    itemStyle: { areaColor: css("--accent-bg", "#d7e0f2"),
+                                 borderColor: b.ink, borderWidth: 1 } },
           selectedMode: "single",
-          data: rows.map((r) => ({ name: r.code, value: r.works })),
+        },
+        series: [{
+          type: "scatter",
+          coordinateSystem: "geo",
+          data: burbujas,
+          symbolSize: (val) => radio(val[2]),
+          itemStyle: {
+            color: css("--accent", "#1b4ea8"),
+            opacity: 0.62,
+            borderColor: b.paper,
+            borderWidth: 1.5,
+          },
+          emphasis: { itemStyle: { opacity: 0.95 }, scale: 1.12 },
+          z: 5,
         }],
         animationDuration: 600,
       }), "canvas");
 
-      if (!chart) return;
-      chart.on("click", (pt) => {
-        const pais = porCodigo.get(pt.name);
-        pintaDetalle(pais || null);
-      });
+      if (!mapaChart) return;
+      const abre = (nombre) => {
+        const pais = porCodigo.get(nombre);
+        if (pais) { pintaPanel(pais); seleccionaEnMapa(pais.code); }
+      };
+      mapaChart.on("click", (pt) => abre(pt.name));
+      mapaChart.on("georoam", () => {});
     }).catch((err) => {
       console.error("mapa:", err);
       host.innerHTML = `<p class="chart-note">${esc(t("g.failed"))}</p>`;
     });
 
-    pintaDetalle(null);
+    pintaPanel(null);
     return true;
   }
 
@@ -724,7 +715,6 @@
     "chart-quartiles": chartQuartiles,
     "chart-citations": chartCitations,
     "chart-projects": chartProjects,
-    "chart-countries": chartCountries,
     "chart-map": chartMap,
   };
 

@@ -1037,68 +1037,6 @@ h1 {
   .country-split { grid-template-columns: 1fr; }
 }
 
-.detail {
-  min-width: 0;
-  border: 1px solid var(--rule);
-  border-radius: 2px;
-  background: var(--surface);
-  padding: 1rem 1.1rem;
-  max-height: min(58vh, 430px);
-  overflow-y: auto;
-}
-
-.detail h4 {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: .75rem;
-  margin: 0 0 .7rem;
-  font-family: var(--display);
-  font-size: 1rem;
-  letter-spacing: -.01em;
-}
-
-.detail h4 .n {
-  font-family: var(--data);
-  font-size: .8rem;
-  color: var(--accent);
-}
-
-.detail ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: centro;
-}
-
-.detail li {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: .9rem;
-  padding: .42rem 0;
-  border-top: 1px solid var(--rule-soft, var(--rule));
-  font-size: .86rem;
-  line-height: 1.35;
-}
-
-.detail li:first-child { border-top: 0; }
-
-.detail li b {
-  flex: 0 0 auto;
-  font-family: var(--data);
-  font-weight: 500;
-  font-size: .78rem;
-  color: var(--muted);
-}
-
-.detail .hint {
-  margin: 0;
-  color: var(--muted);
-  font-size: .86rem;
-  line-height: 1.5;
-}
-
 /* ── la patente ──────────────────────────────────────────────── */
 
 .patent {
@@ -1343,4 +1281,112 @@ h2[data-icon] {
 
 @media (max-width: 44rem) {
   .line .viz { max-width: 100%; }
+}
+
+/* ── lista de colaboración por país ──────────────────────────── */
+
+.ranking {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: min(72vh, 560px);
+}
+
+.ranking header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ranking h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  letter-spacing: -.012em;
+  line-height: 1.25;
+}
+
+.ranking header p {
+  margin: .18rem 0 0;
+  font: 400 .78rem/1.4 var(--data);
+  color: var(--muted);
+}
+
+.ranking .back {
+  flex: 0 0 auto;
+  border: 1px solid var(--rule);
+  background: none;
+  color: var(--ink-soft);
+  font: 500 .72rem/1 var(--ui);
+  padding: .42rem .6rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.ranking .back:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.ranking ol {
+  margin: 0;
+  padding: .2rem 0 0;
+  list-style: none;
+  overflow-y: auto;
+}
+
+/* Nombre arriba con su número a la derecha, y la barra debajo
+   ocupando el ancho: es la disposición del Portal, y aguanta bien un
+   nombre largo de institución sin empujar el número fuera. */
+.ranking li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .1rem .8rem;
+  padding: .55rem 0 .5rem;
+  border-bottom: 1px solid var(--rule-soft, var(--rule));
+}
+
+.ranking li .nom {
+  font-size: .86rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.ranking li b {
+  font: 500 .82rem/1.3 var(--data);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.ranking li .bar {
+  grid-column: 1 / -1;
+  display: block;
+  height: 3px;
+  margin-top: .34rem;
+  background: var(--rule-soft, var(--rule));
+}
+
+.ranking li .bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+/* Solo los países son pulsables; las instituciones no llevan a
+   ninguna parte, así que no se comportan como si lo hicieran. */
+.ranking li[data-code] { cursor: pointer; }
+
+.ranking li[data-code]:hover .nom,
+.ranking li[data-code]:focus-visible .nom { color: var(--accent); }
+
+.ranking li[data-code]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ranking li .bar i { transition: width .5s var(--ease, ease-out); }
 }

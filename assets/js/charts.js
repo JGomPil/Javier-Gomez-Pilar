@@ -145,7 +145,14 @@
   function mount(host, build, renderer) {
     const chart = window.echarts.init(host, null,
                                       { renderer: renderer || "svg" });
-    chart.setOption(build());
+    const option = build();
+    // Un gancho para lo que solo puede hacerse con el grafico ya
+    // creado, como escuchar sus eventos. No es una opcion de ECharts,
+    // asi que se saca antes de entregarsela.
+    const listo = option.__onReady;
+    delete option.__onReady;
+    chart.setOption(option);
+    if (listo) listo(chart);
     charts.push({ chart, host, build });
     return chart;
   }
@@ -254,10 +261,27 @@
         },
         scaleLimit: { min: 0.6, max: 3 },
       }],
-      /* Antes la escala era un "graphic" de 9 px con cuadraditos de
-         5 px de alto: ilegible. visualMap es el componente que existe
-         para esto, se puede arrastrar para resaltar un tramo de grado
-         y viene rotulado con sus extremos. */
+      __onReady: (chart) => {
+        chart.on("datarangeselected", (ev) => {
+          const [lo, hi] = ev.selected || [0, maxDeg];
+          const dentro = (i) => degree[i] >= lo && degree[i] <= hi;
+          chart.setOption({
+            series: [{
+              links: net.links
+                .filter((l) => dentro(l.source) && dentro(l.target))
+                .map((l) => ({
+                  source: l.source, target: l.target,
+                  lineStyle: { width: Math.min(3, 0.4 + l.weight * 0.12),
+                               opacity: 0.22 },
+                })),
+            }],
+          });
+        });
+      },
+      /* Arrastrar los topes recorta la red: fuera los coautores con
+         menos conexiones que el umbral, y fuera tambien los enlaces
+         que se quedan sin uno de sus extremos. Antes el tirador se
+         movia sin consecuencia, que es peor que no tenerlo. */
       visualMap: {
         type: "continuous",
         min: 0, max: maxDeg,
@@ -273,6 +297,7 @@
         textStyle: { color: b.muted, fontSize: 11,
                      fontFamily: css("--ui", "Inter, sans-serif") },
         inRange: { color: ramp(6) },
+        outOfRange: { color: "transparent", opacity: 0 },
         handleStyle: { borderColor: b.rule },
       },
       animationDuration: 900,
@@ -342,6 +367,7 @@
                  formatter: (p) => `<b>${p.name}</b><br>${p.value} \u00b7 ${p.percent}%` },
       legend: { ...b.legend, orient: "vertical", right: 0, top: "middle",
                 left: "auto", data: leyenda },
+      series,
       /* El total iba como "graphic" anclado por su borde izquierdo, de
          modo que quedaba descentrado justo por media palabra. El
          componente "title" si admite textAlign, que convierte "left"
@@ -430,7 +456,7 @@
        termino, el arranque del titulo. */
     function rotulo(p) {
       if (p.acronym) return p.acronym;
-      const etq = p.label && (p.label[ctx.lang] || p.label.es);
+      const etq = p.label;           // cadena unica: un rotulo no se traduce
       if (etq) return etq;
       if (p.ref) return p.ref.split("-")[0];
       const titulo = (p[ctx.lang] || p.es || {}).title || "";

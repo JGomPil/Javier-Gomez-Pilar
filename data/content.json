@@ -47,7 +47,6 @@
    "rec.service": "Servicio y evaluación",
    "rec.ip": "Propiedad intelectual",
    "contact.h": "Contacto",
-   "contact.lede": "Colaboraciones, consultas de medios, y estudiantes que busquen TFG, TFM o doctorado.",
    "contact.dept": "Dpto. de Teoría de la Señal y Comunicaciones e Ingeniería Telemática",
    "contact.school": "E.T.S.I. de Telecomunicación, Universidad de Valladolid",
    "contact.profiles": "Perfiles",
@@ -124,7 +123,11 @@
    "g.countries.rank": "Ranking",
    "g.countries.pick": "Pulsa un país para ver sus instituciones",
    "g.countries.none": "Sin coautoría registrada",
-   "g.q.d1": "Primer decil"
+   "g.q.d1": "Primer decil",
+   "proj.active": "En curso",
+   "proj.funding": "Financiación",
+   "proj.ref": "Referencia",
+   "proj.ip": "IP"
   },
   "en": {
    "skip": "Skip to content",
@@ -166,7 +169,6 @@
    "rec.service": "Service and evaluation",
    "rec.ip": "Intellectual property",
    "contact.h": "Contact",
-   "contact.lede": "Collaborations, press enquiries, and students looking for a final-year project, a master’s thesis or a PhD.",
    "contact.dept": "Dept. of Signal Theory, Communications and Telematics Engineering",
    "contact.school": "School of Telecommunications Engineering, University of Valladolid",
    "contact.profiles": "Profiles",
@@ -243,7 +245,11 @@
    "g.countries.rank": "Ranking",
    "g.countries.pick": "Select a country to see its institutions",
    "g.countries.none": "No recorded co-authorship",
-   "g.q.d1": "First decile"
+   "g.q.d1": "First decile",
+   "proj.active": "Ongoing",
+   "proj.funding": "Funding",
+   "proj.ref": "Reference",
+   "proj.ip": "PI"
   }
  },
  "lines": [
@@ -311,10 +317,7 @@
     "title": "Identifying the neuropathological signatures of dementia through dynamic brain-network analysis",
     "note": "Predoctoral contract attached to the dementia line."
    },
-   "label": {
-    "es": "Demencia JCyL",
-    "en": "Dementia JCyL"
-   }
+   "label": "Demencia JCyL"
   },
   {
    "acronym": "",
@@ -330,10 +333,7 @@
     "title": "Precision medicine and advanced diagnosis of Stargardt disease in Spain",
     "note": ""
    },
-   "label": {
-    "es": "Stargardt",
-    "en": "Stargardt"
-   }
+   "label": "Stargardt"
   },
   {
    "acronym": "cALLIOPE",
@@ -417,7 +417,7 @@
    "amount": "346272"
   },
   {
-   "acronym": "",
+   "acronym": "Tattoo4Sleep",
    "role": "researcher",
    "from": "2023",
    "to": "2024",
@@ -429,10 +429,6 @@
    "en": {
     "title": "Comfortable tattoo skin electrodes for sleep disorder monitoring",
     "note": "Intramural project with IMB-CNM (CSIC)."
-   },
-   "label": {
-    "es": "Tatuaje EEG",
-    "en": "Tattoo EEG"
    }
   },
   {
@@ -515,10 +511,7 @@
    "en": {
     "title": "Artificial-intelligence predictive model for the course of COVID-19"
    },
-   "label": {
-    "es": "COVID-19",
-    "en": "COVID-19"
-   }
+   "label": "COVID-19"
   },
   {
    "acronym": "COGNITION",
@@ -582,10 +575,7 @@
    "en": {
     "title": "Characterising neuronal activity in Alzheimer’s disease through complex-network theory"
    },
-   "label": {
-    "es": "Alzhéimer-redes",
-    "en": "Alzheimer nets"
-   }
+   "label": "Alzhéimer"
   },
   {
    "acronym": "ESC-MEG",
@@ -616,10 +606,7 @@
    "en": {
     "title": "Brain-computer interface for cognitive training and home assistance against the effects of ageing"
    },
-   "label": {
-    "es": "BCI domótica",
-    "en": "BCI home"
-   }
+   "label": "BCI domótica"
   }
  ],
  "atenea": {

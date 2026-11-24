@@ -355,7 +355,8 @@ h1 {
 }
 .trace canvas {
   display: block; width: 100%;
-  height: clamp(120px, 15vw, 172px);
+  /* Fina a proposito: dice lo que tiene que decir en poco alto. */
+  height: clamp(74px, 9vw, 108px);
 }
 
 /* ── metrics ──────────────────────────────────────────────── */
@@ -1238,4 +1239,53 @@ h2[data-icon] {
   .h-icon,
   .line-icon { transition: color .25s ease, opacity .25s ease; }
   .line:hover .line-icon { color: var(--ink); }
+}
+
+/* Una clase con display:flex le gana al atributo hidden, que solo
+   lleva la hoja del navegador. Por eso la fila de cuartil seguia en
+   pantalla aunque el codigo la ocultase, y se podia marcar Q1 junto a
+   capitulos de libro. */
+[hidden] { display: none !important; }
+
+/* ── ficha de proyecto: vigencia, importe y referencia ───────── */
+
+/* Lo primero que se mira en una lista de proyectos es cuáles siguen
+   vivos, así que la marca va arriba y el borde izquierdo lo repite sin
+   depender del color para decirlo. */
+.project.live {
+  border-left: 2px solid var(--accent);
+  padding-left: .85rem;
+}
+
+.project.live:hover { padding-left: 1.45rem; }
+
+.live-tag {
+  display: inline-block;
+  margin-left: .5rem;
+  padding: .18rem .4rem;
+  font: 500 .6rem/1 var(--data);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  background: var(--accent-bg);
+  vertical-align: .1em;
+}
+
+.project .when .years { font-variant-numeric: tabular-nums; }
+
+.project .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .95rem;
+  margin-top: .45rem;
+  font: 400 .74rem/1.5 var(--data);
+  color: var(--muted);
+}
+
+.project .meta .amount { color: var(--ink-soft); }
+
+.project .meta .ref { letter-spacing: .02em; }
+
+@media (max-width: 36rem) {
+  .project.live { padding-left: .7rem; }
 }

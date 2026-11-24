@@ -65,104 +65,141 @@
      stack: slower and wider as they go. The subject of the research,
      drawn rather than illustrated. */
 
-  /* Un campo de líneas en flujo.
+  /* Un espectrograma de EEG.
    *
-   * Lo anterior imitaba un EEG y no convencía: un registro clínico
-   * dibujado a mano siempre se nota, y la comparación con el auténtico
-   * la pierde. Esto no finge ser un dato. Son líneas de nivel de un
-   * campo que se deforma despacio: la amplitud se abre en el centro de
-   * la banda y se cierra en los bordes, así que el conjunto respira
-   * como una lente.
+   * Tiempo de izquierda a derecha, frecuencia en vertical de 1 a 30 Hz,
+   * y el color es la potencia. No es un registro real — no lo seria
+   * aunque lo pareciese —, pero si respeta la fisica del que lo
+   * parece: fondo 1/f, porque la potencia del EEG cae con la
+   * frecuencia; una cresta alfa sobre los 10 Hz que va y viene, que es
+   * el rasgo que cualquiera reconoceria; y rachas ocasionales en theta
+   * y beta.
    *
-   * Dos reglas que lo mantienen sobrio: las líneas nunca se cruzan, y
-   * la opacidad es baja. Lo que se ve es el tejido, no cada hilo.
+   * La banda es fina a proposito. Lo anterior ocupaba demasiado alto
+   * para lo poco que decia.
    */
   function initTrace() {
     const canvas = $("#trace");
     if (!canvas) return;
-    const ctx = canvas.getContext("2d", { alpha: true });
-    if (!ctx) return;
+    const cx = canvas.getContext("2d", { alpha: false });
+    if (!cx) return;
 
-    const LINES = 22;
-    const STEP = 7;            // muestreo horizontal; la curva se interpola
+    const BINS = 46;            // franjas de frecuencia
+    const PASO = 2;             // px que avanza por fotograma
+    const F_MIN = 1, F_MAX = 30;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let w = 0, h = 0, raf = 0, visible = true;
+    let w = 0, h = 0, raf = 0, visible = true, dpr = 1;
+
+    function token(nombre, porDefecto) {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue(nombre).trim() || porDefecto;
+    }
+
+    function rgb(hex) {
+      const v = hex.replace("#", "");
+      const n = v.length === 3
+        ? v.split("").map((c) => parseInt(c + c, 16))
+        : [0, 2, 4].map((i) => parseInt(v.slice(i, i + 2), 16));
+      return n;
+    }
+
+    /* Rampa de un solo tono: del papel al acento, pasando por un punto
+       intermedio para que la cresta alfa despegue del fondo. */
+    let escala = [];
+    function construyeEscala() {
+      const fondo = rgb(token("--surface", "#dde3e7"));
+      const medio = rgb(token("--accent", "#1b4ea8"));
+      const alto = rgb(token("--ink", "#121d2b"));
+      escala = Array.from({ length: 64 }, (_, i) => {
+        const t = i / 63;
+        const [a, b2, k] = t < 0.62
+          ? [fondo, medio, t / 0.62]
+          : [medio, alto, (t - 0.62) / 0.38];
+        const m = (j) => Math.round(a[j] + (b2[j] - a[j]) * k);
+        return `rgb(${m(0)},${m(1)},${m(2)})`;
+      });
+    }
 
     function size() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = canvas.getBoundingClientRect();
-      w = Math.max(1, rect.width);
-      h = Math.max(1, rect.height);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = canvas.getBoundingClientRect();
+      w = Math.max(1, Math.round(r.width));
+      h = Math.max(1, Math.round(r.height));
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx.fillStyle = token("--surface", "#dde3e7");
+      cx.fillRect(0, 0, w, h);
     }
 
-    function token(name, fallback) {
-      return getComputedStyle(document.documentElement)
-        .getPropertyValue(name).trim() || fallback;
+    // Ruido suave: tres senoides lentas por franja, sin repeticion
+    // visible y sin coste.
+    function suave(f, t, fase) {
+      return 0.5 + 0.5 * (
+        Math.sin(t * 0.31 + f * 0.9 + fase) * 0.5
+        + Math.sin(t * 0.17 - f * 0.4 + fase * 1.7) * 0.3
+        + Math.sin(t * 0.07 + f * 2.1) * 0.2);
     }
 
-    /* Tres senoides inconmensurables: el patrón no se repite a la vista
-       y el cálculo sigue siendo trivial. */
-    function wave(x, t, phase) {
-      return Math.sin(x * 0.0062 + t * 0.21 + phase) * 1.00
-           + Math.sin(x * 0.0113 - t * 0.147 + phase * 1.7) * 0.52
-           + Math.sin(x * 0.0029 + t * 0.085 + phase * 0.6) * 0.78;
-    }
+    function columna(t) {
+      const alto = h / BINS;
+      // La cresta alfa respira: ni fija ni aleatoria.
+      const alfaGanancia = 0.45 + 0.55 * Math.pow(
+        Math.max(0, Math.sin(t * 0.21)), 2);
+      const thetaGanancia = 0.3 * Math.max(0, Math.sin(t * 0.13 + 2.1));
+      const betaGanancia = 0.22 * Math.max(0, Math.sin(t * 0.37 + 0.8));
 
-    function draw(elapsed) {
-      ctx.clearRect(0, 0, w, h);
-      const t = elapsed / 1000;
-      const accent = token("--accent", "#1b4ea8");
+      for (let i = 0; i < BINS; i++) {
+        // Abajo las frecuencias bajas, como se dibuja siempre.
+        const frac = i / (BINS - 1);
+        const hz = F_MIN + (F_MAX - F_MIN) * frac;
 
-      ctx.strokeStyle = accent;
-      ctx.lineWidth = 1;
-      ctx.lineJoin = "round";
-      ctx.lineCap = "round";
+        // Fondo 1/f: la potencia del EEG cae con la frecuencia.
+        let pot = 0.78 / Math.pow(hz, 0.62);
 
-      const mid = h / 2;
+        // Cresta alfa, centrada en 10 Hz y de un par de hercios de ancho.
+        pot += alfaGanancia * 0.52 * Math.exp(-Math.pow((hz - 10) / 1.7, 2));
+        // Theta y beta, mas tenues.
+        pot += thetaGanancia * 0.3 * Math.exp(-Math.pow((hz - 5.5) / 1.6, 2));
+        pot += betaGanancia * 0.26 * Math.exp(-Math.pow((hz - 21) / 4.5, 2));
 
-      for (let i = 0; i < LINES; i++) {
-        const k = i / (LINES - 1);            // 0 arriba, 1 abajo
-        const y0 = k * h;
+        pot *= 0.72 + 0.56 * suave(hz, t, i * 0.21);
 
-        // La amplitud se abre en el centro de la banda: coseno elevado,
-        // que llega a cero justo en los bordes y no los desborda.
-        const lens = Math.pow(Math.sin(k * Math.PI), 1.45);
-        const amp = (h * 0.21) * lens;
-
-        // Cada línea va un poco retrasada respecto a la anterior: eso es
-        // lo que hace que el conjunto parezca una superficie y no 22
-        // curvas sueltas.
-        const phase = k * 2.35;
-
-        ctx.globalAlpha = 0.07 + lens * 0.26;
-        ctx.beginPath();
-
-        for (let x = 0; x <= w + STEP; x += STEP) {
-          const y = y0 + (mid - y0) * 0.06 + wave(x, t, phase) * amp * 0.42;
-          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
+        const idx = Math.max(0, Math.min(63, Math.round(pot * 74)));
+        cx.fillStyle = escala[idx];
+        cx.fillRect(w - PASO, h - (i + 1) * alto, PASO, alto + 0.6);
       }
-
-      ctx.globalAlpha = 1;
     }
 
-    let t0 = 0;
-    function loop(time) {
-      if (!t0) t0 = time;
-      draw(time - t0);
+    let t0 = 0, t = 0;
+    function paso() {
+      // Desplaza lo ya dibujado y pinta solo la columna nueva: mover
+      // pixeles sale mucho mas barato que recalcular el cuadro entero.
+      cx.drawImage(canvas, 0, 0, canvas.width, canvas.height,
+                   -PASO, 0, w, h);
+      columna(t);
+      t += 0.06;
+    }
+
+    function loop(ahora) {
+      if (!t0) t0 = ahora;
+      paso();
       raf = visible && !reduce.matches ? requestAnimationFrame(loop) : 0;
     }
 
     function start() {
       if (raf) cancelAnimationFrame(raf);
+      construyeEscala();
       size();
-      t0 = 0;
-      // Un fotograma fijo sigue siendo una composición completa.
-      if (reduce.matches) { draw(2600); return; }
+      t = 0;
+      // Con movimiento reducido se dibuja el cuadro entero de una vez:
+      // sigue siendo un espectrograma, solo que quieto.
+      if (reduce.matches) {
+        for (let x = 0; x < Math.ceil(w / PASO); x++) paso();
+        return;
+      }
+      // Arranca con la banda ya llena, no con el lienzo vacio.
+      for (let x = 0; x < Math.ceil(w / PASO); x++) paso();
       raf = requestAnimationFrame(loop);
     }
 
@@ -556,16 +593,33 @@
       ? state.content.projects
       : state.content.projects.slice(0, limit);
 
+    // Un proyecto que acaba este ano o mas tarde sigue vivo. Se marca,
+    // porque es lo primero que se mira en una lista de proyectos.
+    const ahora = new Date().getFullYear();
+    const euros = new Intl.NumberFormat(
+      state.lang === "es" ? "es-ES" : "en-GB",
+      { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+
     host.innerHTML = visible.map((p) => {
       const P = p[state.lang];
+      const vivo = Number(p.to) >= ahora;
       const pi = roleLabel[p.role]
         ? `<span class="pi">${esc(roleLabel[p.role])}</span>`
         : "";
+      const datos = [
+        p.amount ? `<span class="amount">${esc(euros.format(Number(p.amount)))}</span>` : "",
+        p.ref ? `<span class="ref">${esc(p.ref)}</span>` : "",
+      ].filter(Boolean).join("");
+
       return `
-        <article class="project">
+        <article class="project${vivo ? " live" : ""}">
+          <p class="when">
+            <span class="years">${esc(p.from)}\u2013${esc(p.to)}</span>
+            ${vivo ? `<span class="live-tag">${esc(t("proj.active"))}</span>` : ""}
+          </p>
           <h3>${p.acronym ? `<span class="acronym">${esc(p.acronym)}</span>` : ""}${esc(P.title)}${pi}</h3>
-          <p>${esc(p.funder)}${P.note ? ` — ${esc(P.note)}` : ""}</p>
-          <p class="when">${esc(p.from)}–${esc(p.to)}</p>
+          <p class="funder">${esc(p.funder)}${P.note ? ` \u2014 ${esc(P.note)}` : ""}</p>
+          ${datos ? `<p class="meta">${datos}</p>` : ""}
         </article>`;
     }).join("");
 

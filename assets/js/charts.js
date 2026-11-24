@@ -112,7 +112,8 @@
         axisLine: { lineStyle: { color: rule } },
         axisTick: { show: false },
         splitLine: { lineStyle: { color: rule, type: [3, 4] } },
-        axisLabel: { color: muted, fontSize: 10, fontFamily: data },
+        // A 10 px no se leen en un panel que ocupa media pantalla.
+        axisLabel: { color: muted, fontSize: 12, fontFamily: data },
       },
       legend: {
         top: 0, left: 0, itemGap: 16, itemWidth: 10, itemHeight: 10,
@@ -145,14 +146,7 @@
   function mount(host, build, renderer) {
     const chart = window.echarts.init(host, null,
                                       { renderer: renderer || "svg" });
-    const option = build();
-    // Un gancho para lo que solo puede hacerse con el grafico ya
-    // creado, como escuchar sus eventos. No es una opcion de ECharts,
-    // asi que se saca antes de entregarsela.
-    const listo = option.__onReady;
-    delete option.__onReady;
-    chart.setOption(option);
-    if (listo) listo(chart);
+    chart.setOption(build());
     charts.push({ chart, host, build });
     return chart;
   }
@@ -261,45 +255,24 @@
         },
         scaleLimit: { min: 0.6, max: 3 },
       }],
-      __onReady: (chart) => {
-        chart.on("datarangeselected", (ev) => {
-          const [lo, hi] = ev.selected || [0, maxDeg];
-          const dentro = (i) => degree[i] >= lo && degree[i] <= hi;
-          chart.setOption({
-            series: [{
-              links: net.links
-                .filter((l) => dentro(l.source) && dentro(l.target))
-                .map((l) => ({
-                  source: l.source, target: l.target,
-                  lineStyle: { width: Math.min(3, 0.4 + l.weight * 0.12),
-                               opacity: 0.22 },
-                })),
-            }],
-          });
-        });
-      },
-      /* Arrastrar los topes recorta la red: fuera los coautores con
-         menos conexiones que el umbral, y fuera tambien los enlaces
-         que se quedan sin uno de sus extremos. Antes el tirador se
-         movia sin consecuencia, que es peor que no tenerlo. */
-      visualMap: {
-        type: "continuous",
-        min: 0, max: maxDeg,
-        dimension: "degree",
-        seriesIndex: 0,
-        calculable: true,
-        orient: "horizontal",
-        left: "center", bottom: 0,
-        itemWidth: 16, itemHeight: 150,
-        precision: 0,
-        text: [t("g.net.legend"), ""],
-        textGap: 8,
-        textStyle: { color: b.muted, fontSize: 11,
-                     fontFamily: css("--ui", "Inter, sans-serif") },
-        inRange: { color: ramp(6) },
-        outOfRange: { color: "transparent", opacity: 0 },
-        handleStyle: { borderColor: b.rule },
-      },
+      /* El tirador se va. Lo preguntaste dos veces y la respuesta
+         honesta es que no servia de nada util: recortar la red por
+         grado es una operacion de analista, no algo que un lector de
+         esta pagina vaya a querer. Queda lo que si informa, que es
+         saber que el tono mas oscuro es el mas conectado. */
+      graphic: [{
+        type: "group", right: 6, bottom: 4, silent: true,
+        children: [
+          { type: "text", left: 0, top: 0,
+            style: { text: t("g.net.legend"), fill: b.muted, fontSize: 11,
+                     fontFamily: css("--ui", "Inter, sans-serif") } },
+          ...ramp(4).map((color, i) => ({
+            type: "circle", left: i * 20, top: 19,
+            shape: { cx: 6, cy: 6, r: 4 + i * 1.2 },
+            style: { fill: color },
+          })),
+        ],
+      }],
       animationDuration: 900,
     }));
     return true;
@@ -435,6 +408,17 @@
           },
         },
         emphasis: { focus: "series" },
+        label: {
+          show: true,
+          position: "top",
+          fontSize: 12,
+          fontFamily: b.data,
+          color: b.ink,
+          // Solo el ultimo: un numero sobre cada punto es ruido.
+          formatter: (pt) => (pt.dataIndex === rows.length - 1
+            ? String(pt.value) : ""),
+        },
+        labelLayout: { hideOverlap: true },
       }],
       animationDuration: 800,
     }));
@@ -597,14 +581,14 @@
 
     host.querySelector(".back")?.addEventListener("click", () => {
       pintaPanel(null);
-      seleccionaEnMapa(null);
+      vistaMapa(null);
     });
     host.querySelectorAll("li[data-code]").forEach((li) => {
       const abre = () => {
         const p2 = rows.find((r) => r.code === li.dataset.code);
         if (!p2) return;
         pintaPanel(p2);
-        seleccionaEnMapa(p2.code);
+        vistaMapa(p2);
       };
       li.addEventListener("click", abre);
       li.addEventListener("keydown", (ev) => {
@@ -615,10 +599,74 @@
   }
 
   let mapaChart = null;
-  function seleccionaEnMapa(code) {
-    if (!mapaChart) return;
+  let mapaEstado = null;            // { rows, centro, marco, radio, porCodigo }
+
+  /* El encuadre de la vista mundial, el mismo que declara el geo. */
+  const MUNDO = { lon: [-168, 180], lat: [-56, 78] };
+
+  /* Zoom que hace que un pais llene el panel.
+   *
+   * No es el cociente de anchos sin mas: hay que respetar la
+   * dimension que peor encaja, o un pais ancho y bajo como Estados
+   * Unidos se saldria por arriba. El 0,78 deja aire alrededor.
+   */
+  function zoomPara(marco) {
+    const ancho = Math.max(0.6, marco[2] - marco[0]);
+    const alto = Math.max(0.6, marco[3] - marco[1]);
+    const z = Math.min((MUNDO.lon[1] - MUNDO.lon[0]) / ancho,
+                       (MUNDO.lat[1] - MUNDO.lat[0]) / alto) * 0.78;
+    return Math.max(1, Math.min(14, z));
+  }
+
+  /* Pasa a la vista de un pais: acerca el mapa a su encuadre y cambia
+     las burbujas de pais por las de sus centros. Sin pais, vuelve al
+     mundo. */
+  function vistaMapa(pais) {
+    if (!mapaChart || !mapaEstado) return;
+    const { rows, centro, marco, radio } = mapaEstado;
+
+    if (!pais) {
+      mapaChart.setOption({
+        geo: { center: null, zoom: 1 },
+        series: [
+          { id: "paises", data: burbujasPais(rows, centro, radio) },
+          { id: "centros", data: [] },
+        ],
+      });
+      mapaChart.dispatchAction({ type: "geoUnselect", name: undefined });
+      return;
+    }
+
+    const bb = marco.get(pais.code);
+    const centros = (pais.institutions || []).filter((c) => c.lat != null);
+    const tope = Math.max(1, ...centros.map((c) => c.works));
+
+    mapaChart.setOption({
+      geo: bb
+        ? { center: [(bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2],
+            zoom: zoomPara(bb) }
+        : {},
+      series: [
+        { id: "paises", data: [] },
+        {
+          id: "centros",
+          data: centros.map((c) => ({
+            name: c.name,
+            value: [c.lon, c.lat, c.works],
+            centro: c,
+          })),
+          symbolSize: (val) => 7 + 20 * Math.sqrt(val[2] / tope),
+        },
+      ],
+    });
     mapaChart.dispatchAction({ type: "geoUnselect", name: undefined });
-    if (code) mapaChart.dispatchAction({ type: "geoSelect", name: code });
+    mapaChart.dispatchAction({ type: "geoSelect", name: pais.code });
+  }
+
+  function burbujasPais(rows, centro, radio) {
+    return rows
+      .filter((r) => centro.get(r.code))
+      .map((r) => ({ name: r.code, value: [...centro.get(r.code), r.works] }));
   }
 
   function chartMap(host) {
@@ -627,10 +675,13 @@
     const b = base();
     const porCodigo = new Map(rows.map((r) => [r.code, r]));
     const tope = Math.max(...rows.map((r) => r.works));
+    const accent = css("--accent", "#1b4ea8");
 
     loadGeo().then((geo) => {
       const centro = new Map(
         geo.features.map((f) => [f.properties.name, f.properties.cp]));
+      const marco = new Map(
+        geo.features.map((f) => [f.properties.name, f.properties.bb]));
 
       // El area de la burbuja es proporcional al numero, no el radio:
       // de lo contrario Espana, con 107 frente a 24, se dibujaria
@@ -638,33 +689,46 @@
       // trabajos. La raiz cuadrada lo corrige.
       const radio = (n) => 5 + 24 * Math.sqrt(n / tope);
 
-      const burbujas = rows
-        .filter((r) => centro.get(r.code))
-        .map((r) => ({
-          name: r.code,
-          value: [...centro.get(r.code), r.works],
-          pais: r,
-        }));
+      mapaEstado = { rows, centro, marco, radio };
+
+      const marcador = (id, datos, tam) => ({
+        id,
+        type: "scatter",
+        coordinateSystem: "geo",
+        data: datos,
+        symbolSize: tam,
+        itemStyle: { color: accent, opacity: 0.6,
+                     borderColor: b.paper, borderWidth: 1.5 },
+        emphasis: { itemStyle: { opacity: 0.95 }, scale: 1.12 },
+        z: 5,
+      });
 
       mapaChart = mount(host, () => ({
         ...b,
         tooltip: {
           ...b.tooltip, trigger: "item",
           formatter: (pt) => {
+            if (pt.seriesId === "centros") {
+              const c = pt.data.centro || {};
+              return `<b>${esc(c.name)}</b><br>${c.works} `
+                + `${t("g.countries.works")}`
+                + (c.city ? `<br><span style="opacity:.6">${esc(c.city)}</span>` : "");
+            }
             const pais = porCodigo.get(pt.name);
             if (!pais) return "";
-            const centros = (pais.institutions || []).slice(0, 3)
+            const lista = (pais.institutions || []).slice(0, 3)
               .map((c) => `<br>\u00b7 ${esc(c.name)} (${c.works})`).join("");
             return `<b>${esc(pais.name)}</b> \u2014 ${pais.works} `
-              + `${t("g.countries.works")}${centros}`;
+              + `${t("g.countries.works")}${lista}`;
           },
         },
         geo: {
           map: "mundo",
           roam: true,
-          scaleLimit: { min: 1, max: 8 },
+          scaleLimit: { min: 1, max: 16 },
           // Sin la Antartida el mundo habitado ocupa el doble de alto.
-          boundingCoords: [[-168, 78], [180, -56]],
+          boundingCoords: [[MUNDO.lon[0], MUNDO.lat[1]],
+                           [MUNDO.lon[1], MUNDO.lat[0]]],
           itemStyle: { areaColor: b.surface, borderColor: b.rule,
                        borderWidth: 0.5 },
           emphasis: { label: { show: false },
@@ -674,30 +738,21 @@
                                  borderColor: b.ink, borderWidth: 1 } },
           selectedMode: "single",
         },
-        series: [{
-          type: "scatter",
-          coordinateSystem: "geo",
-          data: burbujas,
-          symbolSize: (val) => radio(val[2]),
-          itemStyle: {
-            color: css("--accent", "#1b4ea8"),
-            opacity: 0.62,
-            borderColor: b.paper,
-            borderWidth: 1.5,
-          },
-          emphasis: { itemStyle: { opacity: 0.95 }, scale: 1.12 },
-          z: 5,
-        }],
+        series: [
+          marcador("paises", burbujasPais(rows, centro, radio),
+                   (val) => radio(val[2])),
+          marcador("centros", [], 10),
+        ],
         animationDuration: 600,
+        animationDurationUpdate: 500,
       }), "canvas");
 
       if (!mapaChart) return;
-      const abre = (nombre) => {
-        const pais = porCodigo.get(nombre);
-        if (pais) { pintaPanel(pais); seleccionaEnMapa(pais.code); }
-      };
-      mapaChart.on("click", (pt) => abre(pt.name));
-      mapaChart.on("georoam", () => {});
+      mapaChart.on("click", (pt) => {
+        if (pt.seriesId === "centros") return;   // ya estamos dentro
+        const pais = porCodigo.get(pt.name);
+        if (pais) { pintaPanel(pais); vistaMapa(pais); }
+      });
     }).catch((err) => {
       console.error("mapa:", err);
       host.innerHTML = `<p class="chart-note">${esc(t("g.failed"))}</p>`;

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T23:21:39Z",
+ "generated": "2026-11-24T23:54:26Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -3206,51 +3206,115 @@
    "institutions": [
     {
      "name": "Universidad de Valladolid",
-     "works": 106
+     "works": 106,
+     "id": "I108103353",
+     "lat": 41.6554,
+     "lon": -4.7235,
+     "city": "Valladolid"
     },
     {
      "name": "Biomedical Research Networking Center in Bioengineering, Biomaterials and Nanomedicine",
-     "works": 45
+     "works": 45,
+     "id": "I4210105141",
+     "lat": 40.4165,
+     "lon": -3.7026,
+     "city": "Madrid"
     },
     {
      "name": "Hospital Clínico Universitario de Valladolid",
-     "works": 22
+     "works": 22,
+     "id": "I4210157802",
+     "lat": 41.6552,
+     "lon": -4.7237,
+     "city": "Valladolid"
     },
     {
      "name": "Universidad de Salamanca",
-     "works": 19
+     "works": 19,
+     "id": "I184999862",
+     "lat": 40.9688,
+     "lon": -5.6639,
+     "city": "Salamanca"
     },
     {
      "name": "Instituto de Neurociencias de Castilla y León",
-     "works": 18
+     "works": 18,
+     "id": "I4387156156",
+     "lat": 40.9688,
+     "lon": -5.6639,
+     "city": "Salamanca"
     },
     {
      "name": "Hospital Universitario Río Hortega",
-     "works": 17
+     "works": 17,
+     "id": "I4210158107",
+     "lat": 41.6552,
+     "lon": -4.7237,
+     "city": "Valladolid"
     },
     {
      "name": "Centro de Investigación Biomédica en Red",
-     "works": 12
+     "works": 12,
+     "id": "I4210115082",
+     "lat": 40.4165,
+     "lon": -3.7026,
+     "city": "Madrid"
     },
     {
      "name": "Instituto de Salud Carlos III",
-     "works": 7
+     "works": 7,
+     "id": "I2801357902",
+     "lat": 40.4165,
+     "lon": -3.7026,
+     "city": "Madrid"
     },
     {
      "name": "Centro de Investigación Biomédica en Red de Salud Mental",
-     "works": 4
+     "works": 4,
+     "id": "I4210090703",
+     "lat": 40.4755,
+     "lon": -3.69,
+     "city": "Madrid"
     },
     {
      "name": "Hospital Universitario 12 De Octubre",
-     "works": 4
+     "works": 4,
+     "id": "I4210101691",
+     "lat": 40.4165,
+     "lon": -3.7026,
+     "city": "Madrid"
     },
     {
      "name": "University of the Basque Country",
-     "works": 4
+     "works": 4,
+     "id": "I169108374",
+     "lat": 43.3269,
+     "lon": -2.9888,
+     "city": "Leioa"
     },
     {
      "name": "Hospital de Cruces",
-     "works": 3
+     "works": 3,
+     "id": "I4210137412",
+     "lat": 43.2964,
+     "lon": -2.9881,
+     "city": "Barakaldo"
+    },
+    {
+     "name": "Achucarro Basque Center for Neuroscience",
+     "works": 2,
+     "id": "I4210100306",
+     "lat": 43.3272,
+     "lon": -2.9814,
+     "city": "Leioa"
+    },
+    {
+     "name": "Complejo Asistencial Universitario de Palencia",
+     "works": 2,
+     "id": "I4210164720",
+     "lat": 42.3616,
+     "lon": -3.6856,
+     "city": "Palencia"
     }
    ]
   },
@@ -3261,51 +3325,99 @@
    "institutions": [
     {
      "name": "University of Ottawa",
-     "works": 24
+     "works": 24,
+     "id": "I153718931",
+     "lat": 45.4112,
+     "lon": -75.6981,
+     "city": "Ottawa"
     },
     {
      "name": "Institute of Mental Health Research",
-     "works": 20
+     "works": 20,
+     "id": "I4405262572",
+     "lat": 45.4112,
+     "lon": -75.6981,
+     "city": "Ottawa"
     },
     {
      "name": "uOttawa Brain and Mind Research Institute",
-     "works": 9
+     "works": 9,
+     "id": "I4401200329",
+     "lat": 45.4112,
+     "lon": -75.6981,
+     "city": "Ottawa"
     },
     {
      "name": "Royal Ottawa Mental Health Centre",
-     "works": 7
+     "works": 7,
+     "id": "I2800991225",
+     "lat": 45.4112,
+     "lon": -75.6981,
+     "city": "Ottawa"
     },
     {
      "name": "McGill University",
-     "works": 3
+     "works": 3,
+     "id": "I5023651",
+     "lat": 45.5088,
+     "lon": -73.5878,
+     "city": "Montreal"
     },
     {
      "name": "Institut Universitaire de Gériatrie de Montréal",
-     "works": 1
+     "works": 1,
+     "id": "I4210126907",
+     "lat": 45.4911,
+     "lon": -73.6237,
+     "city": "Montreal"
     },
     {
      "name": "McConnell Brain Imaging Centre",
-     "works": 1
+     "works": 1,
+     "id": "I4405290769",
+     "lat": 45.5088,
+     "lon": -73.5878,
+     "city": "Montreal"
     },
     {
      "name": "Montreal Neurological Institute and Hospital",
-     "works": 1
+     "works": 1,
+     "id": "I1292859797",
+     "lat": 45.5088,
+     "lon": -73.5878,
+     "city": "Montreal"
     },
     {
      "name": "Sunnybrook Research Institute",
-     "works": 1
+     "works": 1,
+     "id": "I4391768120",
+     "lat": 43.7064,
+     "lon": -79.3986,
+     "city": "Toronto"
     },
     {
      "name": "University of Toronto",
-     "works": 1
+     "works": 1,
+     "id": "I185261750",
+     "lat": 43.7064,
+     "lon": -79.3986,
+     "city": "Toronto"
     },
     {
      "name": "University of Waterloo",
-     "works": 1
+     "works": 1,
+     "id": "I151746483",
+     "lat": 43.4668,
+     "lon": -80.5164,
+     "city": "Waterloo"
     },
     {
      "name": "Western University",
-     "works": 1
+     "works": 1,
+     "id": "I125749732",
+     "lat": 42.9834,
+     "lon": -81.233,
+     "city": "London"
     }
    ]
   },
@@ -3316,39 +3428,75 @@
    "institutions": [
     {
      "name": "Zhejiang University",
-     "works": 16
+     "works": 16,
+     "id": "I76130692",
+     "lat": 30.2936,
+     "lon": 120.1614,
+     "city": "Hangzhou"
     },
     {
      "name": "Hangzhou Normal University",
-     "works": 11
+     "works": 11,
+     "id": "I163151501",
+     "lat": 30.2936,
+     "lon": 120.1614,
+     "city": "Hangzhou"
     },
     {
      "name": "Fudan University",
-     "works": 4
+     "works": 4,
+     "id": "I24943067",
+     "lat": 31.2222,
+     "lon": 121.4581,
+     "city": "Shanghai"
     },
     {
      "name": "Huashan Hospital",
-     "works": 4
+     "works": 4,
+     "id": "I4210159575",
+     "lat": 31.2222,
+     "lon": 121.4581,
+     "city": "Shanghai"
     },
     {
      "name": "Shenzhen University",
-     "works": 2
+     "works": 2,
+     "id": "I180726961",
+     "lat": 22.5455,
+     "lon": 114.0683,
+     "city": "Shenzhen"
     },
     {
      "name": "Frontiers Center for Brain Science of the Ministry of Education",
-     "works": 1
+     "works": 1,
+     "id": "I4405273316",
+     "lat": 31.2222,
+     "lon": 121.4581,
+     "city": "Shanghai"
     },
     {
      "name": "Fudan University Shanghai Cancer Center",
-     "works": 1
+     "works": 1,
+     "id": "I4210093194",
+     "lat": 31.2974,
+     "lon": 121.5036,
+     "city": "Shanghai"
     },
     {
      "name": "Shanghai Medical College of Fudan University",
-     "works": 1
+     "works": 1,
+     "id": "I133868755",
+     "lat": 31.2222,
+     "lon": 121.4581,
+     "city": "Shanghai"
     },
     {
      "name": "State Key Laboratory of Medical Neurobiology",
-     "works": 1
+     "works": 1,
+     "id": "I4391768195",
+     "lat": 31.2222,
+     "lon": 121.4581,
+     "city": "Shanghai"
     }
    ]
   },
@@ -3359,31 +3507,59 @@
    "institutions": [
     {
      "name": "Marshall University",
-     "works": 5
+     "works": 5,
+     "id": "I88694374",
+     "lat": 38.4192,
+     "lon": -82.4451,
+     "city": "Huntington"
     },
     {
      "name": "University of Missouri",
-     "works": 4
+     "works": 4,
+     "id": "I76835614",
+     "lat": 38.9517,
+     "lon": -92.3341,
+     "city": "Columbia"
     },
     {
      "name": "Michigan Medicine",
-     "works": 3
+     "works": 3,
+     "id": "I4210114445",
+     "lat": 42.2776,
+     "lon": -83.7409,
+     "city": "Ann Arbor"
     },
     {
      "name": "University of Michigan",
-     "works": 3
+     "works": 3,
+     "id": "I27837315",
+     "lat": 42.2776,
+     "lon": -83.7409,
+     "city": "Ann Arbor"
     },
     {
      "name": "Cornell University",
-     "works": 1
+     "works": 1,
+     "id": "I205783295",
+     "lat": 42.4406,
+     "lon": -76.4966,
+     "city": "Ithaca"
     },
     {
      "name": "Fox Chase Cancer Center",
-     "works": 1
+     "works": 1,
+     "id": "I1289437631",
+     "lat": 39.9524,
+     "lon": -75.1636,
+     "city": "Philadelphia"
     },
     {
      "name": "Temple University Health System",
-     "works": 1
+     "works": 1,
+     "id": "I4210122924",
+     "lat": 39.9524,
+     "lon": -75.1636,
+     "city": "Philadelphia"
     }
    ]
   },
@@ -3394,27 +3570,51 @@
    "institutions": [
     {
      "name": "University of Padua",
-     "works": 5
+     "works": 5,
+     "id": "I138689650",
+     "lat": 45.408,
+     "lon": 11.8859,
+     "city": "Padua"
     },
     {
      "name": "IRCCS Ospedale San Raffaele",
-     "works": 2
+     "works": 2,
+     "id": "I4210133214",
+     "lat": 45.4643,
+     "lon": 9.1895,
+     "city": "Milan"
     },
     {
      "name": "University of Bergamo",
-     "works": 2
+     "works": 2,
+     "id": "I11039511",
+     "lat": 45.696,
+     "lon": 9.6672,
+     "city": "Bergamo"
     },
     {
      "name": "Vita-Salute San Raffaele University",
-     "works": 2
+     "works": 2,
+     "id": "I154387261",
+     "lat": 45.4643,
+     "lon": 9.1895,
+     "city": "Milan"
     },
     {
      "name": "University of Chieti-Pescara",
-     "works": 1
+     "works": 1,
+     "id": "I39387349",
+     "lat": 42.3483,
+     "lon": 14.1649,
+     "city": "Chieti"
     },
     {
      "name": "University of Pavia",
-     "works": 1
+     "works": 1,
+     "id": "I25217355",
+     "lat": 45.1921,
+     "lon": 9.1592,
+     "city": "Pavia"
     }
    ]
   },
@@ -3425,19 +3625,35 @@
    "institutions": [
     {
      "name": "Universidade do Porto",
-     "works": 5
+     "works": 5,
+     "id": "I182534213",
+     "lat": 41.1485,
+     "lon": -8.611,
+     "city": "Porto"
     },
     {
      "name": "Centre for Health Technology and Services Research",
-     "works": 2
+     "works": 2,
+     "id": "I4210137384",
+     "lat": 41.1485,
+     "lon": -8.611,
+     "city": "Porto"
     },
     {
      "name": "Escola Superior de Saúde da Cruz Vermelha Portuguesa",
-     "works": 1
+     "works": 1,
+     "id": "I4210097948",
+     "lat": 38.7167,
+     "lon": -9.1333,
+     "city": "Lisbon"
     },
     {
      "name": "INESC TEC",
-     "works": 1
+     "works": 1,
+     "id": "I4210166615",
+     "lat": 41.1485,
+     "lon": -8.611,
+     "city": "Porto"
     }
    ]
   },
@@ -3448,39 +3664,75 @@
    "institutions": [
     {
      "name": "Forschungszentrum Jülich",
-     "works": 2
+     "works": 2,
+     "id": "I171892758",
+     "lat": 50.9215,
+     "lon": 6.3627,
+     "city": "Jülich"
     },
     {
      "name": "Heinrich Heine University Düsseldorf",
-     "works": 2
+     "works": 2,
+     "id": "I44260953",
+     "lat": 51.2232,
+     "lon": 6.7793,
+     "city": "Düsseldorf"
     },
     {
      "name": "Hertie Institute for Clinical Brain Research",
-     "works": 2
+     "works": 2,
+     "id": "I4210141865",
+     "lat": 48.5227,
+     "lon": 9.0522,
+     "city": "Tübingen"
     },
     {
      "name": "Max Planck Institute for Intelligent Systems",
-     "works": 2
+     "works": 2,
+     "id": "I4210135521",
+     "lat": 48.7823,
+     "lon": 9.177,
+     "city": "Stuttgart"
     },
     {
      "name": "Max Planck Society",
-     "works": 2
+     "works": 2,
+     "id": "I149899117",
+     "lat": 48.1374,
+     "lon": 11.5755,
+     "city": "Munich"
     },
     {
      "name": "University Hospital Cologne",
-     "works": 2
+     "works": 2,
+     "id": "I4210153755",
+     "lat": 50.9333,
+     "lon": 6.95,
+     "city": "Cologne"
     },
     {
      "name": "University of Cologne",
-     "works": 2
+     "works": 2,
+     "id": "I180923762",
+     "lat": 50.9333,
+     "lon": 6.95,
+     "city": "Cologne"
     },
     {
      "name": "German Center for Neurodegenerative Diseases",
-     "works": 1
+     "works": 1,
+     "id": "I2801533059",
+     "lat": 50.7344,
+     "lon": 7.0955,
+     "city": "Bonn"
     },
     {
      "name": "University of Tübingen",
-     "works": 1
+     "works": 1,
+     "id": "I8087733",
+     "lat": 48.5227,
+     "lon": 9.0522,
+     "city": "Tübingen"
     }
    ]
   },
@@ -3491,15 +3743,27 @@
    "institutions": [
     {
      "name": "Hiroshima University",
-     "works": 3
+     "works": 3,
+     "id": "I113306721",
+     "lat": 34.4,
+     "lon": 132.45,
+     "city": "Hiroshima"
     },
     {
      "name": "Hiroshima Bunkyo University",
-     "works": 1
+     "works": 1,
+     "id": "I131288541",
+     "lat": 34.4,
+     "lon": 132.45,
+     "city": "Hiroshima"
     },
     {
      "name": "Hokuto Hospital",
-     "works": 1
+     "works": 1,
+     "id": "I4210158229",
+     "lat": 34.95,
+     "lon": 137.1667,
+     "city": "Okazaki"
     }
    ]
   },
@@ -3510,7 +3774,11 @@
    "institutions": [
     {
      "name": "Universidad de Las Américas",
-     "works": 2
+     "works": 2,
+     "id": "I4210102282",
+     "lat": -0.2298,
+     "lon": -78.5249,
+     "city": "Quito"
     }
    ]
   },
@@ -3521,19 +3789,35 @@
    "institutions": [
     {
      "name": "Amsterdam Neuroscience",
-     "works": 1
+     "works": 1,
+     "id": "I4210108594",
+     "lat": 52.374,
+     "lon": 4.8897,
+     "city": "Amsterdam"
     },
     {
      "name": "Amsterdam UMC",
-     "works": 1
+     "works": 1,
+     "id": "I4210151833",
+     "lat": 52.374,
+     "lon": 4.8897,
+     "city": "Amsterdam"
     },
     {
      "name": "The Netherlands Cancer Institute",
-     "works": 1
+     "works": 1,
+     "id": "I2898336195",
+     "lat": 52.374,
+     "lon": 4.8897,
+     "city": "Amsterdam"
     },
     {
      "name": "Vrije Universiteit Amsterdam",
-     "works": 1
+     "works": 1,
+     "id": "I865915315",
+     "lat": 52.374,
+     "lon": 4.8897,
+     "city": "Amsterdam"
     }
    ]
   },
@@ -3544,7 +3828,11 @@
    "institutions": [
     {
      "name": "Moscow State University of Psychology & Education",
-     "works": 2
+     "works": 2,
+     "id": "I4210158193",
+     "lat": 55.7522,
+     "lon": 37.6156,
+     "city": "Moscow"
     }
    ]
   },
@@ -3555,7 +3843,11 @@
    "institutions": [
     {
      "name": "Ege University",
-     "works": 2
+     "works": 2,
+     "id": "I41641357",
+     "lat": 38.4127,
+     "lon": 27.1384,
+     "city": "Izmir"
     }
    ]
   },
@@ -3566,7 +3858,11 @@
    "institutions": [
     {
      "name": "University of Cambridge",
-     "works": 2
+     "works": 2,
+     "id": "I241749",
+     "lat": 52.2,
+     "lon": 0.1167,
+     "city": "Cambridge"
     }
    ]
   },
@@ -3577,7 +3873,11 @@
    "institutions": [
     {
      "name": "University of Vienna",
-     "works": 1
+     "works": 1,
+     "id": "I129774422",
+     "lat": 48.2085,
+     "lon": 16.3721,
+     "city": "Vienna"
     }
    ]
   },
@@ -3588,7 +3888,11 @@
    "institutions": [
     {
      "name": "University of Liège",
-     "works": 1
+     "works": 1,
+     "id": "I157674565",
+     "lat": 50.6337,
+     "lon": 5.5675,
+     "city": "Liège"
     }
    ]
   },
@@ -3599,7 +3903,11 @@
    "institutions": [
     {
      "name": "University of Eastern Finland",
-     "works": 1
+     "works": 1,
+     "id": "I175532246",
+     "lat": 62.6012,
+     "lon": 29.7632,
+     "city": "Joensuu"
     }
    ]
   },
@@ -3610,7 +3918,11 @@
    "institutions": [
     {
      "name": "Universitas Airlangga",
-     "works": 1
+     "works": 1,
+     "id": "I205133468",
+     "lat": -7.2492,
+     "lon": 112.7508,
+     "city": "Surabaya"
     }
    ]
   },
@@ -3621,7 +3933,11 @@
    "institutions": [
     {
      "name": "University of Bern",
-     "works": 1
+     "works": 1,
+     "id": "I118564535",
+     "lat": 46.9481,
+     "lon": 7.4474,
+     "city": "Bern"
     }
    ]
   }

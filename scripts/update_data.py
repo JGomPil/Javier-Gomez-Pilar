@@ -372,6 +372,7 @@ def openalex_countries(author_ids: list[str]) -> list[dict]:
             "name": row.get("key_display_name") or code,
             "works": count,
             "_inst": {},
+            "_ids": {},
         }
 
     # 2. Afiliaciones concretas, trabajo a trabajo.
@@ -389,28 +390,68 @@ def openalex_countries(author_ids: list[str]) -> list[dict]:
             # Un trabajo suma uno por centro, no uno por firmante: si
             # cinco autores comparten institucion, sigue siendo un
             # trabajo de esa institucion.
-            vistos: set[tuple[str, str]] = set()
+            vistos: set[tuple[str, str, str]] = set()
             for authorship in work.get("authorships") or []:
                 for inst in authorship.get("institutions") or []:
                     code = (inst.get("country_code") or "").upper()
                     nombre = (inst.get("display_name") or "").strip()
+                    ident = (inst.get("id") or "").rsplit("/", 1)[-1]
                     if code in paises and nombre:
-                        vistos.add((code, nombre))
-            for code, nombre in vistos:
+                        vistos.add((code, nombre, ident))
+            for code, nombre, ident in vistos:
                 centros = paises[code]["_inst"]
                 centros[nombre] = centros.get(nombre, 0) + 1
+                if ident:
+                    paises[code]["_ids"][nombre] = ident
 
         cursor = (payload.get("meta") or {}).get("next_cursor")
         if not cursor:
             break
 
     rows = []
+    por_id: dict[str, dict] = {}
     for pais in paises.values():
         centros = sorted(pais.pop("_inst").items(),
                          key=lambda kv: (-kv[1], kv[0]))
-        pais["institutions"] = [{"name": n, "works": w}
-                                for n, w in centros[:12]]
+        ids = pais.pop("_ids")
+        pais["institutions"] = []
+        for nombre, n in centros[:14]:
+            ficha = {"name": nombre, "works": n}
+            ident = ids.get(nombre)
+            if ident:
+                ficha["id"] = ident
+                por_id[ident] = ficha
+            pais["institutions"].append(ficha)
         rows.append(pais)
+
+    # 3. Coordenadas de cada centro, para poder marcarlo en el mapa.
+    #    OpenAlex acepta hasta 50 identificadores por peticion, asi que
+    #    esto son dos o tres llamadas, no una por institucion.
+    identificadores = sorted(por_id)
+    for i in range(0, len(identificadores), 50):
+        lote = identificadores[i:i + 50]
+        try:
+            payload = fetch_json(
+                "https://api.openalex.org/institutions"
+                f"?filter=ids.openalex:{'%7C'.join(lote)}"
+                "&select=id,display_name,geo&per-page=50")
+        except Exception as exc:
+            print(f"    sin coordenadas para un lote: {exc}", flush=True)
+            continue
+        for inst in payload.get("results") or []:
+            ident = (inst.get("id") or "").rsplit("/", 1)[-1]
+            geo = inst.get("geo") or {}
+            lat, lon = geo.get("latitude"), geo.get("longitude")
+            ficha = por_id.get(ident)
+            if ficha and lat is not None and lon is not None:
+                ficha["lat"] = round(float(lat), 4)
+                ficha["lon"] = round(float(lon), 4)
+                if geo.get("city"):
+                    ficha["city"] = geo["city"]
+
+    con_coords = sum(1 for f in por_id.values() if "lat" in f)
+    print(f"    {con_coords} de {len(por_id)} centros con coordenadas",
+          flush=True)
 
     rows.sort(key=lambda r: (-r["works"], r["name"]))
     return rows

@@ -204,13 +204,38 @@
         <h2 data-i18n="contact.h">Contacto</h2>
         <div class="two">
           <div>
-            <p class="lede" data-i18n="contact.lede">Abierto a colaboraciones en neurociencia computacional y a consultas de medios. Los estudiantes interesados en un TFG, TFM o doctorado pueden escribirme directamente.</p>
+            <p class="lede" data-i18n="contact.lede">Abierto a colaboraciones en neurociencia computacional y a consultas de medios. Los estudiantes interesados en un TFG, TFM o doctorado pueden escribirme por aquí.</p>
+
+            <form class="form" id="contact-form">
+              <div class="field">
+                <label for="cf-name" data-i18n="form.name">Nombre</label>
+                <input type="text" id="cf-name" name="name" required autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="cf-email" data-i18n="form.email">Tu correo</label>
+                <input type="email" id="cf-email" name="email" required autocomplete="email">
+              </div>
+              <div class="field">
+                <label for="cf-subject" data-i18n="form.subject">Asunto</label>
+                <input type="text" id="cf-subject" name="subject" data-i18n-ph="form.subject.ph">
+              </div>
+              <div class="field">
+                <label for="cf-message" data-i18n="form.message">Mensaje</label>
+                <textarea id="cf-message" name="message" rows="5" required></textarea>
+              </div>
+              <!-- Trampa anti-spam: invisible para personas, tentadora para bots. -->
+              <input type="checkbox" name="botcheck" id="cf-botcheck" class="botcheck" tabindex="-1" aria-hidden="true">
+              <div class="form-foot">
+                <button type="submit" id="cf-send" data-i18n="form.send">Enviar</button>
+                <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+              </div>
+              <p class="form-privacy" data-i18n="form.privacy">Tu mensaje me llega por correo. No guardo tus datos ni los uso para nada más.</p>
+            </form>
+
             <address class="addr">
-              <a class="mail" href="mailto:javier.gomez.pilar@uva.es">javier.gomez.pilar@uva.es</a>
               <span data-i18n="contact.dept">Dpto. de Teoría de la Señal y Comunicaciones e Ingeniería Telemática</span>
               <span data-i18n="contact.school">E.T.S.I. de Telecomunicación, Universidad de Valladolid</span>
               <span>Paseo de Belén 15, 47011 Valladolid, España</span>
-              <a href="tel:+34983185667">+34 983 185 667</a>
             </address>
           </div>
           <div>

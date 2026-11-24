@@ -18,6 +18,7 @@
     profile: null,
     filter: "all",
     query: "",
+    expanded: { pubs: false, projects: false, awards: false },
   };
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -343,6 +344,37 @@
     }).join("");
   }
 
+  /* ── collapsing long lists ───────────────────────────────── */
+  /* Every long list shows a head and keeps the rest one click away,
+     so the page can be skimmed without scrolling past 68 entries. */
+
+  function appendToggle(host, opts) {
+    const { total, limit, flag, moreKey, lessKey, rerender } = opts;
+    if (total <= limit) return;
+    const expanded = state.expanded[flag];
+    const count = opts.remaining ?? total;
+    const label = expanded
+      ? t(lessKey)
+      : t(moreKey).replace("{n}", nf().format(count));
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "more";
+    button.setAttribute("aria-expanded", String(expanded));
+    button.textContent = label;
+    button.addEventListener("click", () => {
+      state.expanded[flag] = !state.expanded[flag];
+      rerender();
+      // Keep the button under the thumb instead of jumping to the top.
+      const again = host.querySelector(".more");
+      if (again) {
+        again.focus({ preventScroll: true });
+        again.scrollIntoView({ block: "center", behavior: "auto" });
+      }
+    });
+    host.appendChild(button);
+  }
+
   /* ── publications ────────────────────────────────────────── */
 
   function highlightName(authors) {
@@ -373,8 +405,13 @@
     const all = state.profile.publications;
     const shown = all.filter(matches);
 
+    // A search is already a narrowing, so it is never capped on top.
+    const limit = state.content.collapse?.publications ?? 12;
+    const cap = !state.expanded.pubs && !state.query && shown.length > limit;
+    const visible = cap ? shown.slice(0, limit) : shown;
+
     counter.textContent = t("pub.count")
-      .replace("{n}", nf().format(shown.length))
+      .replace("{n}", nf().format(visible.length))
       .replace("{total}", nf().format(all.length));
 
     if (!shown.length) {
@@ -386,7 +423,7 @@
 
     let html = "";
     let year = null;
-    for (const pub of shown) {
+    for (const pub of visible) {
       if (pub.year !== year) {
         year = pub.year;
         html += `<p class="pub-year">${year}</p>`;
@@ -421,12 +458,21 @@
         </article>`;
     }
     host.innerHTML = html;
+
+    if (!state.query) {
+      appendToggle(host, {
+        total: shown.length, limit,
+        flag: "pubs", moreKey: "more.pubs", lessKey: "less.pubs",
+        rerender: renderPublications,
+      });
+    }
   }
 
   function initFilters() {
     $$(".chips button").forEach((btn) => {
       btn.addEventListener("click", () => {
         state.filter = btn.dataset.filter;
+        state.expanded.pubs = false;
         $$(".chips button").forEach((b) => {
           b.setAttribute("aria-pressed", String(b === btn));
         });
@@ -452,7 +498,13 @@
       "ip": state.lang === "es" ? "Investigador principal" : "Principal investigator",
     };
 
-    host.innerHTML = state.content.projects.map((p) => {
+    const limit = state.content.collapse?.projects ?? 5;
+    const total = state.content.projects.length;
+    const visible = state.expanded.projects
+      ? state.content.projects
+      : state.content.projects.slice(0, limit);
+
+    host.innerHTML = visible.map((p) => {
       const P = p[state.lang];
       const pi = roleLabel[p.role]
         ? `<span class="pi">${esc(roleLabel[p.role])}</span>`
@@ -464,6 +516,13 @@
           <p class="when">${esc(p.from)}–${esc(p.to)}</p>
         </article>`;
     }).join("");
+
+    appendToggle(host, {
+      total, limit, flag: "projects",
+      moreKey: "more.generic", lessKey: "less.generic",
+      remaining: total - limit,
+      rerender: renderProjects,
+    });
   }
 
   /* ── teaching & supervision ──────────────────────────────── */
@@ -529,6 +588,7 @@
   function renderRecognition() {
     const awardsHost = $("#awards-list");
     if (awardsHost) {
+      awardsHost.parentNode.querySelector(".more")?.remove();
       // Entries the scraper could not attribute by full surname are shown only
       // when the CV corroborates them (content.json → awards_confirmed_by_cv).
       const allow = state.content.awards_confirmed_by_cv || [];
@@ -544,9 +604,19 @@
       const awards = [...scraped, ...extra]
         .sort((a, b) => (b.year || 0) - (a.year || 0));
 
-      awardsHost.innerHTML = awards.map((a) => `
+      const limit = state.content.collapse?.awards ?? 5;
+      const visible = state.expanded.awards ? awards : awards.slice(0, limit);
+
+      awardsHost.innerHTML = visible.map((a) => `
         <li><span class="yr">${a.year || "—"}</span><span>${esc(a.text)}</span></li>
       `).join("");
+
+      appendToggle(awardsHost.parentNode, {
+        total: awards.length, limit, flag: "awards",
+        moreKey: "more.generic", lessKey: "less.generic",
+        remaining: awards.length - limit,
+        rerender: renderRecognition,
+      });
     }
 
     const serviceHost = $("#service-list");
@@ -562,6 +632,83 @@
     }
   }
 
+  /* ── contact form ────────────────────────────────────────── */
+  /* The email address is deliberately absent from the page. The form
+     posts to Web3Forms, which relays the message without the address
+     ever appearing in the HTML. The access key is a public token. */
+
+  function formConfigured() {
+    const key = (state.content.contact_form || {}).access_key || "";
+    return key && key !== "PENDIENTE";
+  }
+
+  function renderFormState() {
+    const form = $("#contact-form");
+    const status = $("#cf-status");
+    const button = $("#cf-send");
+    if (!form || !status || !button) return;
+
+    if (formConfigured()) {
+      form.classList.remove("unconfigured");
+      button.disabled = false;
+      if (status.dataset.state !== "sent") status.textContent = "";
+      return;
+    }
+    // Never fail silently: say it is not wired up and point elsewhere.
+    form.classList.add("unconfigured");
+    button.disabled = true;
+    status.textContent = t("form.nokey");
+    status.className = "form-status warn";
+  }
+
+  function initForm() {
+    const form = $("#contact-form");
+    if (!form) return;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!formConfigured()) return;
+
+      const cfg = state.content.contact_form;
+      const status = $("#cf-status");
+      const button = $("#cf-send");
+      const data = new FormData(form);
+
+      // The honeypot is invisible, so only a bot fills it.
+      if (data.get("botcheck")) {
+        status.textContent = t("form.ok");
+        form.reset();
+        return;
+      }
+      data.delete("botcheck");
+      data.append("access_key", cfg.access_key);
+      if (!data.get("subject")) data.set("subject", "Mensaje desde la web");
+
+      button.disabled = true;
+      status.className = "form-status";
+      status.textContent = t("form.sending");
+
+      try {
+        const res = await fetch(cfg.endpoint, { method: "POST", body: data });
+        const body = await res.json().catch(() => ({}));
+        if (res.ok && body.success) {
+          form.reset();
+          status.className = "form-status ok";
+          status.textContent = t("form.ok");
+          status.dataset.state = "sent";
+        } else {
+          throw new Error(body.message || `HTTP ${res.status}`);
+        }
+      } catch (err) {
+        console.error("Contact form failed:", err);
+        status.className = "form-status err";
+        status.textContent = t("form.err");
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+
   /* ── boot ────────────────────────────────────────────────── */
 
   function renderAll() {
@@ -574,6 +721,7 @@
     renderAtenea();
     renderTeaching();
     renderRecognition();
+    renderFormState();
   }
 
   async function boot() {
@@ -599,6 +747,7 @@
 
     initLang();
     initFilters();
+    initForm();
     renderAll();
 
     window.addEventListener("resize", () => {

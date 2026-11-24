@@ -660,6 +660,83 @@ h3:first-child { margin-top: 0; }
 .service a { color: var(--ink-soft); }
 .service a:hover { color: var(--accent); }
 
+/* ── "show more" ──────────────────────────────────────────── */
+
+.more {
+  align-self: start;
+  margin-top: 1.4rem;
+  font: 500 .72rem/1 var(--data);
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: .72rem 1.15rem; cursor: pointer;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+  transition: color .2s var(--ease), background-color .2s var(--ease);
+}
+.more:hover { background: var(--ink); color: var(--paper); }
+
+/* ── contact form ─────────────────────────────────────────── */
+
+.form {
+  display: grid; gap: 1.1rem;
+  max-width: 30rem;
+  margin: 0 0 2.4rem;
+}
+.field { display: grid; gap: .4rem; min-width: 0; }
+.field label {
+  font: 500 .685rem/1.4 var(--data);
+  letter-spacing: .13em; text-transform: uppercase;
+  color: var(--muted);
+}
+.field input,
+.field textarea {
+  font: 400 .95rem/1.5 var(--ui);
+  color: var(--ink); background: transparent;
+  padding: .55rem 0;
+  border: 0; border-bottom: 1px solid var(--rule); border-radius: 0;
+  transition: border-color .2s var(--ease);
+  min-width: 0; width: 100%;
+}
+.field textarea { resize: vertical; }
+.field input:focus,
+.field textarea:focus { outline: 0; border-bottom-color: var(--accent); }
+.field input:user-invalid,
+.field textarea:user-invalid { border-bottom-color: #b4442f; }
+
+/* The honeypot must be reachable by a bot and invisible to a person. */
+.botcheck {
+  position: absolute; left: -9999px;
+  width: 1px; height: 1px; opacity: 0; pointer-events: none;
+}
+
+.form-foot {
+  display: flex; flex-wrap: wrap; gap: .9rem 1.2rem;
+  align-items: center; margin-top: .4rem;
+}
+.form-foot button {
+  font: 500 .72rem/1 var(--data);
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: .85rem 1.6rem; cursor: pointer;
+  color: var(--paper); background: var(--ink);
+  border: 1px solid var(--ink);
+  transition: background-color .2s var(--ease), color .2s var(--ease), opacity .2s var(--ease);
+}
+.form-foot button:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
+.form-foot button:disabled { opacity: .4; cursor: not-allowed; }
+
+.form-status {
+  margin: 0; font-size: .85rem; color: var(--ink-soft);
+  min-width: 0; flex: 1 1 12rem;
+}
+.form-status.ok { color: var(--accent-ink); }
+.form-status.err { color: #b4442f; }
+.form-status.warn { color: var(--muted); }
+.form-privacy {
+  margin: 0; font: 400 .715rem/1.6 var(--data);
+  color: var(--muted); max-width: 42ch;
+}
+.form.unconfigured .field { opacity: .55; }
+
 /* ── contact ──────────────────────────────────────────────── */
 
 .addr {

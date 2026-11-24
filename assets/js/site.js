@@ -750,11 +750,6 @@
     initForm();
     renderAll();
 
-    window.addEventListener("jgp:skinchange", () => {
-      renderChart();
-      state.repaintTrace?.();
-    });
-
     window.addEventListener("resize", () => {
       clearTimeout(window.__chartTimer);
       window.__chartTimer = setTimeout(renderChart, 180);

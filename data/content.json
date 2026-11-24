@@ -15,8 +15,7 @@
    "nav.teaching": "Docencia",
    "nav.recognition": "Reconocimiento",
    "nav.contact": "Contacto",
-   "hero.eyebrow": "Universidad de Valladolid · CIBER-BBN",
-   "hero.role": "Profesor Contratado Doctor · Grupo de Ingeniería Biomédica",
+   "hero.eyebrow": "Neurociencia computacional · Procesado de señales biomédicas",
    "hero.thesis": "El cerebro tiene escalas de tiempo propias. Mido cómo se desajustan en la esquizofrenia, la demencia, la migraña y la apnea del sueño, y convierto ese desajuste en biomarcadores que un clínico pueda usar.",
    "m.jcr": "Artículos JCR",
    "m.jcr.src": "GIB-UVa",
@@ -83,7 +82,9 @@
    "more.pubs": "Ver las {n} publicaciones",
    "less.pubs": "Ver solo las recientes",
    "more.generic": "Ver {n} más",
-   "less.generic": "Ver menos"
+   "less.generic": "Ver menos",
+   "hero.pos": "Profesor Contratado Doctor",
+   "hero.group": "Grupo de Ingeniería Biomédica, UVa"
   },
   "en": {
    "skip": "Skip to content",
@@ -93,8 +94,7 @@
    "nav.teaching": "Teaching",
    "nav.recognition": "Recognition",
    "nav.contact": "Contact",
-   "hero.eyebrow": "University of Valladolid · CIBER-BBN",
-   "hero.role": "Associate Professor · Biomedical Engineering Group",
+   "hero.eyebrow": "Computational neuroscience · Biomedical signal processing",
    "hero.thesis": "The brain runs on timescales of its own. I measure how they fall out of step in schizophrenia, dementia, migraine and sleep apnoea, and turn that mistiming into biomarkers a clinician can act on.",
    "m.jcr": "JCR articles",
    "m.jcr.src": "GIB-UVa",
@@ -161,7 +161,9 @@
    "more.pubs": "Show all {n} publications",
    "less.pubs": "Show recent only",
    "more.generic": "Show {n} more",
-   "less.generic": "Show less"
+   "less.generic": "Show less",
+   "hero.pos": "Associate Professor",
+   "hero.group": "Biomedical Engineering Group, UVa"
   }
  },
  "lines": [

@@ -125,16 +125,23 @@
         </figure>
 
         <div class="controls">
-          <div class="chips" role="group" aria-label="Filtros">
-            <button type="button" data-filter="all" aria-pressed="true" data-i18n="f.all">Todas</button>
-            <button type="button" data-filter="q1" aria-pressed="false" data-i18n="f.q1">Q1</button>
-            <button type="button" data-filter="d1" aria-pressed="false" data-i18n="f.d1">Primer decil</button>
-            <button type="button" data-filter="first" aria-pressed="false" data-i18n="f.first">Primer autor</button>
+          <div class="filter-row">
+            <p class="filter-label" data-i18n="f.kind">Tipo</p>
+            <div class="chips" id="kind-chips" role="group" aria-label="Tipo de publicación"></div>
           </div>
-          <label class="search">
-            <span class="sr" data-i18n="f.search">Buscar</span>
-            <input type="search" id="pub-search" placeholder="Buscar título, revista, coautor…" data-i18n-ph="f.search.ph">
-          </label>
+          <div class="filter-row">
+            <p class="filter-label" data-i18n="f.quality">Filtrar</p>
+            <div class="chips" id="qual-chips" role="group" aria-label="Filtros">
+              <button type="button" data-filter="all" aria-pressed="true" data-i18n="f.all">Todas</button>
+              <button type="button" data-filter="q1" aria-pressed="false" data-i18n="f.q1">Q1</button>
+              <button type="button" data-filter="d1" aria-pressed="false" data-i18n="f.d1">Primer decil</button>
+              <button type="button" data-filter="first" aria-pressed="false" data-i18n="f.first">Primer autor</button>
+            </div>
+            <label class="search">
+              <span class="sr" data-i18n="f.search">Buscar</span>
+              <input type="search" id="pub-search" placeholder="Buscar título, revista, coautor…" data-i18n-ph="f.search.ph">
+            </label>
+          </div>
         </div>
 
         <p class="count" id="pub-count" aria-live="polite"></p>

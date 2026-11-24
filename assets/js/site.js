@@ -17,6 +17,7 @@
     content: null,
     profile: null,
     filter: "all",
+    kinds: new Set(["journal"]),   // arranca priorizando los JCR
     query: "",
     expanded: { pubs: false, projects: false, awards: false },
   };
@@ -64,13 +65,28 @@
      stack: slower and wider as they go. The subject of the research,
      drawn rather than illustrated. */
 
+  /* Un EEG, no una onda decorativa. Seis derivaciones del montaje
+     longitudinal, cada una con su propia mezcla de ritmos: delta y theta
+     de fondo, husos de alfa que aparecen y se van, beta rapido encima y
+     alguna punta aislada. El trazado corre hacia la izquierda como en un
+     registro real. */
   function initTrace() {
     const canvas = $("#trace");
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    const LAYERS = 7;
+    const CHANNELS = [
+      { label: "Fp1-F3", alpha: 0.22, beta: 0.55, theta: 0.80, spikes: 0.00 },
+      { label: "F3-C3",  alpha: 0.45, beta: 0.40, theta: 0.60, spikes: 0.00 },
+      { label: "C3-P3",  alpha: 0.70, beta: 0.30, theta: 0.45, spikes: 0.35 },
+      { label: "P3-O1",  alpha: 1.00, beta: 0.22, theta: 0.35, spikes: 0.00 },
+      { label: "T3-T5",  alpha: 0.35, beta: 0.48, theta: 0.70, spikes: 0.55 },
+      { label: "Fz-Cz",  alpha: 0.30, beta: 0.52, theta: 0.75, spikes: 0.00 },
+    ];
+    const SPEED = 42;          // pixeles por segundo, como la velocidad de barrido
+    const STEP = 1.5;          // resolucion horizontal del trazo
+
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let w = 0, h = 0, raf = 0, visible = true;
 
@@ -84,67 +100,119 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function accent() {
+    function token(name, fallback) {
       return getComputedStyle(document.documentElement)
-        .getPropertyValue("--accent").trim() || "#0d5c62";
+        .getPropertyValue(name).trim() || fallback;
     }
 
-    function draw(time) {
-      const colour = accent();
+    /* Ruido suave y reproducible: suma de senoides inconmensurables, de
+       modo que el trazo no se repita a la vista pero sea el mismo en cada
+       fotograma para una misma posicion. */
+    function band(t, seed, freq, n) {
+      let v = 0;
+      for (let k = 1; k <= n; k++) {
+        v += Math.sin(t * freq * (1 + k * 0.37) + seed * (k + 1.7)) / k;
+      }
+      return v / n;
+    }
+
+    /* Los husos de alfa van y vienen: una envolvente lenta que pasa por
+       cero, como en un registro con ojos cerrados de forma intermitente. */
+    function spindle(t, seed) {
+      const env = Math.sin(t * 0.21 + seed) * Math.sin(t * 0.073 + seed * 2.1);
+      return Math.max(0, env);
+    }
+
+    function draw(elapsed) {
       ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = token("--accent", "#1b4ea8");
       ctx.lineWidth = 1;
-      ctx.strokeStyle = colour;
       ctx.lineJoin = "round";
+      ctx.lineCap = "round";
 
-      const mid = h / 2;
-      for (let i = 0; i < LAYERS; i++) {
-        const scale = 1 + i * 1.45;          // the timescale itself
-        const amp = mid * (0.15 + i * 0.052);
-        const freq = 0.015 / scale;
-        const drift = time * 0.00013 * (1 / scale);
+      const rows = CHANNELS.length;
+      const pad = h * 0.07;
+      const labels = w > 460;            // en movil estorban mas que informan
+      const left = labels ? 54 : 0;
+      const lane = (h - pad * 2) / rows;
+      const gain = lane * 0.40;
+      const shift = elapsed * SPEED / 1000;
 
-        ctx.globalAlpha = 0.46 - i * 0.052;
+      if (labels) {
+        ctx.save();
+        ctx.font = '500 9px ui-monospace, SFMono-Regular, Menlo, monospace';
+        ctx.fillStyle = token("--muted", "#62748a");
+        ctx.textBaseline = "middle";
+        CHANNELS.forEach((ch, i) => {
+          ctx.fillText(ch.label, 0, pad + lane * (i + 0.5));
+        });
+        ctx.restore();
+      }
+
+      CHANNELS.forEach((ch, i) => {
+        const mid = pad + lane * (i + 0.5);
+        const seed = i * 2.7 + 1.3;
+
+        ctx.globalAlpha = 0.30 + (rows - i) * 0.035;
         ctx.beginPath();
-        for (let x = 0; x <= w; x += 2) {
-          const y = mid
-            + Math.sin(x * freq + drift * 7) * amp
-            + Math.sin(x * freq * 2.4 + drift * 4) * amp * 0.28;
-          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+
+        for (let x = left; x <= w; x += STEP) {
+          const t = (x + shift) / 26;        // tiempo en el eje horizontal
+
+          // Delta y theta: el fondo lento sobre el que va todo lo demas.
+          let v = band(t, seed, 0.30, 2) * ch.theta * 1.05
+                + band(t, seed + 9, 0.12, 2) * 0.55;
+
+          // Alfa en husos, el ritmo dominante en las derivaciones posteriores.
+          v += Math.sin(t * 2.05 + seed) * spindle(t, seed) * ch.alpha * 0.95;
+
+          // Beta: la textura rapida de poca amplitud.
+          v += band(t, seed + 21, 4.4, 2) * ch.beta * 0.30;
+
+          // Alguna punta aislada, estrecha y de amplitud alta.
+          if (ch.spikes) {
+            const phase = (t * 0.085 + seed * 0.31) % 1;
+            if (phase < 0.03) {
+              const k = phase / 0.03;
+              v -= Math.sin(k * Math.PI) * ch.spikes * 2.3;
+            }
+          }
+
+          const y = mid + v * gain;
+          if (x === left) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
         ctx.stroke();
-      }
+      });
+
       ctx.globalAlpha = 1;
     }
 
+    let t0 = 0;
     function loop(time) {
-      draw(time);
+      if (!t0) t0 = time;
+      draw(time - t0);
       raf = visible && !reduce.matches ? requestAnimationFrame(loop) : 0;
     }
 
     function start() {
       if (raf) cancelAnimationFrame(raf);
       size();
-      if (reduce.matches) { draw(0); return; }   // a still frame, still complete
+      t0 = 0;
+      if (reduce.matches) { draw(0); return; }   // un fotograma fijo, completo
       raf = requestAnimationFrame(loop);
     }
 
-    // Stop the loop while the strip is off screen.
+    // Para el bucle mientras la franja esta fuera de pantalla.
     if ("IntersectionObserver" in window) {
       new IntersectionObserver((entries) => {
         visible = entries[0].isIntersecting;
-        if (visible && !raf) start(); else if (!visible && raf) {
-          cancelAnimationFrame(raf); raf = 0;
-        }
+        if (visible && !raf) start();
+        else if (!visible && raf) { cancelAnimationFrame(raf); raf = 0; }
       }, { rootMargin: "120px" }).observe(canvas);
     }
-
+    window.addEventListener("resize", start, { passive: true });
     reduce.addEventListener?.("change", start);
-    window.addEventListener("resize", () => {
-      clearTimeout(window.__traceTimer);
-      window.__traceTimer = setTimeout(start, 180);
-    });
 
-    start();
     return start;
   }
 
@@ -387,6 +455,7 @@
   }
 
   function matches(pub) {
+    if (state.kinds.size && !state.kinds.has(pub.kind || "journal")) return false;
     if (state.filter === "q1" && pub.quartile !== "Q1") return false;
     if (state.filter === "d1" && !pub.top_decile) return false;
     if (state.filter === "first" && !isFirstAuthor(pub)) return false;
@@ -395,6 +464,38 @@
       if (!hay.includes(state.query)) return false;
     }
     return true;
+  }
+
+  /* Las categorias se marcan como las casillas de GIB: varias a la vez.
+     Ninguna marcada equivale a todas, para que la lista nunca quede vacia
+     sin que el usuario lo haya pedido. */
+  function renderKindChips() {
+    const host = $("#kind-chips");
+    if (!host) return;
+    const counts = state.profile.metrics.by_kind || {};
+    const order = ["journal", "book", "conf_int", "conf_nat", "conf_teach",
+                   "journal_other"];
+
+    host.innerHTML = order
+      .filter((kind) => counts[kind])
+      .map((kind) => {
+        const on = state.kinds.has(kind);
+        return `<button type="button" data-kind="${kind}" aria-pressed="${on}">`
+          + `${esc(t("k." + kind))}<span class="chip-n">${counts[kind]}</span>`
+          + `</button>`;
+      }).join("");
+
+    host.querySelectorAll("button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const kind = btn.dataset.kind;
+        if (state.kinds.has(kind)) state.kinds.delete(kind);
+        else state.kinds.add(kind);
+        if (!state.kinds.size) state.kinds.add("journal");   // nunca vacio
+        state.expanded.pubs = false;
+        renderKindChips();
+        renderPublications();
+      });
+    });
   }
 
   function renderPublications() {
@@ -410,14 +511,14 @@
     const cap = !state.expanded.pubs && !state.query && shown.length > limit;
     const visible = cap ? shown.slice(0, limit) : shown;
 
+    const pool = all.filter((pub) => !state.kinds.size
+      || state.kinds.has(pub.kind || "journal")).length;
     counter.textContent = t("pub.count")
       .replace("{n}", nf().format(visible.length))
-      .replace("{total}", nf().format(all.length));
+      .replace("{total}", nf().format(pool));
 
     if (!shown.length) {
-      host.innerHTML = `<p class="count">${state.lang === "es"
-        ? "Ningún artículo coincide con el filtro."
-        : "No articles match this filter."}</p>`;
+      host.innerHTML = `<p class="count">${esc(t("pub.none"))}</p>`;
       return;
     }
 
@@ -435,9 +536,14 @@
       }
       if (pub.top_decile) badges.push(`<span class="q d1">D1</span>`);
 
+      const kind = pub.kind || "journal";
+      if (kind !== "journal" && !badges.length) {
+        badges.push(`<span class="q kind">${esc(t("k." + kind))}</span>`);
+      }
+
       const where = [
         pub.journal ? `<span class="journal">${esc(pub.journal)}</span>` : "",
-        pub.volume ? `${state.lang === "es" ? "vol." : "vol."} ${esc(pub.volume)}` : "",
+        pub.volume ? `vol. ${esc(pub.volume)}` : "",
         pub.pages ? `pp. ${esc(pub.pages)}` : "",
       ].filter(Boolean).join(", ");
 
@@ -447,7 +553,7 @@
         : esc(pub.title);
 
       html += `
-        <article class="pub">
+        <article class="pub" data-kind="${kind}">
           <div class="pub-badges">${badges.join("")}</div>
           <div class="pub-body">
             <h3 class="pub-title">${title}</h3>
@@ -469,13 +575,12 @@
   }
 
   function initFilters() {
-    $$(".chips button").forEach((btn) => {
+    const quality = $$("#qual-chips button");
+    quality.forEach((btn) => {
       btn.addEventListener("click", () => {
         state.filter = btn.dataset.filter;
         state.expanded.pubs = false;
-        $$(".chips button").forEach((b) => {
-          b.setAttribute("aria-pressed", String(b === btn));
-        });
+        quality.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
         renderPublications();
       });
     });
@@ -632,6 +737,70 @@
     }
   }
 
+  /* ── efectos ──────────────────────────────────────────────── */
+
+  /* Aparicion al entrar en pantalla. Si no hay IntersectionObserver, todo
+     queda visible: el efecto es un anadido, nunca un requisito. */
+  function initReveal() {
+    const targets = $$(".band-body > *, .hero-text > *, .hero-photo");
+    if (!targets.length) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduce.matches || !("IntersectionObserver" in window)) {
+      targets.forEach((el) => el.classList.add("reveal", "seen"));
+      return;
+    }
+
+    targets.forEach((el) => el.classList.add("reveal"));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("seen");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+
+    targets.forEach((el) => io.observe(el));
+  }
+
+  /* Las cifras suben desde cero la primera vez que se ven. Con movimiento
+     reducido se escriben directamente. */
+  function initCounters() {
+    const nums = $$(".metric .num");
+    if (!nums.length) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduce.matches || !("IntersectionObserver" in window)) return;
+
+    const run = (el) => {
+      const text = el.textContent.trim();
+      const target = Number(text.replace(/[^\d]/g, ""));
+      if (!target || target > 100000) return;      // solo cifras limpias
+      const suffix = text.replace(/[\d.,\s]/g, "");
+      const t0 = performance.now();
+      const ms = 900;
+
+      const tick = (now) => {
+        const k = Math.min(1, (now - t0) / ms);
+        const eased = 1 - Math.pow(1 - k, 3);      // frena al final
+        el.textContent = nf().format(Math.round(target * eased)) + suffix;
+        if (k < 1) requestAnimationFrame(tick);
+        else el.textContent = text;                // el valor exacto, intacto
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        run(entry.target);
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.6 });
+
+    nums.forEach((el) => io.observe(el));
+  }
+
   /* ── boot ────────────────────────────────────────────────── */
 
   function renderAll() {
@@ -639,6 +808,7 @@
     renderMetrics();
     renderChart();
     renderLines();
+    renderKindChips();
     renderPublications();
     renderProjects();
     renderAtenea();
@@ -669,6 +839,8 @@
 
     initLang();
     initFilters();
+    initReveal();
+    initCounters();
     renderAll();
 
     window.addEventListener("resize", () => {

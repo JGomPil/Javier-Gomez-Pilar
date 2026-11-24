@@ -285,26 +285,64 @@ h1 {
 .hero-links a { color: var(--ink-soft); }
 .hero-links a:hover { color: var(--accent); }
 
-.hero-photo { margin: 0; display: flex; }
+/* El retrato es un PNG recortado con canal alfa, no una foto
+   rectangular: merece un disco detras y no un marco. El disco crece y
+   la figura se levanta al pasar por encima. */
+.hero-photo {
+  margin: 0;
+  align-self: center;
+  display: flex; justify-content: center;
+}
 .portrait {
   position: relative;
-  width: 100%;
-  border: 1px solid var(--rule);
-  background: var(--surface);
-  overflow: hidden;
+  width: 100%; max-width: 19rem;
+  aspect-ratio: 1;
+  display: grid; place-items: end center;
+}
+/* El disco */
+.portrait::before {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 38%,
+      color-mix(in oklab, var(--accent) 16%, var(--surface)) 0%,
+      var(--surface) 72%);
+  border: 1px solid var(--rule-soft);
+  transition: transform .55s var(--ease), border-color .55s var(--ease);
+}
+/* El halo que se expande */
+.portrait::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  transform: scale(.94);
+  transition: opacity .55s var(--ease), transform .55s var(--ease);
+  pointer-events: none;
 }
 .portrait img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center 18%;
-  filter: grayscale(.28) contrast(1.06) saturate(.9);
-  transition: filter .55s var(--ease), transform .7s var(--ease);
+  position: relative;
+  width: 94%; height: auto;
+  margin-bottom: -1px;          /* la figura se apoya en el borde del disco */
+  filter: grayscale(.55) contrast(1.05);
+  transition: filter .6s var(--ease), transform .6s var(--ease);
+  will-change: transform;
 }
-.portrait:hover img { filter: none; transform: scale(1.015); }
+.portrait:hover::before { transform: scale(1.045); border-color: var(--rule); }
+.portrait:hover::after  { opacity: .55; transform: scale(1.085); }
+.portrait:hover img     { filter: none; transform: translateY(-8px) scale(1.02); }
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait::before, .portrait::after, .portrait img { transition: none; }
+  .portrait:hover img { transform: none; }
+}
 
 @media (max-width: 52rem) {
   .hero-grid { grid-template-columns: 1fr; align-items: start; }
-  .hero-photo { max-width: 9rem; }
-  .portrait { aspect-ratio: 1; }
+  .hero-photo { justify-content: flex-start; }
+  .portrait { max-width: 11rem; }
   h1 { font-size: clamp(1.9rem, 10.5vw, 3.4rem); }
 }
 
@@ -318,7 +356,7 @@ h1 {
 }
 .trace canvas {
   display: block; width: 100%;
-  height: clamp(64px, 9vw, 96px);
+  height: clamp(132px, 17vw, 184px);   /* seis derivaciones necesitan sitio */
 }
 
 /* ── metrics ──────────────────────────────────────────────── */
@@ -445,47 +483,98 @@ h1 {
 .chart-box { width: 100%; }
 .chart-box svg { width: 100%; height: auto; display: block; }
 
-/* ── filters ──────────────────────────────────────────────── */
+/* ── filtros ──────────────────────────────────────────────── */
 
 .controls {
-  display: flex; flex-wrap: wrap; gap: .9rem 1.4rem;
-  align-items: center; justify-content: space-between;
+  display: flex; flex-direction: column; gap: .9rem;
   padding-bottom: 1.1rem;
   border-bottom: 1px solid var(--ink);
 }
-.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.filter-row {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: .6rem .9rem;
+}
+.filter-label {
+  flex: none; margin: 0;
+  min-width: 3.6rem;
+  font: 500 .66rem/1.4 var(--data);
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted);
+}
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; min-width: 0; }
 .chips button {
-  font: 500 .72rem/1 var(--data);
-  letter-spacing: .09em; text-transform: uppercase;
-  padding: .52rem .85rem; cursor: pointer;
+  display: inline-flex; align-items: center; gap: .45rem;
+  font: 500 .72rem/1.3 var(--data);
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: .5rem .85rem; cursor: pointer;
   color: var(--ink-soft);
   background: transparent;
   border: 1px solid var(--rule); border-radius: 100px;
-  transition: color .2s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease);
+  transition: color .22s var(--ease), border-color .22s var(--ease),
+              background-color .22s var(--ease), transform .22s var(--ease);
 }
-.chips button:hover { border-color: var(--accent); color: var(--accent); }
+.chips button:hover {
+  border-color: var(--accent); color: var(--accent);
+  transform: translateY(-1px);
+}
 .chips button[aria-pressed="true"] {
   background: var(--ink); border-color: var(--ink); color: var(--paper);
 }
-.search { display: flex; min-width: 0; }
+.chips button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* El recuento dentro del chip, como en las casillas de GIB. */
+.chip-n {
+  font-size: .9em;
+  padding: 0 .35em;
+  border-radius: 100px;
+  color: var(--muted);
+  background: var(--surface);
+  transition: color .22s var(--ease), background-color .22s var(--ease);
+}
+.chips button[aria-pressed="true"] .chip-n {
+  color: var(--ink); background: var(--paper);
+}
+.chips button:hover .chip-n { color: var(--accent); }
+
+.search { display: flex; min-width: 0; margin-left: auto; }
 .search input {
-  font: 400 .85rem/1 var(--ui);
-  padding: .55rem .7rem; width: min(100%, 20rem);
+  /* line-height 1 recortaba los trazos descendentes de la pista, y el
+     type=search trae su propio recorte en Safari: fuera los dos. */
+  font: 400 .85rem/1.5 var(--ui);
+  padding: .5rem .2rem; width: min(100%, 19rem);
   color: var(--ink); background: transparent;
   border: 0; border-bottom: 1px solid var(--rule); border-radius: 0;
-  transition: border-color .2s var(--ease);
+  appearance: none; -webkit-appearance: none;
+  transition: border-color .22s var(--ease);
 }
+.search input::-webkit-search-decoration,
+.search input::-webkit-search-cancel-button { -webkit-appearance: none; }
 .search input::placeholder { color: var(--muted); }
 .search input:focus { outline: 0; border-bottom-color: var(--accent); }
+
 .count {
   font: 400 .715rem/1.5 var(--data);
   letter-spacing: .04em;
   color: var(--muted); margin: 1.1rem 0 1.4rem;
 }
 
+@media (max-width: 40rem) {
+  .search { margin-left: 0; width: 100%; }
+  .filter-label { min-width: 0; }
+}
+
 /* ── publication list ─────────────────────────────────────── */
 
 .pubs { display: flex; flex-direction: column; }
+
+/* Insignia para lo que no es articulo indexado: no lleva cuartil. */
+.q.kind {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--muted);
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
 .pub-year {
   font: 800 1.2rem/1 var(--display);
   letter-spacing: -.03em; color: var(--muted);
@@ -749,4 +838,47 @@ h1 {
   color: var(--muted);
   font: 400 .715rem/1.6 var(--data);
   max-width: var(--measure);
+}
+
+
+/* ── efectos ──────────────────────────────────────────────── */
+/* Aparicion al entrar en pantalla. El estado final se aplica tambien
+   cuando no hay JavaScript, para que nada quede invisible. */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.reveal.seen { opacity: 1; transform: none; }
+
+/* Escalonado dentro de una misma banda. */
+.reveal:nth-child(2) { transition-delay: .07s; }
+.reveal:nth-child(3) { transition-delay: .14s; }
+
+/* Las filas de publicacion responden al cursor. */
+.pub {
+  transition: background-color .25s var(--ease),
+              padding-left .25s var(--ease);
+}
+.pub:hover {
+  background: color-mix(in oklab, var(--accent) 5%, transparent);
+  padding-left: .7rem;
+}
+.pub-title a {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size .32s var(--ease), color .22s var(--ease);
+}
+.pub-title a:hover { background-size: 100% 1px; color: var(--accent); }
+
+/* Las cifras cuentan al aparecer; la tipografia tabular evita el baile. */
+.metric .num { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .pub, .pub-title a { transition: none; }
+  .pub:hover { padding-left: 0; }
 }

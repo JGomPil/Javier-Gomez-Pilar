@@ -57,7 +57,7 @@
    "contact.profiles": "Perfiles",
    "contact.portal": "Portal de la Ciencia UVa",
    "contact.cv": "Currículum (CVN-FECYT)",
-   "pub.count": "{n} de {total} artículos JCR",
+   "pub.count": "{n} de {total}",
    "sup.phd": "tesis doctorales en curso",
    "sup.note": "Dirijo tres tesis en tres programas de doctorado distintos: tecnologías de la información, ciencias de la salud e investigación transdisciplinar en educación.",
    "sup.tfg": "Dirección de Trabajos de Fin de Grado y de Máster en el Grado en Ingeniería Biomédica, el Grado en Ingeniería de Telecomunicación y el Máster en Ingeniería Biomédica.",
@@ -74,7 +74,16 @@
    "less.generic": "Ver menos",
    "hero.pos": "Profesor Contratado Doctor",
    "hero.group": "Grupo de Ingeniería Biomédica, UVa",
-   "contact.cta": "Mis datos de contacto en el Portal de la Ciencia de la UVa"
+   "contact.cta": "Mis datos de contacto en el Portal de la Ciencia de la UVa",
+   "f.kind": "Tipo",
+   "f.quality": "Filtrar",
+   "k.journal": "Revistas JCR",
+   "k.book": "Capítulos de libro",
+   "k.conf_int": "Congresos internacionales",
+   "k.conf_nat": "Congresos nacionales",
+   "k.conf_teach": "Congresos docentes",
+   "k.journal_other": "Revistas no indexadas",
+   "pub.none": "Nada coincide con estos filtros."
   },
   "en": {
    "skip": "Skip to content",
@@ -126,7 +135,7 @@
    "contact.profiles": "Profiles",
    "contact.portal": "UVa Science Portal",
    "contact.cv": "Curriculum (CVN-FECYT)",
-   "pub.count": "{n} of {total} JCR articles",
+   "pub.count": "{n} of {total}",
    "sup.phd": "doctoral theses in progress",
    "sup.note": "I supervise three theses across three different doctoral programmes: information technologies, health sciences, and transdisciplinary research in education.",
    "sup.tfg": "Supervision of final-year and master's projects in Biomedical Engineering, Telecommunications Engineering and the Master's in Biomedical Engineering.",
@@ -143,7 +152,16 @@
    "less.generic": "Show less",
    "hero.pos": "Associate Professor",
    "hero.group": "Biomedical Engineering Group, UVa",
-   "contact.cta": "My contact details on the UVa science portal"
+   "contact.cta": "My contact details on the UVa science portal",
+   "f.kind": "Type",
+   "f.quality": "Filter",
+   "k.journal": "JCR journals",
+   "k.book": "Book chapters",
+   "k.conf_int": "International conferences",
+   "k.conf_nat": "National conferences",
+   "k.conf_teach": "Teaching conferences",
+   "k.journal_other": "Non-indexed journals",
+   "pub.none": "Nothing matches these filters."
   }
  },
  "lines": [

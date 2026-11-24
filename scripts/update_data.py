@@ -41,11 +41,23 @@ OPENALEX_AUTHOR_IDS = ["A5028137676", "A5159625863"]  # main profile + duplicate
 ORCID = "0000-0001-7882-7890"
 RESEARCHER_ID = "B-9123-2018"   # ResearcherID de Web of Science
 
-GIB_BASE = (
+GIB_QUERY = (
     "https://gib.uva.es/publications"
     "?from-year=2004&to-year=2027"
-    f"&filter-author%5B%5D={GIB_AUTHOR_ID}&category_journal=on"
+    f"&filter-author%5B%5D={GIB_AUTHOR_ID}"
 )
+# Las seis categorias del filtro de GIB, en el orden en que importan.
+# La clave es el parametro de su formulario; el valor, el tipo que guardamos.
+GIB_CATEGORIES = {
+    "category_journal":          "journal",
+    "category_book":             "book",
+    "category_inter_conference": "conf_int",
+    "category_nat_conference":   "conf_nat",
+    "category_teaching":         "conf_teach",
+    "category_non_journal":      "journal_other",
+}
+# Solo los articulos indexados cuentan como "papers" en la cifra principal.
+GIB_BASE = f"{GIB_QUERY}&category_journal=on"
 
 USER_AGENT = "javiergomezpilar-site/1.0 (static site data build; +https://github.com/)"
 TIMEOUT = 45
@@ -97,8 +109,8 @@ def normalise_doi(doi: str) -> str:
     return doi.strip().rstrip(".").lower()
 
 
-def parse_gib(page: str) -> list[dict]:
-    """Parse the GIB list into publication records, tagged with their year."""
+def parse_gib(page: str, kind: str = "journal") -> list[dict]:
+    """Parse the GIB list into publication records, tagged with year and kind."""
     # Split the page into year blocks so each entry inherits the right <h2> year.
     blocks = YEAR_RE.split(page)
     publications: list[dict] = []
@@ -132,6 +144,7 @@ def parse_gib(page: str) -> list[dict]:
             link_match = LINK_RE.search(raw)
 
             publications.append({
+                "kind": kind,
                 "year": year,
                 "month": month,
                 "title": title,
@@ -428,25 +441,41 @@ def orcid_latest() -> dict:
 
 def main() -> int:
     print("Fetching GIB publication list ...", flush=True)
-    page = fetch(GIB_BASE)
-    publications = parse_gib(page)
-    total = count_results(page)
+    publications: list[dict] = []
+    by_kind: dict[str, int] = {}
 
-    if not publications:
-        print("ERROR: parsed zero publications from GIB; refusing to write.", file=sys.stderr)
-        return 1
-    if total and abs(len(publications) - total) > 2:
-        print(
-            f"ERROR: parsed {len(publications)} entries but the page reports {total}; "
-            "the markup probably changed. Refusing to write.",
-            file=sys.stderr,
-        )
+    for param, kind in GIB_CATEGORIES.items():
+        page = fetch(f"{GIB_QUERY}&{param}=on")
+        found = parse_gib(page, kind)
+        total = count_results(page)
+
+        # Una categoria vacia es legitima: no tiene articulos en revistas no
+        # indexadas. Lo que no es legitimo es que la pagina diga que hay
+        # entradas y nosotros no las encontremos.
+        if total and abs(len(found) - total) > 2:
+            print(
+                f"ERROR: {kind}: parsed {len(found)} entries but the page "
+                f"reports {total}; the markup probably changed. "
+                "Refusing to write.",
+                file=sys.stderr,
+            )
+            return 1
+
+        publications.extend(found)
+        by_kind[kind] = len(found)
+        print(f"  {kind:14} {len(found):3}", flush=True)
+
+    jcr = by_kind.get("journal", 0)
+    if not jcr:
+        print("ERROR: parsed zero JCR articles from GIB; refusing to write.",
+              file=sys.stderr)
         return 1
 
-    print(f"  parsed {len(publications)} JCR articles (page reports {total})", flush=True)
+    print(f"  {len(publications)} entradas en total, {jcr} de ellas JCR",
+          flush=True)
 
     print("Tagging JIF quartiles ...", flush=True)
-    quartiles = tag_quartiles(publications)
+    quartiles = tag_quartiles([r for r in publications if r["kind"] == "journal"])
     print(f"  {quartiles}", flush=True)
 
     print("Computing OpenAlex metrics over merged profiles ...", flush=True)
@@ -478,7 +507,8 @@ def main() -> int:
     data = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "metrics": {
-            "jcr_articles": len(publications),
+            "jcr_articles": jcr,
+            "by_kind": by_kind,
             "quartiles": quartiles,
             "openalex": metrics,
             "citations_by_year": citations_by_year,

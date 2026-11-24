@@ -638,8 +638,8 @@
      ever appearing in the HTML. The access key is a public token. */
 
   function formConfigured() {
-    const key = (state.content.contact_form || {}).access_key || "";
-    return key && key !== "PENDIENTE";
+    const token = (state.content.contact_form || {}).token || "";
+    return Boolean(token) && token !== "PENDIENTE";
   }
 
   function renderFormState() {
@@ -651,7 +651,10 @@
     if (formConfigured()) {
       form.classList.remove("unconfigured");
       button.disabled = false;
-      if (status.dataset.state !== "sent") status.textContent = "";
+      if (status.dataset.state !== "sent") {
+        status.textContent = "";
+        status.className = "form-status";
+      }
       return;
     }
     // Never fail silently: say it is not wired up and point elsewhere.
@@ -674,31 +677,44 @@
       const button = $("#cf-send");
       const data = new FormData(form);
 
-      // The honeypot is invisible, so only a bot fills it.
-      if (data.get("botcheck")) {
-        status.textContent = t("form.ok");
+      // The honeypot is invisible, so only a bot fills it. FormSubmit drops
+      // these server-side too; this just saves the round trip.
+      if (data.get("_honey")) {
         form.reset();
+        status.className = "form-status ok";
+        status.textContent = t("form.ok");
         return;
       }
-      data.delete("botcheck");
-      data.append("access_key", cfg.access_key);
-      if (!data.get("subject")) data.set("subject", "Mensaje desde la web");
+      if (!data.get("_subject")) {
+        data.set("_subject", "Mensaje desde javiergomezpilar.es");
+      }
+      data.set("_template", "table");   // correo legible en lugar de texto plano
 
       button.disabled = true;
       status.className = "form-status";
       status.textContent = t("form.sending");
 
       try {
-        const res = await fetch(cfg.endpoint, { method: "POST", body: data });
-        const body = await res.json().catch(() => ({}));
-        if (res.ok && body.success) {
-          form.reset();
-          status.className = "form-status ok";
-          status.textContent = t("form.ok");
-          status.dataset.state = "sent";
-        } else {
-          throw new Error(body.message || `HTTP ${res.status}`);
-        }
+        const res = await fetch(cfg.endpoint + encodeURIComponent(cfg.token), {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: data,
+        });
+        const body = await res.json().catch(() => null);
+
+        // FormSubmit has returned `success` as both a boolean and the string
+        // "true" over time, so accept either, and accept a 2xx with no body.
+        const ok = res.ok && (
+          body === null ||
+          body.success === true || body.success === "true" ||
+          /success/i.test(String(body.message || ""))
+        );
+        if (!ok) throw new Error((body && body.message) || `HTTP ${res.status}`);
+
+        form.reset();
+        status.className = "form-status ok";
+        status.textContent = t("form.ok");
+        status.dataset.state = "sent";
       } catch (err) {
         console.error("Contact form failed:", err);
         status.className = "form-status err";

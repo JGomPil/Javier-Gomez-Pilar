@@ -219,14 +219,15 @@
               </div>
               <div class="field">
                 <label for="cf-subject" data-i18n="form.subject">Asunto</label>
-                <input type="text" id="cf-subject" name="subject" data-i18n-ph="form.subject.ph">
+                <input type="text" id="cf-subject" name="_subject" data-i18n-ph="form.subject.ph">
               </div>
               <div class="field">
                 <label for="cf-message" data-i18n="form.message">Mensaje</label>
                 <textarea id="cf-message" name="message" rows="5" required></textarea>
               </div>
-              <!-- Trampa anti-spam: invisible para personas, tentadora para bots. -->
-              <input type="checkbox" name="botcheck" id="cf-botcheck" class="botcheck" tabindex="-1" aria-hidden="true">
+              <!-- Trampa anti-spam de FormSubmit: si llega con contenido, el
+                   envio se descarta. Invisible para personas, tentadora para bots. -->
+              <input type="text" name="_honey" id="cf-honey" class="botcheck" tabindex="-1" aria-hidden="true" autocomplete="off">
               <div class="form-foot">
                 <button type="submit" id="cf-send" data-i18n="form.send">Enviar</button>
                 <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>

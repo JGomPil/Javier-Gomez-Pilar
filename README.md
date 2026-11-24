@@ -140,6 +140,58 @@ raíz con el dominio dentro y apuntar el DNS a GitHub Pages.
 
 ---
 
+## Formulario de contacto
+
+La dirección de correo no aparece en ninguna parte de la web, a propósito. El
+formulario la oculta: envía a **FormSubmit**, que reenvía el mensaje. FormSubmit
+no requiere crear cuenta.
+
+Para activarlo hay un paso de confirmación que **debes hacer en local**, sin
+subir nada, porque durante ese paso tu dirección viaja en la petición:
+
+1. Dispara la confirmación desde tu terminal, sustituyendo el marcador por tu
+   dirección real. No dejes este comando escrito en ningún fichero del
+   repositorio:
+
+   ```sh
+   MI_CORREO="pon-aqui-tu-direccion"
+   curl -X POST "https://formsubmit.co/ajax/$MI_CORREO" \
+     -H "Accept: application/json" \
+     --form-string "name=Alta" \
+     --form-string "message=Activacion del formulario"
+   ```
+
+2. Te llega un correo de FormSubmit pidiendo confirmación. Púlsala.
+3. En ese correo, o en el siguiente, viene una **cadena aleatoria** del tipo
+   `a7f3c91b2e4d`. Esa cadena es el token: identifica tu buzón sin revelarlo.
+4. Pégala en `data/content.json`:
+
+   ```json
+    "contact_form": {
+     "endpoint": "https://formsubmit.co/ajax/",
+     "token": "a7f3c91b2e4d"
+    },
+   ```
+
+5. Sube el cambio:
+
+   ```sh
+   git add -A && git commit -m "Activa el formulario de contacto" && git push
+   ```
+
+**No pongas tu correo en `token`.** Funcionaría, pero quedaría publicado en el
+repositorio, que es exactamente lo que el formulario evita.
+
+Mientras `token` valga `PENDIENTE`, el botón Enviar sale deshabilitado con un
+aviso que remite al Portal de la Ciencia. Preferible a un formulario que parece
+normal y se traga los mensajes.
+
+Detalles: envíos ilimitados, historial de 30 días, trampa anti-spam `_honey`, y
+el campo `email` de quien escribe queda como *reply-to*, así que puedes
+responder directamente desde tu correo.
+
+---
+
 ## Hacia una herramienta de acreditaciones
 
 El objetivo a medio plazo no es solo la web: es que `data/` y `fuentes/` sean un

@@ -616,9 +616,9 @@
   "Mutual Médica Bioingeniería"
  ],
  "contact_form": {
-  "_readme": "Para activarlo: entra en https://web3forms.com, pon tu correo, y te llega una Access Key por email. Pégala en access_key. Es un token público, no tu dirección: puede estar en el repositorio sin riesgo. Mientras valga PENDIENTE el formulario se muestra deshabilitado con un aviso, nunca falla en silencio.",
-  "endpoint": "https://api.web3forms.com/submit",
-  "access_key": "PENDIENTE"
+  "_readme": "FormSubmit (formsubmit.co) no requiere cuenta. 'token' debe ser la CADENA ALEATORIA que te envian al confirmar tu correo, nunca tu direccion: si pones el correo aqui, queda publicado en el repositorio, que es justo lo que queremos evitar. Pasos en el README, seccion 'Formulario de contacto'. Mientras valga PENDIENTE el boton sale deshabilitado con un aviso.",
+  "endpoint": "https://formsubmit.co/ajax/",
+  "token": "PENDIENTE"
  },
  "collapse": {
   "publications": 12,

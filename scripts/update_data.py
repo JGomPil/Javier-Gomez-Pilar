@@ -458,6 +458,21 @@ def main() -> int:
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
+
+    # Leave the file alone when only the timestamp would move. Otherwise
+    # every weekly run would produce a commit with no change in substance,
+    # and the page's "as of" date would claim freshness it does not have.
+    if OUT.exists():
+        try:
+            previous = json.loads(OUT.read_text(encoding="utf-8"))
+            if {k: v for k, v in previous.items() if k != "generated"} == \
+               {k: v for k, v in data.items() if k != "generated"}:
+                print(f"No substantive change; {OUT.relative_to(ROOT)} left as it was "
+                      f"(data unchanged since {previous.get('generated', '?')}).", flush=True)
+                return 0
+        except (json.JSONDecodeError, OSError):
+            pass  # unreadable or corrupt: fall through and rewrite it
+
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"Wrote {OUT.relative_to(ROOT)}", flush=True)
     return 0

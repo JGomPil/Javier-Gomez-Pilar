@@ -68,23 +68,13 @@
    "idx.teaching": "Docencia",
    "idx.recognition": "Reconocimiento",
    "idx.contact": "Contacto",
-   "form.name": "Nombre",
-   "form.email": "Tu correo",
-   "form.subject": "Asunto",
-   "form.message": "Mensaje",
-   "form.send": "Enviar",
-   "form.sending": "Enviando…",
-   "form.ok": "Mensaje enviado. Te responderé en cuanto pueda.",
-   "form.err": "No se ha podido enviar. Inténtalo de nuevo o escríbeme a través del Portal de la Ciencia de la UVa.",
-   "form.nokey": "El formulario está pendiente de configurar. Mientras tanto, puedes contactar a través del Portal de la Ciencia de la UVa.",
-   "form.privacy": "Tu mensaje me llega por correo. No guardo tus datos ni los uso para nada más.",
-   "form.subject.ph": "TFG, colaboración, prensa…",
    "more.pubs": "Ver las {n} publicaciones",
    "less.pubs": "Ver solo las recientes",
    "more.generic": "Ver {n} más",
    "less.generic": "Ver menos",
    "hero.pos": "Profesor Contratado Doctor",
-   "hero.group": "Grupo de Ingeniería Biomédica, UVa"
+   "hero.group": "Grupo de Ingeniería Biomédica, UVa",
+   "contact.cta": "Mis datos de contacto en el Portal de la Ciencia de la UVa"
   },
   "en": {
    "skip": "Skip to content",
@@ -147,23 +137,13 @@
    "idx.teaching": "Teaching",
    "idx.recognition": "Recognition",
    "idx.contact": "Contact",
-   "form.name": "Name",
-   "form.email": "Your email",
-   "form.subject": "Subject",
-   "form.message": "Message",
-   "form.send": "Send",
-   "form.sending": "Sending…",
-   "form.ok": "Message sent. I will get back to you as soon as I can.",
-   "form.err": "The message could not be sent. Please try again, or reach me through the UVa Science Portal.",
-   "form.nokey": "The form is not configured yet. In the meantime you can reach me through the UVa Science Portal.",
-   "form.privacy": "Your message reaches me by email. I do not store your details or use them for anything else.",
-   "form.subject.ph": "Thesis, collaboration, press…",
    "more.pubs": "Show all {n} publications",
    "less.pubs": "Show recent only",
    "more.generic": "Show {n} more",
    "less.generic": "Show less",
    "hero.pos": "Associate Professor",
-   "hero.group": "Biomedical Engineering Group, UVa"
+   "hero.group": "Biomedical Engineering Group, UVa",
+   "contact.cta": "My contact details on the UVa science portal"
   }
  },
  "lines": [
@@ -615,11 +595,6 @@
  "awards_confirmed_by_cv": [
   "Mutual Médica Bioingeniería"
  ],
- "contact_form": {
-  "_readme": "FormSubmit (formsubmit.co) no requiere cuenta. 'token' debe ser la CADENA ALEATORIA que te envian al confirmar tu correo, nunca tu direccion: si pones el correo aqui, queda publicado en el repositorio, que es justo lo que queremos evitar. Pasos en el README, seccion 'Formulario de contacto'. Mientras valga PENDIENTE el boton sale deshabilitado con un aviso.",
-  "endpoint": "https://formsubmit.co/ajax/",
-  "token": "PENDIENTE"
- },
  "collapse": {
   "publications": 12,
   "projects": 5,

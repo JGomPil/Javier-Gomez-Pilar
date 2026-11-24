@@ -24,15 +24,29 @@ las comisiones de acreditación españolas. WoS no tiene API pública con citas,
 así que por defecto salen del bloque `wos` de `data/content.json` y la web
 enseña la fecha de consulta junto al número.
 
-Para automatizarlas hace falta una clave de la **Web of Science Starter API**:
+Para automatizarlas hace falta una clave de la **Web of Science Starter API**.
+Pasos, ya estando registrado en <https://developer.clarivate.com>:
 
-1. Regístrate en <https://developer.clarivate.com> con tu correo `@uva.es`. El
-   tier gratuito abierto **no** devuelve citas; el que se concede a través del
-   contrato de una institución suscrita sí, con 5.000 peticiones al día. La
-   aprobación puede tardar un par de días, y suelen rechazar correos de Gmail.
-2. En el repositorio: *Settings → Secrets and variables → Actions → New
+1. Ve a <https://developer.clarivate.com/applications> y registra una
+   aplicación. Solo pide un identificador y un nombre.
+2. Entra en <https://developer.clarivate.com/apis/wos-starter> y suscribe esa
+   aplicación al **Free Institutional Member Plan**, no al Free Trial. Es la
+   diferencia que importa:
+
+   | Plan | Peticiones/día | ¿Devuelve citas? |
+   |---|---|---|
+   | Free Trial | 50 | **No** |
+   | Free Institutional Member | 5.000 | Sí |
+   | Free Institutional Integration | 20.000 | Sí |
+
+   El plan institucional requiere que tu organización tenga Web of Science
+   contratado, que es el caso de la UVa, y hay que pedirlo con el correo
+   `@uva.es`. El portal avisa de que la aprobación puede tardar unos días.
+3. La clave aparece en la página de tu aplicación, en la sección
+   **Subscriptions**, detrás de un icono que la revela.
+4. En el repositorio: *Settings → Secrets and variables → Actions → New
    repository secret*, con nombre `WOS_API_KEY`.
-3. Añade estas dos líneas al paso «Regenerate» de
+5. Añade estas dos líneas al paso «Regenerate» de
    `.github/workflows/update-data.yml`:
 
    ```yaml
@@ -40,9 +54,11 @@ Para automatizarlas hace falta una clave de la **Web of Science Starter API**:
            WOS_API_KEY: ${{ secrets.WOS_API_KEY }}
    ```
 
-A partir de ahí el script calcula citas e índice h desde WoS y el bloque manual
-deja de usarse. Si la clave resulta ser del tier sin citas, el script lo detecta,
-lo avisa y mantiene las cifras manuales en lugar de publicar un cero.
+A partir de ahí el script consulta `AI=(B-9123-2018)`, tu ResearcherID, en
+`api.clarivate.com/apis/wos-starter/v2/documents`, suma las citas y **calcula
+el índice h él mismo**: la API no lo ofrece, solo da las citas de cada
+documento. Si la clave resulta ser del plan sin citas, el script lo detecta, lo
+avisa y mantiene las cifras manuales en lugar de publicar un cero.
 
 El índice h de Scopus (29) no se usa en la web; está en tu CVN si lo necesitas.
 
@@ -140,55 +156,18 @@ raíz con el dominio dentro y apuntar el DNS a GitHub Pages.
 
 ---
 
-## Formulario de contacto
+## Contacto
 
-La dirección de correo no aparece en ninguna parte de la web, a propósito. El
-formulario la oculta: envía a **FormSubmit**, que reenvía el mensaje. FormSubmit
-no requiere crear cuenta.
+La direccion de correo no aparece en ninguna parte de la web, a proposito. La
+seccion de contacto enlaza a la ficha del **Portal de la Ciencia de la UVa**,
+donde la universidad ya publica los datos de contacto institucionales. Asi no
+hay formulario que mantener, ni servicio de terceros, ni direccion que
+cosechen los robots.
 
-Para activarlo hay un paso de confirmación que **debes hacer en local**, sin
-subir nada, porque durante ese paso tu dirección viaja en la petición:
-
-1. Dispara la confirmación desde tu terminal, sustituyendo el marcador por tu
-   dirección real. No dejes este comando escrito en ningún fichero del
-   repositorio:
-
-   ```sh
-   MI_CORREO="pon-aqui-tu-direccion"
-   curl -X POST "https://formsubmit.co/ajax/$MI_CORREO" \
-     -H "Accept: application/json" \
-     --form-string "name=Alta" \
-     --form-string "message=Activacion del formulario"
-   ```
-
-2. Te llega un correo de FormSubmit pidiendo confirmación. Púlsala.
-3. En ese correo, o en el siguiente, viene una **cadena aleatoria** del tipo
-   `a7f3c91b2e4d`. Esa cadena es el token: identifica tu buzón sin revelarlo.
-4. Pégala en `data/content.json`:
-
-   ```json
-    "contact_form": {
-     "endpoint": "https://formsubmit.co/ajax/",
-     "token": "a7f3c91b2e4d"
-    },
-   ```
-
-5. Sube el cambio:
-
-   ```sh
-   git add -A && git commit -m "Activa el formulario de contacto" && git push
-   ```
-
-**No pongas tu correo en `token`.** Funcionaría, pero quedaría publicado en el
-repositorio, que es exactamente lo que el formulario evita.
-
-Mientras `token` valga `PENDIENTE`, el botón Enviar sale deshabilitado con un
-aviso que remite al Portal de la Ciencia. Preferible a un formulario que parece
-normal y se traga los mensajes.
-
-Detalles: envíos ilimitados, historial de 30 días, trampa anti-spam `_honey`, y
-el campo `email` de quien escribe queda como *reply-to*, así que puedes
-responder directamente desde tu correo.
+Si algun dia quieres un formulario, hace falta un servicio que reenvie el
+mensaje: GitHub Pages solo sirve ficheros estaticos y no ejecuta PHP ni nada
+por el estilo. Un `.php` subido aqui se entregaria como texto, con su
+contenido a la vista.
 
 ---
 

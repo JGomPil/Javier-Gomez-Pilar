@@ -21,6 +21,8 @@ import os
 import re
 import ssl
 import sys
+import time
+from urllib.parse import quote
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -37,6 +39,7 @@ except ImportError:
 GIB_AUTHOR_ID = "139"
 OPENALEX_AUTHOR_IDS = ["A5028137676", "A5159625863"]  # main profile + duplicate
 ORCID = "0000-0001-7882-7890"
+RESEARCHER_ID = "B-9123-2018"   # ResearcherID de Web of Science
 
 GIB_BASE = (
     "https://gib.uva.es/publications"
@@ -301,30 +304,21 @@ def openalex_metrics(author_ids: list[str]) -> dict:
     }
 
 
-def wos_metrics() -> dict | None:
-    """Citations and h-index from the Web of Science Starter API.
+def wos_documents(key: str, identifier: str) -> list[int]:
+    """Times-cited de cada documento de un autor en Web of Science.
 
-    Returns None unless a WOS_API_KEY is set in the environment, so that the
-    hand-kept figures in data/content.json stay in charge until a key exists.
-
-    Note on tiers: the open free plan does NOT return times-cited, only the
-    plan granted through a subscribing institution's contract does. If every
-    record comes back without a citation count, this returns None rather than
-    publishing a total of zero.
+    Devuelve una lista vacia si el identificador no encuentra nada, para que
+    quien llama pueda probar con otro.
     """
-    key = os.environ.get("WOS_API_KEY", "").strip()
-    if not key:
-        return None
-
     counts: list[int] = []
     page = 1
-    while True:
+    while page <= 20:          # tope de seguridad: 1000 documentos
         url = (
-            "https://api.clarivate.com/apis/wos-starter/v1/documents"
-            f"?q=AI%3D({ORCID})&limit=50&page={page}&db=WOS"
+            "https://api.clarivate.com/apis/wos-starter/v2/documents"
+            f"?q=AI%3D({quote(identifier)})&limit=50&page={page}&db=WOS"
         )
         payload = fetch_json(url, headers={"X-ApiKey": key})
-        hits = payload.get("hits", [])
+        hits = payload.get("hits", []) or []
         if not hits:
             break
 
@@ -334,17 +328,55 @@ def wos_metrics() -> dict | None:
                     counts.append(int(entry.get("count", 0) or 0))
                     break
 
-        total = (payload.get("metadata") or {}).get("total", 0)
+        total = (payload.get("metadata") or {}).get("total", 0) or 0
         if page * 50 >= total:
             break
         page += 1
+        time.sleep(0.4)        # el plan institucional admite 5 peticiones/s
 
-    if not counts or not any(counts):
-        print(
-            "  WOS_API_KEY is set but no times-cited data came back "
-            "(the free tier omits it); keeping the manual figures.",
-            file=sys.stderr,
-        )
+    return counts
+
+
+def wos_metrics() -> dict | None:
+    """Citas e indice h desde la Web of Science Starter API.
+
+    Devuelve None si no hay WOS_API_KEY en el entorno, de modo que las cifras
+    mantenidas a mano en data/content.json siguen al mando hasta que exista
+    una clave.
+
+    Sobre los planes: el Free Trial, abierto a cualquiera, NO devuelve el
+    numero de citas. Solo lo hacen los planes institucionales, que requieren
+    que tu organizacion tenga Web of Science contratado. Si todos los
+    registros llegan sin citas, esto devuelve None en lugar de publicar un
+    total de cero.
+
+    La API no ofrece indice h: se calcula aqui a partir de las citas de cada
+    documento, que es como lo calcula la propia plataforma.
+    """
+    key = os.environ.get("WOS_API_KEY", "").strip()
+    if not key:
+        return None
+
+    # El ResearcherID es la forma documentada para el campo AI; el ORCID
+    # funciona en la practica pero no esta en la especificacion, asi que
+    # queda como respaldo.
+    counts: list[int] = []
+    for identifier in (RESEARCHER_ID, ORCID):
+        counts = wos_documents(key, identifier)
+        if counts:
+            if identifier != RESEARCHER_ID:
+                print(f"  WoS: sin resultados para {RESEARCHER_ID}, "
+                      f"usando el ORCID.", flush=True)
+            break
+
+    if not counts:
+        print("  WOS_API_KEY puesta pero la consulta no devuelve documentos; "
+              "se mantienen las cifras manuales.", file=sys.stderr)
+        return None
+    if not any(counts):
+        print("  WOS_API_KEY puesta pero no llega el numero de citas (el plan "
+              "Free Trial no lo incluye); se mantienen las cifras manuales.",
+              file=sys.stderr)
         return None
 
     return {

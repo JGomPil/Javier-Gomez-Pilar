@@ -701,82 +701,36 @@ h1 {
 }
 .more:hover { background: var(--ink); color: var(--paper); }
 
-/* ── contact form ─────────────────────────────────────────── */
+/* ── contacto ─────────────────────────────────────────────── */
+/* La direccion de correo no aparece en la pagina. La via es la ficha
+   institucional, donde la UVa ya publica los datos de contacto. */
 
-.form {
-  display: grid; gap: 1.1rem;
-  max-width: 30rem;
-  margin: 0 0 2.4rem;
-}
-.field { display: grid; gap: .4rem; min-width: 0; }
-.field label {
-  font: 500 .685rem/1.4 var(--data);
-  letter-spacing: .13em; text-transform: uppercase;
-  color: var(--muted);
-}
-.field input,
-.field textarea {
-  font: 400 .95rem/1.5 var(--ui);
-  color: var(--ink); background: transparent;
-  padding: .55rem 0;
-  border: 0; border-bottom: 1px solid var(--rule); border-radius: 0;
-  transition: border-color .2s var(--ease);
-  min-width: 0; width: 100%;
-}
-.field textarea { resize: vertical; }
-.field input:focus,
-.field textarea:focus { outline: 0; border-bottom-color: var(--accent); }
-.field input:user-invalid,
-.field textarea:user-invalid { border-bottom-color: #b4442f; }
+.contact-route { margin: 0 0 1.6rem; }
 
-/* The honeypot must be reachable by a bot and invisible to a person. */
-.botcheck {
-  position: absolute; left: -9999px;
-  width: 1px; height: 1px; opacity: 0; pointer-events: none;
-}
-
-.form-foot {
-  display: flex; flex-wrap: wrap; gap: .9rem 1.2rem;
-  align-items: center; margin-top: .4rem;
-}
-.form-foot button {
-  font: 500 .72rem/1 var(--data);
-  letter-spacing: .12em; text-transform: uppercase;
-  padding: .85rem 1.6rem; cursor: pointer;
-  color: var(--paper); background: var(--ink);
-  border: 1px solid var(--ink);
-  transition: background-color .2s var(--ease), color .2s var(--ease), opacity .2s var(--ease);
-}
-.form-foot button:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
-.form-foot button:disabled { opacity: .4; cursor: not-allowed; }
-
-.form-status {
-  margin: 0; font-size: .85rem; color: var(--ink-soft);
-  min-width: 0; flex: 1 1 12rem;
-}
-.form-status.ok { color: var(--accent-ink); }
-.form-status.err { color: #b4442f; }
-.form-status.warn { color: var(--muted); }
-.form-privacy {
-  margin: 0; font: 400 .715rem/1.6 var(--data);
-  color: var(--muted); max-width: 42ch;
-}
-.form.unconfigured .field { opacity: .55; }
-
-/* ── contact ──────────────────────────────────────────────── */
-
-.addr {
-  font-style: normal; display: flex; flex-direction: column; gap: .4rem;
-  font-size: .89rem; color: var(--ink-soft);
-}
-.addr .mail {
-  font: 400 clamp(1.2rem, 2.8vw, 1.6rem)/1.3 var(--display);
-  letter-spacing: -.012em;
+.cta {
+  display: inline-flex; align-items: center; gap: .7rem;
+  padding: .85rem 1.15rem;
+  border: 1px solid var(--rule);
+  background: var(--surface);
   color: var(--ink);
-  margin-bottom: .55rem;
-  overflow-wrap: break-word;
+  font: 500 .95rem/1.3 var(--reading);
+  letter-spacing: -.004em;
+  transition: border-color .2s var(--ease), background .2s var(--ease),
+              color .2s var(--ease);
 }
-.addr .mail:hover { color: var(--accent); }
+.cta svg {
+  width: 1.05em; height: 1.05em; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: transform .25s var(--ease);
+}
+.cta:hover {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  color: var(--accent-ink);
+}
+.cta:hover svg { transform: translateX(3px); }
+.cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ── footer ───────────────────────────────────────────────── */
 

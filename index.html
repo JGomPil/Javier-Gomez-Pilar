@@ -208,32 +208,12 @@
           <div>
             <p class="lede" data-i18n="contact.lede">Colaboraciones, consultas de medios, y estudiantes que busquen TFG, TFM o doctorado.</p>
 
-            <form class="form" id="contact-form">
-              <div class="field">
-                <label for="cf-name" data-i18n="form.name">Nombre</label>
-                <input type="text" id="cf-name" name="name" required autocomplete="name">
-              </div>
-              <div class="field">
-                <label for="cf-email" data-i18n="form.email">Tu correo</label>
-                <input type="email" id="cf-email" name="email" required autocomplete="email">
-              </div>
-              <div class="field">
-                <label for="cf-subject" data-i18n="form.subject">Asunto</label>
-                <input type="text" id="cf-subject" name="_subject" data-i18n-ph="form.subject.ph">
-              </div>
-              <div class="field">
-                <label for="cf-message" data-i18n="form.message">Mensaje</label>
-                <textarea id="cf-message" name="message" rows="5" required></textarea>
-              </div>
-              <!-- Trampa anti-spam de FormSubmit: si llega con contenido, el
-                   envio se descarta. Invisible para personas, tentadora para bots. -->
-              <input type="text" name="_honey" id="cf-honey" class="botcheck" tabindex="-1" aria-hidden="true" autocomplete="off">
-              <div class="form-foot">
-                <button type="submit" id="cf-send" data-i18n="form.send">Enviar</button>
-                <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
-              </div>
-              <p class="form-privacy" data-i18n="form.privacy">Tu mensaje me llega por correo. No guardo tus datos ni los uso para nada más.</p>
-            </form>
+            <p class="contact-route">
+              <a class="cta" href="https://portaldelaciencia.uva.es/investigadores/180080/detalle" rel="me noopener">
+                <span data-i18n="contact.cta">Mis datos de contacto en el Portal de la Ciencia de la UVa</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+              </a>
+            </p>
 
             <address class="addr">
               <span data-i18n="contact.dept">Dpto. de Teoría de la Señal y Comunicaciones e Ingeniería Telemática</span>

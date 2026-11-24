@@ -54,6 +54,36 @@ Pasos, ya estando registrado en <https://developer.clarivate.com>:
            WOS_API_KEY: ${{ secrets.WOS_API_KEY }}
    ```
 
+### Cuando llegue la clave
+
+Estado a 24 de noviembre de 2026: aplicación `web-personal-uva` registrada y
+suscrita al **Free Institutional Member Plan**, con la aprobación pendiente. La
+clave aparecerá en <https://developer.clarivate.com/apis/wos-starter>, en la
+tabla *Applications*, donde ahora dice «Subscription approval is pending».
+
+Para no escribirla nunca en una conversación ni en el historial del shell,
+guárdala en un fichero y pásala desde ahí:
+
+```sh
+printf '%s' 'LA_CLAVE' > ~/.wos-key && chmod 600 ~/.wos-key
+
+# 1. Probarla sin imprimirla: ¿devuelve citas tu plan?
+WOS_API_KEY="$(cat ~/.wos-key)" python3 scripts/update_data.py
+
+# 2. Subirla como secreto del repositorio
+gh secret set WOS_API_KEY < ~/.wos-key
+
+# 3. Lanzar el cron a mano y ver el log
+gh workflow run "Refresh bibliometrics"
+gh run watch
+
+# 4. Borrar el fichero
+rm ~/.wos-key
+```
+
+Si el paso 1 avisa de que no llegan citas, la suscripción quedó en el Free
+Trial y hay que reclamar el plan institucional.
+
 A partir de ahí el script consulta `AI=(B-9123-2018)`, tu ResearcherID, en
 `api.clarivate.com/apis/wos-starter/v2/documents`, suma las citas y **calcula
 el índice h él mismo**: la API no lo ofrece, solo da las citas de cada

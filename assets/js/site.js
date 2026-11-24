@@ -322,8 +322,8 @@
         ${grid}${bars}${xLabels}${peakLabel}
       </svg>
       <p class="count">${state.lang === "es"
-        ? `Fuente: OpenAlex. La última barra corresponde al año en curso y aún no está completa.`
-        : `Source: OpenAlex. The final bar is the current year and is still incomplete.`}</p>
+        ? `Última barra: año en curso, incompleto · OpenAlex`
+        : `Final bar: current year, incomplete · OpenAlex`}</p>
     `;
   }
 

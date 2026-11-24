@@ -65,16 +65,17 @@
      stack: slower and wider as they go. The subject of the research,
      drawn rather than illustrated. */
 
-  /* Un EEG, no una onda decorativa.
+  /* Un campo de líneas en flujo.
    *
-   * Lo que delata a un EEG falso es que sea liso: una suma de senoides se
-   * repite y se nota. El EEG real tiene espectro 1/f, asi que aqui el
-   * fondo es ruido rosa de cinco octavas, y sobre el van los rasgos que
-   * un ojo entrenado busca: husos de alfa con envolvente en las
-   * derivaciones posteriores, beta rapido de poca amplitud, artefacto de
-   * parpadeo en las frontales y alguna punta en las temporales.
+   * Lo anterior imitaba un EEG y no convencía: un registro clínico
+   * dibujado a mano siempre se nota, y la comparación con el auténtico
+   * la pierde. Esto no finge ser un dato. Son líneas de nivel de un
+   * campo que se deforma despacio: la amplitud se abre en el centro de
+   * la banda y se cierra en los bordes, así que el conjunto respira
+   * como una lente.
    *
-   * La rejilla marca segundos, como en un registro a 30 mm/s.
+   * Dos reglas que lo mantienen sobrio: las líneas nunca se cruzan, y
+   * la opacidad es baja. Lo que se ve es el tejido, no cada hilo.
    */
   function initTrace() {
     const canvas = $("#trace");
@@ -82,21 +83,8 @@
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    const CHANNELS = [
-      { label: "Fp1-F3", alpha: .20, beta: .55, slow: .80, spike: 0, blink: 1 },
-      { label: "F3-C3",  alpha: .42, beta: .42, slow: .62, spike: 0, blink: .35 },
-      { label: "C3-P3",  alpha: .68, beta: .32, slow: .48, spike: .30, blink: 0 },
-      { label: "P3-O1",  alpha: 1.0, beta: .22, slow: .38, spike: 0, blink: 0 },
-      { label: "T3-T5",  alpha: .34, beta: .48, slow: .70, spike: .60, blink: 0 },
-      { label: "Fz-Cz",  alpha: .28, beta: .52, slow: .74, spike: 0, blink: .5 },
-    ];
-    // 80 px por segundo, no los 30 mm/s del papel: a 30 px/s el alfa de
-    // 10 Hz cae a 3 pixeles por ciclo y se veria como ruido con moire.
-    // A 80 da 8 pixeles por ciclo, que es donde el ritmo se lee.
-    const PX_PER_S = 80;
-    const SPEED = 48;         // pixeles por segundo de desplazamiento
-    const STEP = 1;
-
+    const LINES = 22;
+    const STEP = 7;            // muestreo horizontal; la curva se interpola
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let w = 0, h = 0, raf = 0, visible = true;
 
@@ -115,138 +103,51 @@
         .getPropertyValue(name).trim() || fallback;
     }
 
-    /* Ruido de valor: determinista, asi que una misma posicion da siempre
-       el mismo valor y el trazo no tiembla entre fotogramas. */
-    function hash(n) {
-      const v = Math.sin(n * 127.1) * 43758.5453;
-      return v - Math.floor(v);
-    }
-    function vnoise(x, seed) {
-      const i = Math.floor(x), f = x - i;
-      const a = hash(i + seed * 57.3), b = hash(i + 1 + seed * 57.3);
-      return a + (b - a) * f * f * (3 - 2 * f);     // smoothstep
-    }
-    /* Varias octavas con amplitud decreciente: eso es el 1/f. */
-    function pink(x, seed, octaves) {
-      let v = 0, amp = 1, freq = 1, norm = 0;
-      for (let o = 0; o < octaves; o++) {
-        v += (vnoise(x * freq, seed + o * 13.7) - 0.5) * amp;
-        norm += amp; amp *= 0.56; freq *= 2.07;
-      }
-      return (v / norm) * 2;
-    }
-
-    /* Los husos de alfa aparecen y desaparecen, como con los ojos
-       cerrandose a ratos. */
-    function spindle(t, seed) {
-      const env = vnoise(t * 0.14, seed + 71) * 1.6 - 0.45;
-      return Math.max(0, Math.min(1, env));
-    }
-
-    /* Parpadeo: subida rapida, bajada lenta, solo en las frontales. */
-    function blink(t, seed) {
-      const period = 5.2 + hash(Math.floor(t / 5.2) + seed) * 3.4;
-      const phase = (t % period) / period;
-      if (phase > 0.085) return 0;
-      const k = phase / 0.085;
-      return Math.sin(Math.pow(k, 0.65) * Math.PI) * (1 - k * 0.25);
+    /* Tres senoides inconmensurables: el patrón no se repite a la vista
+       y el cálculo sigue siendo trivial. */
+    function wave(x, t, phase) {
+      return Math.sin(x * 0.0062 + t * 0.21 + phase) * 1.00
+           + Math.sin(x * 0.0113 - t * 0.147 + phase * 1.7) * 0.52
+           + Math.sin(x * 0.0029 + t * 0.085 + phase * 0.6) * 0.78;
     }
 
     function draw(elapsed) {
       ctx.clearRect(0, 0, w, h);
-      const ink = token("--ink", "#121d2b");
-      const rule = token("--rule-soft", "#b8c3cb");
-      const muted = token("--muted", "#62748a");
+      const t = elapsed / 1000;
+      const accent = token("--accent", "#1b4ea8");
 
-      const rows = CHANNELS.length;
-      const pad = h * 0.07;
-      const labels = w > 460;
-      const left = labels ? 56 : 0;
-      const lane = (h - pad * 2) / rows;
-      const gain = lane * 0.38;
-      const shift = elapsed * SPEED / 1000;
-
-      // Rejilla de segundos, que se desplaza con el trazo.
-      ctx.save();
-      ctx.strokeStyle = rule;
-      ctx.globalAlpha = 0.5;
-      ctx.lineWidth = 1;
-      const offset = shift % PX_PER_S;
-      for (let x = left + PX_PER_S - offset; x <= w; x += PX_PER_S) {
-        ctx.beginPath();
-        ctx.moveTo(Math.round(x) + 0.5, pad * 0.5);
-        ctx.lineTo(Math.round(x) + 0.5, h - pad * 0.5);
-        ctx.stroke();
-      }
-      ctx.restore();
-
-      if (labels) {
-        ctx.save();
-        ctx.font = '500 9px ui-monospace, SFMono-Regular, Menlo, monospace';
-        ctx.fillStyle = muted;
-        ctx.textBaseline = "middle";
-        CHANNELS.forEach((ch, i) => {
-          ctx.fillText(ch.label, 0, pad + lane * (i + 0.5));
-        });
-        ctx.restore();
-      }
-
-      ctx.strokeStyle = ink;
+      ctx.strokeStyle = accent;
       ctx.lineWidth = 1;
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
 
-      CHANNELS.forEach((ch, i) => {
-        const mid = pad + lane * (i + 0.5);
-        const seed = i * 3.1 + 1.7;
+      const mid = h / 2;
 
-        ctx.globalAlpha = 0.52;
+      for (let i = 0; i < LINES; i++) {
+        const k = i / (LINES - 1);            // 0 arriba, 1 abajo
+        const y0 = k * h;
+
+        // La amplitud se abre en el centro de la banda: coseno elevado,
+        // que llega a cero justo en los bordes y no los desborda.
+        const lens = Math.pow(Math.sin(k * Math.PI), 1.45);
+        const amp = (h * 0.21) * lens;
+
+        // Cada línea va un poco retrasada respecto a la anterior: eso es
+        // lo que hace que el conjunto parezca una superficie y no 22
+        // curvas sueltas.
+        const phase = k * 2.35;
+
+        ctx.globalAlpha = 0.07 + lens * 0.26;
         ctx.beginPath();
 
-        for (let x = left; x <= w; x += STEP) {
-          const t = (x + shift) / PX_PER_S;      // segundos
-
-          // Fondo 1/f: delta, theta y la deriva lenta.
-          let v = pink(t * 1.15, seed, 5) * ch.slow * 1.15;
-
-          // Alfa a 10 Hz, en husos.
-          v += Math.sin(t * 62.8 + seed * 3) * spindle(t, seed) * ch.alpha * 0.62;
-
-          // Beta: textura rapida de poca amplitud.
-          v += pink(t * 11, seed + 31, 2) * ch.beta * 0.26;
-
-          // Parpadeo, hacia arriba y de amplitud alta.
-          if (ch.blink) v -= blink(t, seed) * ch.blink * 1.5;
-
-          // Punta aislada, estrecha.
-          if (ch.spike) {
-            const p = (t * 0.07 + seed * 0.37) % 1;
-            if (p < 0.012) v -= Math.sin((p / 0.012) * Math.PI) * ch.spike * 1.8;
-          }
-
-          const y = mid + v * gain;
-          if (x === left) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        for (let x = 0; x <= w + STEP; x += STEP) {
+          const y = y0 + (mid - y0) * 0.06 + wave(x, t, phase) * amp * 0.42;
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
         ctx.stroke();
-      });
+      }
 
       ctx.globalAlpha = 1;
-
-      // Escala: "1 s", para que la rejilla se entienda.
-      if (labels) {
-        ctx.save();
-        ctx.font = '500 8px ui-monospace, SFMono-Regular, Menlo, monospace';
-        ctx.fillStyle = muted;
-        ctx.textAlign = "right";
-        ctx.textBaseline = "bottom";
-        ctx.fillText("1 s", w - 4, h - 2);
-        ctx.beginPath();
-        ctx.strokeStyle = muted;
-        ctx.moveTo(w - 4 - PX_PER_S, h - 11.5);
-        ctx.lineTo(w - 4, h - 11.5);
-        ctx.stroke();
-        ctx.restore();
-      }
     }
 
     let t0 = 0;
@@ -260,7 +161,8 @@
       if (raf) cancelAnimationFrame(raf);
       size();
       t0 = 0;
-      if (reduce.matches) { draw(0); return; }   // un fotograma fijo, completo
+      // Un fotograma fijo sigue siendo una composición completa.
+      if (reduce.matches) { draw(2600); return; }
       raf = requestAnimationFrame(loop);
     }
 
@@ -465,12 +367,49 @@
         if (!state.kinds.size) state.kinds.add("journal");   // nunca vacio
         state.expanded.pubs = false;
         renderKindChips();
+        syncQualityRow();
         renderPublications();
       });
     });
   }
 
+  /* Cuartil y decil solo existen en revistas indexadas: con otra categoria
+     seleccionada, la fila entera se retira en lugar de ofrecer filtros que
+     vaciarian la lista. */
+  function syncQualityRow() {
+    const row = $("#qual-row");
+    if (!row) return;
+    const relevant = state.kinds.has("journal") || state.kinds.has("journal_other");
+    row.hidden = !relevant;
+    if (!relevant && state.filter !== "all") {
+      state.filter = "all";
+      $$("#qual-chips button").forEach((b) => {
+        b.setAttribute("aria-pressed", String(b.dataset.filter === "all"));
+      });
+    }
+  }
+
+  /* Selector de año, poblado con lo que hay en la categoria elegida. */
+  function renderYearPicker() {
+    const select = $("#pub-year");
+    if (!select) return;
+
+    const pool = state.profile.publications.filter((p) =>
+      !state.kinds.size || state.kinds.has(p.kind || "journal"));
+    const counts = {};
+    pool.forEach((p) => { counts[p.year] = (counts[p.year] || 0) + 1; });
+    const years = Object.keys(counts).map(Number).sort((a, b) => b - a);
+
+    // Si el año elegido ya no existe en esta categoria, se suelta.
+    if (state.year && !counts[state.year]) state.year = null;
+
+    select.innerHTML = `<option value="">${esc(t("f.year.all"))}</option>`
+      + years.map((y) => `<option value="${y}"${y === state.year ? " selected" : ""}>`
+          + `${y} (${counts[y]})</option>`).join("");
+  }
+
   function renderPublications() {
+    renderYearPicker();
     const host = $("#pub-list");
     const counter = $("#pub-count");
     if (!host) return;
@@ -523,11 +462,12 @@
       if (pub.top_decile) badges.push(`<span class="q d1">D1</span>`);
 
       const kind = pub.kind || "journal";
-      if (kind !== "journal" && !badges.length) {
-        badges.push(`<span class="q kind">${esc(t("k." + kind))}</span>`);
-      }
 
       const where = [
+        // El tipo va aqui y no en la columna de insignias: ahi solo caben
+        // tres caracteres y "Congresos internacionales" se desbordaba
+        // encima del titulo.
+        kind !== "journal" ? `<span class="kind">${esc(t("k." + kind))}</span>` : "",
         pub.journal ? `<span class="journal">${esc(pub.journal)}</span>` : "",
         pub.volume ? `vol. ${esc(pub.volume)}` : "",
         pub.pages ? `pp. ${esc(pub.pages)}` : "",
@@ -574,6 +514,12 @@
     const search = $("#pub-search");
     search?.addEventListener("input", () => {
       state.query = search.value.trim().toLowerCase();
+      renderPublications();
+    });
+
+    $("#pub-year")?.addEventListener("change", (ev) => {
+      state.year = ev.target.value ? Number(ev.target.value) : null;
+      state.expanded.pubs = false;
       renderPublications();
     });
   }
@@ -723,6 +669,50 @@
     }
   }
 
+  /* ── pestañas ────────────────────────────────── */
+  /* Un solo panel visible por grupo. Teclado completo, porque un
+     tablist que no responde a las flechas no es un tablist.
+
+     Al mostrarse un panel se avisa con un evento: ECharts no sabe
+     dimensionarse dentro de un contenedor oculto, asi que necesita
+     enterarse del momento exacto en que deja de estarlo. */
+  function initTabs() {
+    $$("[data-tabs]").forEach((group) => {
+      const tabs = Array.from(group.querySelectorAll('[role="tab"]'));
+      if (!tabs.length) return;
+
+      const show = (tab, focus) => {
+        tabs.forEach((other) => {
+          const on = other === tab;
+          other.setAttribute("aria-selected", String(on));
+          other.tabIndex = on ? 0 : -1;
+          const panel = document.getElementById(
+            other.getAttribute("aria-controls"));
+          if (panel) panel.hidden = !on;
+        });
+        if (focus) tab.focus();
+        const panel = document.getElementById(tab.getAttribute("aria-controls"));
+        if (panel) {
+          window.dispatchEvent(new CustomEvent("jgp:tabshown", { detail: panel }));
+        }
+      };
+
+      tabs.forEach((tab, i) => {
+        tab.addEventListener("click", () => show(tab, false));
+        tab.addEventListener("keydown", (ev) => {
+          const map = { ArrowRight: 1, ArrowLeft: -1, Home: "first", End: "last" };
+          const move = map[ev.key];
+          if (move === undefined) return;
+          ev.preventDefault();
+          const next = move === "first" ? 0
+            : move === "last" ? tabs.length - 1
+            : (i + move + tabs.length) % tabs.length;
+          show(tabs[next], true);
+        });
+      });
+    });
+  }
+
   /* ── gráficos ─────────────────────────────────────────────── */
 
   function paintCharts() {
@@ -822,6 +812,7 @@
     renderMetrics();
     renderLines();
     renderKindChips();
+    syncQualityRow();
     renderPublications();
     paintCharts();
     renderProjects();
@@ -853,6 +844,7 @@
 
     initLang();
     initFilters();
+    initTabs();
     initReveal();
     initCounters();
     renderAll();

@@ -340,6 +340,34 @@ def openalex_works(author_id: str) -> list[dict]:
     return works
 
 
+def openalex_countries(author_ids: list[str]) -> list[dict]:
+    """Paises de las instituciones coautoras, con su numero de trabajos.
+
+    OpenAlex agrupa del lado del servidor, asi que esto es una sola
+    peticion en lugar de descargar las afiliaciones de 122 trabajos.
+
+    Espana queda fuera: es la institucion propia y aparece en casi todo,
+    asi que incluirla aplasta la escala del resto sin informar de nada.
+    """
+    ids = "%7C".join(author_ids)       # el OR de OpenAlex es la barra vertical
+    url = ("https://api.openalex.org/works"
+           f"?filter=author.id:{ids}"
+           "&group_by=institutions.country_code&per-page=200")
+    payload = fetch_json(url)
+
+    rows = []
+    for row in payload.get("group_by", []):
+        code = (row.get("key") or "").rsplit("/", 1)[-1].upper()
+        name = row.get("key_display_name") or code
+        count = int(row.get("count") or 0)
+        if not code or code == "UNKNOWN" or code == "ES" or not count:
+            continue
+        rows.append({"code": code, "name": name, "works": count})
+
+    rows.sort(key=lambda r: (-r["works"], r["name"]))
+    return rows
+
+
 def h_index(citation_counts: list[int]) -> int:
     h = 0
     for rank, citations in enumerate(sorted(citation_counts, reverse=True), start=1):
@@ -567,6 +595,12 @@ def main() -> int:
     print(f"  {wos['citations']} citations, h={wos['h_index']}" if wos
           else "  no key configured; content.json keeps the WoS figures", flush=True)
 
+    print("Grouping co-authoring institutions by country ...", flush=True)
+    countries = openalex_countries(OPENALEX_AUTHOR_IDS)
+    print(f"  {len(countries)} countries besides Spain"
+          + (f", top {countries[0]['name']} ({countries[0]['works']})"
+             if countries else ""), flush=True)
+
     print("Building the co-authorship network ...", flush=True)
     network = collaboration(publications)
     print(f"  {len(network['nodes'])} nodes of {network['total_coauthors']} "
@@ -593,6 +627,7 @@ def main() -> int:
         },
         "publications": publications,
         "collaboration": network,
+        "countries": countries,
         "awards": awards,
     }
 

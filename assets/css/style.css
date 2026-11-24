@@ -355,7 +355,7 @@ h1 {
 }
 .trace canvas {
   display: block; width: 100%;
-  height: clamp(132px, 17vw, 184px);   /* seis derivaciones necesitan sitio */
+  height: clamp(120px, 15vw, 172px);
 }
 
 /* ── metrics ──────────────────────────────────────────────── */
@@ -524,12 +524,14 @@ h1 {
 }
 .chips button:hover .chip-n { color: var(--accent); }
 
-.search { display: flex; min-width: 0; margin-left: auto; }
+.filter-row-end { gap: .9rem 1.4rem; }
+
+.search { display: flex; flex: 1 1 16rem; min-width: 0; }
 .search input {
   /* line-height 1 recortaba los trazos descendentes de la pista, y el
      type=search trae su propio recorte en Safari: fuera los dos. */
   font: 400 .85rem/1.5 var(--ui);
-  padding: .5rem .2rem; width: min(100%, 19rem);
+  padding: .5rem .2rem; width: 100%; min-width: 0;
   color: var(--ink); background: transparent;
   border: 0; border-bottom: 1px solid var(--rule); border-radius: 0;
   appearance: none; -webkit-appearance: none;
@@ -546,23 +548,41 @@ h1 {
   color: var(--muted); margin: 1.1rem 0 1.4rem;
 }
 
+/* Selector de año. */
+.picker {
+  display: inline-flex; align-items: center; gap: .6rem;
+  flex: none;
+  font: 500 .66rem/1.4 var(--data);
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted);
+}
+.picker select {
+  font: 400 .8rem/1.4 var(--ui);
+  letter-spacing: 0; text-transform: none;
+  padding: .45rem 1.9rem .45rem .55rem; cursor: pointer;
+  color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 0;
+  appearance: none; -webkit-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 15px) 55%, calc(100% - 10px) 55%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  transition: border-color .2s var(--ease);
+}
+.picker select:hover,
+.picker select:focus { outline: 0; border-color: var(--accent); }
+
 @media (max-width: 40rem) {
-  .search { margin-left: 0; width: 100%; }
   .filter-label { min-width: 0; }
+  .search { flex: 1 1 100%; }
 }
 
 /* ── publication list ─────────────────────────────────────── */
 
 .pubs { display: flex; flex-direction: column; }
 
-/* Insignia para lo que no es articulo indexado: no lleva cuartil. */
-.q.kind {
-  background: transparent;
-  border: 1px solid var(--rule);
-  color: var(--muted);
-  letter-spacing: .06em;
-  white-space: nowrap;
-}
 .pub-year {
   font: 800 1.2rem/1 var(--display);
   letter-spacing: -.03em; color: var(--muted);
@@ -597,6 +617,14 @@ h1 {
 .pub-title a { color: var(--ink); background-size: 0 1px; background-position: 0 100%; }
 .pub-title a:hover { color: var(--accent); background-size: 100% 1px; }
 .pub-meta { font-size: .86rem; color: var(--ink-soft); margin: 0 0 .3rem; }
+.pub-meta .kind {
+  font: 500 .66rem/1 var(--data);
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--muted);
+  padding: .22rem .45rem;
+  border: 1px solid var(--rule);
+  white-space: nowrap;
+}
 .pub-meta .journal { font-family: var(--reading); font-style: italic; font-size: .95rem; }
 .pub-authors {
   font-size: .8rem; color: var(--muted); margin: 0;
@@ -845,11 +873,13 @@ h1 {
 .reveal:nth-child(3) { transition-delay: .14s; }
 
 /* Las filas de publicacion responden al cursor. */
-.pub {
+.pub,
+.project {
   transition: background-color .25s var(--ease),
               padding-left .25s var(--ease);
 }
-.pub:hover {
+.pub:hover,
+.project:hover {
   background: color-mix(in oklab, var(--accent) 5%, transparent);
   padding-left: .7rem;
 }
@@ -866,9 +896,11 @@ h1 {
 .metric .num { font-variant-numeric: tabular-nums; }
 
 @media (prefers-reduced-motion: reduce) {
+  [role="tabpanel"] { animation: none; }
+  .tablist button::after { transition: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .pub, .pub-title a { transition: none; }
-  .pub:hover { padding-left: 0; }
+  .pub, .project, .pub-title a { transition: none; }
+  .pub:hover, .project:hover { padding-left: 0; }
 }
 
 
@@ -876,14 +908,56 @@ h1 {
 /* ECharts se carga sola al acercarse: estas alturas fijan el sitio
    por adelantado, para que la página no salte al llegar. */
 
-.charts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
-  gap: 1.6rem 1.9rem;
-  margin: 0 0 2.6rem;
+/* ── pestañas ────────────────────────────────── */
+/* Un panel a la vez. Asi cada gráfica puede ocupar el ancho entero en
+   lugar de competir con las otras cuatro. */
+
+.tabs { margin: 0 0 2.6rem; }
+
+.tablist {
+  display: flex; flex-wrap: wrap; gap: 0;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.5rem;
 }
+.tablist button {
+  position: relative;
+  font: 500 .74rem/1.3 var(--data);
+  letter-spacing: .09em; text-transform: uppercase;
+  padding: .8rem 1.05rem; cursor: pointer;
+  color: var(--muted);
+  background: transparent; border: 0;
+  transition: color .22s var(--ease);
+}
+/* El subrayado crece desde el centro al activarse. */
+.tablist button::after {
+  content: "";
+  position: absolute; left: 50%; bottom: -1px;
+  width: 0; height: 2px;
+  background: var(--accent);
+  transform: translateX(-50%);
+  transition: width .3s var(--ease);
+}
+.tablist button:hover { color: var(--ink-soft); }
+.tablist button[aria-selected="true"] { color: var(--ink); }
+.tablist button[aria-selected="true"]::after { width: 100%; }
+.tablist button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: -2px;
+}
+
+[role="tabpanel"] { animation: panel .4s var(--ease); }
+@keyframes panel {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.tab-note {
+  margin: 0 0 1rem;
+  font: 400 .72rem/1.5 var(--data);
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
 .chart { margin: 0; min-width: 0; }
-.chart-wide { grid-column: 1 / -1; }
 
 .chart figcaption {
   display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .8rem;
@@ -900,9 +974,11 @@ h1 {
   color: var(--muted);
 }
 
+/* Con una sola gráfica a la vista, puede ser grande. */
 .chart-box { width: 100%; height: 232px; }
-.chart-box.tall   { height: 300px; }
-.chart-box.taller { height: 420px; }
+.chart-box.tall { height: 300px; }
+.chart-box.big  { height: min(58vh, 430px); }
+.chart-box.huge { height: min(72vh, 560px); }
 
 .chart-note {
   display: flex; align-items: center; justify-content: center;
@@ -934,6 +1010,11 @@ h1 {
 
 @media (max-width: 40rem) {
   .chart-box { height: 210px; }
-  .chart-box.tall   { height: 250px; }
-  .chart-box.taller { height: 340px; }
+  .chart-box.tall { height: 250px; }
+  .chart-box.big  { height: 310px; }
+  .chart-box.huge { height: 390px; }
+  .tablist button {
+    padding: .7rem .65rem;
+    font-size: .67rem; letter-spacing: .05em;
+  }
 }

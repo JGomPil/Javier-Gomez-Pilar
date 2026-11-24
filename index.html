@@ -118,32 +118,32 @@
       <div class="band-body">
         <h2 data-i18n="pub.h">Publicaciones</h2>
 
-        <div class="charts">
-          <figure class="chart chart-wide">
-            <figcaption>
-              <span data-i18n="g.output">Producción por año</span>
-              <small data-i18n="g.output.sub">Pulsa una barra para filtrar la lista</small>
-            </figcaption>
-            <div id="chart-output" data-chart class="chart-box tall"></div>
-          </figure>
-          <figure class="chart">
-            <figcaption>
-              <span data-i18n="g.cites">Citas recibidas por año</span>
-              <small data-i18n="g.cites.src">OpenAlex · Web of Science no publica la serie anual</small>
-            </figcaption>
-            <div id="chart-citations" data-chart class="chart-box"></div>
-          </figure>
-          <figure class="chart">
-            <figcaption><span data-i18n="g.quart">Cuartil de la revista</span></figcaption>
-            <div id="chart-quartiles" data-chart class="chart-box"></div>
-          </figure>
-          <figure class="chart chart-wide">
-            <figcaption>
-              <span data-i18n="g.net">Red de coautoría</span>
-              <small id="net-sub"></small>
-            </figcaption>
-            <div id="chart-network" data-chart class="chart-box taller"></div>
-          </figure>
+        <div class="tabs" data-tabs="charts">
+          <div class="tablist" role="tablist">
+            <button type="button" role="tab" id="t-output" aria-controls="p-output" aria-selected="true" tabindex="0" data-i18n="g.tab.output">g.tab.output</button>
+            <button type="button" role="tab" id="t-cites" aria-controls="p-cites" aria-selected="false" tabindex="-1" data-i18n="g.tab.cites">g.tab.cites</button>
+            <button type="button" role="tab" id="t-quart" aria-controls="p-quart" aria-selected="false" tabindex="-1" data-i18n="g.tab.quart">g.tab.quart</button>
+            <button type="button" role="tab" id="t-net" aria-controls="p-net" aria-selected="false" tabindex="-1" data-i18n="g.tab.net">g.tab.net</button>
+            <button type="button" role="tab" id="t-countries" aria-controls="p-countries" aria-selected="false" tabindex="-1" data-i18n="g.tab.countries">g.tab.countries</button>
+          </div>
+          <div role="tabpanel" id="p-output" aria-labelledby="t-output">
+            <p class="tab-note" data-i18n="g.output.sub">Pulsa una barra para filtrar la lista</p>
+            <div id="chart-output" data-chart class="chart-box big"></div>
+          </div>
+          <div role="tabpanel" id="p-cites" aria-labelledby="t-cites" hidden>
+            <div id="chart-citations" data-chart class="chart-box big"></div>
+          </div>
+          <div role="tabpanel" id="p-quart" aria-labelledby="t-quart" hidden>
+            <div id="chart-quartiles" data-chart class="chart-box big"></div>
+          </div>
+          <div role="tabpanel" id="p-net" aria-labelledby="t-net" hidden>
+            <p class="tab-note" id="net-sub"></p>
+            <div id="chart-network" data-chart class="chart-box huge"></div>
+          </div>
+          <div role="tabpanel" id="p-countries" aria-labelledby="t-countries" hidden>
+            <p class="tab-note" data-i18n="g.countries.sub">Países de las instituciones coautoras.</p>
+            <div id="chart-countries" data-chart class="chart-box big"></div>
+          </div>
         </div>
 
         <div class="controls">
@@ -151,7 +151,7 @@
             <p class="filter-label" data-i18n="f.kind">Tipo</p>
             <div class="chips" id="kind-chips" role="group" aria-label="Tipo de publicación"></div>
           </div>
-          <div class="filter-row">
+          <div class="filter-row" id="qual-row">
             <p class="filter-label" data-i18n="f.quality">Filtrar</p>
             <div class="chips" id="qual-chips" role="group" aria-label="Filtros">
               <button type="button" data-filter="all" aria-pressed="true" data-i18n="f.all">Todas</button>
@@ -159,9 +159,15 @@
               <button type="button" data-filter="d1" aria-pressed="false" data-i18n="f.d1">Primer decil</button>
               <button type="button" data-filter="first" aria-pressed="false" data-i18n="f.first">Primer autor</button>
             </div>
+          </div>
+          <div class="filter-row filter-row-end">
+            <label class="picker">
+              <span data-i18n="f.year">Año</span>
+              <select id="pub-year"></select>
+            </label>
             <label class="search">
               <span class="sr" data-i18n="f.search">Buscar</span>
-              <input type="search" id="pub-search" placeholder="Buscar título, revista, coautor…" data-i18n-ph="f.search.ph">
+              <input type="search" id="pub-search" placeholder="Buscar título, revista o coautor" data-i18n-ph="f.search.ph">
             </label>
           </div>
         </div>
@@ -179,12 +185,18 @@
       <p class="idx"><span data-i18n="idx.projects">Proyectos</span></p>
       <div class="band-body">
         <h2 data-i18n="proj.h">Proyectos</h2>
-        <figure class="chart chart-wide">
-          <figcaption><span data-i18n="g.proj">Proyectos</span></figcaption>
-          <div id="chart-projects" data-chart class="chart-box tall"></div>
-        </figure>
-
-        <div id="projects-list" class="projects"></div>
+        <div class="tabs" data-tabs="projects">
+          <div class="tablist" role="tablist">
+            <button type="button" role="tab" id="t-timeline" aria-controls="p-timeline" aria-selected="true" tabindex="0" data-i18n="proj.tab.timeline">proj.tab.timeline</button>
+            <button type="button" role="tab" id="t-plist" aria-controls="p-plist" aria-selected="false" tabindex="-1" data-i18n="proj.tab.list">proj.tab.list</button>
+          </div>
+          <div role="tabpanel" id="p-timeline" aria-labelledby="t-timeline">
+            <div id="chart-projects" data-chart class="chart-box huge"></div>
+          </div>
+          <div role="tabpanel" id="p-plist" aria-labelledby="t-plist" hidden>
+            <div id="projects-list" class="projects"></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -195,14 +207,19 @@
       <p class="idx"><span data-i18n="idx.teaching">Docencia</span></p>
       <div class="band-body">
         <h2 data-i18n="teach.h">Docencia y supervisión</h2>
-        <article class="feature" id="atenea"></article>
-        <div class="two">
-          <div>
-            <h3 data-i18n="teach.courses">Asignaturas</h3>
+        <div class="tabs" data-tabs="teaching">
+          <div class="tablist" role="tablist">
+            <button type="button" role="tab" id="t-mentoring" aria-controls="p-mentoring" aria-selected="true" tabindex="0" data-i18n="teach.tab.mentoring">teach.tab.mentoring</button>
+            <button type="button" role="tab" id="t-courses" aria-controls="p-courses" aria-selected="false" tabindex="-1" data-i18n="teach.tab.courses">teach.tab.courses</button>
+            <button type="button" role="tab" id="t-sup" aria-controls="p-sup" aria-selected="false" tabindex="-1" data-i18n="teach.tab.sup">teach.tab.sup</button>
+          </div>
+          <div role="tabpanel" id="p-mentoring" aria-labelledby="t-mentoring">
+            <article class="feature" id="atenea"></article>
+          </div>
+          <div role="tabpanel" id="p-courses" aria-labelledby="t-courses" hidden>
             <div id="teaching-list" class="courses"></div>
           </div>
-          <div>
-            <h3 data-i18n="teach.sup">Supervisión</h3>
+          <div role="tabpanel" id="p-sup" aria-labelledby="t-sup" hidden>
             <div id="supervision" class="sup"></div>
           </div>
         </div>
@@ -217,15 +234,19 @@
       <div class="band-body">
         <h2 data-i18n="rec.h">Reconocimiento</h2>
         <p class="lede" data-i18n="rec.lede">Tesis doctoral por compendio de publicaciones, con mención internacional y cum laude.</p>
-        <div class="two">
-          <div>
-            <h3 data-i18n="rec.awards">Premios y distinciones</h3>
+        <div class="tabs" data-tabs="recognition">
+          <div class="tablist" role="tablist">
+            <button type="button" role="tab" id="t-awards" aria-controls="p-awards" aria-selected="true" tabindex="0" data-i18n="rec.tab.awards">rec.tab.awards</button>
+            <button type="button" role="tab" id="t-service" aria-controls="p-service" aria-selected="false" tabindex="-1" data-i18n="rec.tab.service">rec.tab.service</button>
+            <button type="button" role="tab" id="t-ip" aria-controls="p-ip" aria-selected="false" tabindex="-1" data-i18n="rec.tab.ip">rec.tab.ip</button>
+          </div>
+          <div role="tabpanel" id="p-awards" aria-labelledby="t-awards">
             <ol id="awards-list" class="awards"></ol>
           </div>
-          <div>
-            <h3 data-i18n="rec.service">Servicio y evaluación</h3>
+          <div role="tabpanel" id="p-service" aria-labelledby="t-service" hidden>
             <ul id="service-list" class="service"></ul>
-            <h3 data-i18n="rec.ip">Propiedad intelectual</h3>
+          </div>
+          <div role="tabpanel" id="p-ip" aria-labelledby="t-ip" hidden>
             <ul id="ip-list" class="service"></ul>
           </div>
         </div>

@@ -30,7 +30,7 @@
    "f.d1": "Primer decil",
    "f.first": "Primer autor",
    "f.search": "Buscar",
-   "f.search.ph": "Buscar título, revista, coautor…",
+   "f.search.ph": "Buscar título, revista o coautor",
    "proj.h": "Proyectos",
    "teach.h": "Docencia y supervisión",
    "teach.courses": "Asignaturas",
@@ -97,9 +97,26 @@
    "g.loading": "Cargando gráficos…",
    "g.failed": "Los gráficos no han podido cargarse. Los datos siguen abajo.",
    "g.total": "total",
-   "g.cites.src": "OpenAlex · Web of Science no publica la serie anual",
    "g.net.degree": "coautores en esta red",
-   "g.net.legend": "más conectado  →  menos"
+   "g.net.legend": "más conectado  →  menos",
+   "f.year": "Año",
+   "f.year.all": "Todos",
+   "g.tab.output": "Producción",
+   "g.tab.cites": "Citas",
+   "g.tab.quart": "Cuartiles",
+   "g.tab.net": "Coautoría",
+   "g.tab.countries": "Países",
+   "g.countries": "Colaboración internacional",
+   "g.countries.sub": "Países de las instituciones coautoras. España queda fuera por ser la propia.",
+   "g.countries.works": "trabajos en coautoría",
+   "proj.tab.timeline": "Cronología",
+   "proj.tab.list": "Lista",
+   "teach.tab.mentoring": "Mentorización",
+   "teach.tab.courses": "Asignaturas",
+   "teach.tab.sup": "Supervisión",
+   "rec.tab.awards": "Premios",
+   "rec.tab.service": "Servicio y evaluación",
+   "rec.tab.ip": "Propiedad intelectual"
   },
   "en": {
    "skip": "Skip to content",
@@ -124,7 +141,7 @@
    "f.d1": "Top decile",
    "f.first": "First author",
    "f.search": "Search",
-   "f.search.ph": "Search title, journal, co-author…",
+   "f.search.ph": "Search title, journal or co-author",
    "proj.h": "Projects",
    "teach.h": "Teaching and supervision",
    "teach.courses": "Courses",
@@ -191,9 +208,26 @@
    "g.loading": "Loading charts…",
    "g.failed": "The charts could not load. The data is still listed below.",
    "g.total": "total",
-   "g.cites.src": "OpenAlex · Web of Science publishes no yearly series",
    "g.net.degree": "co-authors in this network",
-   "g.net.legend": "more connected  →  less"
+   "g.net.legend": "more connected  →  less",
+   "f.year": "Year",
+   "f.year.all": "All",
+   "g.tab.output": "Output",
+   "g.tab.cites": "Citations",
+   "g.tab.quart": "Quartiles",
+   "g.tab.net": "Co-authorship",
+   "g.tab.countries": "Countries",
+   "g.countries": "International collaboration",
+   "g.countries.sub": "Countries of co-authoring institutions. Spain is left out as the home country.",
+   "g.countries.works": "co-authored works",
+   "proj.tab.timeline": "Timeline",
+   "proj.tab.list": "List",
+   "teach.tab.mentoring": "Mentoring",
+   "teach.tab.courses": "Courses",
+   "teach.tab.sup": "Supervision",
+   "rec.tab.awards": "Awards",
+   "rec.tab.service": "Service and review",
+   "rec.tab.ip": "Intellectual property"
   }
  },
  "lines": [
@@ -206,11 +240,11 @@
    ],
    "es": {
     "title": "Dinámica temporal y redes funcionales",
-    "text": "Cada región cortical integra información en su propia ventana temporal, y esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Modelado como grafo funcional, el EEG permite además cuantificar cómo esa red se reorganiza durante la cognición: en esquizofrenia y trastorno bipolar aparece un déficit de modulación que correlaciona con el rendimiento cognitivo y los síntomas. Fue el objeto de la tesis doctoral y sigue siendo el núcleo del trabajo."
+    "text": "Cada región cortical integra información en su propia ventana temporal, y esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Modelado como grafo funcional, el EEG revela un déficit de modulación de esa red en esquizofrenia y trastorno bipolar."
    },
    "en": {
     "title": "Temporal dynamics and functional networks",
-    "text": "Each cortical region integrates information within a window of its own, and those windows form a hierarchy that converges with the core-periphery organisation of the cortex. Modelled as a functional graph, the EEG also makes it possible to quantify how that network reorganises during cognition: in schizophrenia and bipolar disorder a deficit in modulation appears that tracks cognitive performance and symptoms. This was the subject of the doctoral thesis and remains the core of the work."
+    "text": "Each cortical region integrates information within a window of its own, and those windows form a hierarchy that converges with the core-periphery organisation of the cortex. Modelled as a functional graph, the EEG reveals a deficit in network modulation in schizophrenia and bipolar disorder."
    }
   },
   {
@@ -222,11 +256,11 @@
    ],
    "es": {
     "title": "Fenotipado de la apnea del sueño",
-    "text": "La apnea no es una enfermedad única: distintos fenotipos responden de forma distinta al tratamiento. Las redes de correlación basadas en sujeto, construidas a partir de oximetría y variabilidad cardiaca, separan esos fenotipos y predicen quién se recupera. Es la línea más activa y la que más financiación mueve."
+    "text": "La apnea no es una enfermedad única: distintos fenotipos responden de forma distinta al tratamiento. Las redes de correlacion basadas en sujeto, construidas a partir de oximetría y variabilidad cardíaca, separan esos fenotipos y predicen quién se recupera."
    },
    "en": {
     "title": "Sleep apnoea phenotyping",
-    "text": "Apnoea is not one disease: different phenotypes respond differently to treatment. Subject-based correlation networks, built from oximetry and heart-rate variability, separate those phenotypes and predict who recovers. This is the most active line and the one that attracts the most funding."
+    "text": "Apnoea is not one disease: different phenotypes respond differently to treatment. Subject-based correlation networks, built from oximetry and heart-rate variability, separate those phenotypes and predict who recovers."
    }
   },
   {
@@ -238,11 +272,11 @@
    ],
    "es": {
     "title": "Interfaces cerebro-ordenador",
-    "text": "Sistemas no invasivos que convierten actividad cerebral en control: un navegador web manejado con P300 para personas con discapacidad severa, y entrenamiento cognitivo por neurofeedback para atenuar los efectos del envejecimiento. La línea de partida, y la que mantiene el trabajo cerca del paciente."
+    "text": "Sistemas no invasivos que convierten actividad cerebral en control: un navegador web manejado con P300 para personas con discapacidad severa, y entrenamiento cognitivo por neurofeedback para atenuar los efectos del envejecimiento sobre la atención y la memoria."
    },
    "en": {
     "title": "Brain-computer interfaces",
-    "text": "Non-invasive systems that turn brain activity into control: a P300-driven web browser for people with severe disabilities, and neurofeedback cognitive training to soften the effects of ageing. The starting line, and the one that keeps the work closest to the patient."
+    "text": "Non-invasive systems that turn brain activity into control: a P300-driven web browser for people with severe disabilities, and neurofeedback cognitive training to soften the effects of ageing on attention and memory."
    }
   }
  ],

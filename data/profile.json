@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T20:19:09Z",
+ "generated": "2026-11-24T21:09:55Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -3198,6 +3198,93 @@
    }
   ]
  },
+ "countries": [
+  {
+   "code": "CA",
+   "name": "Canada",
+   "works": 24
+  },
+  {
+   "code": "CN",
+   "name": "China",
+   "works": 20
+  },
+  {
+   "code": "US",
+   "name": "United States",
+   "works": 14
+  },
+  {
+   "code": "IT",
+   "name": "Italy",
+   "works": 8
+  },
+  {
+   "code": "PT",
+   "name": "Portugal",
+   "works": 5
+  },
+  {
+   "code": "DE",
+   "name": "Germany",
+   "works": 4
+  },
+  {
+   "code": "JP",
+   "name": "Japan",
+   "works": 4
+  },
+  {
+   "code": "EC",
+   "name": "Ecuador",
+   "works": 2
+  },
+  {
+   "code": "NL",
+   "name": "Netherlands",
+   "works": 2
+  },
+  {
+   "code": "RU",
+   "name": "Russia",
+   "works": 2
+  },
+  {
+   "code": "TR",
+   "name": "Turkey",
+   "works": 2
+  },
+  {
+   "code": "GB",
+   "name": "United Kingdom",
+   "works": 2
+  },
+  {
+   "code": "AT",
+   "name": "Austria",
+   "works": 1
+  },
+  {
+   "code": "BE",
+   "name": "Belgium",
+   "works": 1
+  },
+  {
+   "code": "FI",
+   "name": "Finland",
+   "works": 1
+  },
+  {
+   "code": "ID",
+   "name": "Indonesia",
+   "works": 1
+  },
+  {
+   "code": "CH",
+   "name": "Switzerland",
+   "works": 1
+  }
+ ],
  "awards": [
   {
    "year": 2023,

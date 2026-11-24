@@ -36,6 +36,9 @@
 
   /* Los textos viven en data/content.json, igual que el resto de la
      pagina: una sola fuente, nada que desincronizar. */
+  const esc = (v) => String(v).replace(/[&<>"]/g, (ch) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+
   const t = (key) => ctx?.content?.ui?.[ctx.lang]?.[key]
                   || ctx?.content?.ui?.es?.[key] || key;
 
@@ -372,8 +375,9 @@
         ...b.tooltip, trigger: "item",
         formatter: (p) => {
           const d = projects[p.dataIndex];
-          return `<b>${d.acronym}</b><br>${d.from}–${d.to}`
-            + `<br>${t("g.role." + d.role)}<br>${d.funder}`;
+          if (!d) return "";
+          return `<b>${d.acronym}</b><br>${d.from}\u2013${d.to}`
+            + `<br>${t("g.role." + d.role)}<br>${esc(d.funder)}`;
         },
       },
       legend: {
@@ -394,10 +398,12 @@
         axisLabel: { ...b.axisCommon.axisLabel, fontSize: 10 },
       },
       // Serie invisible que desplaza cada barra hasta su año de inicio.
+      // Tiene que ser el año absoluto: el eje va de 2012 a 2027, y un
+      // desplazamiento relativo (0..N) cae fuera de ese rango y no pinta.
       series: [
         { type: "bar", stack: "x", silent: true,
           itemStyle: { color: "transparent" },
-          data: projects.map((p) => p.from - from) },
+          data: projects.map((p) => p.from) },
         { type: "bar", stack: "x", barMaxWidth: 14,
           data: projects.map((p) => ({
             value: p.to - p.from + 1,
@@ -415,6 +421,58 @@
     return true;
   }
 
+  /* ── 6. paises de colaboracion ─────────────────── */
+
+  function chartCountries(host) {
+    const rows = ctx.profile.countries || [];
+    if (!rows.length) return false;
+    const b = base();
+    const colour = css("--accent", "#1b4ea8");
+    const max = rows[0].works;
+
+    // Barras horizontales: los nombres de pais se leen de corrido y no
+    // hay que girar la cabeza.
+    const shown = rows.slice(0, 14).slice().reverse();
+
+    mount(host, () => ({
+      ...b,
+      grid: { ...b.grid, left: 2, right: 34, top: 6, bottom: 2 },
+      tooltip: {
+        ...b.tooltip, trigger: "item",
+        formatter: (pt) => `<b>${esc(pt.name)}</b><br>${pt.value} `
+          + `${t("g.countries.works")}`,
+      },
+      xAxis: { type: "value", ...b.axisCommon, minInterval: 1,
+               axisLabel: { show: false }, axisLine: { show: false },
+               splitLine: { lineStyle: { color: b.rule, type: [3, 4] } } },
+      yAxis: {
+        type: "category",
+        data: shown.map((r) => r.name),
+        ...b.axisCommon,
+        splitLine: { show: false },
+        axisLabel: { ...b.axisCommon.axisLabel, fontSize: 11,
+                     fontFamily: css("--reading", "Inter, sans-serif") },
+      },
+      series: [{
+        type: "bar",
+        data: shown.map((r) => ({
+          value: r.works,
+          // Un solo tono, mas intenso cuanto mas peso: es magnitud.
+          itemStyle: { color: colour, opacity: 0.32 + 0.68 * (r.works / max) },
+        })),
+        barMaxWidth: 16,
+        label: {
+          show: true, position: "right",
+          color: b.muted, fontSize: 10, fontFamily: b.data,
+          formatter: "{c}",
+        },
+        emphasis: { itemStyle: { color: colour, opacity: 1 } },
+      }],
+      animationDuration: 700,
+    }));
+    return true;
+  }
+
   /* ── montaje ────────────────────────────────────────────────── */
 
   const BUILDERS = {
@@ -423,32 +481,63 @@
     "chart-quartiles": chartQuartiles,
     "chart-citations": chartCitations,
     "chart-projects": chartProjects,
+    "chart-countries": chartCountries,
   };
 
-  function status(message) {
-    document.querySelectorAll("[data-chart]").forEach((host) => {
-      if (!host.firstChild) host.innerHTML = `<p class="chart-note">${message}</p>`;
-    });
+  const built = new Set();
+
+  function note(host, message) {
+    host.innerHTML = `<p class="chart-note">${esc(message)}</p>`;
+  }
+
+  /* Oculta la pestana de un grafico que no tiene datos, en lugar de
+     dejar un panel vacio al que se puede entrar. */
+  function hideTab(host) {
+    const panel = host.closest('[role="tabpanel"]');
+    if (!panel) { host.remove(); return; }
+    const tab = document.getElementById(
+      panel.getAttribute("aria-labelledby") || "");
+    panel.remove();
+    tab?.remove();
+  }
+
+  /* Un contenedor oculto mide cero, y ECharts no puede dibujar en cero.
+     De ahi que cada grafico se construya la primera vez que su panel se
+     hace visible, y se redimensione en las siguientes. */
+  function ensure(host) {
+    if (!window.echarts || !ctx) return;
+    if (!host.offsetWidth) return;              // sigue oculto
+
+    if (built.has(host.id)) {
+      charts.find((c) => c.host === host)?.chart.resize();
+      return;
+    }
+    const fn = BUILDERS[host.id];
+    if (!fn) return;
+    built.add(host.id);
+    try {
+      host.innerHTML = "";
+      if (fn(host) === false) hideTab(host);
+    } catch (err) {
+      console.error(`chart ${host.id} failed:`, err);
+      note(host, t("g.failed"));
+    }
   }
 
   function build() {
-    Object.entries(BUILDERS).forEach(([id, fn]) => {
-      const host = document.getElementById(id);
-      if (!host) return;
-      try {
-        host.innerHTML = "";
-        if (fn(host) === false) host.closest("figure")?.remove();
-      } catch (err) {
-        console.error(`chart ${id} failed:`, err);
-        host.innerHTML = `<p class="chart-note">${t("g.failed")}</p>`;
-      }
+    document.querySelectorAll("[data-chart]").forEach(ensure);
+  }
+
+  function status(message) {
+    document.querySelectorAll("[data-chart]").forEach((host) => {
+      if (!host.firstChild) note(host, message);
     });
   }
 
   function start() {
     if (failed) return;
     status(t("g.loading"));
-    loadECharts().then(() => { charts = []; build(); })
+    loadECharts().then(() => { build(); })
       .catch((err) => {
         failed = true;
         console.error("echarts:", err);
@@ -470,8 +559,16 @@
       io.disconnect();
       start();
     }, { rootMargin: "320px" });
-    io.observe(first);
+
+    // Vigila un contenedor por seccion, no solo el primero: si alguien
+    // entra directo a #projects, sus graficos tambien deben cargarse.
+    document.querySelectorAll("[data-chart]").forEach((host) => io.observe(host));
   }
+
+  // Un panel recien mostrado ya puede medirse.
+  window.addEventListener("jgp:tabshown", (ev) => {
+    ev.detail?.querySelectorAll?.("[data-chart]").forEach(ensure);
+  });
 
   window.addEventListener("resize", () => {
     charts.forEach(({ chart }) => chart.resize());
@@ -485,6 +582,7 @@
       if (window.echarts && charts.length) {
         charts.forEach(({ chart }) => chart.dispose());
         charts = [];
+        built.clear();
         build();
       }
     },

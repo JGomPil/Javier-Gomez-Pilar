@@ -341,28 +341,76 @@ def openalex_works(author_id: str) -> list[dict]:
 
 
 def openalex_countries(author_ids: list[str]) -> list[dict]:
-    """Paises de las instituciones coautoras, con su numero de trabajos.
+    """Paises coautores, cada uno con las instituciones que hay detras.
 
-    OpenAlex agrupa del lado del servidor, asi que esto es una sola
-    peticion en lugar de descargar las afiliaciones de 122 trabajos.
+    Dos fuentes, cada una para lo que hace bien:
 
-    Espana queda fuera: es la institucion propia y aparece en casi todo,
-    asi que incluirla aplasta la escala del resto sin informar de nada.
+      - el agrupado del servidor da el recuento por pais y su nombre, y
+        es una sola peticion;
+      - los trabajos con sus autorias dan las afiliaciones concretas,
+        que el agrupado no incluye y que son las que permiten pulsar un
+        pais en el mapa y ver sus centros.
+
+    Espana entra en la lista: es su pais y en el mapa tiene que salir.
+    La pestana de ranking la descarta aparte, porque aparece en casi
+    todo y aplastaria la escala de los demas.
     """
     ids = "%7C".join(author_ids)       # el OR de OpenAlex es la barra vertical
+
+    # 1. Recuento y nombre de cada pais.
     url = ("https://api.openalex.org/works"
            f"?filter=author.id:{ids}"
            "&group_by=institutions.country_code&per-page=200")
-    payload = fetch_json(url)
+    paises: dict[str, dict] = {}
+    for row in fetch_json(url).get("group_by", []):
+        code = (row.get("key") or "").rsplit("/", 1)[-1].upper()
+        count = int(row.get("count") or 0)
+        if not code or code == "UNKNOWN" or not count:
+            continue
+        paises[code] = {
+            "code": code,
+            "name": row.get("key_display_name") or code,
+            "works": count,
+            "_inst": {},
+        }
+
+    # 2. Afiliaciones concretas, trabajo a trabajo.
+    cursor = "*"
+    for _ in range(5):                 # 122 trabajos caben de sobra
+        payload = fetch_json(
+            "https://api.openalex.org/works"
+            f"?filter=author.id:{ids}"
+            f"&select=id,authorships&per-page=200&cursor={cursor}")
+        resultados = payload.get("results") or []
+        if not resultados:
+            break
+
+        for work in resultados:
+            # Un trabajo suma uno por centro, no uno por firmante: si
+            # cinco autores comparten institucion, sigue siendo un
+            # trabajo de esa institucion.
+            vistos: set[tuple[str, str]] = set()
+            for authorship in work.get("authorships") or []:
+                for inst in authorship.get("institutions") or []:
+                    code = (inst.get("country_code") or "").upper()
+                    nombre = (inst.get("display_name") or "").strip()
+                    if code in paises and nombre:
+                        vistos.add((code, nombre))
+            for code, nombre in vistos:
+                centros = paises[code]["_inst"]
+                centros[nombre] = centros.get(nombre, 0) + 1
+
+        cursor = (payload.get("meta") or {}).get("next_cursor")
+        if not cursor:
+            break
 
     rows = []
-    for row in payload.get("group_by", []):
-        code = (row.get("key") or "").rsplit("/", 1)[-1].upper()
-        name = row.get("key_display_name") or code
-        count = int(row.get("count") or 0)
-        if not code or code == "UNKNOWN" or code == "ES" or not count:
-            continue
-        rows.append({"code": code, "name": name, "works": count})
+    for pais in paises.values():
+        centros = sorted(pais.pop("_inst").items(),
+                         key=lambda kv: (-kv[1], kv[0]))
+        pais["institutions"] = [{"name": n, "works": w}
+                                for n, w in centros[:12]]
+        rows.append(pais)
 
     rows.sort(key=lambda r: (-r["works"], r["name"]))
     return rows

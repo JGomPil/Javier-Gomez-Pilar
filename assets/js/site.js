@@ -379,7 +379,14 @@
   function syncQualityRow() {
     const row = $("#qual-row");
     if (!row) return;
-    const relevant = state.kinds.has("journal") || state.kinds.has("journal_other");
+    // No basta con que haya revistas seleccionadas: si ademas hay
+    // capitulos o congresos, "Q1" los excluiria a todos y el chip se
+    // quedaria encendido sin mostrar nada. El cuartil solo tiene
+    // sentido cuando lo unico elegido son revistas.
+    const revistas = ["journal", "journal_other"];
+    const relevant = Array.from(state.kinds).length > 0
+      && Array.from(state.kinds).every((k) => revistas.includes(k))
+      && revistas.some((k) => state.kinds.has(k));
     row.hidden = !relevant;
     if (!relevant && state.filter !== "all") {
       state.filter = "all";
@@ -660,6 +667,22 @@
     if (serviceHost) {
       serviceHost.innerHTML = state.content.service
         .map((s) => `<li>${esc(s[state.lang])}</li>`).join("");
+    }
+
+    const patHost = $("#patents");
+    if (patHost) {
+      // La patente pesa mas que los registros de software, asi que va
+      // delante y con su propia ficha, no como un punto mas de lista.
+      patHost.innerHTML = (state.content.patents || []).map((p) => `
+        <article class="patent">
+          <p class="kicker">${esc(t("rec.patent"))}</p>
+          <h4>${esc(p[state.lang])}</h4>
+          <p class="refs">
+            <span class="num">${esc(p.number)}</span>
+            <span>${esc(p.pct)}</span>
+            <span>${esc(t("rec.patent.of"))}: ${esc(p.holder)}</span>
+          </p>
+        </article>`).join("");
     }
 
     const ipHost = $("#ip-list");

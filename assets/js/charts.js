@@ -65,13 +65,27 @@
 
   /* Rampa de un solo tono para lo ordinal (cuartiles, antigüedad del rol):
      una escala secuencial, nunca tonos distintos. */
+  /* Rampa ordinal de un solo tono.
+   *
+   * El extremo claro de la version anterior (#bfdbfe) tenia 1,1:1 de
+   * contraste contra el papel de este tema: practicamente invisible.
+   * Ambas escalas estan recortadas para que su extremo mas debil
+   * siga despegando del fondo, y validadas con el comprobador de
+   * paleta contra la superficie de cada tema.
+   */
   function ramp(n) {
-    const dark = isDark();
-    const stops = dark
-      ? ["#93c5fd", "#60a5fa", "#3b82f6", "#1d4ed8"]
-      : ["#1e3a8a", "#1d4ed8", "#60a5fa", "#bfdbfe"];
+    const stops = isDark()
+      ? ["#eff6ff", "#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6"]
+      : ["#172554", "#1e3a8a", "#1e40af", "#1d4ed8", "#2563eb", "#3b82f6"];
+    if (n === 1) return [stops[isDark() ? 3 : 2]];
     return Array.from({ length: n }, (_, i) =>
-      stops[Math.round(i * (stops.length - 1) / Math.max(1, n - 1))]);
+      stops[Math.round(i * (stops.length - 1) / (n - 1))]);
+  }
+
+  /* Un tono aparte, calido, para lo que no es un escalon mas de la
+     rampa sino una marca sobre ella: el primer decil dentro del Q1. */
+  function mark() {
+    return isDark() ? "#f59e0b" : "#b45309";
   }
 
   function base() {
@@ -207,10 +221,12 @@
         roam: true,
         draggable: true,
         force: { repulsion: 260, edgeLength: [40, 120], gravity: 0.12 },
+        dimensions: ["name", "degree"],
         data: net.nodes.map((n, i) => ({
           name: n.name,
           works: n.works,
           degree: degree[i],
+          value: degree[i],
           // El tamano codifica trabajos conjuntos; el color, el grado.
           symbolSize: 9 + Math.sqrt(n.works / max) * 27,
           itemStyle: { color: tone(degree[i]),
@@ -236,21 +252,27 @@
         },
         scaleLimit: { min: 0.6, max: 3 },
       }],
-      graphic: [{
-        type: "group",
-        right: 4, bottom: 2,
-        children: [
-          { type: "text", left: 0, top: 0,
-            style: { text: t("g.net.legend"), fill: b.muted, fontSize: 9,
-                     fontFamily: b.data } },
-          ...steps.map((c, i) => ({
-            type: "rect", left: i * 13, top: 13,
-            shape: { width: 11, height: 5 },
-            style: { fill: c },
-          })),
-        ],
-        silent: true,
-      }],
+      /* Antes la escala era un "graphic" de 9 px con cuadraditos de
+         5 px de alto: ilegible. visualMap es el componente que existe
+         para esto, se puede arrastrar para resaltar un tramo de grado
+         y viene rotulado con sus extremos. */
+      visualMap: {
+        type: "continuous",
+        min: 0, max: maxDeg,
+        dimension: "degree",
+        seriesIndex: 0,
+        calculable: true,
+        orient: "horizontal",
+        left: "center", bottom: 0,
+        itemWidth: 16, itemHeight: 150,
+        precision: 0,
+        text: [t("g.net.legend"), ""],
+        textGap: 8,
+        textStyle: { color: b.muted, fontSize: 11,
+                     fontFamily: css("--ui", "Inter, sans-serif") },
+        inRange: { color: ramp(6) },
+        handleStyle: { borderColor: b.rule },
+      },
       animationDuration: 900,
     }));
     return true;
@@ -265,35 +287,75 @@
     const b = base();
     const colours = ramp(keys.length);
     const total = keys.reduce((s, k) => s + q[k], 0);
+    const d1 = q.D1 || 0;
+    const CENTRO = ["40%", "50%"];
+
+    const leyenda = keys.slice();
+    if (d1) leyenda.push(t("g.q.d1"));
+
+    const series = [{
+      type: "pie",
+      radius: ["48%", "72%"],
+      center: CENTRO,
+      avoidLabelOverlap: true,
+      itemStyle: { borderColor: b.paper, borderWidth: 2 },
+      label: { show: false },
+      emphasis: {
+        scaleSize: 6,
+        label: { show: true, formatter: "{b}\n{c}", color: b.ink,
+                 fontSize: 13, fontFamily: b.data, lineHeight: 18 },
+      },
+      data: keys.map((k, i) => ({ name: k, value: q[k],
+                                  itemStyle: { color: colours[i] } })),
+    }];
+
+    /* El primer decil es un subconjunto del Q1, no un quinto cuartil.
+       Por eso no entra en el anillo: va en un arco fino por fuera, que
+       arranca donde arranca el Q1 y cubre solo su parte de decil. Asi
+       se lee lo que es, "de estos 44 Q1, 16 son primer decil", y no
+       "hay 16 articulos mas". */
+    if (d1) {
+      series.push({
+        type: "pie",
+        radius: ["76%", "82%"],
+        center: CENTRO,
+        silent: false,
+        itemStyle: { borderWidth: 0 },
+        labelLine: { show: false },
+        tooltip: { ...b.tooltip, trigger: "item",
+                   formatter: () => `<b>${esc(t("g.q.d1"))}</b><br>${d1}` },
+        label: { show: false },
+        data: [
+          { name: t("g.q.d1"), value: d1, itemStyle: { color: mark() } },
+          { name: "", value: total - d1,
+            itemStyle: { color: "transparent" },
+            tooltip: { show: false } },
+        ],
+      });
+    }
 
     mount(host, () => ({
       ...b,
-      color: colours,
       tooltip: { ...b.tooltip, trigger: "item",
-                 formatter: (p) => `<b>${p.name}</b><br>${p.value} · ${p.percent}%` },
+                 formatter: (p) => `<b>${p.name}</b><br>${p.value} \u00b7 ${p.percent}%` },
       legend: { ...b.legend, orient: "vertical", right: 0, top: "middle",
-                left: "auto", data: keys },
-      series: [{
-        type: "pie",
-        radius: ["52%", "78%"],
-        center: ["38%", "50%"],
-        avoidLabelOverlap: true,
-        itemStyle: { borderColor: b.paper, borderWidth: 2 },
-        label: { show: false },
-        emphasis: {
-          scaleSize: 6,
-          label: { show: true, formatter: "{b}\n{c}", color: b.ink,
-                   fontSize: 13, fontFamily: b.data, lineHeight: 18 },
-        },
-        data: keys.map((k) => ({ name: k, value: q[k] })),
-      }],
-      graphic: [{
-        type: "text", left: "35%", top: "middle",
-        style: { text: String(total), fill: b.ink, fontSize: 26,
-                 fontFamily: css("--display", "Manrope, sans-serif"),
-                 fontWeight: 800, textAlign: "center" },
-        silent: true,
-      }],
+                left: "auto", data: leyenda },
+      /* El total iba como "graphic" anclado por su borde izquierdo, de
+         modo que quedaba descentrado justo por media palabra. El
+         componente "title" si admite textAlign, que convierte "left"
+         en el punto medio del texto. */
+      title: {
+        text: String(total),
+        subtext: t("m.jcr"),
+        left: CENTRO[0], top: "center",
+        textAlign: "center", textVerticalAlign: "middle",
+        itemGap: 2,
+        textStyle: { color: b.ink, fontSize: 28,
+                     fontFamily: css("--display", "Manrope, sans-serif"),
+                     fontWeight: 800 },
+        subtextStyle: { color: b.muted, fontSize: 10, align: "center",
+                        fontFamily: css("--ui", "Inter, sans-serif") },
+      },
       animationDuration: 700,
     }));
     return true;
@@ -366,6 +428,8 @@
        termino, el arranque del titulo. */
     function rotulo(p) {
       if (p.acronym) return p.acronym;
+      const etq = p.label && (p.label[ctx.lang] || p.label.es);
+      if (etq) return etq;
       if (p.ref) return p.ref.split("-")[0];
       const titulo = (p[ctx.lang] || p.es || {}).title || "";
       const corto = titulo.split(/\s+/).slice(0, 3).join(" ");
@@ -437,7 +501,8 @@
   /* ── 6. paises de colaboracion ─────────────────── */
 
   function chartCountries(host) {
-    const rows = ctx.profile.countries || [];
+    const rows = (ctx.profile.countries || [])
+      .filter((r) => r.code !== "ES");
     if (!rows.length) return false;
     const b = base();
     const colour = css("--accent", "#1b4ea8");

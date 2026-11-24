@@ -116,7 +116,15 @@
    "teach.tab.sup": "Supervisión",
    "rec.tab.awards": "Premios",
    "rec.tab.service": "Servicio y evaluación",
-   "rec.tab.ip": "Propiedad intelectual"
+   "rec.tab.ip": "Propiedad intelectual",
+   "rec.patent": "Patente",
+   "rec.patent.of": "Titular",
+   "rec.ip.soft": "Registros de software",
+   "g.countries.map": "Mapa",
+   "g.countries.rank": "Ranking",
+   "g.countries.pick": "Pulsa un país para ver sus instituciones",
+   "g.countries.none": "Sin coautoría registrada",
+   "g.q.d1": "Primer decil"
   },
   "en": {
    "skip": "Skip to content",
@@ -227,7 +235,15 @@
    "teach.tab.sup": "Supervision",
    "rec.tab.awards": "Awards",
    "rec.tab.service": "Service and review",
-   "rec.tab.ip": "Intellectual property"
+   "rec.tab.ip": "Intellectual property",
+   "rec.patent": "Patent",
+   "rec.patent.of": "Holder",
+   "rec.ip.soft": "Software registrations",
+   "g.countries.map": "Map",
+   "g.countries.rank": "Ranking",
+   "g.countries.pick": "Select a country to see its institutions",
+   "g.countries.none": "No recorded co-authorship",
+   "g.q.d1": "First decile"
   }
  },
  "lines": [
@@ -240,11 +256,11 @@
    ],
    "es": {
     "title": "Dinámica temporal y redes funcionales",
-    "text": "Cada región cortical integra información en su propia ventana temporal, y esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Modelado como grafo funcional, el EEG revela un déficit de modulación de esa red en esquizofrenia y trastorno bipolar."
+    "text": "Cada región cortical integra información en su propia ventana temporal, y esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Modelado como grafo funcional, el EEG revela un déficit de modulación de esa red en distintas patologías neurológicas y psiquiátricas."
    },
    "en": {
     "title": "Temporal dynamics and functional networks",
-    "text": "Each cortical region integrates information within a window of its own, and those windows form a hierarchy that converges with the core-periphery organisation of the cortex. Modelled as a functional graph, the EEG reveals a deficit in network modulation in schizophrenia and bipolar disorder."
+    "text": "Each cortical region integrates information within a window of its own, and those windows form a hierarchy that converges with the core-periphery organisation of the cortex. Modelled as a functional graph, the EEG reveals a deficit in network modulation across a range of neurological and psychiatric conditions."
    }
   },
   {
@@ -294,6 +310,10 @@
    "en": {
     "title": "Identifying the neuropathological signatures of dementia through dynamic brain-network analysis",
     "note": "Predoctoral contract attached to the dementia line."
+   },
+   "label": {
+    "es": "Demencia JCyL",
+    "en": "Dementia JCyL"
    }
   },
   {
@@ -309,6 +329,10 @@
    "en": {
     "title": "Precision medicine and advanced diagnosis of Stargardt disease in Spain",
     "note": ""
+   },
+   "label": {
+    "es": "Stargardt",
+    "en": "Stargardt"
    }
   },
   {
@@ -405,6 +429,10 @@
    "en": {
     "title": "Comfortable tattoo skin electrodes for sleep disorder monitoring",
     "note": "Intramural project with IMB-CNM (CSIC)."
+   },
+   "label": {
+    "es": "Tatuaje EEG",
+    "en": "Tattoo EEG"
    }
   },
   {
@@ -486,6 +514,10 @@
    },
    "en": {
     "title": "Artificial-intelligence predictive model for the course of COVID-19"
+   },
+   "label": {
+    "es": "COVID-19",
+    "en": "COVID-19"
    }
   },
   {
@@ -549,6 +581,10 @@
    },
    "en": {
     "title": "Characterising neuronal activity in Alzheimer’s disease through complex-network theory"
+   },
+   "label": {
+    "es": "Alzhéimer-redes",
+    "en": "Alzheimer nets"
    }
   },
   {
@@ -579,6 +615,10 @@
    },
    "en": {
     "title": "Brain-computer interface for cognitive training and home assistance against the effects of ageing"
+   },
+   "label": {
+    "es": "BCI domótica",
+    "en": "BCI home"
    }
   }
  ],
@@ -740,6 +780,10 @@
  ],
  "service": [
   {
+   "es": "Asesor científico de EQA — European Quality Assurance Spain, entidad de certificación acreditada por ENAC, desde 2025",
+   "en": "Scientific advisor, EQA — European Quality Assurance Spain, an ENAC-accredited certification body, since 2025"
+  },
+  {
    "es": "Asesor científico del Science Fund of the Republic of Serbia (IDEAS), desde 2025",
    "en": "Scientific advisor, Science Fund of the Republic of Serbia (IDEAS), since 2025"
   },
@@ -789,5 +833,16 @@
   "publications": 12,
   "projects": 5,
   "awards": 5
- }
+ },
+ "patents": [
+  {
+   "number": "WO 2026/115183 A1",
+   "pct": "PCT/ES2025/070708",
+   "priority": "ES P202430986",
+   "date": "2026-06-04",
+   "holder": "Universidad de Valladolid",
+   "es": "Sistema y método implementado por ordenador para el diagnóstico automático de la apnea del sueño infantil",
+   "en": "System and computer-implemented method for automatically diagnosing paediatric sleep apnoea"
+  }
+ ]
 }

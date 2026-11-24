@@ -16,7 +16,7 @@
    "nav.recognition": "Reconocimiento",
    "nav.contact": "Contacto",
    "hero.eyebrow": "Neurociencia computacional · Procesado de señales biomédicas",
-   "hero.thesis": "El cerebro tiene escalas de tiempo propias. Mido cómo se desajustan en la esquizofrenia, la demencia, la migraña y la apnea del sueño, y convierto ese desajuste en biomarcadores que un clínico pueda usar.",
+   "hero.thesis": "Dinámica temporal de la actividad cerebral y su traducción a biomarcadores de esquizofrenia, demencia, migraña y apnea del sueño.",
    "m.jcr": "Artículos JCR",
    "m.jcr.src": "GIB-UVa",
    "m.q1": "En primer cuartil",
@@ -26,7 +26,7 @@
    "m.funding.src": "28 proyectos · Portal UVa",
    "stamp.pre": "Publicaciones y cuartiles a fecha de",
    "research.h": "Líneas de investigación",
-   "research.lede": "Trato la actividad cerebral como un sistema dinámico en red y busco en su geometría temporal lo que separa un cerebro enfermo de uno sano.",
+   "research.lede": "La actividad cerebral tratada como un sistema dinámico en red, y su geometría temporal como marcador de enfermedad.",
    "pub.h": "Publicaciones",
    "f.all": "Todas",
    "f.q1": "Q1",
@@ -58,7 +58,7 @@
    "contact.cv": "Currículum (CVN-FECYT)",
    "pub.count": "{n} de {total}",
    "sup.phd": "tesis doctorales en curso",
-   "sup.note": "Dirijo tres tesis en tres programas de doctorado distintos: tecnologías de la información, ciencias de la salud e investigación transdisciplinar en educación.",
+   "sup.note": "Tres tesis en curso, en tres programas de doctorado distintos: tecnologías de la información, ciencias de la salud e investigación transdisciplinar en educación.",
    "sup.tfg": "Dirección de Trabajos de Fin de Grado y de Máster en el Grado en Ingeniería Biomédica, el Grado en Ingeniería de Telecomunicación y el Máster en Ingeniería Biomédica.",
    "idx.research": "Investigación",
    "idx.publications": "Publicaciones",
@@ -110,7 +110,7 @@
    "nav.recognition": "Recognition",
    "nav.contact": "Contact",
    "hero.eyebrow": "Computational neuroscience · Biomedical signal processing",
-   "hero.thesis": "The brain runs on timescales of its own. I measure how they fall out of step in schizophrenia, dementia, migraine and sleep apnoea, and turn that mistiming into biomarkers a clinician can act on.",
+   "hero.thesis": "Temporal dynamics of brain activity, and their translation into biomarkers of schizophrenia, dementia, migraine and sleep apnoea.",
    "m.jcr": "JCR articles",
    "m.jcr.src": "GIB-UVa",
    "m.q1": "In first quartile",
@@ -120,7 +120,7 @@
    "m.funding.src": "28 projects · UVa portal",
    "stamp.pre": "Publications and quartiles as of",
    "research.h": "Research lines",
-   "research.lede": "I treat brain activity as a dynamic network and look in its temporal geometry for what separates a diseased brain from a healthy one.",
+   "research.lede": "Brain activity treated as a dynamic network, its temporal geometry read as a marker of disease.",
    "pub.h": "Publications",
    "f.all": "All",
    "f.q1": "Q1",
@@ -152,7 +152,7 @@
    "contact.cv": "Curriculum (CVN-FECYT)",
    "pub.count": "{n} of {total}",
    "sup.phd": "doctoral theses in progress",
-   "sup.note": "I supervise three theses across three different doctoral programmes: information technologies, health sciences, and transdisciplinary research in education.",
+   "sup.note": "Three theses in progress, across three different doctoral programmes: information technologies, health sciences, and transdisciplinary research in education.",
    "sup.tfg": "Supervision of final-year and master's projects in Biomedical Engineering, Telecommunications Engineering and the Master's in Biomedical Engineering.",
    "idx.research": "Research",
    "idx.publications": "Publications",
@@ -205,11 +205,11 @@
    ],
    "es": {
     "title": "Escalas de tiempo intrínsecas",
-    "text": "Cada región cortical integra información en su propia ventana temporal. Mido esas ventanas en reposo y durante la tarea, y muestro que su jerarquía converge con la organización centro-periferia del córtex. Es la línea que más me ha abierto puertas fuera de España."
+    "text": "Cada región cortical integra información en su propia ventana temporal. Medidas en reposo y durante la tarea, esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Es la línea con mayor proyección internacional."
    },
    "en": {
     "title": "Intrinsic neural timescales",
-    "text": "Each cortical region integrates information within a window of its own. I measure those windows at rest and during task, and show that their hierarchy converges with the core-periphery organisation of the cortex. This is the line that opened the most doors abroad."
+    "text": "Each cortical region integrates information within a window of its own. Measured at rest and during task, those windows form a hierarchy that converges with the core-periphery organisation of the cortex. This is the line with the widest international reach."
    }
   },
   {
@@ -220,11 +220,11 @@
    ],
    "es": {
     "title": "Redes complejas en psiquiatría",
-    "text": "Modelo el EEG como un grafo funcional y cuantifico su reorganización durante la cognición. En esquizofrenia y trastorno bipolar encuentro un déficit de modulación de la red que correlaciona con el rendimiento cognitivo y los síntomas. Fue el objeto de mi tesis y sigue siendo el núcleo."
+    "text": "El EEG modelado como un grafo funcional permite cuantificar su reorganización durante la cognición. En esquizofrenia y trastorno bipolar aparece un déficit de modulación de la red que correlaciona con el rendimiento cognitivo y los síntomas. Fue el objeto de la tesis doctoral y sigue siendo el núcleo."
    },
    "en": {
     "title": "Complex networks in psychiatry",
-    "text": "I model the EEG as a functional graph and quantify how it reorganises during cognition. In schizophrenia and bipolar disorder I find a deficit in network modulation that tracks cognitive performance and symptoms. This was the subject of my thesis and remains the core."
+    "text": "Modelling the EEG as a functional graph makes it possible to quantify how it reorganises during cognition. In schizophrenia and bipolar disorder a deficit in network modulation appears that tracks cognitive performance and symptoms. This was the subject of the doctoral thesis and remains the core."
    }
   },
   {
@@ -236,11 +236,11 @@
    ],
    "es": {
     "title": "Fenotipado de la apnea del sueño",
-    "text": "La apnea no es una enfermedad única: distintos fenotipos responden de forma distinta al tratamiento. Construyo redes de correlación basadas en sujeto a partir de oximetría y variabilidad cardiaca para separar esos fenotipos y predecir quién se recupera. Es mi línea más activa y la que más financiación mueve."
+    "text": "La apnea no es una enfermedad única: distintos fenotipos responden de forma distinta al tratamiento. Las redes de correlación basadas en sujeto, construidas a partir de oximetría y variabilidad cardiaca, separan esos fenotipos y predicen quién se recupera. Es la línea más activa y la que más financiación mueve."
    },
    "en": {
     "title": "Sleep apnoea phenotyping",
-    "text": "Apnoea is not one disease: different phenotypes respond differently to treatment. I build subject-based correlation networks from oximetry and heart-rate variability to separate those phenotypes and predict who recovers. This is my most active line and the one that attracts the most funding."
+    "text": "Apnoea is not one disease: different phenotypes respond differently to treatment. Subject-based correlation networks, built from oximetry and heart-rate variability, separate those phenotypes and predict who recovers. This is the most active line and the one that attracts the most funding."
    }
   },
   {
@@ -252,11 +252,11 @@
    ],
    "es": {
     "title": "Interfaces cerebro-ordenador",
-    "text": "Sistemas no invasivos que convierten actividad cerebral en control: un navegador web manejado con P300 para personas con discapacidad severa, y entrenamiento cognitivo por neurofeedback para atenuar los efectos del envejecimiento. Donde empecé, y lo que mantiene el trabajo cerca del paciente."
+    "text": "Sistemas no invasivos que convierten actividad cerebral en control: un navegador web manejado con P300 para personas con discapacidad severa, y entrenamiento cognitivo por neurofeedback para atenuar los efectos del envejecimiento. La línea de partida, y la que mantiene el trabajo cerca del paciente."
    },
    "en": {
     "title": "Brain-computer interfaces",
-    "text": "Non-invasive systems that turn brain activity into control: a P300-driven web browser for people with severe disabilities, and neurofeedback cognitive training to soften the effects of ageing. Where I started, and what keeps the work close to the patient."
+    "text": "Non-invasive systems that turn brain activity into control: a P300-driven web browser for people with severe disabilities, and neurofeedback cognitive training to soften the effects of ageing. The starting line, and the one that keeps the work closest to the patient."
    }
   }
  ],
@@ -465,14 +465,14 @@
   "es": {
    "role": "Codirector",
    "expansion": "Apoyo a la Transición Educativa y Nuevas Experiencias Académicas",
-   "text": "Codirijo ATENEA, el programa de mentoría y orientación del Grado en Ingeniería Biomédica de la UVa. Funciona en tres ramas: <b>Orienta</b>, donde el profesorado tutoriza a los estudiantes de primero y segundo; <b>Mentum</b>, donde los de tercero y cuarto acompañan a los más nuevos; y <b>Professio</b>, que trae a egresados y profesionales a hablar de salidas reales. Nació en 2019 como Programa Orienta, sobrevivió a la interrupción de la pandemia y se reconstruyó en 2023 con su forma actual.",
+   "text": "ATENEA es el programa de mentoría y orientación del Grado en Ingeniería Biomédica de la UVa, en codirección. Funciona en tres ramas: <b>Orienta</b>, donde el profesorado tutoriza a los estudiantes de primero y segundo; <b>Mentum</b>, donde los de tercero y cuarto acompañan a los más nuevos; y <b>Professio</b>, que trae a egresados y profesionales a hablar de salidas reales. Nació en 2019 como Programa Orienta, sobrevivió a la interrupción de la pandemia y se reconstruyó en 2023 con su forma actual.",
    "award": "Premio a la Innovación en Mentoría de la Universidad de Valladolid, 2024-2025.",
    "next": "La edición 2026-2027, <b>ATENEA 4.0</b>, ha sido concedida como Proyecto de Innovación Docente con calificación de excelente. Incorpora un estudiante de referencia por clase, seguimiento longitudinal del alumnado, uso crítico y responsable de IA generativa en la tutela del TFG, y un <b>Toolkit ATENEA</b> pensado para que otras titulaciones puedan reutilizar el modelo."
   },
   "en": {
    "role": "Co-director",
    "expansion": "Support for Educational Transition and New Academic Experiences",
-   "text": "I co-direct ATENEA, the mentoring and guidance programme of the Biomedical Engineering degree at UVa. It runs on three branches: <b>Orienta</b>, where faculty tutor first- and second-year students; <b>Mentum</b>, where third- and fourth-year students support the newer ones; and <b>Professio</b>, which brings graduates and working professionals in to talk about real career paths. It began in 2019 as Programa Orienta, survived the interruption of the pandemic, and was rebuilt in 2023 into its present form.",
+   "text": "ATENEA is the mentoring and guidance programme of the Biomedical Engineering degree at UVa, under joint direction. It runs on three branches: <b>Orienta</b>, where faculty tutor first- and second-year students; <b>Mentum</b>, where third- and fourth-year students support the newer ones; and <b>Professio</b>, which brings graduates and working professionals in to talk about real career paths. It began in 2019 as Programa Orienta, survived the interruption of the pandemic, and was rebuilt in 2023 into its present form.",
    "award": "University of Valladolid Award for Innovation in Mentoring, 2024-2025.",
    "next": "The 2026-2027 edition, <b>ATENEA 4.0</b>, has been funded as a Teaching Innovation Project with a grade of excellent. It adds a student representative per class, longitudinal tracking of participants, critical and responsible use of generative AI in final-project supervision, and an <b>ATENEA Toolkit</b> designed so that other degrees can reuse the model."
   }

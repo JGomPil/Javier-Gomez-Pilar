@@ -119,10 +119,30 @@
       <div class="band-body">
         <h2 data-i18n="pub.h">Publicaciones</h2>
 
-        <figure class="chart">
-          <figcaption data-i18n="chart.cap">Citas recibidas por año</figcaption>
-          <div id="chart" class="chart-box"></div>
-        </figure>
+        <div class="charts">
+          <figure class="chart chart-wide">
+            <figcaption>
+              <span data-i18n="g.output">Producción por año</span>
+              <small data-i18n="g.output.sub">Pulsa una barra para filtrar la lista</small>
+            </figcaption>
+            <div id="chart-output" data-chart class="chart-box tall"></div>
+          </figure>
+          <figure class="chart">
+            <figcaption><span data-i18n="g.cites">Citas recibidas por año</span></figcaption>
+            <div id="chart-citations" data-chart class="chart-box"></div>
+          </figure>
+          <figure class="chart">
+            <figcaption><span data-i18n="g.quart">Cuartil de la revista</span></figcaption>
+            <div id="chart-quartiles" data-chart class="chart-box"></div>
+          </figure>
+          <figure class="chart chart-wide">
+            <figcaption>
+              <span data-i18n="g.net">Red de coautoría</span>
+              <small id="net-sub"></small>
+            </figcaption>
+            <div id="chart-network" data-chart class="chart-box taller"></div>
+          </figure>
+        </div>
 
         <div class="controls">
           <div class="filter-row">
@@ -254,6 +274,7 @@
   </div>
 </footer>
 
+<script src="assets/js/charts.js"></script>
 <script src="assets/js/site.js"></script>
 </body>
 </html>

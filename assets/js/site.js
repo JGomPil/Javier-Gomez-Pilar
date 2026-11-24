@@ -18,6 +18,7 @@
     profile: null,
     filter: "all",
     kinds: new Set(["journal"]),   // arranca priorizando los JCR
+    year: null,                    // lo fija una barra del gráfico
     query: "",
     expanded: { pubs: false, projects: false, awards: false },
   };
@@ -55,8 +56,7 @@
       const next = isDark ? "light" : "dark";
       root.dataset.theme = next;
       safeSet(THEME_KEY, next);
-      renderChart();
-      state.repaintTrace?.();
+        state.repaintTrace?.();
     });
   }
 
@@ -303,100 +303,6 @@
 
   /* ── citations chart ─────────────────────────────────────── */
 
-  function renderChart() {
-    const box = $("#chart");
-    if (!box || !state.profile) return;
-
-    // Citations received per calendar year. The current year is still
-    // accruing, so it is drawn muted and labelled as partial.
-    const rows = (state.profile.metrics.citations_by_year || [])
-      .filter((r) => r.year >= 2014);
-    if (!rows.length) { box.innerHTML = ""; return; }
-
-    const currentYear = new Date().getFullYear();
-    const W = 1000, H = 260;
-    const pad = { top: 26, right: 8, bottom: 30, left: 44 };
-    const plotW = W - pad.left - pad.right;
-    const plotH = H - pad.top - pad.bottom;
-
-    const max = Math.max(...rows.map((r) => r.citations));
-    // Round the top of the scale up to a clean step so the ticks read well.
-    const step = max > 500 ? 200 : max > 200 ? 100 : 50;
-    const top = Math.ceil(max / step) * step;
-
-    const slot = plotW / rows.length;
-    const barW = Math.min(slot * 0.62, 34);
-    const y = (v) => pad.top + plotH - (v / top) * plotH;
-    const fmt = nf();
-
-    const ticks = [];
-    for (let v = 0; v <= top; v += step) ticks.push(v);
-
-    const grid = ticks.map((v) => `
-      <line x1="${pad.left}" y1="${y(v).toFixed(1)}" x2="${W - pad.right}" y2="${y(v).toFixed(1)}"
-            class="grid${v === 0 ? " axis" : ""}"/>
-      <text x="${pad.left - 9}" y="${(y(v) + 4).toFixed(1)}" class="tick" text-anchor="end">${fmt.format(v)}</text>
-    `).join("");
-
-    const peak = rows.reduce((a, b) => (b.citations > a.citations ? b : a), rows[0]);
-
-    const bars = rows.map((r) => {
-      const x = pad.left + slot * rows.indexOf(r) + (slot - barW) / 2;
-      const h = Math.max(2, pad.top + plotH - y(r.citations));
-      const partial = r.year >= currentYear;
-      const label = partial
-        ? (state.lang === "es" ? " (año en curso, parcial)" : " (current year, partial)")
-        : "";
-      // 4px rounded data-end, square against the baseline.
-      const radius = Math.min(4, h / 2, barW / 2);
-      return `
-        <g class="bar${partial ? " partial" : ""}">
-          <title>${r.year}: ${fmt.format(r.citations)} ${esc(t("chart.axis"))}${label}</title>
-          <path d="M${x.toFixed(1)} ${(pad.top + plotH).toFixed(1)}
-                   V${(y(r.citations) + radius).toFixed(1)}
-                   a${radius} ${radius} 0 0 1 ${radius} ${-radius}
-                   h${(barW - radius * 2).toFixed(1)}
-                   a${radius} ${radius} 0 0 1 ${radius} ${radius}
-                   V${(pad.top + plotH).toFixed(1)} Z"/>
-          <rect x="${(x - 3).toFixed(1)}" y="${pad.top}" width="${(barW + 6).toFixed(1)}" height="${plotH}" fill="transparent"/>
-        </g>`;
-    }).join("");
-
-    // Label only the first year, the peak and the latest: never every bar.
-    const marked = new Set([rows[0].year, peak.year, rows[rows.length - 1].year]);
-    const xLabels = rows.map((r, i) => {
-      if (!marked.has(r.year)) return "";
-      const x = pad.left + slot * i + slot / 2;
-      return `<text x="${x.toFixed(1)}" y="${H - 10}" class="tick" text-anchor="middle">${r.year}</text>`;
-    }).join("");
-
-    const peakX = pad.left + slot * rows.indexOf(peak) + slot / 2;
-    const peakLabel = `
-      <text x="${peakX.toFixed(1)}" y="${(y(peak.citations) - 9).toFixed(1)}"
-            class="peak" text-anchor="middle">${fmt.format(peak.citations)}</text>`;
-
-    box.innerHTML = `
-      <svg viewBox="0 0 ${W} ${H}" role="img"
-           aria-label="${esc(t("chart.cap"))}: ${rows[0].year}–${rows[rows.length - 1].year}">
-        <style>
-          .grid { stroke: var(--rule); stroke-width: 1; }
-          .grid.axis { stroke: var(--muted); }
-          .tick { font: 400 15px var(--data); fill: var(--muted); }
-          .peak { font: 500 15px var(--data); fill: var(--ink-soft); }
-          .bar path { fill: var(--accent); }
-          .bar.partial path { fill: var(--accent); opacity: .42; }
-          .bar:hover path { fill: var(--accent-ink); }
-        </style>
-        ${grid}${bars}${xLabels}${peakLabel}
-      </svg>
-      <p class="count">${state.lang === "es"
-        ? `Última barra: año en curso, incompleto · OpenAlex`
-        : `Final bar: current year, incomplete · OpenAlex`}</p>
-    `;
-  }
-
-  /* ── research lines ──────────────────────────────────────── */
-
   function renderLines() {
     const host = $("#lines");
     if (!host) return;
@@ -455,6 +361,7 @@
   }
 
   function matches(pub) {
+    if (state.year && pub.year !== state.year) return false;
     if (state.kinds.size && !state.kinds.has(pub.kind || "journal")) return false;
     if (state.filter === "q1" && pub.quartile !== "Q1") return false;
     if (state.filter === "d1" && !pub.top_decile) return false;
@@ -511,8 +418,22 @@
     const cap = !state.expanded.pubs && !state.query && shown.length > limit;
     const visible = cap ? shown.slice(0, limit) : shown;
 
-    const pool = all.filter((pub) => !state.kinds.size
-      || state.kinds.has(pub.kind || "journal")).length;
+    const pool = all.filter((pub) => (!state.kinds.size
+      || state.kinds.has(pub.kind || "journal"))
+      && (!state.year || pub.year === state.year)).length;
+
+    const note = $("#year-note");
+    if (note) {
+      note.hidden = !state.year;
+      if (state.year) {
+        note.innerHTML = `<button type="button" id="year-clear">`
+          + `${state.year}<span aria-hidden="true">×</span></button>`;
+        $("#year-clear").addEventListener("click", () => {
+          state.year = null;
+          renderPublications();
+        });
+      }
+    }
     counter.textContent = t("pub.count")
       .replace("{n}", nf().format(visible.length))
       .replace("{total}", nf().format(pool));
@@ -737,6 +658,34 @@
     }
   }
 
+  /* ── gráficos ─────────────────────────────────────────────── */
+
+  function paintCharts() {
+    if (!window.JGPCharts || !state.profile) return;
+
+    const net = state.profile.collaboration;
+    const sub = $("#net-sub");
+    if (sub && net) {
+      sub.textContent = t("g.net.sub")
+        .replace("{n}", nf().format(net.nodes.length))
+        .replace("{m}", net.threshold)
+        .replace("{total}", nf().format(net.total_coauthors));
+    }
+
+    window.JGPCharts.render({
+      profile: state.profile,
+      content: state.content,
+      lang: state.lang,
+      onYearClick: (year) => {
+        // Pulsar el mismo año otra vez lo suelta.
+        state.year = state.year === year ? null : year;
+        state.expanded.pubs = false;
+        renderPublications();
+        $("#pub-list")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      },
+    });
+  }
+
   /* ── efectos ──────────────────────────────────────────────── */
 
   /* Aparicion al entrar en pantalla. Si no hay IntersectionObserver, todo
@@ -806,10 +755,10 @@
   function renderAll() {
     applyLang();
     renderMetrics();
-    renderChart();
     renderLines();
     renderKindChips();
     renderPublications();
+    paintCharts();
     renderProjects();
     renderAtenea();
     renderTeaching();
@@ -842,11 +791,6 @@
     initReveal();
     initCounters();
     renderAll();
-
-    window.addEventListener("resize", () => {
-      clearTimeout(window.__chartTimer);
-      window.__chartTimer = setTimeout(renderChart, 180);
-    });
   }
 
   if (document.readyState === "loading") {

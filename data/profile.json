@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T20:12:49Z",
+ "generated": "2026-11-24T20:19:09Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -2227,6 +2227,977 @@
    "top_decile": false
   }
  ],
+ "collaboration": {
+  "threshold": 5,
+  "total_coauthors": 226,
+  "nodes": [
+   {
+    "name": "Roberto Hornero",
+    "works": 110
+   },
+   {
+    "name": "Jesús Poza",
+    "works": 52
+   },
+   {
+    "name": "Daniel Álvarez",
+    "works": 39
+   },
+   {
+    "name": "Carlos Gómez",
+    "works": 34
+   },
+   {
+    "name": "Gonzalo C. Gutiérrez-Tobal",
+    "works": 33
+   },
+   {
+    "name": "Vicente Molina",
+    "works": 32
+   },
+   {
+    "name": "Pablo Núñez",
+    "works": 24
+   },
+   {
+    "name": "Georg Northoff",
+    "works": 22
+   },
+   {
+    "name": "Alba Lubeiro",
+    "works": 20
+   },
+   {
+    "name": "Félix del Campo",
+    "works": 20
+   },
+   {
+    "name": "Alejandro Bachiller",
+    "works": 15
+   },
+   {
+    "name": "Ángel Luis Guerrero",
+    "works": 15
+   },
+   {
+    "name": "David Gozal",
+    "works": 13
+   },
+   {
+    "name": "David García Azorín",
+    "works": 12
+   },
+   {
+    "name": "Fernando Vaquerizo-Villar",
+    "works": 12
+   },
+   {
+    "name": "Víctor Martínez-Cagigal",
+    "works": 12
+   },
+   {
+    "name": "Adrián Martín-Montero",
+    "works": 10
+   },
+   {
+    "name": "María García",
+    "works": 10
+   },
+   {
+    "name": "Rebeca Corralejo",
+    "works": 10
+   },
+   {
+    "name": "Annemarie Wolff",
+    "works": 9
+   },
+   {
+    "name": "Daniela Ferreira-Santos",
+    "works": 8
+   },
+   {
+    "name": "Pedro Pereira-Rodrigues",
+    "works": 8
+   },
+   {
+    "name": "Rodrigo de Luis-García",
+    "works": 8
+   },
+   {
+    "name": "Claudia Gómez",
+    "works": 6
+   },
+   {
+    "name": "Eduardo Santamaría-Vázquez",
+    "works": 6
+   },
+   {
+    "name": "Luis F. Nicolás-Alonso",
+    "works": 6
+   },
+   {
+    "name": "Miguel A. Tola-Arribas",
+    "works": 6
+   },
+   {
+    "name": "Mónica Cano",
+    "works": 6
+   },
+   {
+    "name": "Oscar Martin-Santiago",
+    "works": 6
+   },
+   {
+    "name": "Víctor Gutiérrez-de Pablo",
+    "works": 6
+   },
+   {
+    "name": "Álvaro Sierra",
+    "works": 6
+   },
+   {
+    "name": "Benjamín Cea-Cañas",
+    "works": 5
+   },
+   {
+    "name": "Federico Zilio",
+    "works": 5
+   },
+   {
+    "name": "Leila Kheirandish-Gozal",
+    "works": 5
+   },
+   {
+    "name": "Marcos Revilla-Vallejo",
+    "works": 5
+   },
+   {
+    "name": "Mehrshad Golesorkhi",
+    "works": 5
+   },
+   {
+    "name": "Álvaro Díez-Revuelta",
+    "works": 5
+   }
+  ],
+  "links": [
+   {
+    "source": 16,
+    "target": 2,
+    "weight": 6
+   },
+   {
+    "source": 16,
+    "target": 20,
+    "weight": 4
+   },
+   {
+    "source": 16,
+    "target": 12,
+    "weight": 8
+   },
+   {
+    "source": 16,
+    "target": 9,
+    "weight": 5
+   },
+   {
+    "source": 16,
+    "target": 14,
+    "weight": 4
+   },
+   {
+    "source": 16,
+    "target": 4,
+    "weight": 10
+   },
+   {
+    "source": 16,
+    "target": 1,
+    "weight": 4
+   },
+   {
+    "source": 16,
+    "target": 33,
+    "weight": 4
+   },
+   {
+    "source": 16,
+    "target": 21,
+    "weight": 4
+   },
+   {
+    "source": 16,
+    "target": 0,
+    "weight": 10
+   },
+   {
+    "source": 8,
+    "target": 10,
+    "weight": 7
+   },
+   {
+    "source": 8,
+    "target": 31,
+    "weight": 4
+   },
+   {
+    "source": 8,
+    "target": 3,
+    "weight": 6
+   },
+   {
+    "source": 8,
+    "target": 1,
+    "weight": 14
+   },
+   {
+    "source": 8,
+    "target": 28,
+    "weight": 4
+   },
+   {
+    "source": 8,
+    "target": 6,
+    "weight": 10
+   },
+   {
+    "source": 8,
+    "target": 0,
+    "weight": 14
+   },
+   {
+    "source": 8,
+    "target": 22,
+    "weight": 6
+   },
+   {
+    "source": 8,
+    "target": 5,
+    "weight": 20
+   },
+   {
+    "source": 10,
+    "target": 3,
+    "weight": 13
+   },
+   {
+    "source": 10,
+    "target": 1,
+    "weight": 15
+   },
+   {
+    "source": 10,
+    "target": 17,
+    "weight": 2
+   },
+   {
+    "source": 10,
+    "target": 26,
+    "weight": 3
+   },
+   {
+    "source": 10,
+    "target": 27,
+    "weight": 3
+   },
+   {
+    "source": 10,
+    "target": 6,
+    "weight": 8
+   },
+   {
+    "source": 10,
+    "target": 0,
+    "weight": 15
+   },
+   {
+    "source": 10,
+    "target": 5,
+    "weight": 11
+   },
+   {
+    "source": 36,
+    "target": 6,
+    "weight": 4
+   },
+   {
+    "source": 36,
+    "target": 22,
+    "weight": 2
+   },
+   {
+    "source": 36,
+    "target": 5,
+    "weight": 5
+   },
+   {
+    "source": 30,
+    "target": 11,
+    "weight": 6
+   },
+   {
+    "source": 30,
+    "target": 3,
+    "weight": 2
+   },
+   {
+    "source": 30,
+    "target": 13,
+    "weight": 6
+   },
+   {
+    "source": 30,
+    "target": 14,
+    "weight": 2
+   },
+   {
+    "source": 30,
+    "target": 1,
+    "weight": 2
+   },
+   {
+    "source": 30,
+    "target": 0,
+    "weight": 6
+   },
+   {
+    "source": 30,
+    "target": 29,
+    "weight": 2
+   },
+   {
+    "source": 11,
+    "target": 3,
+    "weight": 5
+   },
+   {
+    "source": 11,
+    "target": 23,
+    "weight": 6
+   },
+   {
+    "source": 11,
+    "target": 13,
+    "weight": 12
+   },
+   {
+    "source": 11,
+    "target": 14,
+    "weight": 2
+   },
+   {
+    "source": 11,
+    "target": 1,
+    "weight": 3
+   },
+   {
+    "source": 11,
+    "target": 0,
+    "weight": 15
+   },
+   {
+    "source": 11,
+    "target": 29,
+    "weight": 4
+   },
+   {
+    "source": 19,
+    "target": 32,
+    "weight": 2
+   },
+   {
+    "source": 19,
+    "target": 7,
+    "weight": 9
+   },
+   {
+    "source": 19,
+    "target": 35,
+    "weight": 3
+   },
+   {
+    "source": 31,
+    "target": 1,
+    "weight": 3
+   },
+   {
+    "source": 31,
+    "target": 0,
+    "weight": 2
+   },
+   {
+    "source": 31,
+    "target": 5,
+    "weight": 5
+   },
+   {
+    "source": 3,
+    "target": 2,
+    "weight": 4
+   },
+   {
+    "source": 3,
+    "target": 13,
+    "weight": 3
+   },
+   {
+    "source": 3,
+    "target": 14,
+    "weight": 2
+   },
+   {
+    "source": 3,
+    "target": 4,
+    "weight": 4
+   },
+   {
+    "source": 3,
+    "target": 1,
+    "weight": 32
+   },
+   {
+    "source": 3,
+    "target": 34,
+    "weight": 5
+   },
+   {
+    "source": 3,
+    "target": 17,
+    "weight": 7
+   },
+   {
+    "source": 3,
+    "target": 26,
+    "weight": 6
+   },
+   {
+    "source": 3,
+    "target": 27,
+    "weight": 6
+   },
+   {
+    "source": 3,
+    "target": 6,
+    "weight": 14
+   },
+   {
+    "source": 3,
+    "target": 0,
+    "weight": 34
+   },
+   {
+    "source": 3,
+    "target": 5,
+    "weight": 11
+   },
+   {
+    "source": 3,
+    "target": 29,
+    "weight": 6
+   },
+   {
+    "source": 23,
+    "target": 13,
+    "weight": 5
+   },
+   {
+    "source": 23,
+    "target": 0,
+    "weight": 6
+   },
+   {
+    "source": 2,
+    "target": 20,
+    "weight": 4
+   },
+   {
+    "source": 2,
+    "target": 12,
+    "weight": 8
+   },
+   {
+    "source": 2,
+    "target": 9,
+    "weight": 19
+   },
+   {
+    "source": 2,
+    "target": 14,
+    "weight": 6
+   },
+   {
+    "source": 2,
+    "target": 4,
+    "weight": 23
+   },
+   {
+    "source": 2,
+    "target": 1,
+    "weight": 8
+   },
+   {
+    "source": 2,
+    "target": 33,
+    "weight": 5
+   },
+   {
+    "source": 2,
+    "target": 25,
+    "weight": 6
+   },
+   {
+    "source": 2,
+    "target": 17,
+    "weight": 6
+   },
+   {
+    "source": 2,
+    "target": 6,
+    "weight": 2
+   },
+   {
+    "source": 2,
+    "target": 21,
+    "weight": 4
+   },
+   {
+    "source": 2,
+    "target": 18,
+    "weight": 10
+   },
+   {
+    "source": 2,
+    "target": 0,
+    "weight": 37
+   },
+   {
+    "source": 2,
+    "target": 15,
+    "weight": 5
+   },
+   {
+    "source": 20,
+    "target": 12,
+    "weight": 6
+   },
+   {
+    "source": 20,
+    "target": 9,
+    "weight": 3
+   },
+   {
+    "source": 20,
+    "target": 14,
+    "weight": 2
+   },
+   {
+    "source": 20,
+    "target": 4,
+    "weight": 8
+   },
+   {
+    "source": 20,
+    "target": 21,
+    "weight": 8
+   },
+   {
+    "source": 20,
+    "target": 0,
+    "weight": 8
+   },
+   {
+    "source": 13,
+    "target": 14,
+    "weight": 2
+   },
+   {
+    "source": 13,
+    "target": 1,
+    "weight": 2
+   },
+   {
+    "source": 13,
+    "target": 0,
+    "weight": 12
+   },
+   {
+    "source": 13,
+    "target": 29,
+    "weight": 2
+   },
+   {
+    "source": 12,
+    "target": 9,
+    "weight": 7
+   },
+   {
+    "source": 12,
+    "target": 14,
+    "weight": 4
+   },
+   {
+    "source": 12,
+    "target": 4,
+    "weight": 13
+   },
+   {
+    "source": 12,
+    "target": 1,
+    "weight": 4
+   },
+   {
+    "source": 12,
+    "target": 33,
+    "weight": 5
+   },
+   {
+    "source": 12,
+    "target": 21,
+    "weight": 6
+   },
+   {
+    "source": 12,
+    "target": 0,
+    "weight": 13
+   },
+   {
+    "source": 24,
+    "target": 0,
+    "weight": 6
+   },
+   {
+    "source": 24,
+    "target": 15,
+    "weight": 6
+   },
+   {
+    "source": 32,
+    "target": 7,
+    "weight": 5
+   },
+   {
+    "source": 32,
+    "target": 35,
+    "weight": 2
+   },
+   {
+    "source": 9,
+    "target": 14,
+    "weight": 4
+   },
+   {
+    "source": 9,
+    "target": 4,
+    "weight": 19
+   },
+   {
+    "source": 9,
+    "target": 1,
+    "weight": 4
+   },
+   {
+    "source": 9,
+    "target": 33,
+    "weight": 5
+   },
+   {
+    "source": 9,
+    "target": 21,
+    "weight": 3
+   },
+   {
+    "source": 9,
+    "target": 0,
+    "weight": 20
+   },
+   {
+    "source": 14,
+    "target": 4,
+    "weight": 10
+   },
+   {
+    "source": 14,
+    "target": 1,
+    "weight": 3
+   },
+   {
+    "source": 14,
+    "target": 17,
+    "weight": 2
+   },
+   {
+    "source": 14,
+    "target": 6,
+    "weight": 2
+   },
+   {
+    "source": 14,
+    "target": 21,
+    "weight": 2
+   },
+   {
+    "source": 14,
+    "target": 0,
+    "weight": 12
+   },
+   {
+    "source": 7,
+    "target": 4,
+    "weight": 2
+   },
+   {
+    "source": 7,
+    "target": 1,
+    "weight": 3
+   },
+   {
+    "source": 7,
+    "target": 35,
+    "weight": 5
+   },
+   {
+    "source": 7,
+    "target": 0,
+    "weight": 3
+   },
+   {
+    "source": 4,
+    "target": 1,
+    "weight": 10
+   },
+   {
+    "source": 4,
+    "target": 33,
+    "weight": 5
+   },
+   {
+    "source": 4,
+    "target": 17,
+    "weight": 4
+   },
+   {
+    "source": 4,
+    "target": 6,
+    "weight": 2
+   },
+   {
+    "source": 4,
+    "target": 21,
+    "weight": 8
+   },
+   {
+    "source": 4,
+    "target": 0,
+    "weight": 33
+   },
+   {
+    "source": 1,
+    "target": 33,
+    "weight": 4
+   },
+   {
+    "source": 1,
+    "target": 34,
+    "weight": 5
+   },
+   {
+    "source": 1,
+    "target": 17,
+    "weight": 8
+   },
+   {
+    "source": 1,
+    "target": 26,
+    "weight": 6
+   },
+   {
+    "source": 1,
+    "target": 27,
+    "weight": 6
+   },
+   {
+    "source": 1,
+    "target": 28,
+    "weight": 3
+   },
+   {
+    "source": 1,
+    "target": 6,
+    "weight": 18
+   },
+   {
+    "source": 1,
+    "target": 0,
+    "weight": 49
+   },
+   {
+    "source": 1,
+    "target": 22,
+    "weight": 2
+   },
+   {
+    "source": 1,
+    "target": 5,
+    "weight": 21
+   },
+   {
+    "source": 1,
+    "target": 29,
+    "weight": 5
+   },
+   {
+    "source": 33,
+    "target": 0,
+    "weight": 5
+   },
+   {
+    "source": 25,
+    "target": 18,
+    "weight": 6
+   },
+   {
+    "source": 25,
+    "target": 0,
+    "weight": 6
+   },
+   {
+    "source": 34,
+    "target": 26,
+    "weight": 3
+   },
+   {
+    "source": 34,
+    "target": 27,
+    "weight": 3
+   },
+   {
+    "source": 34,
+    "target": 0,
+    "weight": 5
+   },
+   {
+    "source": 17,
+    "target": 26,
+    "weight": 2
+   },
+   {
+    "source": 17,
+    "target": 27,
+    "weight": 2
+   },
+   {
+    "source": 17,
+    "target": 6,
+    "weight": 5
+   },
+   {
+    "source": 17,
+    "target": 0,
+    "weight": 7
+   },
+   {
+    "source": 26,
+    "target": 27,
+    "weight": 6
+   },
+   {
+    "source": 26,
+    "target": 6,
+    "weight": 2
+   },
+   {
+    "source": 26,
+    "target": 0,
+    "weight": 6
+   },
+   {
+    "source": 27,
+    "target": 6,
+    "weight": 2
+   },
+   {
+    "source": 27,
+    "target": 0,
+    "weight": 6
+   },
+   {
+    "source": 28,
+    "target": 6,
+    "weight": 3
+   },
+   {
+    "source": 28,
+    "target": 0,
+    "weight": 3
+   },
+   {
+    "source": 28,
+    "target": 22,
+    "weight": 3
+   },
+   {
+    "source": 28,
+    "target": 5,
+    "weight": 6
+   },
+   {
+    "source": 6,
+    "target": 0,
+    "weight": 17
+   },
+   {
+    "source": 6,
+    "target": 22,
+    "weight": 6
+   },
+   {
+    "source": 6,
+    "target": 5,
+    "weight": 16
+   },
+   {
+    "source": 21,
+    "target": 0,
+    "weight": 8
+   },
+   {
+    "source": 18,
+    "target": 0,
+    "weight": 10
+   },
+   {
+    "source": 18,
+    "target": 15,
+    "weight": 2
+   },
+   {
+    "source": 0,
+    "target": 22,
+    "weight": 2
+   },
+   {
+    "source": 0,
+    "target": 5,
+    "weight": 20
+   },
+   {
+    "source": 0,
+    "target": 29,
+    "weight": 6
+   },
+   {
+    "source": 0,
+    "target": 15,
+    "weight": 12
+   },
+   {
+    "source": 22,
+    "target": 5,
+    "weight": 8
+   }
+  ]
+ },
  "awards": [
   {
    "year": 2023,

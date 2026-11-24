@@ -20,6 +20,9 @@ import json
 import os
 import re
 import ssl
+import unicodedata
+from collections import Counter
+from itertools import combinations
 import sys
 import time
 from urllib.parse import quote
@@ -159,6 +162,74 @@ def parse_gib(page: str, kind: str = "journal") -> list[dict]:
             })
 
     return publications
+
+
+def normalise_name(name: str) -> str:
+    """Nombre reducido a letras sin acentos, para comparar variantes."""
+    plain = unicodedata.normalize("NFKD", name)
+    plain = "".join(c for c in plain if not unicodedata.combining(c))
+    return re.sub(r"[^a-z ]", "", plain.lower()).strip()
+
+
+SELF_NAMES = {
+    normalise_name(n) for n in (
+        "Javier Gomez-Pilar", "Javier Gomez Pilar", "J. Gomez-Pilar",
+        "Gomez-Pilar J", "Javier Gómez-Pilar",
+    )
+}
+
+
+def is_self(name: str) -> bool:
+    return normalise_name(name) in SELF_NAMES
+
+
+def collaboration(publications: list[dict], min_works: int = 5,
+                  min_shared: int = 2) -> dict:
+    """Red de coautoria calculada sobre las publicaciones propias.
+
+    El autor del perfil queda fuera a proposito: aparece en todas las
+    entradas, asi que incluirlo convierte el grafo en una estrella y tapa
+    lo interesante, que es que sus colaboradores se agrupan por lineas.
+
+    Un nodo por coautor con al menos `min_works` trabajos compartidos; una
+    arista por cada par que coincide en al menos `min_shared`.
+    """
+    works: Counter[str] = Counter()
+    pairs: Counter[tuple[str, str]] = Counter()
+    display: dict[str, str] = {}
+
+    for pub in publications:
+        people = [a.strip() for a in pub["authors"].split(",") if a.strip()]
+        others = [a for a in people if not is_self(a)]
+
+        keys = set()
+        for person in others:
+            key = normalise_name(person)
+            if not key:
+                continue
+            works[key] += 1
+            # Guarda la grafia mas larga: suele ser la mas completa.
+            if len(person) > len(display.get(key, "")):
+                display[key] = person
+            keys.add(key)
+
+        for a, b in combinations(sorted(keys), 2):
+            pairs[(a, b)] += 1
+
+    kept = {k for k, n in works.items() if n >= min_works}
+    nodes = sorted(kept, key=lambda k: (-works[k], display[k]))
+    index = {k: i for i, k in enumerate(nodes)}
+
+    return {
+        "threshold": min_works,
+        "total_coauthors": len(works),
+        "nodes": [{"name": display[k], "works": works[k]} for k in nodes],
+        "links": [
+            {"source": index[a], "target": index[b], "weight": n}
+            for (a, b), n in sorted(pairs.items())
+            if a in kept and b in kept and n >= min_shared
+        ],
+    }
 
 
 def doi_set(page: str) -> set[str]:
@@ -496,6 +567,11 @@ def main() -> int:
     print(f"  {wos['citations']} citations, h={wos['h_index']}" if wos
           else "  no key configured; content.json keeps the WoS figures", flush=True)
 
+    print("Building the co-authorship network ...", flush=True)
+    network = collaboration(publications)
+    print(f"  {len(network['nodes'])} nodes of {network['total_coauthors']} "
+          f"co-authors, {len(network['links'])} links", flush=True)
+
     print("Fetching awards ...", flush=True)
     awards = parse_awards(fetch(GIB_AWARDS_URL))
     confirmed = sum(1 for a in awards if a["confirmed"])
@@ -516,6 +592,7 @@ def main() -> int:
             **({"wos": wos} if wos else {}),
         },
         "publications": publications,
+        "collaboration": network,
         "awards": awards,
     }
 

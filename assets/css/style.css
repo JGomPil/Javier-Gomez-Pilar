@@ -472,17 +472,6 @@ h1 {
   background: var(--accent-bg);
 }
 
-/* ── citations chart ──────────────────────────────────────── */
-
-.chart { margin: 0 0 2.8rem; }
-.chart figcaption {
-  font: 500 .685rem/1.4 var(--data);
-  letter-spacing: .13em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 1rem;
-}
-.chart-box { width: 100%; }
-.chart-box svg { width: 100%; height: auto; display: block; }
-
 /* ── filtros ──────────────────────────────────────────────── */
 
 .controls {
@@ -881,4 +870,71 @@ h1 {
   .reveal { opacity: 1; transform: none; transition: none; }
   .pub, .pub-title a { transition: none; }
   .pub:hover { padding-left: 0; }
+}
+
+
+/* ── gráficos ─────────────────────────────────────────────── */
+/* ECharts se carga sola al acercarse: estas alturas fijan el sitio
+   por adelantado, para que la página no salte al llegar. */
+
+.charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: 1.6rem 1.9rem;
+  margin: 0 0 2.6rem;
+}
+.chart { margin: 0; min-width: 0; }
+.chart-wide { grid-column: 1 / -1; }
+
+.chart figcaption {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .8rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid var(--rule-soft);
+  margin-bottom: .9rem;
+  font: 500 .7rem/1.4 var(--data);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.chart figcaption small {
+  font: 400 .66rem/1.4 var(--data);
+  letter-spacing: .05em; text-transform: none;
+  color: var(--muted);
+}
+
+.chart-box { width: 100%; height: 232px; }
+.chart-box.tall   { height: 300px; }
+.chart-box.taller { height: 420px; }
+
+.chart-note {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; margin: 0; padding: 1rem;
+  text-align: center;
+  font: 400 .78rem/1.5 var(--reading);
+  color: var(--muted);
+}
+
+/* La red se puede arrastrar y ampliar: conviene que se note. */
+#chart-network { cursor: grab; }
+#chart-network:active { cursor: grabbing; }
+
+/* Año seleccionado desde una barra del gráfico. */
+.year-note { margin: 1.1rem 0 0; }
+.year-note button {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font: 500 .72rem/1 var(--data);
+  letter-spacing: .08em;
+  padding: .45rem .8rem; cursor: pointer;
+  color: var(--accent-ink);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  transition: background-color .2s var(--ease);
+}
+.year-note button span { font-size: 1.1em; line-height: 1; }
+.year-note button:hover { background: var(--surface); }
+
+@media (max-width: 40rem) {
+  .chart-box { height: 210px; }
+  .chart-box.tall   { height: 250px; }
+  .chart-box.taller { height: 340px; }
 }

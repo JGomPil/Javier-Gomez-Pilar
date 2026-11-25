@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-25T18:57:00Z",
+ "generated": "2026-11-25T19:00:18Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -4098,9 +4098,6 @@
    }
   },
   "new": [],
-  "conflicts": [
-   "Stargardt: to — a mano 2028, Portal 2026",
-   "COVID-19: scope — a mano nacional, Portal autonomico"
-  ]
+  "conflicts": []
  }
 }

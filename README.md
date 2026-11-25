@@ -110,10 +110,9 @@ dotación de 0,01 €.
 | Enlace a la ficha | Portal | Solo existe allí. |
 
 Cuando los dos discrepan, el script **lo dice y no toca nada**. La decisión es
-de una persona. A día de hoy avisa de dos:
-
-- **Stargardt** acaba en 2028 según `content.json` y en 2026 según el Portal.
-- **COVID-19** es de ámbito nacional según el CVN y autonómico según el Portal.
+de una persona. Ahora mismo no discrepan en nada: las dos diferencias que
+encontró —la fecha de fin de Stargardt y el ámbito del proyecto COVID-19— se
+resolvieron a favor del Portal.
 
 Un proyecto que aparezca en el Portal y no esté en `content.json` sale en la
 web por sí solo, con lo que el Portal sepa de él, y el log del cron lo nombra

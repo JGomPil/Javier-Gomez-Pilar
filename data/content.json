@@ -346,7 +346,7 @@
    "acronym": "",
    "role": "researcher",
    "from": "2025",
-   "to": "2028",
+   "to": "2026",
    "funder": "ISCIII",
    "es": {
     "title": "Medicina de precisión y diagnóstico avanzado en la enfermedad de Stargardt en España",
@@ -576,7 +576,7 @@
    },
    "label": "COVID-19",
    "ip": "Roberto Hornero",
-   "scope": "nacional",
+   "scope": "autonomico",
    "amount_basis": "total"
   },
   {

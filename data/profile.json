@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T23:54:26Z",
+ "generated": "2026-11-25T17:39:02Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -19,9 +19,9 @@
   },
   "openalex": {
    "works": 122,
-   "citations": 3130,
-   "h_index": 35,
-   "i10_index": 60,
+   "citations": 3106,
+   "h_index": 34,
+   "i10_index": 59,
    "citations_by_publication_year": [
     {
      "year": 2013,
@@ -29,39 +29,39 @@
     },
     {
      "year": 2014,
-     "citations": 42
+     "citations": 41
     },
     {
      "year": 2015,
-     "citations": 278
+     "citations": 276
     },
     {
      "year": 2016,
-     "citations": 221
+     "citations": 217
     },
     {
      "year": 2017,
-     "citations": 234
+     "citations": 233
     },
     {
      "year": 2018,
-     "citations": 400
+     "citations": 396
     },
     {
      "year": 2019,
-     "citations": 319
+     "citations": 315
     },
     {
      "year": 2020,
-     "citations": 419
+     "citations": 418
     },
     {
      "year": 2021,
-     "citations": 580
+     "citations": 579
     },
     {
      "year": 2022,
-     "citations": 524
+     "citations": 518
     },
     {
      "year": 2023,
@@ -88,7 +88,7 @@
   "citations_by_year": [
    {
     "year": 2012,
-    "citations": 1
+    "citations": 0
    },
    {
     "year": 2013,
@@ -96,7 +96,7 @@
    },
    {
     "year": 2014,
-    "citations": 2
+    "citations": 1
    },
    {
     "year": 2015,
@@ -108,7 +108,7 @@
    },
    {
     "year": 2017,
-    "citations": 70
+    "citations": 67
    },
    {
     "year": 2018,
@@ -116,41 +116,48 @@
    },
    {
     "year": 2019,
-    "citations": 138
+    "citations": 137
    },
    {
     "year": 2020,
-    "citations": 232
+    "citations": 231
    },
    {
     "year": 2021,
-    "citations": 282
+    "citations": 278
    },
    {
     "year": 2022,
-    "citations": 343
+    "citations": 340
    },
    {
     "year": 2023,
-    "citations": 382
+    "citations": 378
    },
    {
     "year": 2024,
-    "citations": 590
+    "citations": 592
    },
    {
     "year": 2025,
-    "citations": 501
+    "citations": 496
    },
    {
     "year": 2026,
-    "citations": 465
+    "citations": 467
    }
   ],
   "orcid": {
    "works": 70,
    "title": "Multimodal Phenotyping of Sleep Apnea: Integrating SpO2 and HRV Through Subject-Based Correlation Networks",
    "year": 2027
+  },
+  "wos": {
+   "citations": 2037,
+   "h_index": 28,
+   "records": 89,
+   "as_of": "2026-11-25",
+   "source": "Web of Science Starter API"
   }
  },
  "publications": [

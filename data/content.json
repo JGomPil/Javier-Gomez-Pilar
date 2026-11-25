@@ -1,10 +1,10 @@
 {
  "_readme": "Contenido editado a mano. Las publicaciones, cuartiles, premios y la gráfica de citas viven en profile.json y se regeneran solos cada semana: no los toques aquí. Este fichero es para lo que cambia una o dos veces al año.",
  "wos": {
-  "_readme": "Citas e índice h de Web of Science. WoS no tiene API gratuita con citas, así que estos valores son los de tu CVN y se actualizan a mano. Si consigues una clave de la Web of Science Starter API (tier de institución suscrita) y la guardas como secreto WOS_API_KEY en GitHub, el script la usará y este bloque dejará de hacer falta. Pon as_of con la fecha de consulta: la web la muestra.",
-  "citations": 1892,
-  "h_index": 27,
-  "as_of": "2026-07-10"
+  "_readme": "Respaldo. Desde noviembre de 2026 estas cifras llegan solas de la Web of Science Starter API: el secreto WOS_API_KEY esta puesto en el repositorio y el script rellena metrics.wos en profile.json, que es lo que la web usa. Este bloque solo entra en juego si la consulta falla, asi que conviene que no envejezca demasiado.",
+  "citations": 2037,
+  "h_index": 28,
+  "as_of": "2026-11-25"
  },
  "ui": {
   "es": {

@@ -20,79 +20,70 @@ fichero JSON.
 ### Citas e índice h de Web of Science
 
 La web muestra las cifras de WoS, no las de OpenAlex, porque son las que usan
-las comisiones de acreditación españolas. WoS no tiene API pública con citas,
-así que por defecto salen del bloque `wos` de `data/content.json` y la web
-enseña la fecha de consulta junto al número.
+las comisiones de acreditación españolas. Desde noviembre de 2026 llegan solas
+de la **Web of Science Starter API**, y la web enseña la fecha de consulta
+junto al número.
 
-Para automatizarlas hace falta una clave de la **Web of Science Starter API**.
-Pasos, ya estando registrado en <https://developer.clarivate.com>:
+De los tres planes de la API, solo los institucionales devuelven el número de
+citas, y esa es la diferencia que importa:
 
-1. Ve a <https://developer.clarivate.com/applications> y registra una
-   aplicación. Solo pide un identificador y un nombre.
-2. Entra en <https://developer.clarivate.com/apis/wos-starter> y suscribe esa
-   aplicación al **Free Institutional Member Plan**, no al Free Trial. Es la
-   diferencia que importa:
+| Plan | Peticiones/día | ¿Devuelve citas? |
+|---|---|---|
+| Free Trial | 50 | **No** |
+| Free Institutional Member | 5.000 | Sí |
+| Free Institutional Integration | 20.000 | Sí |
 
-   | Plan | Peticiones/día | ¿Devuelve citas? |
-   |---|---|---|
-   | Free Trial | 50 | **No** |
-   | Free Institutional Member | 5.000 | Sí |
-   | Free Institutional Integration | 20.000 | Sí |
+El institucional requiere que la organización tenga Web of Science contratado,
+que es el caso de la UVa, y hay que pedirlo desde el correo `@uva.es`. La
+aplicación registrada es `web-personal-uva`, en el plan **Free Institutional
+Member**.
 
-   El plan institucional requiere que tu organización tenga Web of Science
-   contratado, que es el caso de la UVa, y hay que pedirlo con el correo
-   `@uva.es`. El portal avisa de que la aprobación puede tardar unos días.
-3. La clave aparece en la página de tu aplicación, en la sección
-   **Subscriptions**, detrás de un icono que la revela.
-4. En el repositorio: *Settings → Secrets and variables → Actions → New
-   repository secret*, con nombre `WOS_API_KEY`.
-5. Añade estas dos líneas al paso «Regenerate» de
-   `.github/workflows/update-data.yml`:
+Una advertencia sobre las cifras: la API devuelve **89 documentos**, que es
+todo lo que WoS indexa de él, mientras que la web cuenta **68 artículos JCR**.
+No se contradicen — WoS incluye actas de congreso y otros tipos que no son
+artículo en revista indexada. Las citas y el índice h se calculan sobre los 89,
+que es como los calcula la propia plataforma.
 
-   ```yaml
-         env:
-           WOS_API_KEY: ${{ secrets.WOS_API_KEY }}
-   ```
+### La clave ya esta puesta
 
-### Cuando llegue la clave
+Estado a 25 de noviembre de 2026: Clarivate aprobo la aplicacion
+`web-personal-uva` en el **Free Institutional Member Plan**, que es el unico
+plan gratuito que devuelve el numero de citas. La clave esta guardada como
+secreto `WOS_API_KEY` del repositorio, no en ningun fichero.
 
-Estado a 24 de noviembre de 2026: aplicación `web-personal-uva` registrada y
-suscrita al **Free Institutional Member Plan**, con la aprobación pendiente. La
-clave aparecerá en <https://developer.clarivate.com/apis/wos-starter>, en la
-tabla *Applications*, donde ahora dice «Subscription approval is pending».
+Desde entonces las citas y el indice h los trae el script y ya no se escriben
+a mano: `wos_metrics()` consulta `/documents?q=AI=(B-9123-2018)`, suma las
+citas de cada documento y calcula el indice h, porque la API no lo ofrece. El
+resultado va a `metrics.wos` en `data/profile.json`, que es lo que la web lee.
 
-Para no escribirla nunca en una conversación ni en el historial del shell,
-guárdala en un fichero y pásala desde ahí:
+El bloque `wos` de `data/content.json` queda como respaldo y solo entra si la
+consulta falla. Conviene que no envejezca: cuando cambien mucho las cifras
+automaticas, copiarlas ahi.
+
+**Si hay que cambiar la clave** (por ejemplo, porque se haya expuesto):
+genera una nueva en <https://developer.clarivate.com/apis/wos-starter>,
+guardala en un fichero y pasala desde ahi, sin escribirla en una conversacion
+ni en el historial del shell:
 
 ```sh
-printf '%s' 'LA_CLAVE' > ~/.wos-key && chmod 600 ~/.wos-key
+printf '%s' 'LA_CLAVE_NUEVA' > ~/.wos-key && chmod 600 ~/.wos-key
 
-# 1. Probarla sin imprimirla: ¿devuelve citas tu plan?
+# 1. Probarla sin imprimirla
 WOS_API_KEY="$(cat ~/.wos-key)" python3 scripts/update_data.py
 
-# 2. Subirla como secreto del repositorio
+# 2. Reemplazar el secreto
 gh secret set WOS_API_KEY < ~/.wos-key
 
-# 3. Lanzar el cron a mano y ver el log
-gh workflow run "Refresh bibliometrics"
-gh run watch
-
-# 4. Borrar el fichero
+# 3. Borrar el fichero
 rm ~/.wos-key
 ```
 
-Si el paso 1 avisa de que no llegan citas, la suscripción quedó en el Free
-Trial y hay que reclamar el plan institucional.
+Para comprobar que el cron la usa bien:
 
-A partir de ahí el script consulta `AI=(B-9123-2018)`, tu ResearcherID, en
-`api.clarivate.com/apis/wos-starter/v2/documents`, suma las citas y **calcula
-el índice h él mismo**: la API no lo ofrece, solo da las citas de cada
-documento. Si la clave resulta ser del plan sin citas, el script lo detecta, lo
-avisa y mantiene las cifras manuales en lugar de publicar un cero.
-
-El índice h de Scopus (29) no se usa en la web; está en tu CVN si lo necesitas.
-
----
+```sh
+gh workflow run "Refresh bibliometrics"
+gh run watch
+```
 
 ## Editar el contenido
 

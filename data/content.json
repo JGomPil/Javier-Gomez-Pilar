@@ -155,6 +155,8 @@
    "pdf.scope.europeo": "Internacional",
    "pdf.scope.nacional": "Nacional",
    "pdf.scope.autonomico": "Autonómico",
+   "pdf.link": "enlace",
+   "pdf.record": "Ficha del proyecto",
    "pdf.note": "Citas e índice h: Web of Science, a fecha de {date}. Publicaciones y cuartiles: repositorio del Grupo de Ingeniería Biomédica, actualizado automáticamente cada semana. Proyectos: Portal de la Ciencia de la UVa y CVN-FECYT."
   },
   "en": {
@@ -305,6 +307,8 @@
    "pdf.scope.europeo": "International",
    "pdf.scope.nacional": "National",
    "pdf.scope.autonomico": "Regional",
+   "pdf.link": "link",
+   "pdf.record": "Project record",
    "pdf.note": "Citations and h-index: Web of Science, as of {date}. Publications and quartiles: Biomedical Engineering Group repository, refreshed automatically every week. Projects: UVa Portal de la Ciencia and CVN-FECYT."
   }
  },
@@ -325,6 +329,12 @@
     "fMRI",
     "Teoría de grafos"
    ],
+   "signals_en": [
+    "EEG",
+    "MEG",
+    "fMRI",
+    "Graph theory"
+   ],
    "es": {
     "title": "Dinámica temporal y redes funcionales",
     "text": "Cada región cortical integra información en su propia ventana temporal, y esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Modelado como grafo funcional, el EEG revela un déficit de modulación de esa red en distintas patologías neurológicas y psiquiátricas."
@@ -339,6 +349,12 @@
     "SpO₂",
     "HRV",
     "Polisomnografía",
+    "Deep learning"
+   ],
+   "signals_en": [
+    "SpO₂",
+    "HRV",
+    "Polysomnography",
     "Deep learning"
    ],
    "es": {

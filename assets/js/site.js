@@ -312,6 +312,11 @@
 
   /* ── citations chart ─────────────────────────────────────── */
 
+  /* Las etiquetas de cada linea solo se traducen donde cambian: EEG
+     es EEG en los dos idiomas, "Teoria de grafos" no. */
+  const senales = (linea) =>
+    (state.lang === "en" && linea.signals_en) || linea.signals;
+
   function renderLines() {
     const host = $("#lines");
     if (!host) return;
@@ -322,7 +327,7 @@
           <span class="line-n">${icon("i-line-" + (i + 1), "line-icon")}<b>${String(i + 1).padStart(2, "0")}</b></span>
           <h3>${esc(L.title)}</h3>
           <p>${esc(L.text)}</p>
-          <ul class="signals">${line.signals.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>
+          <ul class="signals">${senales(line).map((s) => `<li>${esc(s)}</li>`).join("")}</ul>
         </article>`;
     }).join("");
   }

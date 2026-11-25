@@ -160,10 +160,13 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
 - **`ui`** — etiquetas de la interfaz (menú, botones, encabezados).
 - **`epigraph`** — la cita de apertura, en el bloque que antes llevaba la frase
   sobre las escalas de tiempo. Las líneas y el autor. No lleva bloque `es`/`en`
-  porque una cita no se traduce: sale igual en las dos versiones y en la
-  portada del PDF. Se escribe una línea por renglón porque el salto es
-  deliberado; en móvil fluyen como un párrafo, que es lo único que cabe.
-- **`lines`** — las cuatro líneas de investigación.
+  porque una cita no se traduce: sale igual en las dos versiones. Se escribe
+  una línea por renglón porque el salto es deliberado; en móvil fluyen como un
+  párrafo, que es lo único que cabe. En el PDF no abre el documento, lo cierra:
+  un currículum que empieza con una cita despista.
+- **`lines`** — las líneas de investigación. Las etiquetas van en `signals`, y
+  solo donde cambian de idioma se añade `signals_en`: «EEG» es «EEG» en los dos,
+  «Teoría de grafos» no.
 - **`projects`** — proyectos. `role` acepta `"ip"`, `"co-ip"` o `"researcher"`;
   solo los dos primeros muestran etiqueta. Aquí van también los proyectos de
   CIBER-BBN, GRS y cualquier otro que el Portal de la Ciencia de la UVa no
@@ -205,9 +208,9 @@ python3 -c "import json; json.load(open('data/content.json', encoding='utf-8'))"
 ## Exportar la web en PDF
 
 El botón **PDF** de la barra superior **genera un PDF y lo descarga**. No abre
-el diálogo de impresión ni imprime la página: compone un documento de verdad,
-con sus páginas, su numeración y su texto seleccionable, en el idioma que esté
-activo. Son unas 22 páginas y unos 220 KB.
+el diálogo de impresión ni imprime la página: compone un currículum de verdad,
+con sus páginas, su numeración, su texto seleccionable y sus enlaces vivos, en
+el idioma que esté activo. Son unas 20 páginas y unos 550 KB.
 
 Lo hace `assets/js/pdf.js` con [pdfmake](https://pdfmake.github.io/), en el
 navegador. En el navegador y no en un servidor porque no hay servidor: esto es
@@ -221,28 +224,38 @@ entren publicaciones nuevas, entran también en el PDF.
 
 Va así:
 
-- **Portada**: la cita, el nombre, el cargo, la afiliación y las cuatro cifras,
-  con la procedencia al pie.
+- **Cabecera**: el retrato, el nombre, el cargo, la afiliación, la línea de
+  identificadores (ORCID, Scopus, WoS, Scholar, Portal de la Ciencia, CVN,
+  todos enlazados), las cuatro cifras en sus cajas y el índice, que también
+  lleva enlaces a cada sección.
 - **01 Investigación**, **02 Publicaciones** (resumen bibliométrico y las 148
-  referencias agrupadas por tipo, numeradas de la más reciente a la más
-  antigua, con el apellido en negrita, el DOI y las marcas Q1/D1),
-  **03 Proyectos**, **04 Docencia**, **05 Reconocimiento** y **06 Contacto**.
-  Cada una empieza en página nueva.
-- Pie con el número de página en todas menos en la portada.
+  referencias agrupadas por tipo, numeradas 1, 2, 3…, con el nombre entero en
+  negrita, el DOI enlazado y las marcas Q1/D1), **03 Proyectos** (una ficha por
+  proyecto, en naranja los que siguen en curso y en azul los cerrados, con
+  enlace a su ficha del Portal), **04 Docencia**, **05 Reconocimiento** y
+  **06 Contacto**, que cierra con la cita.
+- Las secciones van seguidas, no una por página: lo que se baja de página es
+  una cabecera que se quedaría sola al pie.
+- Pie con el número de página en todas menos en la primera.
 
 Para tocar el diseño, todo está en ese fichero: los colores arriba del todo y
 los tamaños en `styles`, al final de `documento()`. pdfmake no entiende HTML ni
-CSS; cada bloque es un objeto. Dos cosas que ya costaron un rato:
+CSS; cada bloque es un objeto. Tres cosas que ya costaron un rato:
 
 - Un filete vertical junto a un bloque no se dibuja con una línea, porque una
   línea mide lo que le digas y las fichas no miden todas lo mismo. Se hace con
-  el borde izquierdo de una tabla de una sola celda.
-- La portada ancla su colofón abajo con `absolutePosition`: no hay nada
-  parecido a un flex.
+  una celda estrecha con fondo, dentro de una tabla de una fila: esa sí crece
+  con el bloque.
+- Una celda vacía al final de una tabla con fondo deja una muesca blanca. Si no
+  hay cuenta que poner a la derecha, la barra se arma con dos columnas.
+- El retrato se recorta en redondo sobre un lienzo y se exporta a data URI, que
+  es lo único que pdfmake admite. De paso no hay que guardar una segunda copia
+  de la foto en el repositorio.
 
 Para verlo sin ir pulsando el botón, hay una página de prueba que compone el
-dosier y lo escupe en base64; está en el cuaderno de trabajo, no en el repo.
-Lo más rápido es levantar el sitio en local y pulsar el botón.
+documento, lo rasteriza con pdf.js y escupe cada página en base64; está en el
+cuaderno de trabajo, no en el repo. Lo más rápido es levantar el sitio en local
+y pulsar el botón.
 
 Y lo que **no** entra en el PDF: el correo electrónico, que no está en ninguna
 parte del sitio, y las calificaciones de los trabajos dirigidos.

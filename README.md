@@ -86,6 +86,34 @@ gh workflow run "Refresh bibliometrics"
 gh run watch
 ```
 
+### Cómo se escribe el financiador de un proyecto
+
+Un criterio único para los diecinueve, porque antes cada uno decía lo suyo y
+tres proyectos del mismo programa se leían como si fueran de tres sitios
+distintos:
+
+```
+<convocatoria o programa> · <agencia> · <cofinanciación>
+```
+
+Por ejemplo `Plan Estatal · AEI · FEDER`, o `Interreg POCTEP · FEDER`.
+
+El dato sale de la ficha del Portal, que para cada proyecto declara programa,
+subprograma y lista de financiadores. Interreg, por ejemplo: los tres
+proyectos son «Programa de Cooperación Interreg España-Portugal (POCTEP)»
+financiado por FEDER, y lo único que cambia entre ellos es el periodo —V-A
+para MIGRAINEE, VI-A para los otros dos—, que ya se deduce de los años.
+
+**No es un descuido que dos proyectos digan «Plan Nacional» y el resto «Plan
+Estatal».** El programa se llamó Plan Nacional de I+D+i hasta 2013 y Plan
+Estatal de Investigación Científica y Técnica y de Innovación desde entonces.
+Los de 2012-2015 son de la etapa anterior.
+
+Esto se mantiene a mano: traducir el nombre largo y en mayúsculas del Portal a
+una etiqueta legible exige criterio, y automatizarlo daría cadenas como
+«PROGRAMA ESTATAL PARA IMPULSAR LA INVESTIGACIÓN CIENTÍFICO-TÉCNICA Y SU
+TRANSFERENCIA».
+
 ### Proyectos: qué trae el Portal y qué no
 
 El Portal de la Ciencia recoge los proyectos gestionados por la UVa, no los

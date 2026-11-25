@@ -328,7 +328,7 @@
    "role": "director",
    "from": "2026",
    "to": "2030",
-   "funder": "Junta de Castilla y León",
+   "funder": "Junta de Castilla y León · FSE+",
    "es": {
     "title": "Identificación de las huellas neuropatológicas de la demencia mediante análisis dinámico de redes cerebrales",
     "note": "Contrato predoctoral asociado a la línea de demencias."
@@ -347,7 +347,7 @@
    "role": "researcher",
    "from": "2025",
    "to": "2026",
-   "funder": "ISCIII",
+   "funder": "Plan Estatal · ISCIII · Next Generation EU",
    "es": {
     "title": "Medicina de precisión y diagnóstico avanzado en la enfermedad de Stargardt en España",
     "note": ""
@@ -385,7 +385,7 @@
    "role": "researcher",
    "from": "2024",
    "to": "2027",
-   "funder": "Plan Nacional · MICIU",
+   "funder": "Plan Estatal · AEI · FEDER",
    "es": {
     "title": "Definición de fenotipos en la apnea del sueño mediante aprendizaje profundo multitarea e inteligencia artificial explicable",
     "note": ""
@@ -406,7 +406,7 @@
    "role": "researcher",
    "from": "2023",
    "to": "2027",
-   "funder": "Plan Nacional · AEI · FEDER",
+   "funder": "Plan Estatal · AEI · FEDER",
    "es": {
     "title": "El cerebro cronectómico: identificando las huellas neuropatológicas de la demencia",
     "note": ""
@@ -427,7 +427,7 @@
    "role": "co-ip",
    "from": "2023",
    "to": "2026",
-   "funder": "Interreg · Unión Europea",
+   "funder": "Interreg POCTEP · FEDER",
    "es": {
     "title": "Dinamización de una red I+D+i colaborativa transfronteriza para el fenotipado integral de la apnea del sueño",
     "note": "Coordinación científica y económica de una red de 9 investigadores, con un presupuesto medio anual de 70.000 €."
@@ -446,7 +446,7 @@
    "role": "researcher",
    "from": "2023",
    "to": "2026",
-   "funder": "Interreg POCTEP",
+   "funder": "Interreg POCTEP · FEDER",
    "es": {
     "title": "Red internacional de investigación, innovación y transferencia de tecnologías para la promoción del envejecimiento activo",
     "note": ""
@@ -486,7 +486,7 @@
    "role": "researcher",
    "from": "2022",
    "to": "2025",
-   "funder": "Plan Nacional · AEI · Next Generation EU",
+   "funder": "Plan Estatal · AEI · Next Generation EU",
    "es": {
     "title": "Técnicas de deep learning e interpretación de inteligencia artificial en el cribado de la degeneración macular asociada a la edad",
     "note": ""
@@ -506,7 +506,7 @@
    "role": "researcher",
    "from": "2022",
    "to": "2025",
-   "funder": "Plan Nacional · AEI · Next Generation EU",
+   "funder": "Plan Estatal · AEI · Next Generation EU",
    "es": {
     "title": "Hacia la digitalización del entrenamiento cognitivo mediante sistemas brain-computer interface, ejercicio físico y autoevaluación neuropsicológica",
     "note": ""
@@ -526,7 +526,7 @@
    "role": "researcher",
    "from": "2021",
    "to": "2025",
-   "funder": "Plan Nacional · AEI",
+   "funder": "Plan Estatal · AEI",
    "es": {
     "title": "Diseño de modelos predictivos automáticos interpretables en la apnea del sueño pediátrica",
     "note": ""
@@ -602,7 +602,7 @@
    "role": "researcher",
    "from": "2018",
    "to": "2021",
-   "funder": "Plan Nacional",
+   "funder": "Plan Estatal · Retos de la Sociedad · MINECO · FEDER",
    "es": {
     "title": "Simplificación del diagnóstico de la apnea del sueño infantil mediante nuevas técnicas de procesado de señales cardiorrespiratorias",
     "note": ""
@@ -622,7 +622,7 @@
    "role": "researcher",
    "from": "2017",
    "to": "2022",
-   "funder": "Interreg · Comisión Europea · FEDER",
+   "funder": "Interreg POCTEP · FEDER",
    "es": {
     "title": "Análisis y correlación entre la epigenética y la actividad cerebral para evaluar el riesgo de migraña crónica y episódica en mujeres",
     "note": ""
@@ -642,7 +642,7 @@
    "role": "researcher",
    "from": "2015",
    "to": "2018",
-   "funder": "Plan Nacional · Retos de la Sociedad",
+   "funder": "Plan Estatal · Retos de la Sociedad · MINECO",
    "ref": "TEC2014-64498-R",
    "amount": 162745,
    "es": {
@@ -661,7 +661,7 @@
    "role": "researcher",
    "from": "2012",
    "to": "2015",
-   "funder": "Plan Nacional · I+D+i",
+   "funder": "Plan Nacional de I+D+i · MINECO",
    "ref": "TEC2011-22987",
    "amount": 130075,
    "es": {
@@ -679,7 +679,7 @@
    "role": "researcher",
    "from": "2012",
    "to": "2015",
-   "funder": "Plan Nacional",
+   "funder": "Plan Nacional de I+D+i · MINECO",
    "ref": "",
    "amount": 248274,
    "es": {

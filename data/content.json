@@ -126,7 +126,8 @@
    "proj.ip": "IP",
    "g.countries.n": "países",
    "g.countries.orgs": "organizaciones",
-   "g.countries.back": "Todos los países"
+   "g.countries.back": "Todos los países",
+   "affil": "Afiliación"
   },
   "en": {
    "skip": "Skip to content",
@@ -247,7 +248,8 @@
    "proj.ip": "PI",
    "g.countries.n": "countries",
    "g.countries.orgs": "organisations",
-   "g.countries.back": "All countries"
+   "g.countries.back": "All countries",
+   "affil": "Affiliation"
   }
  },
  "lines": [

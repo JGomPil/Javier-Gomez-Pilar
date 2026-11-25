@@ -17,3 +17,15 @@ venv/
 __pycache__/
 *.pyc
 .DS_Store
+
+# Capturas y materiales sueltos que se dejan en la raíz para enseñarme
+# algo. Se me colaron dos al repositorio con un "git add -A"; no vuelve
+# a pasar.
+Captura*.png
+Captura*.jpg
+Screenshot*.png
+/*.png
+/*.jpg
+/*.jpeg
+/*.svg
+/*.eps

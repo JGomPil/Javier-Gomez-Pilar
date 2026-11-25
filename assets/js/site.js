@@ -268,6 +268,11 @@
       ? saved
       : (browser === "es" ? "es" : "en");
 
+    // El GIB tiene version espanola e inglesa de su imagotipo. La UVa
+    // y el CIBER no, y tampoco hacen falta: son nombres propios.
+    const gib = $("#logo-gib");
+    if (gib) gib.src = `assets/img/logos/gib-${state.lang}.png`;
+
     $$(".lang button").forEach((btn) => {
       btn.addEventListener("click", () => {
         if (btn.dataset.lang === state.lang) return;

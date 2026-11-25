@@ -26,6 +26,8 @@
   --rule:       #a9b6bf;
   --rule-soft:  #b8c3cb;
   --accent:     #1b4ea8;
+  --logo-bg:    #eef1f3;
+  --logo-rule:  #c2ccd3;
   --accent-ink: #123778;
   --accent-bg:  #bfcee4;
   color-scheme: light;
@@ -52,6 +54,8 @@
     --rule:       #27364a;
     --rule-soft:  #1c2836;
     --accent:     #6f9fe8;
+  --logo-bg:    #e9edf0;
+  --logo-rule:  #2a3a4f;
     --accent-ink: #a6c6f3;
     --accent-bg:  #16263d;
     color-scheme: dark;
@@ -68,6 +72,8 @@
     --rule:       #27364a;
     --rule-soft:  #1c2836;
     --accent:     #6f9fe8;
+  --logo-bg:    #e9edf0;
+  --logo-rule:  #2a3a4f;
     --accent-ink: #a6c6f3;
     --accent-bg:  #16263d;
     color-scheme: dark;
@@ -1334,4 +1340,49 @@ h2[data-icon] {
 
 @media (prefers-reduced-motion: no-preference) {
   .ranking li .bar i { transition: width .5s var(--ease, ease-out); }
+}
+
+/* ── tira de afiliación ──────────────────────────────────────── */
+
+/* Los tres logos llevan negro o azul marino en su rótulo, que sobre el
+   fondo del tema oscuro no se leería. Invertirlos destrozaría el sello
+   de la UVa, así que van sobre una banda clara en los dos temas: en el
+   claro apenas se distingue del papel, en el oscuro se lee como una
+   tarjeta. Es lo que hace cualquier sitio serio con logos ajenos:
+   respetar sus colores y darles el fondo que necesitan. */
+.affil {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem 2.8rem;
+  margin: 0 0 1.9rem;
+  padding: 1.15rem 1.6rem;
+  list-style: none;
+  background: var(--logo-bg);
+  border: 1px solid var(--logo-rule);
+  border-radius: 2px;
+}
+
+.affil img {
+  display: block;
+  width: auto;
+  height: 2.5rem;
+  /* Apagados, para que no compitan con el contenido; a su color al
+     pasar por encima. */
+  filter: saturate(.72) opacity(.82);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .affil img { transition: filter .3s var(--ease); }
+}
+
+.affil img:hover { filter: none; }
+
+@media (max-width: 40rem) {
+  .affil {
+    gap: 1.1rem 1.6rem;
+    padding: .95rem 1rem;
+  }
+  .affil img { height: 2rem; }
 }

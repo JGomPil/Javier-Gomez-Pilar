@@ -158,11 +158,11 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
 - **`wos`** — citas e índice h de Web of Science, con `as_of`. Actualízalo
   cuando regeneres tu CVN.
 - **`ui`** — etiquetas de la interfaz (menú, botones, encabezados).
-- **`epigraph`** — la cita de apertura: las líneas y el autor. No lleva bloque
-  `es`/`en` porque una cita no se traduce: sale igual en las dos versiones y en
-  el PDF. Las líneas son las que son, y se escriben una a una porque el salto
-  es deliberado; si cambias el texto, procura que la más larga no pase de unos
-  42 caracteres o se partirá en la columna del retrato.
+- **`epigraph`** — la cita de apertura, en el bloque que antes llevaba la frase
+  sobre las escalas de tiempo. Las líneas y el autor. No lleva bloque `es`/`en`
+  porque una cita no se traduce: sale igual en las dos versiones y en la
+  portada del PDF. Se escribe una línea por renglón porque el salto es
+  deliberado; en móvil fluyen como un párrafo, que es lo único que cabe.
 - **`lines`** — las cuatro líneas de investigación.
 - **`projects`** — proyectos. `role` acepta `"ip"`, `"co-ip"` o `"researcher"`;
   solo los dos primeros muestran etiqueta. Aquí van también los proyectos de
@@ -204,43 +204,53 @@ python3 -c "import json; json.load(open('data/content.json', encoding='utf-8'))"
 
 ## Exportar la web en PDF
 
-El botón **PDF** de la barra superior saca un dosier con *todo* el contenido
-del sitio, en el idioma que esté activo. Lo abre el diálogo de impresión del
-navegador; ahí se elige «Guardar como PDF». Son unas 24 páginas.
+El botón **PDF** de la barra superior **genera un PDF y lo descarga**. No abre
+el diálogo de impresión ni imprime la página: compone un documento de verdad,
+con sus páginas, su numeración y su texto seleccionable, en el idioma que esté
+activo. Son unas 22 páginas y unos 220 KB.
 
-**No se imprime la página.** La web se lee por pestañas y filtros —una cosa
-cada vez—, y eso en papel no funciona porque nadie va a pulsar nada. Así que
-`assets/js/pdf.js` construye un documento aparte con los mismos datos
-(`content.json` y `profile.json`), lo mete en el DOM, imprime y lo retira. En
-pantalla no se ve nunca.
+Lo hace `assets/js/pdf.js` con [pdfmake](https://pdfmake.github.io/), en el
+navegador. En el navegador y no en un servidor porque no hay servidor: esto es
+GitHub Pages. La librería pesa dos megas, así que se descarga de cdnjs la
+primera vez que se pulsa el botón y no al cargar la página; mientras tanto el
+botón dice «Generando…».
 
-El documento va así: portada con la cita, el nombre, la tesis de una frase y
-las cuatro cifras; y luego las seis secciones, cada una empezando en página
-nueva. Las publicaciones salen agrupadas por tipo y numeradas de la más
-reciente a la más antigua, con el apellido en negrita, el DOI y las insignias
-Q1/D1.
+El documento se arma con los mismos datos que la web —`content.json` y
+`profile.json`—, así que **no hay nada que mantener aparte**: cuando el lunes
+entren publicaciones nuevas, entran también en el PDF.
 
-El diseño está en `assets/css/style.css`, al final, dentro de `@media print`.
-Dos cosas que conviene saber antes de tocarlo:
+Va así:
 
-- **Medidas en mm y pt**, no en rem: es papel, y A4 con márgenes de 17/16 mm.
-- **Los titulares se reinician a mano.** El `h3` de la pantalla es monoespaciado,
-  en versales y gris; si no se neutraliza, los títulos de los proyectos salen
-  en mayúsculas. El reset se escribe `[id="pdf-doc"] h3` y no `#pdf-doc h3`
-  para que pese lo mismo que una clase y las reglas concretas puedan ganarle.
+- **Portada**: la cita, el nombre, el cargo, la afiliación y las cuatro cifras,
+  con la procedencia al pie.
+- **01 Investigación**, **02 Publicaciones** (resumen bibliométrico y las 148
+  referencias agrupadas por tipo, numeradas de la más reciente a la más
+  antigua, con el apellido en negrita, el DOI y las marcas Q1/D1),
+  **03 Proyectos**, **04 Docencia**, **05 Reconocimiento** y **06 Contacto**.
+  Cada una empieza en página nueva.
+- Pie con el número de página en todas menos en la portada.
 
-Para ver cómo queda sin ir pulsando el botón, el PDF se puede generar desde la
-terminal con el Chrome que ya tienes instalado:
+Para tocar el diseño, todo está en ese fichero: los colores arriba del todo y
+los tamaños en `styles`, al final de `documento()`. pdfmake no entiende HTML ni
+CSS; cada bloque es un objeto. Dos cosas que ya costaron un rato:
 
-```sh
-# genera el documento con los datos reales y lo imprime a PDF
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --headless --no-pdf-header-footer --print-to-pdf=/tmp/dosier.pdf \
-  "file:///ruta/a/una/pagina/de/prueba.html"
-```
+- Un filete vertical junto a un bloque no se dibuja con una línea, porque una
+  línea mide lo que le digas y las fichas no miden todas lo mismo. Se hace con
+  el borde izquierdo de una tabla de una sola celda.
+- La portada ancla su colofón abajo con `absolutePosition`: no hay nada
+  parecido a un flex.
+
+Para verlo sin ir pulsando el botón, hay una página de prueba que compone el
+dosier y lo escupe en base64; está en el cuaderno de trabajo, no en el repo.
+Lo más rápido es levantar el sitio en local y pulsar el botón.
 
 Y lo que **no** entra en el PDF: el correo electrónico, que no está en ninguna
 parte del sitio, y las calificaciones de los trabajos dirigidos.
+
+Quien pulse Ctrl+P sobre la página en lugar de usar el botón no se lleva un
+desastre: hay unas pocas reglas `@media print` al final de `style.css` que
+quitan la barra, los filtros y el fondo. Pero el documento bueno es el del
+botón.
 
 ---
 

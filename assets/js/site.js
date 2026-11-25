@@ -1008,17 +1008,40 @@
 
   /* ── el PDF ──────────────────────────────────────────────── */
 
-  /* El documento lo arma assets/js/pdf.js con los mismos datos que la
-     pagina y en el idioma activo. Aqui solo se le pasa el contexto. */
+  /* El PDF lo compone assets/js/pdf.js con los mismos datos que la
+     pagina y en el idioma activo. Aqui solo se le pasa el contexto y
+     se entretiene al que ha pulsado: la primera vez hay que bajar dos
+     megas de libreria y componer veintitantas paginas, y sin aviso
+     parece que el boton no ha hecho nada. */
   function initPdf() {
     const boton = $("#pdf-btn");
     if (!boton) return;
     if (!window.JGPPdf) { boton.hidden = true; return; }
+
+    const etiqueta = boton.querySelector("span");
+    let ocupado = false;
+
     boton.addEventListener("click", () => {
-      window.JGPPdf.print({
+      if (ocupado) return;
+      ocupado = true;
+      boton.disabled = true;
+      if (etiqueta) etiqueta.textContent = t("pdf.wait");
+
+      window.JGPPdf.generate({
         content: state.content,
         profile: state.profile,
         lang: state.lang,
+      }).catch((err) => {
+        console.error("PDF:", err);
+        if (etiqueta) etiqueta.textContent = t("pdf.fail");
+      }).finally(() => {
+        ocupado = false;
+        boton.disabled = false;
+        // Si ha fallado, el aviso se queda un momento antes de
+        // volver a poner "PDF".
+        setTimeout(() => {
+          if (etiqueta) etiqueta.textContent = t("pdf.btn");
+        }, 2600);
       });
     });
   }

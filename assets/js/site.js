@@ -800,7 +800,6 @@
                 <span>`
                   + (x.student ? `${esc(x.student)} \u00b7 ` : "")
                   + `${esc(x.degree[state.lang])} \u00b7 ${esc(x.course)}`
-                  + (x.grade ? ` \u00b7 ${esc(x.grade)}` : "")
                   + `</span>
               </li>`).join("")}
           </ol>

@@ -944,7 +944,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "",
-   "grade": "",
    "es": "Técnicas de aprendizaje automático explicable para la predicción del desarrollo de fracaso renal agudo en pacientes de UCI",
    "en": "Explainable machine learning to predict the onset of acute kidney injury in ICU patients"
   },
@@ -956,7 +955,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "",
-   "grade": "",
    "es": "Identificación de fenotipos clínicamente relevantes en la enfermedad de alzheimer mediante técnicas de aprendizaje automático no supervisado aplicadas a datos multimodales",
    "en": "Identifying clinically relevant phenotypes in Alzheimer’s disease with unsupervised machine learning on multimodal data"
   },
@@ -968,7 +966,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "José María Pallarés García",
-   "grade": "Sobresaliente",
    "es": "Identificación de fenotipos de apnea obstructiva del sueño mediante aprendizaje no supervisado a partir de la señal de saturación del oxígeno en sangre",
    "en": "Identifying obstructive sleep apnoea phenotypes with unsupervised learning"
   },
@@ -980,7 +977,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "Elena Gómez Arranz",
-   "grade": "Sobresaliente",
    "es": "Investigación de la dinámica de redes cerebrales durante la terapia de observación de acciones mediante algoritmos de detección de comunidades multicapa",
    "en": "Brain-network dynamics during action-observation therapy, studied with multilayer community-detection algorithms"
   },
@@ -992,7 +988,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "Laura Pinilla Domingo",
-   "grade": "Sobresaliente",
    "es": "Aplicación de algoritmos de machine learning para la predicción automática del grado de sedación y analgesia en un entorno de medicina intensiva",
    "en": "Machine-learning algorithms for the automatic prediction of sedation and analgesia depth in intensive care"
   },
@@ -1004,7 +999,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "Sergio González Postigo",
-   "grade": "Sobresaliente",
    "es": "Análisis longitudinal de la reorganización neuronal y su impacto en la cognición tras el tratamiento de la apnea obstructiva del sueño en una cohorte pediátrica",
    "en": "Longitudinal analysis of neural reorganisation and its effect on cognition after treating obstructive sleep apnoea in a paediatric cohort"
   },
@@ -1016,7 +1010,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "Jesús Crego Ruiz",
-   "grade": "Sobresaliente",
    "es": "Análisis de la señal de variabilidad del ritmo cardiaco para el fenotipado de la apnea obstructiva del sueño mediante métodos de clustering",
    "en": "Heart-rate variability for phenotyping obstructive sleep apnoea through clustering methods"
   },
@@ -1028,7 +1021,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "Miguel Fernández Garrote",
-   "grade": "Sobresaliente",
    "es": "Análisis de la conectividad neuronal en electrofisiología basal en migraña",
    "en": "Neural connectivity in resting-state electrophysiology in migraine"
   },
@@ -1040,7 +1032,6 @@
     "en": "Biomedical Engineering"
    },
    "student": "Laura Gutiérrez de Pablo",
-   "grade": "Sobresaliente",
    "es": "Análisis de la actividad neuronal para estimar la profundidad anestésica en niños",
    "en": "Neural activity analysis to estimate anaesthetic depth in children"
   },
@@ -1052,7 +1043,6 @@
     "en": "Medicine"
    },
    "student": "Francisco Javier Martín Franco",
-   "grade": "Notable",
    "es": "Nuevas tecnologías de la información en medicina",
    "en": "New information technologies in medicine"
   },
@@ -1064,7 +1054,6 @@
     "en": "Medicine"
    },
    "student": "David Duval Melchor",
-   "grade": "Sobresaliente",
    "es": "Análisis de la recurrencia y el balance frecuencial del electroencefalograma en migraña para su identificación como posibles biomarcadores",
    "en": "Recurrence and spectral balance of the EEG in migraine as candidate biomarkers"
   },
@@ -1076,7 +1065,6 @@
     "en": "Telecommunication Technologies Engineering"
    },
    "student": "Marcos Revilla Vallejo",
-   "grade": "",
    "es": "Simulación computacional de los mecanismos de neurodegeneración en la enfermedad de alzheimer",
    "en": "Computational simulation of neurodegeneration mechanisms in Alzheimer’s disease"
   },
@@ -1088,7 +1076,6 @@
     "en": "Telecommunication Engineering"
    },
    "student": "Mario Calle Martín",
-   "grade": "Sobresaliente",
    "es": "Modelado predictivo de la reorganización de la red neuronal en pacientes con esquizofrenia durante una tarea p300",
    "en": "Predictive modelling of neural network reorganisation in patients with schizophrenia"
   },
@@ -1100,7 +1087,6 @@
     "en": "Medicine"
    },
    "student": "José Llópiz Castedo",
-   "grade": "Notable",
    "es": "Conectividad funcional evaluada por electroencefalografía en migraña",
    "en": "Functional connectivity assessed by electroencephalography in migraine"
   },
@@ -1112,7 +1098,6 @@
     "en": "Medicine"
    },
    "student": "Beatriz Pando Ruiz",
-   "grade": "Sobresaliente",
    "es": "Estimulación transcraneal en migraña crónica refractaria: modificaciones en el registro electroencefalográfico",
    "en": "Transcranial stimulation in refractory chronic migraine: changes in the EEG recording"
   },
@@ -1124,7 +1109,6 @@
     "en": "Medicine"
    },
    "student": "Claudia Gomez Lopez de san Roman",
-   "grade": "Sobresaliente",
    "es": "Análisis espectral y no lineal de actividad electroencefalográfica basal en pacientes migrañosos",
    "en": "Spectral and nonlinear analysis of resting EEG activity in migraine patients"
   }

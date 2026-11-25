@@ -165,12 +165,19 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   recoja.
 - **`teaching`** — asignaturas.
 - **`theses`** — tesis en dirección. No incluyas números de expediente.
-- **`tfgs`** — Trabajos de Fin de Grado dirigidos, sacados del
-  certificado de la Secretaría General que hay en `fuentes/`. **Sin nombres
-  de estudiantes**: el mérito es la dirección, y publicar la lista de
-  quienes fueron sus alumnos expone a terceros que no lo han pedido. El
-  certificado solo recoge su papel de director o tutor, no los tribunales
-  en los que ha participado.
+- **`tfgs`** — Trabajos de Fin de Grado y de Máster dirigidos, sacados de los
+  dos certificados de la Secretaría General que hay en `fuentes/`. Llevan el
+  nombre del estudiante, que es público: los trabajos se depositan en UVaDOC y
+  su autoría consta ahí.
+
+  **Sin calificaciones, a propósito.** Los certificados las traen y se
+  descartan al parsear. Un «sobresaliente» junto a un nombre es rendimiento
+  académico de un tercero, y la universidad no lo publica; tenerlo en un
+  certificado no lo hace publicable en una web personal.
+
+  Tampoco se distingue entre director y tutor: según él son lo mismo, y la web
+  no inventa una jerarquía que la universidad no hace. Los tribunales en los
+  que ha participado quedan fuera porque no son dirección.
 - **`atenea`** — el bloque destacado del programa ATENEA, con sus contadores.
 - **`service`**, **`ip`** — servicio científico y propiedad intelectual.
 - **`awards_extra`** — premios que no están en el repositorio del grupo, como

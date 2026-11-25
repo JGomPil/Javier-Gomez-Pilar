@@ -14,7 +14,7 @@ fichero JSON.
 | Gráfica de citas por año | OpenAlex (perfiles `A5028137676` + `A5159625863`) | Automático, lunes |
 | Último trabajo indexado | ORCID `0000-0001-7882-7890` | Automático, lunes |
 | Premios de investigación | GIB-UVa (`gib.uva.es/awards`) | Automático, lunes |
-| **Citas e índice h (Web of Science)** | `data/content.json` → `wos` | **A mano**, salvo que configures la API |
+| Citas e índice h (Web of Science) | Web of Science Starter API (ResearcherID `B-9123-2018`) | Automático, lunes |
 | Bio, líneas, proyectos, docencia, tesis, ATENEA, premios docentes | `data/content.json` | A mano, 1-2 veces al año |
 
 ### Citas e índice h de Web of Science

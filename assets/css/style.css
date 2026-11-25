@@ -179,6 +179,25 @@ a:hover { color: var(--accent-ink); background-size: 0 1px; background-position:
 .lang button:hover { color: var(--ink); }
 .lang button[aria-pressed="true"] { color: var(--accent); }
 
+/* Al lado del tema, con el mismo peso visual: es una accion, no una
+   llamada. La pildora en lugar del circulo porque lleva palabra. */
+.pdf-btn {
+  display: inline-flex; align-items: center; gap: .3rem;
+  height: 1.8rem; padding: 0 .62rem; cursor: pointer;
+  background: none; border: 1px solid var(--rule); border-radius: 999px;
+  color: var(--muted);
+  font: 500 .68rem/1 var(--data); letter-spacing: .09em;
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.pdf-btn:hover { color: var(--accent); border-color: var(--accent); }
+.pdf-btn svg { flex: none; }
+
+@media (max-width: 34rem) {
+  /* En movil manda la barra de secciones: el icono basta. */
+  .pdf-btn { padding: 0 .5rem; }
+  .pdf-btn span { display: none; }
+}
+
 .theme {
   display: grid; place-items: center;
   width: 1.8rem; height: 1.8rem; padding: 0; cursor: pointer;
@@ -295,8 +314,36 @@ h1 {
 .hero-photo {
   margin: 0;
   align-self: center;
-  display: flex; justify-content: center;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.4rem;
 }
+
+/* La cita de apertura. Tres lineas escritas como tres lineas, en la
+   columna del retrato: ahi sobra alto y no empuja a las cifras. */
+.epigraph {
+  margin: 0;
+  max-width: 21rem;
+  border-top: 1px solid var(--rule-soft);
+  padding-top: .95rem;
+  text-align: center;
+}
+.epigraph p {
+  margin: 0;
+  /* Las tres lineas tienen que caber sin partirse en la columna del
+     retrato, que como mucho mide 19rem: de ahi el tope de .82rem. */
+  font: 400 italic clamp(.72rem, 1.4vw, .82rem)/1.65 var(--reading);
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+.epigraph p span { display: block; }
+.epigraph cite {
+  display: block;
+  margin-top: .6rem;
+  font: 500 .64rem/1 var(--data); font-style: normal;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted);
+}
+.epigraph cite::before { content: "— "; }
 .portrait {
   position: relative;
   width: 100%; max-width: 18.5rem;
@@ -340,24 +387,30 @@ h1 {
 
 @media (max-width: 52rem) {
   .hero-grid { grid-template-columns: 1fr; align-items: start; }
-  .hero-photo { justify-content: flex-start; }
+  .hero-photo { align-items: flex-start; gap: 1.1rem; }
+  .epigraph { text-align: left; }
+  .epigraph p span { display: inline; }
   .portrait { max-width: 10.5rem; }
   h1 { font-size: clamp(1.9rem, 10.5vw, 3.4rem); }
 }
 
 /* ── the trace strip ──────────────────────────────────────── */
-/* Un raster de espigas: cada marca es un disparo, cada fila un canal.
-   Muy baja a proposito, para que las cuatro cifras de debajo entren
-   en pantalla sin desplazarse. */
+/* Tres curvas lentas que separan el encabezado de las cifras. El
+   filete superior se mantiene, pero en el gris mas suave: quien
+   separa de verdad es la banda, y dos lineas duras seguidas serian
+   una de mas.
+
+   Sigue siendo baja a proposito, para que las cuatro cifras de abajo
+   entren en pantalla sin desplazarse. */
 
 .trace {
   margin-block: clamp(1.1rem, 3vw, 1.7rem) 0;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--rule-soft);
   overflow: hidden;
 }
 .trace canvas {
   display: block; width: 100%;
-  height: clamp(40px, 4.4vw, 54px);
+  height: clamp(48px, 5vw, 64px);
 }
 
 /* ── metrics ──────────────────────────────────────────────── */
@@ -1415,6 +1468,14 @@ h2[data-icon] {
 #logo-gib   { --src: url("../img/logos/gib-es.png");    width: 3.7rem; }
 #logo-ciber { --src: url("../img/logos/ciber-bbn.png"); width: 7.2rem; }
 
+/* El GIB tiene imagotipo espanol e ingles. El cambio se hace aqui y
+   no desde JS: una url() relativa metida en una custom property por
+   style.setProperty se resuelve contra la hoja donde se usa la var(),
+   es decir contra assets/css/, no contra el documento. El logo
+   apuntaba a assets/css/assets/img/logos/gib-es.png, que no existe, y
+   una mascara que no carga no deja nada que ver. */
+html[lang="en"] #logo-gib { --src: url("../img/logos/gib-en.png"); }
+
 @media (max-width: 40rem) {
   .affil { gap: .6rem 1.1rem; }
   .affil .logo { height: 1.2rem; }
@@ -1491,4 +1552,439 @@ h2[data-icon] {
   margin-top: .2rem;
   font: 400 .755rem/1.5 var(--data);
   color: var(--muted);
+}
+
+/* ── el PDF ───────────────────────────────────────────────── */
+
+/* No se imprime la pagina: se imprime un documento que se construye
+   aparte (assets/js/pdf.js) con el mismo contenido y en el idioma
+   activo. En pantalla no existe; solo aparece dentro del dialogo de
+   impresion, y de ahi sale el PDF.
+
+   Todo lo de aqui es tipografia de papel: medidas en mm y pt, una
+   tinta sola, nada de fondos grandes que vacien un cartucho. */
+
+#pdf-doc { display: none; }
+
+@media print {
+
+  @page {
+    size: A4;
+    margin: 17mm 16mm 16mm;
+  }
+
+  /* El papel es blanco. La pagina tiene fondo gris azulado y el tema
+     oscuro lo tiene casi negro: ninguno de los dos se imprime. */
+  html, body {
+    background: #fff !important;
+    color: #16222e !important;
+  }
+
+  /* Imprimir la pagina a pelo (Ctrl+P sin pasar por el boton) no
+     deberia sacar la barra, los filtros ni las pestanas vacias. */
+  .bar, .skip, .trace, .foot, .controls, .tablist, .chips,
+  .filter-row, .more, .tab-note, .year-note { display: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  [data-chart] { display: none !important; }
+
+  /* Y con el dosier montado, el dosier es lo unico que hay. */
+  :root[data-printing] body > *:not(#pdf-doc) { display: none !important; }
+  :root[data-printing] #pdf-doc { display: block; }
+
+  #pdf-doc {
+    --tinta:   #16222e;
+    --suave:   #41566b;
+    --apagado: #73869b;
+    --filete:  #ccd5dc;
+    --azul:    #184a9e;
+    font: 400 9.4pt/1.52 var(--ui);
+    color: var(--tinta);
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+  }
+  #pdf-doc p { margin: 0 0 2.4mm; }
+  #pdf-doc b { font-weight: 600; }
+
+  /* Los titulares de la web son otra cosa: el h3 de pantalla es mono,
+     en versales y gris. Aqui se neutraliza eso, porque el font:
+     abreviado de cada regla de abajo no se lleva por delante ni el
+     text-transform ni el color.
+
+     Va con [id=] y no con #: asi pesa lo mismo que una clase y las
+     reglas concretas que vienen despues pueden ganarle. */
+  [id="pdf-doc"] h1, [id="pdf-doc"] h2,
+  [id="pdf-doc"] h3, [id="pdf-doc"] h4 {
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--tinta);
+    text-wrap: pretty;
+  }
+
+  /* ── portada ───────────────────────────────────────────── */
+
+  /* La portada ocupa su pagina entera: la cita arriba, el nombre y
+     las cifras en el cuerpo, y la procedencia abajo del todo. El
+     minimo es algo menor que el alto util (264 mm) para que un
+     redondeo no empuje una pagina en blanco detras. */
+  .pdf-cover {
+    break-after: page;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    min-height: 252mm;
+  }
+  /* Tres bloques y space-between, no margenes automaticos: Chrome los
+     ignora dentro de un contenedor paginado. */
+  .pdf-colofon { padding-top: 10mm; }
+
+  .pdf-epi {
+    margin: 0 0 14mm;
+    padding-bottom: 6mm;
+    border-bottom: .4pt solid var(--filete);
+  }
+  .pdf-epi p {
+    margin: 0;
+    font: italic 400 10.5pt/1.62 var(--reading);
+    color: var(--suave);
+  }
+  .pdf-epi p span { display: block; }
+  .pdf-epi cite {
+    display: block; margin-top: 3mm;
+    font: 500 7.2pt/1 var(--data); font-style: normal;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--apagado);
+  }
+  .pdf-epi cite::before { content: "— "; }
+
+  .pdf-kicker {
+    font: 500 7.6pt/1 var(--data);
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--azul);
+    margin: 0 0 4mm;
+  }
+  .pdf-cover h1 {
+    font: 800 33pt/1 var(--display);
+    letter-spacing: -.03em;
+    margin: 0 0 3mm -.03em;
+    white-space: normal;
+  }
+  .pdf-role {
+    font: 600 13pt/1.25 var(--display);
+    margin: 0 0 2.5mm;
+  }
+  .pdf-affil {
+    font-size: 9pt; line-height: 1.5; color: var(--suave);
+    margin: 0 0 8mm;
+  }
+  .pdf-eyebrow {
+    font: 500 7.4pt/1.5 var(--data);
+    letter-spacing: .13em; text-transform: uppercase;
+    color: var(--apagado);
+    margin: 0 0 5mm;
+  }
+  .pdf-thesis {
+    max-width: 118mm;
+    font: 400 11.4pt/1.52 var(--reading);
+    border-left: 1.4pt solid var(--azul);
+    padding-left: 5mm;
+    margin: 0 0 10mm;
+  }
+
+  .pdf-metrics {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; list-style: none; margin: 0 0 7mm; padding: 0;
+    border-block: .8pt solid var(--filete);
+  }
+  .pdf-metrics li {
+    padding: 4.5mm 3mm;
+    border-left: .4pt solid var(--filete);
+  }
+  .pdf-metrics li:first-child { border-left: 0; padding-left: 0; }
+  .pdf-metrics b {
+    display: block;
+    font: 700 21pt/1 var(--display);
+    color: var(--azul);
+    letter-spacing: -.02em;
+  }
+  .pdf-metrics span {
+    display: block; margin-top: 1.6mm;
+    font: 500 6.8pt/1.3 var(--data);
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--apagado);
+  }
+
+  .pdf-ids, .pdf-gen {
+    font: 400 7.4pt/1.6 var(--data);
+    color: var(--apagado);
+    margin: 0 0 1.5mm;
+  }
+
+  /* ── secciones ─────────────────────────────────────────── */
+
+  /* Cada una empieza en pagina nueva: un dosier se hojea por
+     secciones, no se lee de corrido. */
+  .pdf-sec { break-before: page; }
+  .pdf-sec h2 {
+    display: flex; align-items: baseline; gap: 4mm;
+    font: 800 17pt/1.15 var(--display);
+    letter-spacing: -.02em;
+    margin: 0 0 6mm;
+    padding-bottom: 2.5mm;
+    border-bottom: 1.1pt solid var(--azul);
+    break-after: avoid;
+  }
+  .pdf-n {
+    font: 500 8.5pt/1 var(--data);
+    letter-spacing: .1em;
+    color: var(--azul);
+  }
+  .pdf-sec h2 i {
+    margin-left: auto;
+    font: 500 8pt/1 var(--data); font-style: normal;
+    letter-spacing: .1em;
+    color: var(--apagado);
+  }
+
+  .pdf-lede {
+    max-width: 125mm;
+    font: 400 10.6pt/1.5 var(--reading);
+    color: var(--suave);
+    margin: 0 0 7mm;
+  }
+
+  .pdf-group { margin-bottom: 7mm; }
+  .pdf-group h3 {
+    display: flex; align-items: baseline; gap: 3mm;
+    font: 700 10.5pt/1.3 var(--display);
+    letter-spacing: .01em;
+    margin: 0 0 3.5mm;
+    padding-bottom: 1.6mm;
+    border-bottom: .4pt solid var(--filete);
+    break-after: avoid;
+  }
+  .pdf-group h3 i {
+    font: 500 7.6pt/1 var(--data); font-style: normal;
+    letter-spacing: .1em; color: var(--apagado);
+  }
+  .pdf-sub {
+    font: 600 9pt/1.3 var(--display);
+    margin: 4mm 0 2.5mm;
+    break-after: avoid;
+  }
+  .pdf-note {
+    font-size: 8.6pt; color: var(--suave); margin: 0 0 3mm;
+  }
+
+  /* ── lineas de investigacion ───────────────────────────── */
+
+  .pdf-line { break-inside: avoid; margin-bottom: 6mm; }
+  .pdf-line h3 {
+    display: flex; align-items: baseline; gap: 3mm;
+    font: 700 11.5pt/1.3 var(--display);
+    margin: 0 0 2mm;
+  }
+  .pdf-ln {
+    font: 500 8pt/1 var(--data); color: var(--azul); letter-spacing: .1em;
+  }
+  .pdf-line p { max-width: 135mm; }
+  .pdf-signals {
+    font: 500 7.4pt/1.4 var(--data);
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--apagado);
+  }
+
+  /* ── tablas de cifras ──────────────────────────────────── */
+
+  .pdf-tabs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8mm;
+    margin-bottom: 8mm; break-inside: avoid;
+  }
+  .pdf-tab h4 {
+    font: 500 7.4pt/1 var(--data);
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--apagado);
+    margin: 0 0 2.5mm;
+  }
+  .pdf-tab dl { margin: 0; }
+  .pdf-tab dl > div {
+    display: flex; justify-content: space-between; gap: 4mm;
+    padding: 1.3mm 0;
+    border-bottom: .3pt solid var(--filete);
+  }
+  .pdf-tab dt { color: var(--suave); }
+  .pdf-tab dd {
+    margin: 0; font: 600 9.6pt/1 var(--data); color: var(--tinta);
+  }
+
+  /* ── publicaciones ─────────────────────────────────────── */
+
+  .pdf-refs {
+    margin: 0; padding-left: 9mm;
+    font-size: 8.9pt; line-height: 1.45;
+  }
+  .pdf-refs li {
+    margin-bottom: 2.4mm;
+    padding-left: 1.5mm;
+    break-inside: avoid;
+  }
+  .pdf-refs::marker, .pdf-refs li::marker {
+    font: 500 7.4pt var(--data); color: var(--apagado);
+  }
+  .pdf-refs .aut { color: var(--suave); }
+  .pdf-refs .yr { color: var(--suave); }
+  .pdf-refs .tit { font-weight: 600; }
+  .pdf-refs .src { color: var(--suave); }
+  .pdf-refs .doi {
+    font: 400 7.6pt var(--data); color: var(--apagado);
+    word-break: break-all;
+  }
+  .pdf-refs .badge {
+    font: 500 6.8pt/1 var(--data);
+    letter-spacing: .08em;
+    color: var(--azul);
+    border: .4pt solid var(--azul);
+    border-radius: 1mm;
+    padding: .5mm 1.2mm;
+    white-space: nowrap;
+  }
+
+  /* ── proyectos ─────────────────────────────────────────── */
+
+  .pdf-projs { list-style: none; margin: 0; padding: 0; }
+  .pdf-proj {
+    break-inside: avoid;
+    margin-bottom: 5mm;
+    padding-left: 5mm;
+    border-left: 1pt solid var(--filete);
+  }
+  .pdf-proj .when {
+    font: 500 7.6pt/1 var(--data);
+    letter-spacing: .1em;
+    color: var(--apagado);
+    margin: 0 0 1.5mm;
+  }
+  .pdf-proj .when b { color: var(--azul); font-weight: 500; }
+  .pdf-proj h3 {
+    font: 600 10.4pt/1.35 var(--display);
+    margin: 0 0 1.5mm;
+  }
+  .pdf-proj .acr {
+    font: 500 8pt/1 var(--data);
+    letter-spacing: .08em;
+    color: var(--azul);
+    margin-right: 2.5mm;
+  }
+  .pdf-proj .role {
+    font: 500 7.6pt/1.3 var(--data);
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--azul);
+    margin: 0 0 1.2mm;
+  }
+  .pdf-proj .funder { font-size: 8.8pt; color: var(--suave); margin: 0 0 1mm; }
+  .pdf-proj .people,
+  .pdf-proj .meta { font-size: 8.4pt; color: var(--apagado); margin: 0; }
+  .pdf-proj .meta { font-family: var(--data); font-size: 7.8pt; }
+
+  /* ── docencia ──────────────────────────────────────────── */
+
+  .pdf-atenea {
+    break-inside: avoid;
+    margin-bottom: 7mm;
+    padding: 5mm;
+    border: .5pt solid var(--filete);
+  }
+  .pdf-atenea h3 {
+    display: flex; align-items: baseline; gap: 3mm;
+    font: 700 12pt/1.2 var(--display); margin: 0 0 1mm;
+  }
+  .pdf-atenea h3 i {
+    font: 500 7.4pt/1 var(--data); font-style: normal;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--azul);
+  }
+  .pdf-atenea .sub {
+    font-size: 8.6pt; color: var(--apagado); margin: 0 0 3.5mm;
+  }
+  .pdf-atenea .award { font-weight: 600; }
+  .pdf-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    list-style: none; margin: 0 0 4mm; padding: 0;
+  }
+  .pdf-stats b {
+    display: block; font: 700 14pt/1 var(--display); color: var(--azul);
+  }
+  .pdf-stats span {
+    font: 500 6.6pt/1.3 var(--data);
+    letter-spacing: .1em; text-transform: uppercase; color: var(--apagado);
+  }
+
+  .pdf-courses {
+    list-style: none; margin: 0; padding: 0;
+    columns: 2; column-gap: 8mm;
+  }
+  .pdf-courses li {
+    break-inside: avoid;
+    margin-bottom: 2.2mm;
+    padding-bottom: 2.2mm;
+    border-bottom: .3pt solid var(--filete);
+  }
+  .pdf-courses b { display: block; font-size: 9.2pt; }
+  .pdf-courses span { font-size: 8.2pt; color: var(--apagado); }
+
+  .pdf-works { margin: 0; padding-left: 8mm; }
+  .pdf-works li { break-inside: avoid; margin-bottom: 2.4mm; }
+  .pdf-works li::marker { font: 500 7.4pt var(--data); color: var(--apagado); }
+  .pdf-works b { display: block; font-weight: 600; font-size: 9pt; }
+  .pdf-works span { font-size: 8.2pt; color: var(--apagado); }
+
+  /* ── reconocimiento y contacto ─────────────────────────── */
+
+  .pdf-awards { list-style: none; margin: 0; padding: 0; }
+  .pdf-awards li {
+    display: flex; gap: 4mm; break-inside: avoid;
+    padding: 1.8mm 0;
+    border-bottom: .3pt solid var(--filete);
+  }
+  .pdf-awards .yr {
+    flex: none; width: 13mm;
+    font: 500 8pt/1.5 var(--data); color: var(--azul);
+  }
+
+  .pdf-list { margin: 0; padding-left: 5mm; list-style: square; }
+  .pdf-list li { margin-bottom: 1.8mm; break-inside: avoid; }
+  .pdf-list li::marker { color: var(--filete); }
+
+  .pdf-patent {
+    break-inside: avoid;
+    padding: 4mm; margin-bottom: 4mm;
+    border: .5pt solid var(--filete);
+  }
+  .pdf-patent .kicker {
+    font: 500 7pt/1 var(--data);
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--azul); margin: 0 0 2mm;
+  }
+  .pdf-patent h4 { font: 600 10pt/1.35 var(--display); margin: 0 0 2mm; }
+  .pdf-patent .refs {
+    font: 400 7.8pt/1.5 var(--data); color: var(--apagado); margin: 0;
+  }
+
+  .pdf-two {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10mm;
+  }
+  .pdf-addr { font-size: 9.4pt; line-height: 1.7; }
+  .pdf-links { list-style: none; margin: 0; padding: 0; }
+  .pdf-links li {
+    padding: 1.6mm 0; border-bottom: .3pt solid var(--filete);
+    font-size: 8.8pt;
+  }
+  .pdf-links span {
+    display: block;
+    font: 400 7.4pt/1.4 var(--data); color: var(--apagado);
+    word-break: break-all;
+  }
+  .pdf-foot {
+    margin-top: 10mm; padding-top: 3mm;
+    border-top: .4pt solid var(--filete);
+    font: 400 7.6pt/1.6 var(--data); color: var(--apagado);
+  }
 }

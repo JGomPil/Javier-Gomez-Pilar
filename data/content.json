@@ -145,7 +145,16 @@
    "sup.h.phd": "Tesis doctorales",
    "sup.h.tfm": "Trabajos de Fin de Máster",
    "sup.h.tfg": "Trabajos de Fin de Grado",
-   "sup.inprog": "en curso"
+   "sup.inprog": "en curso",
+   "pdf.btn": "PDF",
+   "pdf.aria": "Descargar toda la web en PDF",
+   "pdf.kicker": "Dosier académico",
+   "pdf.gen": "Generado desde {url} el {date}",
+   "pdf.bib": "Resumen bibliométrico",
+   "pdf.scope.europeo": "Internacional",
+   "pdf.scope.nacional": "Nacional",
+   "pdf.scope.autonomico": "Autonómico",
+   "pdf.note": "Citas e índice h: Web of Science, a fecha de {date}. Publicaciones y cuartiles: repositorio del Grupo de Ingeniería Biomédica, actualizado automáticamente cada semana. Proyectos: Portal de la Ciencia de la UVa y CVN-FECYT."
   },
   "en": {
    "skip": "Skip to content",
@@ -285,8 +294,26 @@
    "sup.h.phd": "Doctoral theses",
    "sup.h.tfm": "Master's theses",
    "sup.h.tfg": "Final-year projects",
-   "sup.inprog": "ongoing"
+   "sup.inprog": "ongoing",
+   "pdf.btn": "PDF",
+   "pdf.aria": "Download the whole site as a PDF",
+   "pdf.kicker": "Academic dossier",
+   "pdf.gen": "Generated from {url} on {date}",
+   "pdf.bib": "Bibliometric summary",
+   "pdf.scope.europeo": "International",
+   "pdf.scope.nacional": "National",
+   "pdf.scope.autonomico": "Regional",
+   "pdf.note": "Citations and h-index: Web of Science, as of {date}. Publications and quartiles: Biomedical Engineering Group repository, refreshed automatically every week. Projects: UVa Portal de la Ciencia and CVN-FECYT."
   }
+ },
+ "epigraph": {
+  "_readme": "Cita de apertura. No se traduce: va igual en las dos versiones y en el PDF. Las tres lineas son deliberadas, no las junta el navegador.",
+  "lines": [
+   "When you make the finding yourself \u2013",
+   "even if you're the last person on Earth",
+   "to see the light \u2013 you'll never forget it."
+  ],
+  "author": "Carl Sagan"
  },
  "lines": [
   {

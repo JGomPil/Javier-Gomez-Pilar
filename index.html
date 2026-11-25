@@ -114,6 +114,15 @@
         <button type="button" data-lang="es" aria-pressed="true">ES</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
+      <button type="button" class="pdf-btn" id="pdf-btn"
+              data-i18n-aria="pdf.aria" aria-label="Descargar toda la web en PDF">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
+          <path d="M12 3.5v10.5m0 0 4-4m-4 4-4-4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span data-i18n="pdf.btn">PDF</span>
+      </button>
       <button type="button" class="theme" id="theme-toggle" aria-label="Cambiar tema">
         <svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17">
           <g class="ico-sun">
@@ -162,6 +171,11 @@
           <div class="portrait">
             <img src="assets/img/javier.png" alt="Javier Gómez Pilar" width="800" height="800" loading="eager">
           </div>
+          <!-- La cita va aqui, bajo el retrato, y no sobre el nombre:
+               en esta columna cabe sin empujar hacia abajo las cuatro
+               cifras, que tienen que entrar en pantalla. El texto esta
+               en content.json → epigraph y no se traduce. -->
+          <blockquote class="epigraph" id="epigraph"></blockquote>
         </figure>
       </div>
     </div>
@@ -407,6 +421,7 @@
 </footer>
 
 <script src="assets/js/charts.js"></script>
+<script src="assets/js/pdf.js"></script>
 <script src="assets/js/site.js"></script>
 </body>
 </html>

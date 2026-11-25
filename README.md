@@ -158,6 +158,11 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
 - **`wos`** — citas e índice h de Web of Science, con `as_of`. Actualízalo
   cuando regeneres tu CVN.
 - **`ui`** — etiquetas de la interfaz (menú, botones, encabezados).
+- **`epigraph`** — la cita de apertura: las líneas y el autor. No lleva bloque
+  `es`/`en` porque una cita no se traduce: sale igual en las dos versiones y en
+  el PDF. Las líneas son las que son, y se escriben una a una porque el salto
+  es deliberado; si cambias el texto, procura que la más larga no pase de unos
+  42 caracteres o se partirá en la columna del retrato.
 - **`lines`** — las cuatro líneas de investigación.
 - **`projects`** — proyectos. `role` acepta `"ip"`, `"co-ip"` o `"researcher"`;
   solo los dos primeros muestran etiqueta. Aquí van también los proyectos de
@@ -194,6 +199,48 @@ Tras editar, comprueba que el JSON sigue siendo válido:
 ```sh
 python3 -c "import json; json.load(open('data/content.json', encoding='utf-8'))"
 ```
+
+---
+
+## Exportar la web en PDF
+
+El botón **PDF** de la barra superior saca un dosier con *todo* el contenido
+del sitio, en el idioma que esté activo. Lo abre el diálogo de impresión del
+navegador; ahí se elige «Guardar como PDF». Son unas 24 páginas.
+
+**No se imprime la página.** La web se lee por pestañas y filtros —una cosa
+cada vez—, y eso en papel no funciona porque nadie va a pulsar nada. Así que
+`assets/js/pdf.js` construye un documento aparte con los mismos datos
+(`content.json` y `profile.json`), lo mete en el DOM, imprime y lo retira. En
+pantalla no se ve nunca.
+
+El documento va así: portada con la cita, el nombre, la tesis de una frase y
+las cuatro cifras; y luego las seis secciones, cada una empezando en página
+nueva. Las publicaciones salen agrupadas por tipo y numeradas de la más
+reciente a la más antigua, con el apellido en negrita, el DOI y las insignias
+Q1/D1.
+
+El diseño está en `assets/css/style.css`, al final, dentro de `@media print`.
+Dos cosas que conviene saber antes de tocarlo:
+
+- **Medidas en mm y pt**, no en rem: es papel, y A4 con márgenes de 17/16 mm.
+- **Los titulares se reinician a mano.** El `h3` de la pantalla es monoespaciado,
+  en versales y gris; si no se neutraliza, los títulos de los proyectos salen
+  en mayúsculas. El reset se escribe `[id="pdf-doc"] h3` y no `#pdf-doc h3`
+  para que pese lo mismo que una clase y las reglas concretas puedan ganarle.
+
+Para ver cómo queda sin ir pulsando el botón, el PDF se puede generar desde la
+terminal con el Chrome que ya tienes instalado:
+
+```sh
+# genera el documento con los datos reales y lo imprime a PDF
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --no-pdf-header-footer --print-to-pdf=/tmp/dosier.pdf \
+  "file:///ruta/a/una/pagina/de/prueba.html"
+```
+
+Y lo que **no** entra en el PDF: el correo electrónico, que no está en ninguna
+parte del sitio, y las calificaciones de los trabajos dirigidos.
 
 ---
 

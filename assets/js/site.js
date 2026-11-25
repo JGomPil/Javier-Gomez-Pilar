@@ -68,52 +68,51 @@
     });
   }
 
-  /* ── the trace strip ─────────────────────────────────────── */
-  /* Seven oscillators whose integration window lengthens down the
-     stack: slower and wider as they go. The subject of the research,
-     drawn rather than illustrated. */
-
-  /* Una red que se reorganiza.
-   *
-   * Las tres versiones anteriores eran ondas, de una forma u otra, y
-   * ninguna convencia. Esta no lo es: son nodos que derivan y enlaces
-   * que aparecen cuando dos quedan cerca.
-   *
-   * Lo que la separa de las bolitas de cualquier plantilla es que los
-   * nodos pertenecen a cinco modulos, cada uno con un centro invisible
-   * que se mueve por su cuenta. Los nodos se dejan atraer apenas por
-   * el suyo, asi que los grupos se juntan, se solapan y se vuelven a
-   * separar, y los puentes entre modulos van y vienen con ellos. Es, a
-   * ojo, una red funcional reorganizandose: comunidades que se forman
-   * y se deshacen. No afirma ningun dato; es la forma del objeto de
-   * estudio, no una medida de nada.
-   *
-   * Los numeros de aqui no estan puestos a ojo: se ajustaron mirando
-   * fotogramas renderizados a los 4, 15 y 42 segundos, que es cuando
-   * se ve si la cosa colapsa o si deja cuartos de banda vacios.
-   */
-  // Un raster de espigas: cada punto es un disparo y cada fila un
-  // canal. Es como se mira la actividad neuronal cruda antes de
-  // promediarla, y aqui dice lo mismo que el resto de la pagina en una
-  // banda muy baja: la mayor parte del tiempo cada canal va a lo suyo,
-  // y de vez en cuando se sincronizan y cruza una salva en diagonal.
+  /* ── la banda de separacion ──────────────────────────────── */
+  // Una separacion, no un espectaculo.
   //
-  // La banda es deliberadamente estrecha para que las cuatro cifras de
-  // abajo entren en pantalla sin desplazarse.
+  // Tres curvas que comparten la misma onda, cada una con un pequeno
+  // desfase: se mueven juntas, como las curvas de nivel de un mapa.
+  // Dibujadas por separado, con 60 px de alto, cualquier ondulacion
+  // es tan plana que parecen tres rayas; compartiendo la onda, el ojo
+  // lee el relieve aunque la amplitud sea de ocho pixeles.
+  //
+  // La onda es la suma de tres componentes cuyas fases derivan a
+  // ritmos distintos, de modo que la forma no se repite nunca y, a la
+  // vez, no pasa nada de golpe: lo mas rapido avanza a 0,068 rad por
+  // segundo, un ciclo cada minuto y medio.
+  //
+  // Ondas lentas superpuestas es lo que se mira en M/EEG, asi que la
+  // banda dice de que va la pagina sin ilustrar nada ni afirmar
+  // ningun dato.
   function initTrace() {
     const canvas = $("#trace");
     if (!canvas) return;
     const cx = canvas.getContext("2d", { alpha: true });
     if (!cx) return;
 
-    const FILAS = 3;
-    const VELOCIDAD = 62;      // px/s hacia la izquierda
-    const BASAL = 3.2;         // disparos por segundo y canal
+    // [ciclos a lo ancho, deriva en rad/s, fase inicial, peso].
+    // Los pesos suman 1, asi que la onda nunca se sale de ±1.
+    const ONDA = [
+      [1.60, 0.055, 0.70, 0.55],
+      [2.90, -0.041, 2.30, 0.30],
+      [4.70, 0.068, 4.10, 0.15],
+    ];
+
+    // Cada linea: donde se apoya, cuanto se desvia (fraccion del
+    // alto), cuanto se desfasa respecto de la onda y con que opacidad.
+    // Los numeros estan comprobados barriendo dos minutos de
+    // animacion a tres anchos: las curvas no se tocan ni se salen.
+    const LINEAS = [
+      { y: 0.24, amp: 0.125, desf: 0.000, alpha: 0.26 },
+      { y: 0.50, amp: 0.150, desf: 0.055, alpha: 0.42 },
+      { y: 0.76, amp: 0.115, desf: 0.115, alpha: 0.22 },
+    ];
+
+    const PASO = 3;                // px entre muestras de la curva
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    let w = 0, h = 0, dpr = 1, raf = 0, anterior = 0;
-    let espigas = [];          // {x, fila, fuerza}
-    let proxima = 0;           // segundos hasta la proxima salva
+    let w = 0, h = 0, dpr = 1, raf = 0, origen = 0;
 
     const tinta = () =>
       getComputedStyle(document.documentElement)
@@ -129,83 +128,53 @@
       cx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function siembra() {
-      // Se empieza con la banda ya poblada: si no, el primer segundo
-      // se ve vacio y parece que no funciona.
-      espigas = [];
-      for (let f = 0; f < FILAS; f++) {
-        for (let x = 0; x < w; x += 1) {
-          if (Math.random() < BASAL / VELOCIDAD) {
-            espigas.push({ x, fila: f, fuerza: 0.45 + Math.random() * 0.3 });
-          }
-        }
-      }
-      proxima = 0.9 + Math.random() * 1.7;
-    }
-
-    function avanza(dt) {
-      const paso = VELOCIDAD * dt;
-      for (const e of espigas) e.x -= paso;
-      // Las que salen por la izquierda se tiran; el array no crece.
-      espigas = espigas.filter((e) => e.x > -2);
-
-      // Disparos sueltos, uno por canal.
-      for (let f = 0; f < FILAS; f++) {
-        if (Math.random() < BASAL * dt) {
-          espigas.push({ x: w + 1, fila: f,
-                         fuerza: 0.45 + Math.random() * 0.3 });
-        }
-      }
-
-      // Y cada pocos segundos, una salva que recorre los canales con
-      // un pequeno retardo entre ellos: eso es lo que dibuja la
-      // diagonal y lo que hace que la banda tenga algo que mirar.
-      proxima -= dt;
-      if (proxima <= 0) {
-        const arriba = Math.random() < 0.5;
-        for (let f = 0; f < FILAS; f++) {
-          const orden = arriba ? f : FILAS - 1 - f;
-          espigas.push({ x: w + 1 + orden * (5 + Math.random() * 7),
-                         fila: orden, fuerza: 0.85 + Math.random() * 0.15 });
-        }
-        proxima = 0.9 + Math.random() * 1.7;
-      }
-    }
-
-    function pinta() {
+    function pinta(t) {
       cx.clearRect(0, 0, w, h);
       const color = tinta();
-      const sep = h / (FILAS + 1);
-      const alto = Math.max(4, Math.min(9, sep * 0.52));
+      cx.lineWidth = 1.15;
+      cx.lineJoin = "round";
       cx.lineCap = "round";
-      cx.lineWidth = 1.6;
-      for (const e of espigas) {
-        const y = sep * (e.fila + 1);
-        const mitad = alto * (0.42 + e.fuerza * 0.78) / 2;
-        cx.globalAlpha = 0.22 + e.fuerza * 0.55;
-        cx.strokeStyle = color;
+
+      for (const linea of LINEAS) {
+        // Las puntas se desvanecen. Una curva cortada a cuchillo en el
+        // borde no parece una curva, parece un recorte mal hecho.
+        const degradado = cx.createLinearGradient(0, 0, w, 0);
+        degradado.addColorStop(0, "transparent");
+        degradado.addColorStop(0.13, color);
+        degradado.addColorStop(0.87, color);
+        degradado.addColorStop(1, "transparent");
+
+        cx.globalAlpha = linea.alpha;
+        cx.strokeStyle = degradado;
         cx.beginPath();
-        cx.moveTo(e.x, y - mitad);
-        cx.lineTo(e.x, y + mitad);
+        for (let x = 0; x <= w; x += PASO) {
+          const u = x / w + linea.desf;
+          let d = 0;
+          for (const [ciclos, deriva, fase, peso] of ONDA) {
+            d += peso * Math.sin(2 * Math.PI * ciclos * u + deriva * t + fase);
+          }
+          const y = linea.y * h + linea.amp * h * d;
+          if (x === 0) cx.moveTo(x, y);
+          else cx.lineTo(x, y);
+        }
         cx.stroke();
       }
       cx.globalAlpha = 1;
     }
 
-    function cuadro(t) {
-      const dt = Math.min((t - anterior) / 1000 || 0, 0.05);
-      anterior = t;
-      avanza(dt);
-      pinta();
+    function cuadro(ahora) {
+      // Todo es funcion del tiempo absoluto: no hay estado que
+      // acumular ni nada que se desajuste si se pierde un fotograma o
+      // si la pestana se queda en segundo plano un rato.
+      pinta((ahora - origen) / 1000);
       raf = requestAnimationFrame(cuadro);
     }
 
     function start() {
       cancelAnimationFrame(raf);
       medir();
-      siembra();
-      if (reduce.matches) { pinta(); return; }
-      anterior = performance.now();
+      if (reduce.matches) { pinta(0); return; }
+      origen = origen || performance.now();
       raf = requestAnimationFrame(cuadro);
     }
 
@@ -234,12 +203,6 @@
       ? saved
       : (browser === "es" ? "es" : "en");
 
-    // El GIB tiene version espanola e inglesa de su imagotipo. La UVa
-    // y el CIBER no, y tampoco hacen falta: son nombres propios.
-    const gib = $("#logo-gib");
-    if (gib) gib.style.setProperty(
-      "--src", `url("assets/img/logos/gib-${state.lang}.png")`);
-
     $$(".lang button").forEach((btn) => {
       btn.addEventListener("click", () => {
         if (btn.dataset.lang === state.lang) return;
@@ -257,6 +220,10 @@
       const value = state.content?.ui?.[state.lang]?.[el.dataset.i18n];
       if (value) el.textContent = value;
     });
+    $$("[data-i18n-aria]").forEach((el) => {
+      const value = state.content?.ui?.[state.lang]?.[el.dataset.i18nAria];
+      if (value) el.setAttribute("aria-label", value);
+    });
     $$("[data-i18n-ph]").forEach((el) => {
       const value = state.content?.ui?.[state.lang]?.[el.dataset.i18nPh];
       if (value) el.setAttribute("placeholder", value);
@@ -272,6 +239,23 @@
         el.insertAdjacentHTML("afterbegin", icon(el.dataset.icon, "h-icon"));
       }
     });
+  }
+
+  /* ── el epigrafe ─────────────────────────────────────────── */
+
+  /* Va igual en las dos versiones: una cita no se traduce. Las tres
+     lineas son las que son, asi que se escriben como tres lineas y no
+     se deja que el navegador decida donde parte. */
+  function renderEpigraph() {
+    const host = $("#epigraph");
+    const cita = state.content.epigraph;
+    if (!host || !cita) return;
+    host.innerHTML = `<p>`
+      // Separadas por un espacio: en pantalla ancha cada una es un
+      // bloque y el espacio no cuenta, pero en movil las lineas se
+      // juntan en un parrafo y sin el se pegarian las palabras.
+      + cita.lines.map((l) => `<span>${esc(l)}</span>`).join(" ")
+      + `</p><cite>${esc(cita.author)}</cite>`;
   }
 
   /* ── metrics ─────────────────────────────────────────────── */
@@ -1022,10 +1006,28 @@
     nums.forEach((el) => io.observe(el));
   }
 
+  /* ── el PDF ──────────────────────────────────────────────── */
+
+  /* El documento lo arma assets/js/pdf.js con los mismos datos que la
+     pagina y en el idioma activo. Aqui solo se le pasa el contexto. */
+  function initPdf() {
+    const boton = $("#pdf-btn");
+    if (!boton) return;
+    if (!window.JGPPdf) { boton.hidden = true; return; }
+    boton.addEventListener("click", () => {
+      window.JGPPdf.print({
+        content: state.content,
+        profile: state.profile,
+        lang: state.lang,
+      });
+    });
+  }
+
   /* ── boot ────────────────────────────────────────────────── */
 
   function renderAll() {
     applyLang();
+    renderEpigraph();
     renderMetrics();
     renderLines();
     renderKindChips();
@@ -1061,6 +1063,7 @@
 
     initLang();
     initFilters();
+    initPdf();
     initTabs();
     initReveal();
     initCounters();

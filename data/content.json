@@ -55,7 +55,7 @@
    "pub.count": "{n} de {total}",
    "sup.phd": "tesis doctorales en curso",
    "sup.note": "Tres tesis en curso, en tres programas de doctorado distintos: tecnologías de la información, ciencias de la salud e investigación transdisciplinar en educación.",
-   "sup.tfg": "Dirección de Trabajos de Fin de Grado y de Máster en el Grado en Ingeniería Biomédica, el Grado en Ingeniería de Telecomunicación y el Máster en Ingeniería Biomédica.",
+   "sup.tfg": "Dirección de Trabajos de Fin de Grado en el Grado en Ingeniería Biomédica y el Grado en Medicina, certificada por la Secretaría General de la Universidad de Valladolid.",
    "idx.research": "Investigación",
    "idx.publications": "Publicaciones",
    "idx.projects": "Proyectos",
@@ -138,7 +138,10 @@
    "pr.uva": "aportación UVa",
    "proj.director": "Director del trabajo de investigación",
    "pr.portal": "ficha",
-   "g.role.director": "Director del trabajo"
+   "g.role.director": "Director del trabajo",
+   "sup.tfg.n": "Trabajos de Fin de Grado dirigidos",
+   "sup.role.director": "Director",
+   "sup.role.tutor": "Tutor"
   },
   "en": {
    "skip": "Skip to content",
@@ -188,7 +191,7 @@
    "pub.count": "{n} of {total}",
    "sup.phd": "doctoral theses in progress",
    "sup.note": "Three theses in progress, across three different doctoral programmes: information technologies, health sciences, and transdisciplinary research in education.",
-   "sup.tfg": "Supervision of final-year and master's projects in Biomedical Engineering, Telecommunications Engineering and the Master's in Biomedical Engineering.",
+   "sup.tfg": "Supervision of final-year projects in Biomedical Engineering and Medicine, certified by the University of Valladolid.",
    "idx.research": "Research",
    "idx.publications": "Publications",
    "idx.projects": "Projects",
@@ -271,7 +274,10 @@
    "pr.uva": "UVa share",
    "proj.director": "Research supervisor",
    "pr.portal": "record",
-   "g.role.director": "Research supervisor"
+   "g.role.director": "Research supervisor",
+   "sup.tfg.n": "supervised final-year projects",
+   "sup.role.director": "Supervisor",
+   "sup.role.tutor": "Tutor"
   }
  },
  "lines": [
@@ -907,7 +913,8 @@
  "collapse": {
   "publications": 12,
   "projects": 5,
-  "awards": 5
+  "awards": 5,
+  "tfgs": 4
  },
  "patents": [
   {
@@ -918,6 +925,151 @@
    "holder": "Universidad de Valladolid",
    "es": "Sistema y método implementado por ordenador para el diagnóstico automático de la apnea del sueño infantil",
    "en": "System and computer-implemented method for automatically diagnosing paediatric sleep apnoea"
+  }
+ ],
+ "tfgs": [
+  {
+   "course": "2025/26",
+   "role": "tutor",
+   "ects": 12,
+   "degree": {
+    "es": "Grado en Ingeniería Biomédica",
+    "en": "BSc in Biomedical Engineering"
+   },
+   "es": "Técnicas de aprendizaje automático explicable para la predicción del desarrollo de fracaso renal agudo en pacientes de UCI",
+   "en": "Explainable machine learning to predict the onset of acute kidney injury in ICU patients"
+  },
+  {
+   "course": "2025/26",
+   "role": "tutor",
+   "ects": 12,
+   "degree": {
+    "es": "Grado en Ingeniería Biomédica",
+    "en": "BSc in Biomedical Engineering"
+   },
+   "es": "Identificación de fenotipos clínicamente relevantes en la enfermedad de Alzheimer mediante aprendizaje automático no supervisado aplicado a datos multimodales",
+   "en": "Identifying clinically relevant phenotypes in Alzheimer’s disease with unsupervised machine learning on multimodal data"
+  },
+  {
+   "course": "2024/25",
+   "role": "tutor",
+   "ects": 12,
+   "degree": {
+    "es": "Grado en Ingeniería Biomédica",
+    "en": "BSc in Biomedical Engineering"
+   },
+   "es": "Investigación de la dinámica de redes cerebrales durante la terapia de observación de acciones mediante algoritmos de detección de comunidades multicapa",
+   "en": "Brain-network dynamics during action-observation therapy, studied with multilayer community-detection algorithms"
+  },
+  {
+   "course": "2024/25",
+   "role": "tutor",
+   "ects": 12,
+   "degree": {
+    "es": "Grado en Ingeniería Biomédica",
+    "en": "BSc in Biomedical Engineering"
+   },
+   "es": "Análisis de la señal de variabilidad del ritmo cardiaco para el fenotipado de la apnea obstructiva del sueño mediante métodos de agrupamiento",
+   "en": "Heart-rate variability for phenotyping obstructive sleep apnoea through clustering methods"
+  },
+  {
+   "course": "2024/25",
+   "role": "tutor",
+   "ects": 12,
+   "degree": {
+    "es": "Grado en Ingeniería Biomédica",
+    "en": "BSc in Biomedical Engineering"
+   },
+   "es": "Aplicación de algoritmos de aprendizaje automático para la predicción automática del grado de sedación y analgesia en un entorno de medicina intensiva",
+   "en": "Machine-learning algorithms for the automatic prediction of sedation and analgesia depth in intensive care"
+  },
+  {
+   "course": "2024/25",
+   "role": "tutor",
+   "ects": 12,
+   "degree": {
+    "es": "Grado en Ingeniería Biomédica",
+    "en": "BSc in Biomedical Engineering"
+   },
+   "es": "Análisis longitudinal de la reorganización neuronal y su impacto en la cognición tras el tratamiento de la apnea obstructiva del sueño en una cohorte pediátrica",
+   "en": "Longitudinal analysis of neural reorganisation and its effect on cognition after treating obstructive sleep apnoea in a paediatric cohort"
+  },
+  {
+   "course": "2022/23",
+   "role": "director",
+   "ects": 12,
+   "degree": {
+    "es": "Grado en Ingeniería Biomédica",
+    "en": "BSc in Biomedical Engineering"
+   },
+   "es": "Análisis de la actividad neuronal para estimar la profundidad anestésica en niños",
+   "en": "Neural activity analysis to estimate anaesthetic depth in children"
+  },
+  {
+   "course": "2022/23",
+   "role": "director",
+   "ects": 12,
+   "degree": {
+    "es": "Grado en Ingeniería Biomédica",
+    "en": "BSc in Biomedical Engineering"
+   },
+   "es": "Análisis de la conectividad neuronal en electrofisiología basal en migraña",
+   "en": "Neural connectivity in resting-state electrophysiology in migraine"
+  },
+  {
+   "course": "2019/20",
+   "role": "director",
+   "ects": 6,
+   "degree": {
+    "es": "Grado en Medicina",
+    "en": "BSc in Medicine"
+   },
+   "es": "Análisis de la recurrencia y el balance frecuencial del electroencefalograma en migraña para su identificación como posibles biomarcadores",
+   "en": "Recurrence and spectral balance of the EEG in migraine as candidate biomarkers"
+  },
+  {
+   "course": "2019/20",
+   "role": "director",
+   "ects": 6,
+   "degree": {
+    "es": "Grado en Medicina",
+    "en": "BSc in Medicine"
+   },
+   "es": "Nuevas tecnologías de la información en medicina",
+   "en": "New information technologies in medicine"
+  },
+  {
+   "course": "2018/19",
+   "role": "director",
+   "ects": 6,
+   "degree": {
+    "es": "Grado en Medicina",
+    "en": "BSc in Medicine"
+   },
+   "es": "Conectividad funcional evaluada por electroencefalografía en migraña",
+   "en": "Functional connectivity assessed by electroencephalography in migraine"
+  },
+  {
+   "course": "2017/18",
+   "role": "director",
+   "ects": 6,
+   "degree": {
+    "es": "Grado en Medicina",
+    "en": "BSc in Medicine"
+   },
+   "es": "Estimulación transcraneal en migraña crónica refractaria: modificaciones en el registro electroencefalográfico",
+   "en": "Transcranial stimulation in refractory chronic migraine: changes in the EEG recording"
+  },
+  {
+   "course": "2017/18",
+   "role": "director",
+   "ects": 6,
+   "degree": {
+    "es": "Grado en Medicina",
+    "en": "BSc in Medicine"
+   },
+   "es": "Análisis espectral y no lineal de actividad electroencefalográfica basal en pacientes migrañosos",
+   "en": "Spectral and nonlinear analysis of resting EEG activity in migraine patients"
   }
  ]
 }

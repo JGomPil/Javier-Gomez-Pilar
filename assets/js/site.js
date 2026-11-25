@@ -20,7 +20,7 @@
     kinds: new Set(["journal"]),   // arranca priorizando los JCR
     year: null,                    // lo fija una barra del gráfico
     query: "",
-    expanded: { pubs: false, projects: false, awards: false },
+    expanded: { pubs: false, projects: false, awards: false, tfgs: false },
   };
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -801,6 +801,43 @@
       </div>
       <p>${esc(t("sup.tfg"))}</p>
     `;
+    renderTfgs();
+  }
+
+  // Los TFG salen de un certificado de la Secretaria General. Van sin
+  // nombre de estudiante a proposito: el merito es la direccion, y
+  // publicar quienes fueron sus alumnos es exponer a terceros que no
+  // lo han pedido.
+  function renderTfgs() {
+    const host = $("#tfg-list");
+    const tfgs = state.content.tfgs;
+    if (!host || !tfgs || !tfgs.length) return;
+
+    const limit = state.content.collapse?.tfgs ?? 4;
+    const total = tfgs.length;
+    const visible = state.expanded.tfgs ? tfgs : tfgs.slice(0, limit);
+
+    host.innerHTML = `
+      <p class="tfg-count">
+        <span class="big">${total}</span>${esc(t("sup.tfg.n"))}
+      </p>
+      <ol class="tfg-items">
+        ${visible.map((x) => `
+          <li>
+            <b>${esc(x[state.lang])}</b>
+            <span>${esc(t("sup.role." + x.role))}`
+              + ` \u00b7 ${esc(x.degree[state.lang])}`
+              + ` \u00b7 ${esc(x.course)}`
+              + ` \u00b7 ${esc(x.ects)} ECTS</span>
+          </li>`).join("")}
+      </ol>`;
+
+    appendToggle(host, {
+      total, limit, flag: "tfgs",
+      moreKey: "more.generic", lessKey: "less.generic",
+      remaining: total - limit,
+      rerender: renderTfgs,
+    });
   }
 
   /* ── recognition ─────────────────────────────────────────── */

@@ -165,6 +165,12 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   recoja.
 - **`teaching`** — asignaturas.
 - **`theses`** — tesis en dirección. No incluyas números de expediente.
+- **`tfgs`** — Trabajos de Fin de Grado dirigidos, sacados del
+  certificado de la Secretaría General que hay en `fuentes/`. **Sin nombres
+  de estudiantes**: el mérito es la dirección, y publicar la lista de
+  quienes fueron sus alumnos expone a terceros que no lo han pedido. El
+  certificado solo recoge su papel de director o tutor, no los tribunales
+  en los que ha participado.
 - **`atenea`** — el bloque destacado del programa ATENEA, con sus contadores.
 - **`service`**, **`ip`** — servicio científico y propiedad intelectual.
 - **`awards_extra`** — premios que no están en el repositorio del grupo, como

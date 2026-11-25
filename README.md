@@ -14,6 +14,7 @@ fichero JSON.
 | Gráfica de citas por año | OpenAlex (perfiles `A5028137676` + `A5159625863`) | Automático, lunes |
 | Último trabajo indexado | ORCID `0000-0001-7882-7890` | Automático, lunes |
 | Premios de investigación | GIB-UVa (`gib.uva.es/awards`) | Automático, lunes |
+| Proyectos: aportación UVa, si sigue vigente, ficha, altas nuevas | Portal de la Ciencia (`investigadores/180080/financiacion`) | Automático, lunes |
 | Citas e índice h (Web of Science) | Web of Science Starter API (ResearcherID `B-9123-2018`) | Automático, lunes |
 | Bio, líneas, proyectos, docencia, tesis, ATENEA, premios docentes | `data/content.json` | A mano, 1-2 veces al año |
 
@@ -84,6 +85,43 @@ Para comprobar que el cron la usa bien:
 gh workflow run "Refresh bibliometrics"
 gh run watch
 ```
+
+### Proyectos: qué trae el Portal y qué no
+
+El Portal de la Ciencia recoge los proyectos gestionados por la UVa, no los
+del CIBER ni los de la Gerencia Regional de Salud. Esos se añaden a mano en
+`data/content.json`.
+
+De los que sí están, el script se queda **solo con los de «carácter
+Público»**: el Portal usa ese campo para separar una convocatoria competitiva
+de un contrato con empresa, y la web lista las primeras. También descarta los
+apuntes de menos de 1.000 €, porque hay asientos administrativos colados entre
+los proyectos: la incorporación de un grupo al consorcio CIBER figura con una
+dotación de 0,01 €.
+
+**`content.json` manda sobre lo que ya está.** El Portal solo aporta lo que
+únicamente él mantiene al día, y nunca pisa un dato comprobado a mano:
+
+| Dato | Quién manda | Por qué |
+|---|---|---|
+| Importe | `content.json` | Es el **total del proyecto**, sacado del CVN. El Portal solo conoce la aportación de la UVa, que se guarda aparte en `amount_uva`. |
+| Ámbito, IP, co-IP | `content.json` | Comprobados a mano contra el CVN. |
+| ¿Sigue vigente? | Portal | Lo marca él; sin su dato se deduce del año de fin. |
+| Enlace a la ficha | Portal | Solo existe allí. |
+
+Cuando los dos discrepan, el script **lo dice y no toca nada**. La decisión es
+de una persona. A día de hoy avisa de dos:
+
+- **Stargardt** acaba en 2028 según `content.json` y en 2026 según el Portal.
+- **COVID-19** es de ámbito nacional según el CVN y autonómico según el Portal.
+
+Un proyecto que aparezca en el Portal y no esté en `content.json` sale en la
+web por sí solo, con lo que el Portal sepa de él, y el log del cron lo nombra
+para que se le añadan después el importe total y los IP.
+
+Sobre los importes: los que vienen del CVN son el total del proyecto y los que
+solo conoce el Portal son la parte de la UVa. La web lo dice al lado de la
+cifra («aportación UVa»), porque mezclar ambos sin avisar engañaría.
 
 ## Editar el contenido
 

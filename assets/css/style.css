@@ -1407,3 +1407,20 @@ h2[data-icon] {
   text-transform: uppercase;
   margin-right: .3rem;
 }
+
+/* El importe del Portal es solo la aportación de la UVa; el del CVN
+   es el total del proyecto. Mezclar ambos sin decirlo engaña, así que
+   los que no son totales lo llevan escrito al lado. */
+.project .amount i {
+  font-style: normal;
+  font-size: .76rem;
+  color: var(--muted);
+}
+
+.project .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.project .ref-link:hover { border-bottom-color: currentColor; }

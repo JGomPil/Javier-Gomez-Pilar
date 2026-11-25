@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-25T17:39:02Z",
+ "generated": "2026-11-25T18:57:00Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -151,13 +151,6 @@
    "works": 70,
    "title": "Multimodal Phenotyping of Sleep Apnea: Integrating SpO2 and HRV Through Subject-Based Correlation Networks",
    "year": 2027
-  },
-  "wos": {
-   "citations": 2037,
-   "h_index": 28,
-   "records": 89,
-   "as_of": "2026-11-25",
-   "source": "Web of Science Starter API"
   }
  },
  "publications": [
@@ -4020,5 +4013,94 @@
    "text": "Primer premio de la Young Investigator Competition celebrada durante la XIII Mediterranean Conference on Medical and Biological Engineering and Computing (MEDICON 2013) por el trabajo 'AdaBoost Classification to Detect Sleep Apnea from Airflow Recordings' realizado por Gonzalo César Gutiérrez Tobal, Daniel Álvarez González, Javier Gómez Pilar, Félix del Campo Matías y Roberto Hornero Sánchez",
    "confirmed": true
   }
- ]
+ ],
+ "projects": {
+  "overlay": {
+   "Stargardt": {
+    "amount_uva": 140249,
+    "live": true,
+    "url": "https://portaldelaciencia.uva.es/proyectos/1550903/detalle"
+   },
+   "Demencia JCyL": {
+    "amount_uva": 113700,
+    "live": true,
+    "url": "https://portaldelaciencia.uva.es/proyectos/1696709/detalle"
+   },
+   "Alzhéimer": {
+    "amount_uva": 162745,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/179762/detalle"
+   },
+   "MIGRAINEE": {
+    "amount_uva": 109679,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/180332/detalle"
+   },
+   "SIMPLICITY": {
+    "amount_uva": 187550,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/180437/detalle"
+   },
+   "COGNITION": {
+    "amount_uva": 97473,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/180516/detalle"
+   },
+   "COVID-19": {
+    "amount_uva": 110000,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/180854/detalle"
+   },
+   "DEEPXSLEEP": {
+    "amount_uva": 302016,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/181082/detalle"
+   },
+   "SLEEPCONCEPT": {
+    "amount_uva": 115000,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/181127/detalle"
+   },
+   "cALLIOPE": {
+    "amount_uva": 51379,
+    "live": true,
+    "url": "https://portaldelaciencia.uva.es/proyectos/1862607/detalle"
+   },
+   "DEEPSCREENAMD": {
+    "amount_uva": 238510,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/276622/detalle"
+   },
+   "BRAINGYM": {
+    "amount_uva": 251735,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/276623/detalle"
+   },
+   "CRONOS": {
+    "amount_uva": 198375,
+    "live": true,
+    "url": "https://portaldelaciencia.uva.es/proyectos/631372/detalle"
+   },
+   "NET4SLEEP": {
+    "amount_uva": 205750,
+    "live": true,
+    "url": "https://portaldelaciencia.uva.es/proyectos/661863/detalle"
+   },
+   "EuroAGE+": {
+    "amount_uva": 346272,
+    "live": true,
+    "url": "https://portaldelaciencia.uva.es/proyectos/661864/detalle"
+   },
+   "PhenoXleep": {
+    "amount_uva": 202500,
+    "live": true,
+    "url": "https://portaldelaciencia.uva.es/proyectos/802357/detalle"
+   }
+  },
+  "new": [],
+  "conflicts": [
+   "Stargardt: to — a mano 2028, Portal 2026",
+   "COVID-19: scope — a mano nacional, Portal autonomico"
+  ]
+ }
 }

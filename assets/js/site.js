@@ -633,14 +633,50 @@
     const roleLabel = {
       "co-ip": state.lang === "es" ? "co-IP · coordinador" : "co-PI · coordinator",
       "ip": state.lang === "es" ? "Investigador principal" : "Principal investigator",
+      // Un contrato predoctoral no tiene IP al uso: tiene quien dirige
+      // el trabajo de investigacion.
+      "director": t("proj.director"),
     };
+
+    // El Portal de la Ciencia refresca cada semana lo que solo el
+    // sabe: la aportacion de la UVa, si el proyecto sigue vivo y el
+    // enlace a su ficha. El importe propio no se toca, porque es el
+    // total del proyecto y el del Portal solo la parte de la UVa.
+    const portal = state.profile.projects || {};
+    const capa = portal.overlay || {};
+    const propios = state.content.projects.map((p) => {
+      const extra = capa[p.acronym] || capa[p.label];
+      return extra ? { ...p, ...extra, amount: p.amount } : p;
+    });
+
+    // Y los que aparecen en el Portal sin estar todavia en la lista a
+    // mano: salen igualmente, con lo que el Portal sepa de ellos.
+    const nuevos = (portal.new || []).map((p) => ({
+      acronym: "",
+      label: "",
+      role: "researcher",
+      from: p.from,
+      to: p.to,
+      funder: p.funder,
+      scope: p.scope,
+      ip: p.ip,
+      amount: p.amount_uva,
+      amount_basis: "uva",
+      live: p.live,
+      url: p.url,
+      es: { title: p.title },
+      en: { title: p.title },
+    }));
+
+    const lista = [...propios, ...nuevos].sort(
+      (a, b) => Number(b.from) - Number(a.from));
 
     // Un proyecto sin ambito puesto todavia no debe desaparecer al
     // filtrar: solo se le exige el ambito a quien lo tiene declarado.
     const ambito = state.projectScope || "all";
     const todos = ambito === "all"
-      ? state.content.projects
-      : state.content.projects.filter((p) => p.scope === ambito);
+      ? lista
+      : lista.filter((p) => p.scope === ambito);
 
     const limit = state.content.collapse?.projects ?? 5;
     const total = todos.length;
@@ -655,7 +691,8 @@
 
     host.innerHTML = visible.map((p) => {
       const P = p[state.lang];
-      const vivo = Number(p.to) >= ahora;
+      // El Portal marca "Vigente"; si no ha hablado, se deduce del año.
+      const vivo = p.live !== undefined ? p.live : Number(p.to) >= ahora;
       const pi = roleLabel[p.role]
         ? `<span class="pi">${esc(roleLabel[p.role])}</span>`
         : "";
@@ -664,8 +701,15 @@
         p.coip ? `<span class="who"><b>${esc(t("pr.coip"))}</b> ${esc(p.coip)}</span>` : "",
       ].filter(Boolean).join("");
       const datos = [
-        p.amount ? `<span class="amount">${esc(euros.format(Number(p.amount)))}</span>` : "",
+        p.amount
+          ? `<span class="amount">${esc(euros.format(Number(p.amount)))}`
+            + (p.amount_basis === "uva"
+                ? ` <i>${esc(t("pr.uva"))}</i>` : "")
+            + `</span>`
+          : "",
         p.ref ? `<span class="ref">${esc(p.ref)}</span>` : "",
+        p.url ? `<a class="ref-link" href="${esc(p.url)}" target="_blank"`
+          + ` rel="noopener">${esc(t("pr.portal"))}</a>` : "",
       ].filter(Boolean).join("");
 
       return `

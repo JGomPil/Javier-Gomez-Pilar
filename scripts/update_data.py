@@ -23,6 +23,7 @@ import ssl
 import unicodedata
 from collections import Counter
 from itertools import combinations
+from difflib import SequenceMatcher
 import sys
 import time
 from urllib.parse import quote
@@ -321,6 +322,196 @@ def parse_awards(page: str) -> list[dict]:
 
 
 # --- OpenAlex: citation metrics, recomputed over merged profiles -------------
+
+PORTAL_ID = "180080"
+PORTAL_FUNDING = (f"https://portaldelaciencia.uva.es/investigadores/"
+                  f"{PORTAL_ID}/financiacion")
+PORTAL_DETAIL = "https://portaldelaciencia.uva.es/proyectos/{}/detalle"
+
+PORTAL_SCOPE = {
+    "europeo": "europeo", "europea": "europeo",
+    "internacional": "europeo",
+    "nacional": "nacional",
+    "autonomico": "autonomico", "autonómico": "autonomico",
+    "regional": "autonomico", "local": "autonomico",
+}
+
+
+def portal_text(page: str) -> list[str]:
+    """The detail pages are server-rendered; this flattens one to the
+    sequence of visible strings, which is what the fields are read from."""
+    page = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", page,
+                  flags=re.S | re.I)
+    flat = html.unescape(re.sub(r"<[^>]+>", "\x00", page))
+    return [p.strip() for p in flat.split("\x00") if p.strip()]
+
+
+def portal_projects() -> list[dict]:
+    """Competitive projects from the UVa's Portal de la Ciencia.
+
+    Only the ones marked "Con carácter Público": the Portal uses that
+    to separate a competitive call from a company contract, and the
+    site lists the former. Company work is his and the university's
+    business, not a research merit to advertise.
+
+    The amount a detail page shows is the UVa's share, never the whole
+    project, so it is reported as such and never passed off as a total.
+    """
+    try:
+        listing = fetch(PORTAL_FUNDING)
+    except Exception as exc:                       # noqa: BLE001
+        print(f"  Portal unreachable ({exc}); projects keep their "
+              f"hand-kept data.", file=sys.stderr)
+        return []
+
+    ids = sorted(set(re.findall(r"/proyectos/(\d+)", listing)))
+    out: list[dict] = []
+    for pid in ids:
+        try:
+            parts = portal_text(fetch(PORTAL_DETAIL.format(pid)))
+        except Exception:                          # noqa: BLE001
+            continue
+
+        joined = " ".join(parts)
+        caracter = re.search(r"Con carácter\s*(\w+)", joined)
+        if not caracter or caracter.group(1).lower() != "público":
+            continue
+
+        fechas = re.search(
+            r"Duración del (\d{2}) de (\w+) de (\d{4}) al "
+            r"(\d{2}) de (\w+) de (\d{4})", joined)
+        # El portal separa cifra y simbolo con un espacio duro.
+        amount = re.search(r"([\d.]+),\d\d[\s\u00a0]*€", joined)
+        scope = re.search(r"De ámbito\s*([A-Za-zÁ-ú]+)", joined)
+
+        # The PI is the person tagged "Responsable" in the team list;
+        # the name sits in the two entries just before that tag.
+        ip = ""
+        if "Responsable" in parts:
+            i = parts.index("Responsable")
+            if i >= 2:
+                ip = " ".join(parts[i - 2:i]).title()
+
+        funder = ""
+        if "Financiador:" in parts:
+            funder = parts[parts.index("Financiador:") + 1]
+
+        # Hay apuntes administrativos colados entre los proyectos: la
+        # incorporacion de un grupo al consorcio CIBER figura con una
+        # dotacion de 0,01 EUR. No son meritos de investigacion y no
+        # deben aparecer solos en la web.
+        if amount and int(amount.group(1).replace(".", "")) < 1000:
+            continue
+
+        out.append({
+            "portal_id": pid,
+            "title": parts[0] if parts else "",
+            "from": fechas.group(3) if fechas else "",
+            "to": fechas.group(6) if fechas else "",
+            "amount_uva": int(amount.group(1).replace(".", ""))
+                          if amount else None,
+            "scope": PORTAL_SCOPE.get(
+                (scope.group(1) if scope else "").lower(), ""),
+            "funder": funder,
+            "ip": ip,
+            "live": "Vigente" in parts,
+            "url": PORTAL_DETAIL.format(pid),
+        })
+    return out
+
+
+CONTENT = Path(__file__).resolve().parent.parent / "data" / "content.json"
+
+
+def flatten_title(text: str) -> str:
+    text = unicodedata.normalize("NFKD", (text or "").lower())
+    text = "".join(c for c in text if not unicodedata.combining(c))
+    return " ".join(re.sub(r"[^a-z0-9 ]", " ", text).split())
+
+
+def merge_projects(portal: list[dict]) -> dict:
+    """Matches the Portal's projects against the hand-kept ones.
+
+    content.json stays in charge of what is already there. Its amounts
+    are the project totals, taken from the CVN, while the Portal only
+    knows the UVa's share, and its scope has been checked by hand. So
+    the Portal is used for two things: to carry the facts it alone
+    keeps fresh (the UVa's share, whether the project is still running,
+    a link to its record), and to notice projects that are not on the
+    list yet.
+
+    Anything that disagrees is reported, never overwritten: the weekly
+    run prints it so a human decides.
+    """
+    if not portal:
+        return {"overlay": {}, "new": [], "conflicts": []}
+
+    try:
+        content = json.loads(CONTENT.read_text(encoding="utf-8"))
+    except Exception as exc:                        # noqa: BLE001
+        print(f"  content.json unreadable ({exc}); Portal data is kept "
+              f"aside.", file=sys.stderr)
+        return {"overlay": {}, "new": [], "conflicts": []}
+
+    mine = content.get("projects", [])
+    overlay: dict[str, dict] = {}
+    conflicts: list[str] = []
+    taken: set[str] = set()
+
+    for p in portal:
+        best, score = None, 0.0
+        flat = flatten_title(p["title"])
+        palabras = set(flat.split())
+        for q in mine:
+            s = 0.0
+            for lang in ("es", "en"):
+                suyo = flatten_title(q[lang]["title"])
+                s = max(s, SequenceMatcher(None, suyo, flat).ratio())
+                # El Portal suele guardar el titulo largo y completo
+                # mientras que aqui esta el corto, asi que la razon de
+                # parecido se hunde aunque sea el mismo proyecto. El
+                # solapamiento de palabras no sufre por esa diferencia
+                # de longitud.
+                otras = set(suyo.split())
+                if otras and palabras:
+                    s = max(s, len(otras & palabras)
+                            / min(len(otras), len(palabras)))
+            # The start year breaks the tie between projects whose
+            # titles are near-identical, which happens here: a JCyL
+            # pre-doctoral contract and a national grant can both be
+            # about the same dementia work.
+            if p["from"] and p["from"] == str(q.get("from", "")):
+                s += 0.12
+            if s > score:
+                best, score = q, s
+        key = (best or {}).get("acronym") or (best or {}).get("label") or ""
+
+        if score < 0.62 or not key or key in taken:
+            p["unmatched"] = True
+            continue
+
+        taken.add(key)
+        overlay[key] = {
+            "amount_uva": p["amount_uva"],
+            "live": p["live"],
+            "url": p["url"],
+        }
+        for field, theirs in (("from", p["from"]), ("to", p["to"]),
+                              ("scope", p["scope"])):
+            ours = str(best.get(field, ""))
+            if theirs and ours and theirs != ours:
+                conflicts.append(
+                    f"{key}: {field} — a mano {ours}, Portal {theirs}")
+
+    nuevos = [p for p in portal if p.get("unmatched")]
+    for p in nuevos:
+        print(f"  Portal: proyecto que no esta en content.json — "
+              f"{p['title'][:58]}", flush=True)
+    for c in conflicts:
+        print(f"  Portal discrepa: {c}", flush=True)
+
+    return {"overlay": overlay, "new": nuevos, "conflicts": conflicts}
+
 
 def openalex_works(author_id: str) -> list[dict]:
     """Every work for an author, paged, keeping only the fields we need."""
@@ -703,6 +894,14 @@ def main() -> int:
 
     publications.sort(key=lambda p: (-p["year"], -p["month"], p["title"]))
 
+    print("Reading funded projects from the UVa Portal ...", flush=True)
+    portal = portal_projects()
+    proyectos = merge_projects(portal)
+    print(f"  {len(portal)} competitive projects, "
+          f"{len(proyectos['overlay'])} matched, "
+          f"{len(proyectos['new'])} not on the list, "
+          f"{len(proyectos['conflicts'])} disagreements", flush=True)
+
     data = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "metrics": {
@@ -718,6 +917,7 @@ def main() -> int:
         "collaboration": network,
         "countries": countries,
         "awards": awards,
+        "projects": proyectos,
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)

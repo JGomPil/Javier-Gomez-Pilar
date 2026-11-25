@@ -129,12 +129,15 @@
    "g.countries.back": "Todos los países",
    "affil": "Afiliación",
    "pf.all": "Todos",
-   "pf.europeo": "Europeos",
+   "pf.europeo": "Internacionales",
    "pf.nacional": "Nacionales",
    "pf.autonomico": "Autonómicos",
    "pf.scope": "Ámbito",
    "pr.ip": "IP",
-   "pr.coip": "Co-IP"
+   "pr.coip": "Co-IP",
+   "pr.uva": "aportación UVa",
+   "proj.director": "Director del trabajo de investigación",
+   "pr.portal": "ficha"
   },
   "en": {
    "skip": "Skip to content",
@@ -258,12 +261,15 @@
    "g.countries.back": "All countries",
    "affil": "Affiliation",
    "pf.all": "All",
-   "pf.europeo": "European",
+   "pf.europeo": "International",
    "pf.nacional": "National",
    "pf.autonomico": "Regional",
    "pf.scope": "Scope",
    "pr.ip": "PI",
-   "pr.coip": "Co-PI"
+   "pr.coip": "Co-PI",
+   "pr.uva": "UVa share",
+   "proj.director": "Research supervisor",
+   "pr.portal": "record"
   }
  },
  "lines": [
@@ -319,7 +325,7 @@
  "projects": [
   {
    "acronym": "",
-   "role": "researcher",
+   "role": "director",
    "from": "2026",
    "to": "2030",
    "funder": "Junta de Castilla y León",
@@ -333,7 +339,8 @@
    },
    "label": "Demencia JCyL",
    "scope": "autonomico",
-   "amount": 113700
+   "amount": 113700,
+   "amount_basis": "uva"
   },
   {
    "acronym": "",
@@ -351,7 +358,8 @@
    },
    "label": "Stargardt",
    "scope": "nacional",
-   "amount": 140250
+   "amount": 140250,
+   "amount_basis": "uva"
   },
   {
    "acronym": "cALLIOPE",
@@ -369,7 +377,8 @@
    },
    "scope": "europeo",
    "ip": "María Begoña Coco Martín",
-   "coip": "Antonio Dueñas Laita"
+   "coip": "Antonio Dueñas Laita",
+   "amount_basis": "uva"
   },
   {
    "acronym": "PhenoXleep",
@@ -386,10 +395,11 @@
     "note": ""
    },
    "ref": "PID2023-148895OB-I00",
-   "amount": "202500",
+   "amount": 202500,
    "scope": "nacional",
    "ip": "Roberto Hornero",
-   "coip": "Gonzalo C. Gutiérrez Tobar"
+   "coip": "Gonzalo C. Gutiérrez Tobar",
+   "amount_basis": "total"
   },
   {
    "acronym": "CRONOS",
@@ -406,10 +416,11 @@
     "note": ""
    },
    "ref": "PID2022-138286NB-I00",
-   "amount": "198375",
+   "amount": 198375,
    "scope": "nacional",
    "ip": "Jesús Poza Crespo",
-   "coip": "Carlos Gómez Peña"
+   "coip": "Carlos Gómez Peña",
+   "amount_basis": "total"
   },
   {
    "acronym": "NET4SLEEP",
@@ -425,9 +436,10 @@
     "title": "A cross-border collaborative R&D network for comprehensive sleep apnoea phenotyping",
     "note": "Scientific and financial coordination of a 9-researcher network, averaging €70,000 a year."
    },
-   "amount": "205750",
+   "amount": 693211,
    "scope": "europeo",
-   "ip": "Gonzalo Gutiérrez Tobal"
+   "ip": "Gonzalo Gutiérrez Tobal",
+   "amount_basis": "total"
   },
   {
    "acronym": "EuroAGE+",
@@ -443,10 +455,11 @@
     "title": "International network for research, innovation and technology transfer in active ageing",
     "note": ""
    },
-   "amount": "346272",
+   "amount": 346272,
    "scope": "europeo",
    "ip": "Roberto Hornero",
-   "coip": "Victor Martínez Cagigal"
+   "coip": "Victor Martínez Cagigal",
+   "amount_basis": "total"
   },
   {
    "acronym": "Tattoo4Sleep",
@@ -465,7 +478,8 @@
    "ip": "Gonzalo C. Gutiérrez Tobal",
    "coip": "Xavier Illa Vila; Yolanda Castillo",
    "scope": "nacional",
-   "amount": 48750
+   "amount": 48750,
+   "amount_basis": "total"
   },
   {
    "acronym": "DEEPSCREENAMD",
@@ -482,9 +496,10 @@
     "note": ""
    },
    "ref": "TED2021-131913B-I00",
-   "amount": "238510",
+   "amount": 238510,
    "scope": "nacional",
-   "ip": "María García Gadañón"
+   "ip": "María García Gadañón",
+   "amount_basis": "total"
   },
   {
    "acronym": "BRAINGYM",
@@ -501,9 +516,10 @@
     "note": ""
    },
    "ref": "TED2021-129915B-I00",
-   "amount": "251735",
+   "amount": 251735,
    "scope": "nacional",
-   "ip": "Roberto Hornero"
+   "ip": "Roberto Hornero",
+   "amount_basis": "total"
   },
   {
    "acronym": "DEEPXSLEEP",
@@ -522,7 +538,8 @@
    "ref": "PID2020-115468RB-I00",
    "amount": "302016",
    "scope": "nacional",
-   "ip": "Roberto Hornero Sánchez"
+   "ip": "Roberto Hornero Sánchez",
+   "amount_basis": "uva"
   },
   {
    "acronym": "SLEEPCONCEPT",
@@ -540,7 +557,8 @@
    },
    "scope": "nacional",
    "ip": "Roberto Hornero",
-   "coip": "Félix del Campo"
+   "coip": "Félix del Campo",
+   "amount_basis": "uva"
   },
   {
    "acronym": "",
@@ -549,7 +567,7 @@
    "to": "2021",
    "funder": "Fondo COVID-19 · ISCIII · Junta de Castilla y León",
    "ref": "",
-   "amount": "110000",
+   "amount": 110000,
    "es": {
     "title": "Modelo predictivo basado en inteligencia artificial para predecir la evolución de la COVID-19"
    },
@@ -558,7 +576,8 @@
    },
    "label": "COVID-19",
    "ip": "Roberto Hornero",
-   "scope": "nacional"
+   "scope": "nacional",
+   "amount_basis": "total"
   },
   {
    "acronym": "COGNITION",
@@ -575,7 +594,8 @@
     "title": "Automatic estimation of cognitive ability in children with sleep apnoea"
    },
    "scope": "nacional",
-   "ip": "Ana Mayoral Aguilera"
+   "ip": "Ana Mayoral Aguilera",
+   "amount_basis": "uva"
   },
   {
    "acronym": "SIMPLICITY",
@@ -592,9 +612,10 @@
     "note": ""
    },
    "ref": "DPI2017-84280-R",
-   "amount": "187550",
+   "amount": 187550,
    "scope": "nacional",
-   "ip": "Roberto Hornero Sánchez"
+   "ip": "Roberto Hornero Sánchez",
+   "amount_basis": "total"
   },
   {
    "acronym": "MIGRAINEE",
@@ -610,10 +631,11 @@
     "title": "Epigenetics and brain activity in chronic and episodic migraine risk in women",
     "note": ""
    },
-   "amount": "109680",
+   "amount": 564373,
    "scope": "europeo",
    "ip": "Roberto Hornero Sánchez",
-   "coip": "Carlos Gómez Peña"
+   "coip": "Carlos Gómez Peña",
+   "amount_basis": "total"
   },
   {
    "acronym": "",
@@ -622,7 +644,7 @@
    "to": "2018",
    "funder": "Plan Nacional · Retos de la Sociedad",
    "ref": "TEC2014-64498-R",
-   "amount": "162745",
+   "amount": 162745,
    "es": {
     "title": "Caracterización de la actividad neuronal en la enfermedad de Alzheimer mediante la teoría de redes complejas"
    },
@@ -631,7 +653,8 @@
    },
    "label": "Alzhéimer",
    "scope": "nacional",
-   "ip": "Roberto Hornero Sánchez"
+   "ip": "Roberto Hornero Sánchez",
+   "amount_basis": "total"
   },
   {
    "acronym": "ESC-MEG",
@@ -640,7 +663,7 @@
    "to": "2015",
    "funder": "Plan Nacional · I+D+i",
    "ref": "TEC2011-22987",
-   "amount": "130075",
+   "amount": 130075,
    "es": {
     "title": "Extracción, selección y clasificación de características de la señal de magnetoencefalograma"
    },
@@ -648,7 +671,8 @@
     "title": "Extraction, selection and classification of features from the magnetoencephalogram"
    },
    "scope": "nacional",
-   "ip": "Roberto Hornero Sánchez"
+   "ip": "Roberto Hornero Sánchez",
+   "amount_basis": "total"
   },
   {
    "acronym": "",
@@ -657,7 +681,7 @@
    "to": "2015",
    "funder": "Plan Nacional",
    "ref": "",
-   "amount": "174257",
+   "amount": 248274,
    "es": {
     "title": "Interfaz cerebro-ordenador para entrenamiento cognitivo y asistencia domótica frente a los efectos del envejecimiento"
    },
@@ -666,7 +690,8 @@
    },
    "label": "BCI domótica",
    "scope": "nacional",
-   "ip": "Roberto Hornero Sánchez"
+   "ip": "Roberto Hornero Sánchez",
+   "amount_basis": "total"
   }
  ],
  "atenea": {

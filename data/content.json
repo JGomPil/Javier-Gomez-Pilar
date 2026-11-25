@@ -137,7 +137,8 @@
    "pr.coip": "Co-IP",
    "pr.uva": "aportación UVa",
    "proj.director": "Director del trabajo de investigación",
-   "pr.portal": "ficha"
+   "pr.portal": "ficha",
+   "g.role.director": "Director del trabajo"
   },
   "en": {
    "skip": "Skip to content",
@@ -269,7 +270,8 @@
    "pr.coip": "Co-PI",
    "pr.uva": "UVa share",
    "proj.director": "Research supervisor",
-   "pr.portal": "record"
+   "pr.portal": "record",
+   "g.role.director": "Research supervisor"
   }
  },
  "lines": [

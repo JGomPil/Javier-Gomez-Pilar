@@ -447,9 +447,13 @@
       const corto = titulo.split(/\s+/).slice(0, 3).join(" ");
       return corto.length > 22 ? corto.slice(0, 21) + "\u2026" : corto;
     }
-    // El rol es ordinal (IP > co-IP > investigador): rampa de un tono.
-    const ROLES = ["ip", "co-ip", "researcher"];
-    const colours = ramp(3);
+    // El rol es ordinal (IP > co-IP > director > investigador): rampa
+    // de un tono. "director" es el del trabajo de investigacion de un
+    // contrato predoctoral, que no es IP de un proyecto pero tampoco
+    // uno mas del equipo. Sin el en la lista caia al indice 0 y salia
+    // pintado y rotulado como investigador principal.
+    const ROLES = ["ip", "co-ip", "director", "researcher"];
+    const colours = ramp(ROLES.length);
     const tone = (role) => colours[Math.max(0, ROLES.indexOf(role))];
 
     const from = Math.min(...projects.map((p) => p.from));
@@ -471,7 +475,8 @@
       },
       legend: {
         ...b.legend,
-        data: ROLES.map((r) => t("g.role." + r)),
+        data: ROLES.filter((r) => projects.some((p) => p.role === r))
+                   .map((r) => t("g.role." + r)),
         selectedMode: false,
       },
       grid: { ...b.grid, top: 34, left: 2 },
@@ -499,8 +504,8 @@
             itemStyle: { color: tone(p.role) },
           })),
           emphasis: { focus: "self" } },
-        // Solo para la leyenda: tres entradas sin datos.
-        ...ROLES.map((r) => ({
+        // Solo para la leyenda: una entrada sin datos por rol presente.
+        ...ROLES.filter((r) => projects.some((p) => p.role === r)).map((r) => ({
           name: t("g.role." + r), type: "bar", stack: "leyenda",
           data: [], itemStyle: { color: tone(r) },
         })),

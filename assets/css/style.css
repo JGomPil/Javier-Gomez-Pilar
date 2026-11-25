@@ -356,7 +356,7 @@ h1 {
 .trace canvas {
   display: block; width: 100%;
   /* Fina a proposito: dice lo que tiene que decir en poco alto. */
-  height: clamp(74px, 9vw, 108px);
+  height: clamp(96px, 11vw, 136px);
 }
 
 /* ── metrics ──────────────────────────────────────────────── */

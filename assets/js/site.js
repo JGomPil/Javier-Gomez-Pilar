@@ -72,19 +72,24 @@
      stack: slower and wider as they go. The subject of the research,
      drawn rather than illustrated. */
 
-  /* Un campo de líneas en flujo.
+  /* Una red que se reorganiza.
    *
-   * Vuelve la primera version, que es la que funcionaba. Son líneas de
-   * nivel de un campo que se deforma despacio: la amplitud se abre en
-   * el centro de la banda y se cierra en los bordes, así que el
-   * conjunto respira como una lente. No finge ser un dato, que es
-   * justo lo que estropeaba al EEG y al espectrograma.
+   * Las tres versiones anteriores eran ondas, de una forma u otra, y
+   * ninguna convencia. Esta no lo es: son nodos que derivan y enlaces
+   * que aparecen cuando dos quedan cerca.
    *
-   * Dos reglas que lo mantienen sobrio: las líneas nunca se cruzan, y
-   * la opacidad es baja. Lo que se ve es el tejido, no cada hilo.
+   * Lo que la separa de las bolitas de cualquier plantilla es que los
+   * nodos pertenecen a cinco modulos, cada uno con un centro invisible
+   * que se mueve por su cuenta. Los nodos se dejan atraer apenas por
+   * el suyo, asi que los grupos se juntan, se solapan y se vuelven a
+   * separar, y los puentes entre modulos van y vienen con ellos. Es, a
+   * ojo, una red funcional reorganizandose: comunidades que se forman
+   * y se deshacen. No afirma ningun dato; es la forma del objeto de
+   * estudio, no una medida de nada.
    *
-   * Sobre la banda corta: con menos alto hacen falta menos líneas, o
-   * se empastan unas con otras.
+   * Los numeros de aqui no estan puestos a ojo: se ajustaron mirando
+   * fotogramas renderizados a los 4, 15 y 42 segundos, que es cuando
+   * se ve si la cosa colapsa o si deja cuartos de banda vacios.
    */
   function initTrace() {
     const canvas = $("#trace");
@@ -92,85 +97,152 @@
     const cx = canvas.getContext("2d", { alpha: true });
     if (!cx) return;
 
-    const LINES = 15;
-    const STEP = 7;            // muestreo horizontal; la curva se interpola
+    const MODULOS = 5;
+    const ALCANCE = 78;        // px: a mas distancia, no hay enlace
+    const SEPARA = 42;         // px: por debajo, los nodos se empujan
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let w = 0, h = 0, raf = 0, visible = true;
-
-    function size() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = canvas.getBoundingClientRect();
-      w = Math.max(1, rect.width);
-      h = Math.max(1, rect.height);
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
+    let nodos = [], centros = [];
 
     function token(nombre, porDefecto) {
       return getComputedStyle(document.documentElement)
         .getPropertyValue(nombre).trim() || porDefecto;
     }
 
-    /* Tres senoides inconmensurables: el patrón no se repite a la
-       vista y el cálculo sigue siendo trivial. */
-    function onda(x, tiempo, fase) {
-      return Math.sin(x * 0.0062 + tiempo * 0.21 + fase) * 1.00
-           + Math.sin(x * 0.0113 - tiempo * 0.147 + fase * 1.7) * 0.52
-           + Math.sin(x * 0.0029 + tiempo * 0.085 + fase * 0.6) * 0.78;
+    function size() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = canvas.getBoundingClientRect();
+      w = Math.max(1, r.width);
+      h = Math.max(1, r.height);
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function draw(transcurrido) {
-      cx.clearRect(0, 0, w, h);
-      const tiempo = transcurrido / 1000;
+    function siembra() {
+      centros = Array.from({ length: MODULOS }, (_, i) => ({
+        fx: (i + 0.5) / MODULOS,
+        fase: i * 2.1,
+        vel: 0.13 + i * 0.037,
+        x: 0, y: 0,
+      }));
 
-      cx.strokeStyle = token("--accent", "#1b4ea8");
-      cx.lineWidth = 1;
-      cx.lineJoin = "round";
-      cx.lineCap = "round";
+      // La densidad se ata al ancho. Un numero fijo dejaba un hueco
+      // muerto en el centro de una banda de 1100 px y se amontonaba en
+      // una de movil.
+      const cuantos = Math.max(34, Math.min(96, Math.round(w / 17)));
+      nodos = Array.from({ length: cuantos }, (_, i) => ({
+        m: i % MODULOS,
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.17,
+        vy: (Math.random() - 0.5) * 0.11,
+        // El tamano se fija al sembrar y no cambia, para que la vista
+        // pueda seguir a un nodo concreto mientras se mueve.
+        r: 1.1 + Math.random() * 1.9,
+      }));
+    }
 
-      const medio = h / 2;
-
-      for (let i = 0; i < LINES; i++) {
-        const k = i / (LINES - 1);            // 0 arriba, 1 abajo
-        const y0 = k * h;
-
-        // La amplitud se abre en el centro de la banda: seno elevado,
-        // que llega a cero justo en los bordes y no los desborda.
-        const lente = Math.pow(Math.sin(k * Math.PI), 1.45);
-        const amp = (h * 0.26) * lente;
-
-        // Cada linea va algo retrasada respecto a la anterior: eso es
-        // lo que hace que el conjunto parezca una superficie y no
-        // quince curvas sueltas.
-        const fase = k * 2.35;
-
-        cx.globalAlpha = 0.08 + lente * 0.28;
-        cx.beginPath();
-
-        for (let x = 0; x <= w + STEP; x += STEP) {
-          const y = y0 + (medio - y0) * 0.06 + onda(x, tiempo, fase) * amp * 0.42;
-          if (x === 0) cx.moveTo(x, y); else cx.lineTo(x, y);
-        }
-        cx.stroke();
+    function paso(t) {
+      for (const c of centros) {
+        // Amplitud 0,115: el modulo alcanza a rozar a su vecino, de
+        // ahi los puentes, pero nunca abandona su franja, que es lo
+        // que dejaba un cuarto de banda en blanco.
+        c.x = w * (c.fx + 0.115 * Math.sin(t * c.vel + c.fase));
+        c.y = h * (0.5 + 0.3 * Math.sin(t * c.vel * 1.4 + c.fase * 1.7));
       }
 
+      /* Repulsion de corto alcance. Sin ella la atraccion al centro
+         del modulo, con la amortiguacion, acaba implotando cada grupo
+         en un punto: a los quince segundos la red deja de ser una
+         red y quedan cinco manchas. */
+      for (let i = 0; i < nodos.length; i++) {
+        const a = nodos[i];
+        for (let j = i + 1; j < nodos.length; j++) {
+          const b = nodos[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > SEPARA * SEPARA || d2 < 1e-6) continue;
+          const d = Math.sqrt(d2);
+          const empuje = (1 - d / SEPARA) * 0.055;
+          const ux = dx / d, uy = dy / d;
+          a.vx += ux * empuje; a.vy += uy * empuje;
+          b.vx -= ux * empuje; b.vy -= uy * empuje;
+        }
+      }
+
+      for (const n of nodos) {
+        const c = centros[n.m];
+        n.vx += (c.x - n.x) * 0.000105;
+        n.vy += (c.y - n.y) * 0.000105;
+        n.vx *= 0.94;
+        n.vy *= 0.94;
+        // Tope de velocidad: un nodo que cruza la banda de un salto se
+        // lee como un fallo, no como movimiento.
+        const v = Math.hypot(n.vx, n.vy);
+        if (v > 0.55) { n.vx *= 0.55 / v; n.vy *= 0.55 / v; }
+        n.x += n.vx;
+        n.y += n.vy;
+        // Rebote y no envoltura: un nodo que reaparece al otro lado
+        // corta sus enlaces de golpe y se nota.
+        if (n.x < 3 || n.x > w - 3) { n.vx *= -1; n.x = Math.max(3, Math.min(w - 3, n.x)); }
+        if (n.y < 3 || n.y > h - 3) { n.vy *= -1; n.y = Math.max(3, Math.min(h - 3, n.y)); }
+      }
+    }
+
+    function draw() {
+      cx.clearRect(0, 0, w, h);
+      const accent = token("--accent", "#1b4ea8");
+
+      cx.strokeStyle = accent;
+      cx.lineWidth = 1;
+      for (let i = 0; i < nodos.length; i++) {
+        const a = nodos[i];
+        for (let j = i + 1; j < nodos.length; j++) {
+          const b = nodos[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > ALCANCE * ALCANCE) continue;
+          const fuerza = 1 - Math.sqrt(d2) / ALCANCE;
+          // El enlace se desvanece con la distancia, asi que aparece y
+          // desaparece sin cortes. Los puentes entre modulos van mas
+          // tenues: se ven, pero no compiten con cada grupo.
+          cx.globalAlpha = fuerza * fuerza * (a.m === b.m ? 0.34 : 0.14);
+          cx.beginPath();
+          cx.moveTo(a.x, a.y);
+          cx.lineTo(b.x, b.y);
+          cx.stroke();
+        }
+      }
+
+      cx.fillStyle = accent;
+      cx.globalAlpha = 0.62;
+      for (const n of nodos) {
+        cx.beginPath();
+        cx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        cx.fill();
+      }
       cx.globalAlpha = 1;
     }
 
     let t0 = 0;
     function loop(ahora) {
       if (!t0) t0 = ahora;
-      draw(ahora - t0);
+      paso((ahora - t0) / 1000);
+      draw();
       raf = visible && !reduce.matches ? requestAnimationFrame(loop) : 0;
     }
 
     function start() {
       if (raf) cancelAnimationFrame(raf);
       size();
+      siembra();
       t0 = 0;
-      // Un fotograma fijo sigue siendo una composicion completa.
-      if (reduce.matches) { draw(2600); return; }
+      // Unos cuantos pasos antes de mostrar nada: arrancar con los
+      // nodos repartidos al azar se ve como lo que es, un sorteo.
+      for (let i = 0; i < 240; i++) paso(i * 0.016);
+      draw();
+      if (reduce.matches) return;
       raf = requestAnimationFrame(loop);
     }
 

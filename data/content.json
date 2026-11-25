@@ -397,8 +397,8 @@
    "ref": "PID2023-148895OB-I00",
    "amount": 202500,
    "scope": "nacional",
-   "ip": "Roberto Hornero",
-   "coip": "Gonzalo C. Gutiérrez Tobar",
+   "ip": "Roberto Hornero Sánchez",
+   "coip": "Gonzalo C. Gutiérrez Tobal",
    "amount_basis": "total"
   },
   {
@@ -438,8 +438,9 @@
    },
    "amount": 693211,
    "scope": "europeo",
-   "ip": "Gonzalo Gutiérrez Tobal",
-   "amount_basis": "total"
+   "ip": "Gonzalo C. Gutiérrez Tobal",
+   "amount_basis": "total",
+   "coip": "Javier Gómez Pilar"
   },
   {
    "acronym": "EuroAGE+",
@@ -457,8 +458,8 @@
    },
    "amount": 346272,
    "scope": "europeo",
-   "ip": "Roberto Hornero",
-   "coip": "Victor Martínez Cagigal",
+   "ip": "Roberto Hornero Sánchez",
+   "coip": "Víctor Martínez Cagigal",
    "amount_basis": "total"
   },
   {
@@ -518,7 +519,7 @@
    "ref": "TED2021-129915B-I00",
    "amount": 251735,
    "scope": "nacional",
-   "ip": "Roberto Hornero",
+   "ip": "Roberto Hornero Sánchez",
    "amount_basis": "total"
   },
   {
@@ -556,7 +557,7 @@
     "title": "Automatic diagnosis of paediatric sleep apnoea: proof of concept in a clinical setting"
    },
    "scope": "nacional",
-   "ip": "Roberto Hornero",
+   "ip": "Roberto Hornero Sánchez",
    "coip": "Félix del Campo",
    "amount_basis": "uva"
   },
@@ -575,7 +576,7 @@
     "title": "Artificial-intelligence predictive model for the course of COVID-19"
    },
    "label": "COVID-19",
-   "ip": "Roberto Hornero",
+   "ip": "Roberto Hornero Sánchez",
    "scope": "autonomico",
    "amount_basis": "total"
   },

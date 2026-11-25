@@ -127,7 +127,14 @@
    "g.countries.n": "países",
    "g.countries.orgs": "organizaciones",
    "g.countries.back": "Todos los países",
-   "affil": "Afiliación"
+   "affil": "Afiliación",
+   "pf.all": "Todos",
+   "pf.europeo": "Europeos",
+   "pf.nacional": "Nacionales",
+   "pf.autonomico": "Autonómicos",
+   "pf.scope": "Ámbito",
+   "pr.ip": "IP",
+   "pr.coip": "Co-IP"
   },
   "en": {
    "skip": "Skip to content",
@@ -249,7 +256,14 @@
    "g.countries.n": "countries",
    "g.countries.orgs": "organisations",
    "g.countries.back": "All countries",
-   "affil": "Affiliation"
+   "affil": "Affiliation",
+   "pf.all": "All",
+   "pf.europeo": "European",
+   "pf.nacional": "National",
+   "pf.autonomico": "Regional",
+   "pf.scope": "Scope",
+   "pr.ip": "PI",
+   "pr.coip": "Co-PI"
   }
  },
  "lines": [
@@ -317,7 +331,9 @@
     "title": "Identifying the neuropathological signatures of dementia through dynamic brain-network analysis",
     "note": "Predoctoral contract attached to the dementia line."
    },
-   "label": "Demencia JCyL"
+   "label": "Demencia JCyL",
+   "scope": "autonomico",
+   "amount": 113700
   },
   {
    "acronym": "",
@@ -333,7 +349,9 @@
     "title": "Precision medicine and advanced diagnosis of Stargardt disease in Spain",
     "note": ""
    },
-   "label": "Stargardt"
+   "label": "Stargardt",
+   "scope": "nacional",
+   "amount": 140250
   },
   {
    "acronym": "cALLIOPE",
@@ -348,7 +366,10 @@
    },
    "en": {
     "title": "CALLIOPE: training in visual disabilities rehabilitation based on a skills-first approach"
-   }
+   },
+   "scope": "europeo",
+   "ip": "María Begoña Coco Martín",
+   "coip": "Antonio Dueñas Laita"
   },
   {
    "acronym": "PhenoXleep",
@@ -365,7 +386,10 @@
     "note": ""
    },
    "ref": "PID2023-148895OB-I00",
-   "amount": "202500"
+   "amount": "202500",
+   "scope": "nacional",
+   "ip": "Roberto Hornero",
+   "coip": "Gonzalo C. Gutiérrez Tobar"
   },
   {
    "acronym": "CRONOS",
@@ -382,7 +406,10 @@
     "note": ""
    },
    "ref": "PID2022-138286NB-I00",
-   "amount": "198375"
+   "amount": "198375",
+   "scope": "nacional",
+   "ip": "Jesús Poza Crespo",
+   "coip": "Carlos Gómez Peña"
   },
   {
    "acronym": "NET4SLEEP",
@@ -398,7 +425,9 @@
     "title": "A cross-border collaborative R&D network for comprehensive sleep apnoea phenotyping",
     "note": "Scientific and financial coordination of a 9-researcher network, averaging €70,000 a year."
    },
-   "amount": "205750"
+   "amount": "205750",
+   "scope": "europeo",
+   "ip": "Gonzalo Gutiérrez Tobal"
   },
   {
    "acronym": "EuroAGE+",
@@ -414,7 +443,10 @@
     "title": "International network for research, innovation and technology transfer in active ageing",
     "note": ""
    },
-   "amount": "346272"
+   "amount": "346272",
+   "scope": "europeo",
+   "ip": "Roberto Hornero",
+   "coip": "Victor Martínez Cagigal"
   },
   {
    "acronym": "Tattoo4Sleep",
@@ -429,7 +461,11 @@
    "en": {
     "title": "Comfortable tattoo skin electrodes for sleep disorder monitoring",
     "note": "Intramural project with IMB-CNM (CSIC)."
-   }
+   },
+   "ip": "Gonzalo C. Gutiérrez Tobal",
+   "coip": "Xavier Illa Vila; Yolanda Castillo",
+   "scope": "nacional",
+   "amount": 48750
   },
   {
    "acronym": "DEEPSCREENAMD",
@@ -446,7 +482,9 @@
     "note": ""
    },
    "ref": "TED2021-131913B-I00",
-   "amount": "238510"
+   "amount": "238510",
+   "scope": "nacional",
+   "ip": "María García Gadañón"
   },
   {
    "acronym": "BRAINGYM",
@@ -463,7 +501,9 @@
     "note": ""
    },
    "ref": "TED2021-129915B-I00",
-   "amount": "251735"
+   "amount": "251735",
+   "scope": "nacional",
+   "ip": "Roberto Hornero"
   },
   {
    "acronym": "DEEPXSLEEP",
@@ -480,7 +520,9 @@
     "note": ""
    },
    "ref": "PID2020-115468RB-I00",
-   "amount": "302016"
+   "amount": "302016",
+   "scope": "nacional",
+   "ip": "Roberto Hornero Sánchez"
   },
   {
    "acronym": "SLEEPCONCEPT",
@@ -495,7 +537,10 @@
    },
    "en": {
     "title": "Automatic diagnosis of paediatric sleep apnoea: proof of concept in a clinical setting"
-   }
+   },
+   "scope": "nacional",
+   "ip": "Roberto Hornero",
+   "coip": "Félix del Campo"
   },
   {
    "acronym": "",
@@ -511,7 +556,9 @@
    "en": {
     "title": "Artificial-intelligence predictive model for the course of COVID-19"
    },
-   "label": "COVID-19"
+   "label": "COVID-19",
+   "ip": "Roberto Hornero",
+   "scope": "nacional"
   },
   {
    "acronym": "COGNITION",
@@ -526,7 +573,9 @@
    },
    "en": {
     "title": "Automatic estimation of cognitive ability in children with sleep apnoea"
-   }
+   },
+   "scope": "nacional",
+   "ip": "Ana Mayoral Aguilera"
   },
   {
    "acronym": "SIMPLICITY",
@@ -543,7 +592,9 @@
     "note": ""
    },
    "ref": "DPI2017-84280-R",
-   "amount": "187550"
+   "amount": "187550",
+   "scope": "nacional",
+   "ip": "Roberto Hornero Sánchez"
   },
   {
    "acronym": "MIGRAINEE",
@@ -559,7 +610,10 @@
     "title": "Epigenetics and brain activity in chronic and episodic migraine risk in women",
     "note": ""
    },
-   "amount": "109680"
+   "amount": "109680",
+   "scope": "europeo",
+   "ip": "Roberto Hornero Sánchez",
+   "coip": "Carlos Gómez Peña"
   },
   {
    "acronym": "",
@@ -575,7 +629,9 @@
    "en": {
     "title": "Characterising neuronal activity in Alzheimer’s disease through complex-network theory"
    },
-   "label": "Alzhéimer"
+   "label": "Alzhéimer",
+   "scope": "nacional",
+   "ip": "Roberto Hornero Sánchez"
   },
   {
    "acronym": "ESC-MEG",
@@ -590,7 +646,9 @@
    },
    "en": {
     "title": "Extraction, selection and classification of features from the magnetoencephalogram"
-   }
+   },
+   "scope": "nacional",
+   "ip": "Roberto Hornero Sánchez"
   },
   {
    "acronym": "",
@@ -606,7 +664,9 @@
    "en": {
     "title": "Brain-computer interface for cognitive training and home assistance against the effects of ageing"
    },
-   "label": "BCI domótica"
+   "label": "BCI domótica",
+   "scope": "nacional",
+   "ip": "Roberto Hornero Sánchez"
   }
  ],
  "atenea": {

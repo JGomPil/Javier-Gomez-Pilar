@@ -282,6 +282,22 @@
             <div id="chart-projects" data-chart class="chart-box huge"></div>
           </div>
           <div role="tabpanel" id="p-plist" aria-labelledby="t-plist" hidden>
+            <div class="controls">
+              <div class="filter-row">
+                <p class="filter-label" data-i18n="pf.scope">Ámbito</p>
+                <div class="chips" id="scope-chips" role="group"
+                     aria-label="Ámbito del proyecto">
+                  <button type="button" data-scope="all" aria-pressed="true"
+                          data-i18n="pf.all">Todos</button>
+                  <button type="button" data-scope="europeo" aria-pressed="false"
+                          data-i18n="pf.europeo">Europeos</button>
+                  <button type="button" data-scope="nacional" aria-pressed="false"
+                          data-i18n="pf.nacional">Nacionales</button>
+                  <button type="button" data-scope="autonomico" aria-pressed="false"
+                          data-i18n="pf.autonomico">Autonómicos</button>
+                </div>
+              </div>
+            </div>
             <div id="projects-list" class="projects"></div>
           </div>
         </div>

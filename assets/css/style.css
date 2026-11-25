@@ -1386,3 +1386,24 @@ h2[data-icon] {
   }
   .affil img { height: 2rem; }
 }
+
+/* ── proyectos: quién lo dirige ──────────────────────────────── */
+.project .people {
+  margin: .3rem 0 0;
+  font-size: .82rem;
+  color: var(--ink-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .2rem 1.1rem;
+}
+
+.project .people b {
+  font-weight: 600;
+  color: var(--muted);
+  /* La etiqueta IP/co-IP es un rótulo, no énfasis: va en versalitas
+     pequeñas para que el nombre sea lo que se lee. */
+  font-size: .76rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-right: .3rem;
+}

@@ -635,11 +635,16 @@
       "ip": state.lang === "es" ? "Investigador principal" : "Principal investigator",
     };
 
-    const limit = state.content.collapse?.projects ?? 5;
-    const total = state.content.projects.length;
-    const visible = state.expanded.projects
+    // Un proyecto sin ambito puesto todavia no debe desaparecer al
+    // filtrar: solo se le exige el ambito a quien lo tiene declarado.
+    const ambito = state.projectScope || "all";
+    const todos = ambito === "all"
       ? state.content.projects
-      : state.content.projects.slice(0, limit);
+      : state.content.projects.filter((p) => p.scope === ambito);
+
+    const limit = state.content.collapse?.projects ?? 5;
+    const total = todos.length;
+    const visible = state.expanded.projects ? todos : todos.slice(0, limit);
 
     // Un proyecto que acaba este ano o mas tarde sigue vivo. Se marca,
     // porque es lo primero que se mira en una lista de proyectos.
@@ -654,6 +659,10 @@
       const pi = roleLabel[p.role]
         ? `<span class="pi">${esc(roleLabel[p.role])}</span>`
         : "";
+      const gente = [
+        p.ip ? `<span class="who"><b>${esc(t("pr.ip"))}</b> ${esc(p.ip)}</span>` : "",
+        p.coip ? `<span class="who"><b>${esc(t("pr.coip"))}</b> ${esc(p.coip)}</span>` : "",
+      ].filter(Boolean).join("");
       const datos = [
         p.amount ? `<span class="amount">${esc(euros.format(Number(p.amount)))}</span>` : "",
         p.ref ? `<span class="ref">${esc(p.ref)}</span>` : "",
@@ -667,6 +676,7 @@
           </p>
           <h3>${p.acronym ? `<span class="acronym">${esc(p.acronym)}</span>` : ""}${esc(P.title)}${pi}</h3>
           <p class="funder">${esc(p.funder)}${P.note ? ` \u2014 ${esc(P.note)}` : ""}</p>
+          ${gente ? `<p class="people">${gente}</p>` : ""}
           ${datos ? `<p class="meta">${datos}</p>` : ""}
         </article>`;
     }).join("");
@@ -676,6 +686,18 @@
       moreKey: "more.generic", lessKey: "less.generic",
       remaining: total - limit,
       rerender: renderProjects,
+    });
+
+    $$("#scope-chips button").forEach((btn) => {
+      const mio = btn.dataset.scope;
+      btn.setAttribute("aria-pressed", String(mio === ambito));
+      btn.onclick = () => {
+        state.projectScope = mio;
+        // Al cambiar de filtro la lista se recoge: si no, "ver mas"
+        // queda pulsado sobre un conjunto que ya no es el mismo.
+        state.expanded.projects = false;
+        renderProjects();
+      };
     });
   }
 

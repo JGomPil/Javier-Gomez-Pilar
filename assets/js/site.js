@@ -69,18 +69,12 @@
   }
 
   /* ── la banda de separacion ──────────────────────────────── */
-  // Una separacion, no un espectaculo.
+  // La banda de separacion: cuatro curvas lentas que se cruzan.
   //
-  // Tres curvas que comparten la misma onda, cada una con un pequeno
-  // desfase: se mueven juntas, como las curvas de nivel de un mapa.
-  // Dibujadas por separado, con 60 px de alto, cualquier ondulacion
-  // es tan plana que parecen tres rayas; compartiendo la onda, el ojo
-  // lee el relieve aunque la amplitud sea de ocho pixeles.
-  //
-  // La onda es la suma de tres componentes cuyas fases derivan a
-  // ritmos distintos, de modo que la forma no se repite nunca y, a la
-  // vez, no pasa nada de golpe: lo mas rapido avanza a 0,068 rad por
-  // segundo, un ciclo cada minuto y medio.
+  // Cada una tiene su propia mezcla de senoides y su propia deriva,
+  // de modo que se adelantan y se cruzan entre si en lugar de ir en
+  // paralelo. Dos van en el azul de la pagina y dos en el naranja,
+  // que es lo unico que destaca sobre este gris azulado.
   //
   // Ondas lentas superpuestas es lo que se mira en M/EEG, asi que la
   // banda dice de que va la pagina sin ilustrar nada ni afirmar
@@ -91,22 +85,22 @@
     const cx = canvas.getContext("2d", { alpha: true });
     if (!cx) return;
 
-    // [ciclos a lo ancho, deriva en rad/s, fase inicial, peso].
-    // Los pesos suman 1, asi que la onda nunca se sale de ±1.
-    const ONDA = [
-      [1.60, 0.055, 0.70, 0.55],
-      [2.90, -0.041, 2.30, 0.30],
-      [4.70, 0.068, 4.10, 0.15],
-    ];
-
-    // Cada linea: donde se apoya, cuanto se desvia (fraccion del
-    // alto), cuanto se desfasa respecto de la onda y con que opacidad.
-    // Los numeros estan comprobados barriendo dos minutos de
-    // animacion a tres anchos: las curvas no se tocan ni se salen.
+    // Cada curva:
+    //   y       donde se apoya, 0 arriba y 1 abajo
+    //   amp     desviacion maxima, en fraccion del alto
+    //   onda    [ciclos a lo ancho, deriva rad/s, fase, peso] por
+    //           componente; los pesos suman 1
+    //   tono    "frio" o "calido"
+    //   alpha   opacidad
     const LINEAS = [
-      { y: 0.24, amp: 0.125, desf: 0.000, alpha: 0.26 },
-      { y: 0.50, amp: 0.150, desf: 0.055, alpha: 0.42 },
-      { y: 0.76, amp: 0.115, desf: 0.115, alpha: 0.22 },
+      { y: 0.34, amp: 0.21, tono: "frio", alpha: 0.50, onda: [
+          [1.5, 0.22, 0.7, 0.60], [3.1, -0.17, 2.3, 0.40]] },
+      { y: 0.50, amp: 0.25, tono: "calido", alpha: 0.62, onda: [
+          [1.1, -0.19, 2.1, 0.55], [2.4, 0.26, 0.4, 0.45]] },
+      { y: 0.58, amp: 0.19, tono: "frio", alpha: 0.40, onda: [
+          [2.0, 0.28, 4.2, 0.50], [3.7, 0.15, 1.6, 0.50]] },
+      { y: 0.66, amp: 0.23, tono: "calido", alpha: 0.34, onda: [
+          [1.3, 0.16, 5.1, 0.65], [2.9, -0.24, 3.4, 0.35]] },
     ];
 
     const PASO = 3;                // px entre muestras de la curva
@@ -114,9 +108,9 @@
 
     let w = 0, h = 0, dpr = 1, raf = 0, origen = 0;
 
-    const tinta = () =>
+    const color = (nombre, respaldo) =>
       getComputedStyle(document.documentElement)
-        .getPropertyValue("--accent").trim() || "#1b4ea8";
+        .getPropertyValue(nombre).trim() || respaldo;
 
     function medir() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -130,27 +124,31 @@
 
     function pinta(t) {
       cx.clearRect(0, 0, w, h);
-      const color = tinta();
-      cx.lineWidth = 1.15;
+      const tintas = {
+        frio: color("--accent", "#1b4ea8"),
+        calido: color("--warm-mark", "#d2650f"),
+      };
+      cx.lineWidth = 1.25;
       cx.lineJoin = "round";
       cx.lineCap = "round";
 
       for (const linea of LINEAS) {
-        // Las puntas se desvanecen. Una curva cortada a cuchillo en el
-        // borde no parece una curva, parece un recorte mal hecho.
+        const tinta = tintas[linea.tono];
+        // Las puntas se desvanecen: una curva cortada a cuchillo en
+        // el borde no parece una curva, parece un recorte mal hecho.
         const degradado = cx.createLinearGradient(0, 0, w, 0);
         degradado.addColorStop(0, "transparent");
-        degradado.addColorStop(0.13, color);
-        degradado.addColorStop(0.87, color);
+        degradado.addColorStop(0.11, tinta);
+        degradado.addColorStop(0.89, tinta);
         degradado.addColorStop(1, "transparent");
 
         cx.globalAlpha = linea.alpha;
         cx.strokeStyle = degradado;
         cx.beginPath();
         for (let x = 0; x <= w; x += PASO) {
-          const u = x / w + linea.desf;
+          const u = x / w;
           let d = 0;
-          for (const [ciclos, deriva, fase, peso] of ONDA) {
+          for (const [ciclos, deriva, fase, peso] of linea.onda) {
             d += peso * Math.sin(2 * Math.PI * ciclos * u + deriva * t + fase);
           }
           const y = linea.y * h + linea.amp * h * d;

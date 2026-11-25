@@ -520,6 +520,34 @@
   const GEO_URL = "data/world.json";
   let geoCargado = null;
 
+  /* Las instituciones se pintan en naranja y los paises en azul, que
+     es como se distingue de un vistazo en que vista estamos. Dentro
+     del naranja, cinco pasos de claro a oscuro segun cuantos
+     trabajos en comun: el tamano ya lo dice, y el color lo repite,
+     que es redundancia a proposito y no identidad por color. */
+  /* Las cuatro rampas pasan el validador del cuaderno de estilo
+     contra la superficie real de los graficos (#e9edf0 en claro,
+     #192536 en oscuro): un solo tono, claridad monotona, escalones
+     que se distinguen y un extremo claro que no se pierde en el
+     fondo. El primer intento no pasaba: los naranjas palidos tenian
+     1,34 de contraste sobre este gris y desaparecian. */
+  const CALIDA_CLARA = ["#db8f52", "#c87533", "#ad5c1c", "#8f4510", "#713207"];
+  const CALIDA_OSCURA = ["#8a5526", "#a86a2f", "#c8843e", "#e3a35e", "#f3c091"];
+
+  const FRIA_CLARA = ["#8ba6d2", "#6788c0", "#456aa9", "#2a4d8c", "#17356b"];
+  const FRIA_OSCURA = ["#3d5c90", "#5178b0", "#6b95ce", "#8bb0e4", "#aecbf4"];
+
+  function paso(n, tope, rampa) {
+    const k = Math.min(rampa.length - 1,
+      Math.floor(Math.sqrt(n / Math.max(1, tope)) * rampa.length));
+    return rampa[Math.max(0, k)];
+  }
+
+  const tonoCentro = (n, tope) =>
+    paso(n, tope, isDark() ? CALIDA_OSCURA : CALIDA_CLARA);
+  const tonoPais = (n, tope) =>
+    paso(n, tope, isDark() ? FRIA_OSCURA : FRIA_CLARA);
+
   /* Natural Earth 110m, de dominio publico, recortado a lo que hace
      falta: el codigo ISO alfa-2 en properties.name — que es por donde
      casa con OpenAlex, sin depender de como escriba cada fuente el
@@ -556,7 +584,8 @@
     const rows = ctx.profile.countries || [];
 
     const filas = pais
-      ? (pais.institutions || []).map((c) => ({ etiqueta: c.name, n: c.works }))
+      ? (pais.institutions || []).map((c) => ({ etiqueta: c.name, n: c.works,
+                                                inst: c.name }))
       : rows.map((r) => ({ etiqueta: r.name, n: r.works, code: r.code }));
 
     const tope = Math.max(1, ...filas.map((f) => f.n));
@@ -577,7 +606,7 @@
       </header>
       <ol>
         ${filas.map((f) => `
-          <li${f.code ? ` data-code="${esc(f.code)}" tabindex="0" role="button"` : ""}>
+          <li${f.code ? ` data-code="${esc(f.code)}" tabindex="0" role="button"` : ""}${f.inst ? ` data-inst="${esc(f.inst)}"` : ""}>
             <span class="nom">${esc(f.etiqueta)}</span>
             <b>${f.n}</b>
             <span class="bar"><i style="width:${Math.max(2, (f.n / tope) * 100)}%"></i></span>
@@ -600,7 +629,46 @@
         if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); abre(); }
       });
     });
+    /* Pasar el raton por una fila enciende su burbuja en el mapa, y
+       al reves. Son dos vistas de lo mismo y hasta ahora no se
+       sabian la una de la otra. */
+    const enciende = (li, serie, indice) => {
+      if (indice == null || !mapaChart) return;
+      li.addEventListener("mouseenter", () => {
+        mapaChart.dispatchAction({ type: "highlight", seriesId: serie,
+                                   dataIndex: indice });
+      });
+      li.addEventListener("mouseleave", () => {
+        mapaChart.dispatchAction({ type: "downplay", seriesId: serie,
+                                   dataIndex: indice });
+      });
+    };
+    host.querySelectorAll("li[data-code]").forEach((li) => {
+      enciende(li, "paises", mapaEstado?.idxPais?.get(li.dataset.code));
+    });
+    host.querySelectorAll("li[data-inst]").forEach((li) => {
+      enciende(li, "centros", mapaEstado?.idxCentro?.get(li.dataset.inst));
+    });
+
     host.scrollTop = 0;
+  }
+
+  /* El camino de vuelta: del mapa a la lista. */
+  function marcaFila(clave, atributo, encendida) {
+    const host = document.getElementById("country-panel");
+    if (!host) return;
+    host.querySelectorAll("li.on").forEach((li) => li.classList.remove("on"));
+    if (!encendida || !clave) return;
+    const li = host.querySelector(`li[${atributo}="${CSS.escape(clave)}"]`);
+    if (!li) return;
+    li.classList.add("on");
+    // Si la institucion esta fuera de la parte visible de la lista,
+    // no sirve de nada marcarla.
+    const caja = host.querySelector("ol");
+    if (caja && (li.offsetTop < caja.scrollTop
+        || li.offsetTop > caja.scrollTop + caja.clientHeight - li.offsetHeight)) {
+      caja.scrollTop = li.offsetTop - caja.clientHeight / 2;
+    }
   }
 
   let mapaChart = null;
@@ -609,18 +677,44 @@
   /* El encuadre de la vista mundial, el mismo que declara el geo. */
   const MUNDO = { lon: [-168, 180], lat: [-56, 78] };
 
-  /* Zoom que hace que un pais llene el panel.
+  /* Zoom que hace que un encuadre llene el panel.
    *
-   * No es el cociente de anchos sin mas: hay que respetar la
-   * dimension que peor encaja, o un pais ancho y bajo como Estados
-   * Unidos se saldria por arriba. El 0,78 deja aire alrededor.
+   * Hay que contar con el tamano real del contenedor. A zoom 1 el
+   * mapa encaja el mundo entero dentro del panel, y eso lo decide la
+   * dimension que peor encaja: en un panel mas alto que ancho, el
+   * ancho. Si se ignora, el zoom sale corto por el factor de esa
+   * diferencia, que aqui son tres veces. El 0,88 deja aire.
    */
-  function zoomPara(marco) {
-    const ancho = Math.max(0.6, marco[2] - marco[0]);
-    const alto = Math.max(0.6, marco[3] - marco[1]);
-    const z = Math.min((MUNDO.lon[1] - MUNDO.lon[0]) / ancho,
-                       (MUNDO.lat[1] - MUNDO.lat[0]) / alto) * 0.78;
-    return Math.max(1, Math.min(14, z));
+  function zoomPara(marco, w, h) {
+    const ancho = Math.max(0.4, marco[2] - marco[0]);
+    const alto = Math.max(0.4, marco[3] - marco[1]);
+    const unidad = Math.min(w / (MUNDO.lon[1] - MUNDO.lon[0]),
+                            h / (MUNDO.lat[1] - MUNDO.lat[0]));
+    const z = Math.min(w / (ancho * unidad), h / (alto * unidad)) * 0.88;
+    return Math.max(1, Math.min(24, z));
+  }
+
+  /* El encuadre de un pais no es su frontera, son sus instituciones.
+   *
+   * Espana con Canarias, Francia con la Guayana o Estados Unidos con
+   * Alaska tienen una caja enorme y casi vacia: encuadrando por ahi,
+   * el pais sale diminuto y descentrado. Lo que se ha venido a ver
+   * son los centros con los que se ha colaborado, asi que se encuadra
+   * por ellos y la frontera cae donde caiga.
+   */
+  function marcoDeCentros(centros) {
+    const pts = centros.filter((c) => c.lat != null && c.lon != null);
+    if (!pts.length) return null;
+    const lon = pts.map((c) => c.lon);
+    const lat = pts.map((c) => c.lat);
+    const x0 = Math.min(...lon), x1 = Math.max(...lon);
+    const y0 = Math.min(...lat), y1 = Math.max(...lat);
+    // Con el margen justo, el encuadre se pega tanto a los puntos que
+    // ya no se reconoce el pais: hay que dejar sitio alrededor. Un
+    // solo centro no tiene caja, y entonces manda el minimo.
+    const mx = Math.max(2.5, (x1 - x0) * 1.6);
+    const my = Math.max(2.0, (y1 - y0) * 1.6);
+    return [x0 - mx, y0 - my, x1 + mx, y1 + my];
   }
 
   /* Pasa a la vista de un pais: acerca el mapa a su encuadre y cambia
@@ -645,11 +739,18 @@
     const bb = marco.get(pais.code);
     const centros = (pais.institutions || []).filter((c) => c.lat != null);
     const tope = Math.max(1, ...centros.map((c) => c.works));
+    // La lista lateral necesita saber que indice tiene cada
+    // institucion para poder encenderla desde una fila.
+    mapaEstado.idxCentro = new Map(centros.map((c, i) => [c.name, i]));
+
+    const encuadre = marcoDeCentros(pais.institutions || []) || bb;
 
     mapaChart.setOption({
-      geo: bb
-        ? { center: [(bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2],
-            zoom: zoomPara(bb) }
+      geo: encuadre
+        ? { center: [(encuadre[0] + encuadre[2]) / 2,
+                     (encuadre[1] + encuadre[3]) / 2],
+            zoom: zoomPara(encuadre, mapaChart.getWidth(),
+                           mapaChart.getHeight()) }
         : {},
       series: [
         { id: "paises", data: [] },
@@ -659,8 +760,9 @@
             name: c.name,
             value: [c.lon, c.lat, c.works],
             centro: c,
+            itemStyle: { color: tonoCentro(c.works, tope) },
           })),
-          symbolSize: (val) => 7 + 20 * Math.sqrt(val[2] / tope),
+          symbolSize: (val) => 8 + 22 * Math.sqrt(val[2] / tope),
         },
       ],
     });
@@ -669,9 +771,18 @@
   }
 
   function burbujasPais(rows, centro, radio) {
-    return rows
+    const tope = Math.max(1, ...rows.map((r) => r.works));
+    const datos = rows
       .filter((r) => centro.get(r.code))
-      .map((r) => ({ name: r.code, value: [...centro.get(r.code), r.works] }));
+      .map((r) => ({
+        name: r.code,
+        value: [...centro.get(r.code), r.works],
+        itemStyle: { color: tonoPais(r.works, tope) },
+      }));
+    if (mapaEstado) {
+      mapaEstado.idxPais = new Map(datos.map((d, i) => [d.name, i]));
+    }
+    return datos;
   }
 
   function chartMap(host) {
@@ -694,7 +805,8 @@
       // trabajos. La raiz cuadrada lo corrige.
       const radio = (n) => 5 + 24 * Math.sqrt(n / tope);
 
-      mapaEstado = { rows, centro, marco, radio };
+      mapaEstado = { rows, centro, marco, radio,
+                     idxPais: new Map(), idxCentro: new Map() };
 
       const marcador = (id, datos, tam) => ({
         id,
@@ -730,7 +842,12 @@
         geo: {
           map: "mundo",
           roam: true,
-          scaleLimit: { min: 1, max: 16 },
+          // El globo de las regiones enseñaba el codigo ISO a secas
+          // ("GB") al pasar por encima, que no le dice nada a nadie.
+          // Lo que informa son las burbujas, y esas lo conservan.
+          tooltip: { show: false },
+          silent: false,
+          scaleLimit: { min: 1, max: 48 },
           // Sin la Antartida el mundo habitado ocupa el doble de alto.
           boundingCoords: [[MUNDO.lon[0], MUNDO.lat[1]],
                            [MUNDO.lon[1], MUNDO.lat[0]]],
@@ -738,9 +855,13 @@
                        borderWidth: 0.5 },
           emphasis: { label: { show: false },
                       itemStyle: { areaColor: b.surface } },
+          // El pais en el que se ha entrado va en el tono calido, el
+          // mismo de sus instituciones: con el azul claro de antes no
+          // se distinguia del resto del mapa.
           select: { label: { show: false },
-                    itemStyle: { areaColor: css("--accent-bg", "#d7e0f2"),
-                                 borderColor: b.ink, borderWidth: 1 } },
+                    itemStyle: { areaColor: css("--warm-bg", "#f1ddcb"),
+                                 borderColor: css("--warm-mark", "#d2650f"),
+                                 borderWidth: 1 } },
           selectedMode: "single",
         },
         series: [
@@ -758,6 +879,20 @@
         const pais = porCodigo.get(pt.name);
         if (pais) { pintaPanel(pais); vistaMapa(pais); }
       });
+
+      // Y el camino de vuelta: lo que se senala en el mapa se marca
+      // en la lista de la derecha.
+      mapaChart.on("mouseover", (pt) => {
+        if (pt.seriesId === "centros") marcaFila(pt.name, "data-inst", true);
+        else if (pt.seriesId === "paises") marcaFila(pt.name, "data-code", true);
+      });
+      mapaChart.on("mouseout", () => marcaFila(null, null, false));
+      mapaChart.on("globalout", () => marcaFila(null, null, false));
+
+      // La lista se pinto antes de que existieran el mapa y sus
+      // indices, asi que se repinta ahora: si no, las filas del
+      // mundo no encenderian nada.
+      pintaPanel(null);
     }).catch((err) => {
       console.error("mapa:", err);
       host.innerHTML = `<p class="chart-note">${esc(t("g.failed"))}</p>`;

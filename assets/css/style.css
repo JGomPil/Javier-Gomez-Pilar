@@ -17,17 +17,30 @@
   /* Gris azulado medio: la página nunca es blanca. Los neutros
      llevan el azul del acento dentro, así que los grises leen
      como elegidos y no como heredados. */
-  --paper:      #cfd7dc;
-  --paper-alt:  #c3cdd3;
-  --surface:    #dde3e7;
+  --paper:      #dbe1e5;
+  --paper-alt:  #d0d9de;
+  --surface:    #e9edf0;
   --ink:        #121d2b;
   --ink-soft:   #35475a;
   --muted:      #62748a;
-  --rule:       #a9b6bf;
-  --rule-soft:  #b8c3cb;
+  --rule:       #b3c0c8;
+  --rule-soft:  #c3cdd4;
   --accent:     #1b4ea8;
   --accent-ink: #123778;
-  --accent-bg:  #bfcee4;
+  --accent-bg:  #cad7ea;
+
+  /* El segundo acento. Todo lo demas es azul grisaceo, asi que un
+     naranja quemado es lo que de verdad destaca: se reserva para lo
+     que esta vivo (un proyecto en curso), para las etiquetas al
+     pasar el raton y para las instituciones del mapa.
+
+     --warm es el tono que cumple contraste sobre el papel y vale
+     para texto; --warm-mark es mas vivo y solo se usa para manchas
+     de color, donde no hay que leer nada. */
+  --warm:       #a8480a;
+  --warm-ink:   #8d3c07;
+  --warm-mark:  #d2650f;
+  --warm-bg:    #f1ddcb;
   color-scheme: light;
 
   --display: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -54,6 +67,10 @@
     --accent:     #6f9fe8;
     --accent-ink: #a6c6f3;
     --accent-bg:  #16263d;
+    --warm:       #f0995c;
+    --warm-ink:   #f8bc90;
+    --warm-mark:  #f0995c;
+    --warm-bg:    #3a2412;
     color-scheme: dark;
   }
 }
@@ -70,6 +87,10 @@
     --accent:     #6f9fe8;
     --accent-ink: #a6c6f3;
     --accent-bg:  #16263d;
+    --warm:       #f0995c;
+    --warm-ink:   #f8bc90;
+    --warm-mark:  #f0995c;
+    --warm-bg:    #3a2412;
     color-scheme: dark;
 }
 
@@ -332,8 +353,40 @@ h1 {
   align-self: center;
   display: flex; justify-content: center;
 }
+/* El aro: un degradado conico que gira despacio por detras del
+   retrato, en los dos acentos. Es lo unico de la pagina que se mueve
+   por gusto, asi que va desenfocado y a media opacidad; al pasar el
+   raton se enciende y acelera. */
+.retrato {
+  position: relative;
+  width: 100%; max-width: 18.5rem;
+}
+.aro {
+  position: absolute; inset: -9px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    var(--accent) 0deg,
+    var(--warm-mark) 95deg,
+    transparent 190deg,
+    transparent 290deg,
+    var(--accent) 360deg);
+  filter: blur(7px);
+  opacity: .34;
+  z-index: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .aro { animation: gira 22s linear infinite; }
+  .retrato:hover .aro { animation-duration: 7s; }
+}
+.aro, .retrato:hover .aro { transition: opacity .5s var(--ease),
+                                        inset .5s var(--ease); }
+.retrato:hover .aro { opacity: .72; inset: -14px; }
+
+@keyframes gira { to { transform: rotate(1turn); } }
+
 .portrait {
   position: relative;
+  z-index: 1;
   width: 100%; max-width: 18.5rem;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -359,23 +412,24 @@ h1 {
   transition: filter .6s var(--ease), transform .6s var(--ease);
   will-change: transform;
 }
-.portrait:hover {
+.retrato:hover .portrait {
   border-color: var(--rule);
   box-shadow: 0 0 0 7px color-mix(in oklab, var(--accent) 16%, transparent);
 }
-.portrait:hover img {
+.retrato:hover .portrait img {
   filter: none;
-  transform: translateX(-46%) scale(1.035);
+  transform: translateX(-46%) scale(1.06);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .portrait, .portrait img { transition: none; }
-  .portrait:hover img { transform: translateX(-46%); }
+  .retrato:hover .portrait img { transform: translateX(-46%); }
 }
 
 @media (max-width: 52rem) {
   .hero-grid { grid-template-columns: 1fr; align-items: start; }
   .hero-photo { justify-content: flex-start; }
+  .retrato { max-width: 10.5rem; }
   /* En movil las tres lineas no caben: fluyen como un parrafo. */
   .epigraph p span { display: inline; }
   .portrait { max-width: 10.5rem; }
@@ -383,10 +437,9 @@ h1 {
 }
 
 /* ── the trace strip ──────────────────────────────────────── */
-/* Tres curvas lentas que separan el encabezado de las cifras. El
-   filete superior se mantiene, pero en el gris mas suave: quien
-   separa de verdad es la banda, y dos lineas duras seguidas serian
-   una de mas.
+/* Cuatro curvas que se cruzan, dos frias y dos calidas. El filete
+   superior se mantiene, pero en el gris mas suave: quien separa de
+   verdad es la banda, y dos lineas duras seguidas serian una de mas.
 
    Sigue siendo baja a proposito, para que las cuatro cifras de abajo
    entren en pantalla sin desplazarse. */
@@ -512,6 +565,18 @@ h1 {
   padding: .32rem .5rem;
   color: var(--accent-ink);
   background: var(--accent-bg);
+  cursor: default;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .signals li {
+    transition: background .22s var(--ease), color .22s var(--ease),
+                transform .22s var(--ease);
+  }
+}
+.signals li:hover {
+  color: var(--warm-ink);
+  background: var(--warm-bg);
+  transform: translateY(-1px);
 }
 
 /* ── filtros ──────────────────────────────────────────────── */
@@ -649,7 +714,7 @@ h1 {
   border: 1px solid var(--rule); color: var(--muted);
 }
 .q.q1 { color: var(--paper); background: var(--accent); border-color: var(--accent); }
-.q.d1 { color: var(--accent-ink); background: var(--accent-bg); border-color: transparent; }
+.q.d1 { color: var(--warm-ink); background: var(--warm-bg); border-color: transparent; }
 .pub-body { min-width: 0; }
 .pub-title {
   font: 500 1.03rem/1.42 var(--reading);
@@ -810,6 +875,26 @@ h1 {
   display: block; font: 400 .745rem/1.5 var(--data);
   color: var(--muted); margin-top: .3rem;
 }
+
+/* Listas largas y planas: un realce al pasar por encima dice en que
+   fila esta uno, que en veintitantas entradas se agradece. */
+/* El hueco a la izquierda lo da un margen negativo: asi la banda de
+   color no se come la primera letra y la fila no se mueve. */
+.course, .awards li, .service li, .tfg-items li {
+  padding-left: .6rem;
+  margin-left: -.6rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .course, .awards li, .service li, .tfg-items li {
+    transition: background .18s var(--ease), box-shadow .18s var(--ease);
+  }
+}
+.course:hover, .awards li:hover, .service li:hover, .tfg-items li:hover {
+  background: color-mix(in oklab, var(--warm-mark) 7%, transparent);
+  box-shadow: inset 2px 0 0 var(--warm-mark);
+}
+.course:hover b { color: var(--warm-ink); }
+.awards li:hover .yr { color: var(--warm); }
 
 .sup p { font-size: .93rem; color: var(--ink-soft); margin: 0 0 1.1rem; max-width: var(--measure); }
 .sup .big {
@@ -1236,7 +1321,10 @@ h2[data-icon] {
 /* Lo primero que se mira en una lista de proyectos es cuáles siguen
    vivos, así que la marca va arriba y el borde izquierdo lo repite sin
    depender del color para decirlo. */
-.project.live { border-left-color: var(--accent); }
+/* Lo que esta en curso va en el acento calido y no en el azul: en
+   una lista de diecinueve proyectos es lo primero que se busca, y el
+   azul ya lo llevan los enlaces, los graficos y media pagina. */
+.project.live { border-left-color: var(--warm-mark); }
 
 .live-tag {
   display: inline-block;
@@ -1245,8 +1333,8 @@ h2[data-icon] {
   font: 500 .6rem/1 var(--data);
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--accent-ink);
-  background: var(--accent-bg);
+  color: var(--warm-ink);
+  background: var(--warm-bg);
   vertical-align: .1em;
 }
 
@@ -1367,6 +1455,23 @@ h2[data-icon] {
 
 .ranking li[data-code]:hover .nom,
 .ranking li[data-code]:focus-visible .nom { color: var(--accent); }
+
+/* La fila que corresponde a lo que se esta senalando en el mapa.
+   Funciona en los dos sentidos: senalar aqui enciende la burbuja y
+   senalar la burbuja enciende la fila. */
+.ranking li.on {
+  background: color-mix(in oklab, var(--warm-mark) 14%, transparent);
+  box-shadow: inset 2px 0 0 var(--warm-mark);
+}
+.ranking li.on .nom { color: var(--warm-ink); }
+.ranking li.on .bar i { background: var(--warm-mark); }
+@media (prefers-reduced-motion: no-preference) {
+  .ranking li { transition: background .18s var(--ease); }
+}
+
+/* Las instituciones se pintan en naranja en el mapa, asi que su
+   barra en la lista va a juego. */
+.ranking li[data-inst] .bar i { background: var(--warm-mark); }
 
 .ranking li[data-code]:focus-visible {
   outline: 2px solid var(--accent);

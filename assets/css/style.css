@@ -346,17 +346,18 @@ h1 {
 }
 
 /* ── the trace strip ──────────────────────────────────────── */
-/* Oscillators whose integration window lengthens down the stack. */
+/* Un raster de espigas: cada marca es un disparo, cada fila un canal.
+   Muy baja a proposito, para que las cuatro cifras de debajo entren
+   en pantalla sin desplazarse. */
 
 .trace {
-  margin-block: clamp(1.8rem, 5vw, 2.8rem) 0;
+  margin-block: clamp(1.1rem, 3vw, 1.7rem) 0;
   border-top: 1px solid var(--rule);
   overflow: hidden;
 }
 .trace canvas {
   display: block; width: 100%;
-  /* Fina a proposito: dice lo que tiene que decir en poco alto. */
-  height: clamp(96px, 11vw, 136px);
+  height: clamp(40px, 4.4vw, 54px);
 }
 
 /* ── metrics ──────────────────────────────────────────────── */

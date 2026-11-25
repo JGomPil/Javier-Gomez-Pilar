@@ -92,167 +92,132 @@
    * fotogramas renderizados a los 4, 15 y 42 segundos, que es cuando
    * se ve si la cosa colapsa o si deja cuartos de banda vacios.
    */
+  // Un raster de espigas: cada punto es un disparo y cada fila un
+  // canal. Es como se mira la actividad neuronal cruda antes de
+  // promediarla, y aqui dice lo mismo que el resto de la pagina en una
+  // banda muy baja: la mayor parte del tiempo cada canal va a lo suyo,
+  // y de vez en cuando se sincronizan y cruza una salva en diagonal.
+  //
+  // La banda es deliberadamente estrecha para que las cuatro cifras de
+  // abajo entren en pantalla sin desplazarse.
   function initTrace() {
     const canvas = $("#trace");
     if (!canvas) return;
     const cx = canvas.getContext("2d", { alpha: true });
     if (!cx) return;
 
-    const MODULOS = 5;
-    const ALCANCE = 78;        // px: a mas distancia, no hay enlace
-    const SEPARA = 42;         // px: por debajo, los nodos se empujan
+    const FILAS = 3;
+    const VELOCIDAD = 62;      // px/s hacia la izquierda
+    const BASAL = 3.2;         // disparos por segundo y canal
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let w = 0, h = 0, raf = 0, visible = true;
-    let nodos = [], centros = [];
 
-    function token(nombre, porDefecto) {
-      return getComputedStyle(document.documentElement)
-        .getPropertyValue(nombre).trim() || porDefecto;
-    }
+    let w = 0, h = 0, dpr = 1, raf = 0, anterior = 0;
+    let espigas = [];          // {x, fila, fuerza}
+    let proxima = 0;           // segundos hasta la proxima salva
 
-    function size() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const r = canvas.getBoundingClientRect();
-      w = Math.max(1, r.width);
-      h = Math.max(1, r.height);
+    const tinta = () =>
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--accent").trim() || "#1b4ea8";
+
+    function medir() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const caja = canvas.getBoundingClientRect();
+      w = Math.max(1, Math.round(caja.width));
+      h = Math.max(1, Math.round(caja.height));
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       cx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function siembra() {
-      centros = Array.from({ length: MODULOS }, (_, i) => ({
-        fx: (i + 0.5) / MODULOS,
-        fase: i * 2.1,
-        vel: 0.13 + i * 0.037,
-        x: 0, y: 0,
-      }));
-
-      // La densidad se ata al ancho. Un numero fijo dejaba un hueco
-      // muerto en el centro de una banda de 1100 px y se amontonaba en
-      // una de movil.
-      const cuantos = Math.max(34, Math.min(96, Math.round(w / 17)));
-      nodos = Array.from({ length: cuantos }, (_, i) => ({
-        m: i % MODULOS,
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.17,
-        vy: (Math.random() - 0.5) * 0.11,
-        // El tamano se fija al sembrar y no cambia, para que la vista
-        // pueda seguir a un nodo concreto mientras se mueve.
-        r: 1.1 + Math.random() * 1.9,
-      }));
+      // Se empieza con la banda ya poblada: si no, el primer segundo
+      // se ve vacio y parece que no funciona.
+      espigas = [];
+      for (let f = 0; f < FILAS; f++) {
+        for (let x = 0; x < w; x += 1) {
+          if (Math.random() < BASAL / VELOCIDAD) {
+            espigas.push({ x, fila: f, fuerza: 0.45 + Math.random() * 0.3 });
+          }
+        }
+      }
+      proxima = 0.9 + Math.random() * 1.7;
     }
 
-    function paso(t) {
-      for (const c of centros) {
-        // Amplitud 0,115: el modulo alcanza a rozar a su vecino, de
-        // ahi los puentes, pero nunca abandona su franja, que es lo
-        // que dejaba un cuarto de banda en blanco.
-        c.x = w * (c.fx + 0.115 * Math.sin(t * c.vel + c.fase));
-        c.y = h * (0.5 + 0.3 * Math.sin(t * c.vel * 1.4 + c.fase * 1.7));
-      }
+    function avanza(dt) {
+      const paso = VELOCIDAD * dt;
+      for (const e of espigas) e.x -= paso;
+      // Las que salen por la izquierda se tiran; el array no crece.
+      espigas = espigas.filter((e) => e.x > -2);
 
-      /* Repulsion de corto alcance. Sin ella la atraccion al centro
-         del modulo, con la amortiguacion, acaba implotando cada grupo
-         en un punto: a los quince segundos la red deja de ser una
-         red y quedan cinco manchas. */
-      for (let i = 0; i < nodos.length; i++) {
-        const a = nodos[i];
-        for (let j = i + 1; j < nodos.length; j++) {
-          const b = nodos[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 > SEPARA * SEPARA || d2 < 1e-6) continue;
-          const d = Math.sqrt(d2);
-          const empuje = (1 - d / SEPARA) * 0.055;
-          const ux = dx / d, uy = dy / d;
-          a.vx += ux * empuje; a.vy += uy * empuje;
-          b.vx -= ux * empuje; b.vy -= uy * empuje;
+      // Disparos sueltos, uno por canal.
+      for (let f = 0; f < FILAS; f++) {
+        if (Math.random() < BASAL * dt) {
+          espigas.push({ x: w + 1, fila: f,
+                         fuerza: 0.45 + Math.random() * 0.3 });
         }
       }
 
-      for (const n of nodos) {
-        const c = centros[n.m];
-        n.vx += (c.x - n.x) * 0.000105;
-        n.vy += (c.y - n.y) * 0.000105;
-        n.vx *= 0.94;
-        n.vy *= 0.94;
-        // Tope de velocidad: un nodo que cruza la banda de un salto se
-        // lee como un fallo, no como movimiento.
-        const v = Math.hypot(n.vx, n.vy);
-        if (v > 0.55) { n.vx *= 0.55 / v; n.vy *= 0.55 / v; }
-        n.x += n.vx;
-        n.y += n.vy;
-        // Rebote y no envoltura: un nodo que reaparece al otro lado
-        // corta sus enlaces de golpe y se nota.
-        if (n.x < 3 || n.x > w - 3) { n.vx *= -1; n.x = Math.max(3, Math.min(w - 3, n.x)); }
-        if (n.y < 3 || n.y > h - 3) { n.vy *= -1; n.y = Math.max(3, Math.min(h - 3, n.y)); }
+      // Y cada pocos segundos, una salva que recorre los canales con
+      // un pequeno retardo entre ellos: eso es lo que dibuja la
+      // diagonal y lo que hace que la banda tenga algo que mirar.
+      proxima -= dt;
+      if (proxima <= 0) {
+        const arriba = Math.random() < 0.5;
+        for (let f = 0; f < FILAS; f++) {
+          const orden = arriba ? f : FILAS - 1 - f;
+          espigas.push({ x: w + 1 + orden * (5 + Math.random() * 7),
+                         fila: orden, fuerza: 0.85 + Math.random() * 0.15 });
+        }
+        proxima = 0.9 + Math.random() * 1.7;
       }
     }
 
-    function draw() {
+    function pinta() {
       cx.clearRect(0, 0, w, h);
-      const accent = token("--accent", "#1b4ea8");
-
-      cx.strokeStyle = accent;
-      cx.lineWidth = 1;
-      for (let i = 0; i < nodos.length; i++) {
-        const a = nodos[i];
-        for (let j = i + 1; j < nodos.length; j++) {
-          const b = nodos[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 > ALCANCE * ALCANCE) continue;
-          const fuerza = 1 - Math.sqrt(d2) / ALCANCE;
-          // El enlace se desvanece con la distancia, asi que aparece y
-          // desaparece sin cortes. Los puentes entre modulos van mas
-          // tenues: se ven, pero no compiten con cada grupo.
-          cx.globalAlpha = fuerza * fuerza * (a.m === b.m ? 0.34 : 0.14);
-          cx.beginPath();
-          cx.moveTo(a.x, a.y);
-          cx.lineTo(b.x, b.y);
-          cx.stroke();
-        }
-      }
-
-      cx.fillStyle = accent;
-      cx.globalAlpha = 0.62;
-      for (const n of nodos) {
+      const color = tinta();
+      const sep = h / (FILAS + 1);
+      const alto = Math.max(4, Math.min(9, sep * 0.52));
+      cx.lineCap = "round";
+      cx.lineWidth = 1.6;
+      for (const e of espigas) {
+        const y = sep * (e.fila + 1);
+        const mitad = alto * (0.42 + e.fuerza * 0.78) / 2;
+        cx.globalAlpha = 0.22 + e.fuerza * 0.55;
+        cx.strokeStyle = color;
         cx.beginPath();
-        cx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        cx.fill();
+        cx.moveTo(e.x, y - mitad);
+        cx.lineTo(e.x, y + mitad);
+        cx.stroke();
       }
       cx.globalAlpha = 1;
     }
 
-    let t0 = 0;
-    function loop(ahora) {
-      if (!t0) t0 = ahora;
-      paso((ahora - t0) / 1000);
-      draw();
-      raf = visible && !reduce.matches ? requestAnimationFrame(loop) : 0;
+    function cuadro(t) {
+      const dt = Math.min((t - anterior) / 1000 || 0, 0.05);
+      anterior = t;
+      avanza(dt);
+      pinta();
+      raf = requestAnimationFrame(cuadro);
     }
 
     function start() {
-      if (raf) cancelAnimationFrame(raf);
-      size();
+      cancelAnimationFrame(raf);
+      medir();
       siembra();
-      t0 = 0;
-      // Unos cuantos pasos antes de mostrar nada: arrancar con los
-      // nodos repartidos al azar se ve como lo que es, un sorteo.
-      for (let i = 0; i < 240; i++) paso(i * 0.016);
-      draw();
-      if (reduce.matches) return;
-      raf = requestAnimationFrame(loop);
+      if (reduce.matches) { pinta(); return; }
+      anterior = performance.now();
+      raf = requestAnimationFrame(cuadro);
     }
 
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver((entries) => {
-        visible = entries[0].isIntersecting;
-        if (visible && !raf) start();
-        else if (!visible && raf) { cancelAnimationFrame(raf); raf = 0; }
+      new IntersectionObserver((entradas) => {
+        for (const en of entradas) {
+          if (en.isIntersecting) start();
+          else cancelAnimationFrame(raf);
+        }
       }, { rootMargin: "120px" }).observe(canvas);
+    } else {
+      start();
     }
     window.addEventListener("resize", start, { passive: true });
     reduce.addEventListener?.("change", start);

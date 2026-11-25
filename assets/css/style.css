@@ -652,10 +652,14 @@ h1 {
 
 .projects { display: flex; flex-direction: column; border-top: 1px solid var(--ink); }
 .project {
+  /* El filete va en todas, transparente salvo en las vigentes. Si solo
+     lo llevaran esas, las cerradas quedarían desalineadas y la lista
+     parecería rota al desplegarla entera. */
+  border-left: 2px solid transparent;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: .35rem 1.6rem;
-  padding: 1.3rem 0;
+  padding: 1.3rem 0 1.3rem .85rem;
   border-bottom: 1px solid var(--rule-soft);
 }
 .project h3 {
@@ -1196,12 +1200,7 @@ h2[data-icon] {
 /* Lo primero que se mira en una lista de proyectos es cuáles siguen
    vivos, así que la marca va arriba y el borde izquierdo lo repite sin
    depender del color para decirlo. */
-.project.live {
-  border-left: 2px solid var(--accent);
-  padding-left: .85rem;
-}
-
-.project.live:hover { padding-left: 1.45rem; }
+.project.live { border-left-color: var(--accent); }
 
 .live-tag {
   display: inline-block;
@@ -1231,7 +1230,7 @@ h2[data-icon] {
 .project .meta .ref { letter-spacing: .02em; }
 
 @media (max-width: 36rem) {
-  .project.live { padding-left: .7rem; }
+  .project { padding-left: .7rem; }
 }
 
 /* ── lista de colaboración por país ──────────────────────────── */

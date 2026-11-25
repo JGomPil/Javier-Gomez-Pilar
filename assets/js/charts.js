@@ -205,9 +205,7 @@
     const degree = net.nodes.map(() => 0);
     net.links.forEach((l) => { degree[l.source]++; degree[l.target]++; });
     const maxDeg = Math.max(1, ...degree);
-    const steps = ramp(5);
-    const tone = (d) => steps[steps.length - 1
-      - Math.min(steps.length - 1, Math.floor((d / maxDeg) * steps.length))];
+    const minDeg = Math.min(...degree, maxDeg);
 
     mount(host, () => ({
       ...b,
@@ -232,8 +230,8 @@
           value: degree[i],
           // El tamano codifica trabajos conjuntos; el color, el grado.
           symbolSize: 9 + Math.sqrt(n.works / max) * 27,
-          itemStyle: { color: tone(degree[i]),
-                       borderColor: b.paper, borderWidth: 1 },
+          // El color lo pone la barra de abajo, a partir de "value".
+          itemStyle: { borderColor: b.paper, borderWidth: 1 },
           label: {
             show: n.works >= max * 0.28,     // solo los centrales llevan nombre
             position: "right",
@@ -255,23 +253,36 @@
         },
         scaleLimit: { min: 0.6, max: 3 },
       }],
-      /* El tirador se va. Lo preguntaste dos veces y la respuesta
-         honesta es que no servia de nada util: recortar la red por
-         grado es una operacion de analista, no algo que un lector de
-         esta pagina vaya a querer. Queda lo que si informa, que es
-         saber que el tono mas oscuro es el mas conectado. */
+      /* Una barra de color de verdad, con sus extremos numerados, en
+         lugar de los circulitos de antes: aquellos crecian de tamano
+         de izquierda a derecha mientras el color iba al reves, de
+         modo que parecian decir dos cosas a la vez y ninguna era el
+         grado. El tono es el calido del resto de la pagina. */
+      visualMap: {
+        type: "continuous",
+        min: minDeg,
+        max: maxDeg,
+        // Sin "dimension": el dato de cada nodo es un escalar
+        // ("value" = grado) y apuntar a la dimension 1 dejaba el
+        // mapeo en NaN, es decir, todos los nodos fuera de rango y
+        // sin pintar.
+        seriesIndex: 0,
+        calculable: false,
+        orient: "horizontal",
+        right: 10,
+        bottom: 6,
+        itemWidth: 11,
+        itemHeight: 120,
+        text: [String(maxDeg), String(minDeg)],
+        textGap: 8,
+        textStyle: { color: b.muted, fontSize: 11, fontFamily: b.data },
+        inRange: { color: isDark() ? CALIDA_OSCURA : CALIDA_CLARA },
+      },
       graphic: [{
-        type: "group", right: 6, bottom: 4, silent: true,
-        children: [
-          { type: "text", left: 0, top: 0,
-            style: { text: t("g.net.legend"), fill: b.muted, fontSize: 11,
-                     fontFamily: css("--ui", "Inter, sans-serif") } },
-          ...ramp(4).map((color, i) => ({
-            type: "circle", left: i * 20, top: 19,
-            shape: { cx: 6, cy: 6, r: 4 + i * 1.2 },
-            style: { fill: color },
-          })),
-        ],
+        type: "text", right: 10, bottom: 30, silent: true,
+        style: { text: t("g.net.degree"), fill: b.muted, fontSize: 11,
+                 textAlign: "right",
+                 font: `11px ${css("--ui", "Inter, sans-serif")}` },
       }],
       animationDuration: 900,
     }));
@@ -322,8 +333,11 @@
         silent: false,
         itemStyle: { borderWidth: 0 },
         labelLine: { show: false },
+        // Con su porcentaje, como los demas: es el mismo
+        // denominador, los articulos JCR.
         tooltip: { ...b.tooltip, trigger: "item",
-                   formatter: () => `<b>${esc(t("g.q.d1"))}</b><br>${d1}` },
+                   formatter: () => `<b>${esc(t("g.q.d1"))}</b><br>${d1}`
+                     + ` \u00b7 ${(d1 / total * 100).toFixed(1)}%` },
         label: { show: false },
         data: [
           { name: t("g.q.d1"), value: d1, itemStyle: { color: mark() } },
@@ -637,10 +651,15 @@
       li.addEventListener("mouseenter", () => {
         mapaChart.dispatchAction({ type: "highlight", seriesId: serie,
                                    dataIndex: indice });
+        // Y el globo, que es lo que dice cual es el punto y cuantos
+        // trabajos tiene sin tener que buscarlo.
+        mapaChart.dispatchAction({ type: "showTip", seriesId: serie,
+                                   dataIndex: indice });
       });
       li.addEventListener("mouseleave", () => {
         mapaChart.dispatchAction({ type: "downplay", seriesId: serie,
                                    dataIndex: indice });
+        mapaChart.dispatchAction({ type: "hideTip" });
       });
     };
     host.querySelectorAll("li[data-code]").forEach((li) => {
@@ -816,7 +835,14 @@
         symbolSize: tam,
         itemStyle: { color: accent, opacity: 0.6,
                      borderColor: b.paper, borderWidth: 1.5 },
-        emphasis: { itemStyle: { opacity: 0.95 }, scale: 1.12 },
+        // Un 12 % mas grande no se ve cuando lo que lo enciende es el
+        // raton pasando por una fila de la lista, al otro lado del
+        // panel. Con el anillo calido se encuentra a la primera.
+        emphasis: {
+          scale: 1.5,
+          itemStyle: { opacity: 1, borderWidth: 2.5,
+                       borderColor: css("--warm-mark", "#d2650f") },
+        },
         z: 5,
       });
 

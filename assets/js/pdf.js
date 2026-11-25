@@ -27,6 +27,7 @@
 
   const URL_SITIO = "jgompil.github.io/Javier-Gomez-Pilar";
   const RUTA_FOTO = "assets/img/javier.png";
+  const RUTA_ATENEA = "assets/img/logos/atenea.png";
 
   /* El nombre entero en negrita, no solo el apellido: en una lista de
      doce coautores lo que se busca es "Javier Gomez-Pilar". Admite el
@@ -80,6 +81,7 @@
   ];
 
   let ctx = null;
+  let imagenes = { retrato: "", atenea: "" };
 
   const t = (clave) => ctx?.content?.ui?.[ctx.lang]?.[clave] ?? clave;
   const loc = () => (ctx.lang === "es" ? "es-ES" : "en-GB");
@@ -156,6 +158,39 @@
       };
       img.onerror = () => { retrato = ""; ok(retrato); };
       img.src = RUTA_FOTO;
+    });
+  }
+
+  /* El logo de ATENEA es una silueta con transparencia. Se tiñe del
+     color que haga falta pintando encima con "source-in", que solo
+     pinta donde ya habia algo. */
+  const tenidos = new Map();
+
+  function silueta(ruta, tinta) {
+    const clave = ruta + tinta;
+    if (tenidos.has(clave)) return Promise.resolve(tenidos.get(clave));
+    return new Promise((ok) => {
+      const img = new Image();
+      img.onload = () => {
+        let url = "";
+        try {
+          const lienzo = document.createElement("canvas");
+          lienzo.width = img.width;
+          lienzo.height = img.height;
+          const g = lienzo.getContext("2d");
+          g.drawImage(img, 0, 0);
+          g.globalCompositeOperation = "source-in";
+          g.fillStyle = tinta;
+          g.fillRect(0, 0, lienzo.width, lienzo.height);
+          url = lienzo.toDataURL("image/png");
+        } catch (e) {
+          url = "";
+        }
+        tenidos.set(clave, url);
+        ok(url);
+      };
+      img.onerror = () => { tenidos.set(clave, ""); ok(""); };
+      img.src = ruta;
     });
   }
 
@@ -608,7 +643,7 @@
     const fmt = nf();
     const bloques = [cabecera(4, "sec-doc", t("teach.h"), null)];
 
-    bloques.push(caja([
+    const dentro = [
       { text: [
           { text: t("atenea.h"), bold: true, fontSize: 12.5, color: AZUL },
           { text: `     ${A.role.toUpperCase()}`, color: NARANJA,
@@ -631,6 +666,15 @@
       { text: A.award, style: "cuerpo", bold: true, color: NARANJA,
         margin: [0, 0, 0, 6] },
       { text: conNegritas(A.next), style: "cuerpo" },
+    ];
+
+    bloques.push(caja([
+      imagenes.atenea
+        ? { columns: [{ image: imagenes.atenea, width: 40,
+                        margin: [0, 2, 0, 0] },
+                      { width: "*", stack: dentro }],
+            columnGap: 13 }
+        : { stack: dentro },
     ], { banda: AZUL, fondo: AZUL_BG, abajo: 4 }));
 
     // Asignaturas: dos columnas, con las filas alternadas para no
@@ -793,7 +837,14 @@
 
   /* ── el documento ────────────────────────────────────────── */
 
-  function documento(img) {
+  function documento(recursos) {
+    // Admite la foto suelta por compatibilidad con la pagina de
+    // prueba, que llamaba a documento(dataUri).
+    imagenes = typeof recursos === "string"
+      ? { retrato: recursos, atenea: "" }
+      : { retrato: "", atenea: "", ...(recursos || {}) };
+    const img = imagenes.retrato;
+
     return {
       pageSize: "A4",
       pageMargins: [52, 46, 52, 56],
@@ -899,9 +950,11 @@
     if (!ctx?.content || !ctx?.profile) {
       return Promise.reject(new Error("sin datos"));
     }
-    return Promise.all([libreria(), foto()]).then(([, img]) => {
-      window.pdfMake.createPdf(documento(img)).download(nombreFichero());
-    });
+    return Promise.all([libreria(), foto(), silueta(RUTA_ATENEA, AZUL)])
+      .then(([, retrato, atenea]) => {
+        window.pdfMake.createPdf(documento({ retrato, atenea }))
+          .download(nombreFichero());
+      });
   }
 
   // document(), foto() y setCtx() los usa la comprobación del PDF.
@@ -909,6 +962,8 @@
     generate: genera,
     document: documento,
     foto,
+    silueta,
+    RUTA_ATENEA,
     setCtx: (c) => { ctx = c; },
   };
 })();

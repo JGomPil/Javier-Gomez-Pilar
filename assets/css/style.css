@@ -184,8 +184,23 @@ a:hover { color: var(--accent-ink); background-size: 0 1px; background-position:
   margin-inline-start: auto;
   font: 400 .8rem/1 var(--ui);
 }
-.bar-nav a { color: var(--ink-soft); background: none; }
-.bar-nav a:hover { color: var(--accent); }
+.bar-nav a {
+  color: var(--ink-soft); background: none;
+  position: relative; padding-block: .25rem;
+}
+/* Un subrayado que crece desde la izquierda. El cambio de color solo
+   era demasiado discreto para saber donde esta uno. */
+.bar-nav a::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 2px;
+  background: var(--warm-mark);
+  transform: scaleX(0); transform-origin: left center;
+}
+.bar-nav a:hover, .bar-nav a:focus-visible { color: var(--ink); }
+.bar-nav a:hover::after, .bar-nav a:focus-visible::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: no-preference) {
+  .bar-nav a { transition: color .2s var(--ease); }
+  .bar-nav a::after { transition: transform .26s var(--ease); }
+}
 .bar-tools { display: flex; align-items: center; gap: .85rem; }
 
 .lang {
@@ -414,7 +429,7 @@ h1 {
 }
 .retrato:hover .portrait {
   border-color: var(--rule);
-  box-shadow: 0 0 0 7px color-mix(in oklab, var(--accent) 16%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 16%, transparent);
 }
 .retrato:hover .portrait img {
   filter: none;
@@ -446,7 +461,6 @@ h1 {
 
 .trace {
   margin-block: clamp(1.1rem, 3vw, 1.7rem) 0;
-  border-top: 1px solid var(--rule-soft);
   overflow: hidden;
 }
 .trace canvas {
@@ -820,6 +834,27 @@ h1 {
   color: var(--ink);
   margin: .55rem 0 .35rem;
 }
+/* El logo del programa, con la misma tecnica que los de la cabecera:
+   la imagen solo aporta la silueta y el color lo pone el CSS, asi que
+   sirve igual en claro y en oscuro. */
+.feature-id { display: flex; align-items: center; gap: clamp(.9rem, 2vw, 1.4rem); }
+.atenea-logo {
+  flex: 0 0 auto;
+  /* A 3,4rem el buho y la palabra de abajo se empastaban. */
+  width: 4.3rem; height: 4.6rem;
+  background: var(--ink);
+  -webkit-mask: url("../img/logos/atenea.png") no-repeat center / contain;
+          mask: url("../img/logos/atenea.png") no-repeat center / contain;
+  opacity: .88;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .atenea-logo { transition: background .25s var(--ease), opacity .25s var(--ease); }
+}
+.feature:hover .atenea-logo { background: var(--warm-mark); opacity: 1; }
+@media (max-width: 40rem) {
+  .atenea-logo { width: 2.6rem; height: 2.75rem; }
+}
+
 .feature-sub {
   margin: 0; font: 400 .85rem/1.5 var(--reading);
   color: var(--muted); max-width: 32ch;
@@ -878,24 +913,6 @@ h1 {
 
 /* Listas largas y planas: un realce al pasar por encima dice en que
    fila esta uno, que en veintitantas entradas se agradece. */
-/* El hueco a la izquierda lo da un margen negativo: asi la banda de
-   color no se come la primera letra y la fila no se mueve. */
-.course, .awards li, .service li, .tfg-items li {
-  padding-left: .6rem;
-  margin-left: -.6rem;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .course, .awards li, .service li, .tfg-items li {
-    transition: background .18s var(--ease), box-shadow .18s var(--ease);
-  }
-}
-.course:hover, .awards li:hover, .service li:hover, .tfg-items li:hover {
-  background: color-mix(in oklab, var(--warm-mark) 7%, transparent);
-  box-shadow: inset 2px 0 0 var(--warm-mark);
-}
-.course:hover b { color: var(--warm-ink); }
-.awards li:hover .yr { color: var(--warm); }
-
 .sup p { font-size: .93rem; color: var(--ink-soft); margin: 0 0 1.1rem; max-width: var(--measure); }
 .sup .big {
   font: 800 2.9rem/.92 var(--display); color: var(--ink);
@@ -1453,21 +1470,7 @@ h2[data-icon] {
    ninguna parte, así que no se comportan como si lo hicieran. */
 .ranking li[data-code] { cursor: pointer; }
 
-.ranking li[data-code]:hover .nom,
-.ranking li[data-code]:focus-visible .nom { color: var(--accent); }
-
-/* La fila que corresponde a lo que se esta senalando en el mapa.
-   Funciona en los dos sentidos: senalar aqui enciende la burbuja y
-   senalar la burbuja enciende la fila. */
-.ranking li.on {
-  background: color-mix(in oklab, var(--warm-mark) 14%, transparent);
-  box-shadow: inset 2px 0 0 var(--warm-mark);
-}
-.ranking li.on .nom { color: var(--warm-ink); }
-.ranking li.on .bar i { background: var(--warm-mark); }
-@media (prefers-reduced-motion: no-preference) {
-  .ranking li { transition: background .18s var(--ease); }
-}
+.ranking li[data-code]:focus-visible .nom { color: var(--warm-ink); }
 
 /* Las instituciones se pintan en naranja en el mapa, asi que su
    barra en la lista va a juego. */
@@ -1619,7 +1622,6 @@ html[lang="en"] #logo-gib { --src: url("../img/logos/gib-en.png"); }
   color: var(--muted);
 }
 
-.sup-src { font-size: .8rem; color: var(--muted); }
 
 .tfg-items {
   list-style: none;
@@ -1674,3 +1676,39 @@ html[lang="en"] #logo-gib { --src: url("../img/logos/gib-en.png"); }
   .pub, .project, .course, .awards li { break-inside: avoid; }
   h2, h3, h4 { break-after: avoid; }
 }
+
+/* ── realce de fila ───────────────────────────────────────────
+   Listas largas y planas: una banda al pasar por encima dice en que
+   fila esta uno, que en veintitantas entradas se agradece.
+
+   Va al final de la hoja a proposito. Estaba arriba, y las reglas de
+   cada lista ("padding: .95rem 0") le borraban el padding izquierdo
+   mas abajo: la banda se comia el año de los premios y el titulo de
+   los trabajos. Aqui ya no la pisa nadie.                        */
+
+.course, .awards li, .service li, .tfg-items li {
+  /* El hueco lo devuelve un margen negativo: la banda cae fuera del
+     texto y la fila no se mueve de donde estaba. */
+  padding-left: .6rem;
+  margin-left: -.6rem;
+}
+/* En el panel del mapa no se puede sacar la banda fuera: la lista
+   recorta lo que se salga. Se mete el hueco dentro, y la cabecera lo
+   lleva tambien para que los dos textos sigan alineados. */
+.ranking header, .ranking li { padding-left: .5rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .course, .awards li, .service li, .tfg-items li, .ranking li {
+    transition: background .18s var(--ease), box-shadow .18s var(--ease);
+  }
+}
+
+.course:hover, .awards li:hover, .service li:hover, .tfg-items li:hover,
+.ranking li:hover, .ranking li.on {
+  background: color-mix(in oklab, var(--warm-mark) 9%, transparent);
+  box-shadow: inset 2px 0 0 var(--warm-mark);
+}
+.course:hover b { color: var(--warm-ink); }
+.awards li:hover .yr { color: var(--warm); }
+.ranking li:hover .nom, .ranking li.on .nom { color: var(--warm-ink); }
+.ranking li:hover .bar i, .ranking li.on .bar i { background: var(--warm-mark); }

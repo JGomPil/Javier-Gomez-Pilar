@@ -7,7 +7,10 @@
 (() => {
   "use strict";
 
-  const SURNAME = /(G[oó]mez[-\s]?Pilar|G[oó]mez\s+Pilar)/gi;
+  /* El nombre entero, no solo el apellido: en una lista de doce
+     coautores lo que se busca es "Javier Gomez-Pilar". Admite el
+     acento y la inicial porque las fuentes no se ponen de acuerdo. */
+  const YO = /((?:Javier\s+|J\.\s*)?G[oó]mez[-\s]?Pilar(?:,\s*(?:Javier|J\.))?)/gi;
   const LANG_KEY = "jgp-lang";
   const THEME_KEY = "jgp-theme";
 
@@ -366,8 +369,15 @@
   /* ── publications ────────────────────────────────────────── */
 
   function highlightName(authors) {
-    return esc(authors).replace(SURNAME, '<span class="me">$1</span>');
+    return esc(authors).replace(YO, '<span class="me">$1</span>');
   }
+
+  /* Tres de los ochenta y un DOI vienen del raspado con la URL
+     entera. Sin quitarla, el enlace salia como
+     doi.org/https://doi.org/10..., que no lleva a ninguna parte, y
+     la ficha enseñaba el churro completo. */
+  const doiLimpio = (doi) =>
+    String(doi || "").replace(/^https?:\/\/(dx\.)?doi\.org\//i, "");
 
   function isFirstAuthor(pub) {
     const first = pub.authors.split(",")[0] || "";
@@ -527,7 +537,8 @@
         pub.pages ? `pp. ${esc(pub.pages)}` : "",
       ].filter(Boolean).join(", ");
 
-      const href = pub.doi ? `https://doi.org/${encodeURI(pub.doi)}` : pub.url;
+      const doi = doiLimpio(pub.doi);
+      const href = doi ? `https://doi.org/${encodeURI(doi)}` : pub.url;
       const title = href
         ? `<a href="${esc(href)}" rel="noopener">${esc(pub.title)}</a>`
         : esc(pub.title);
@@ -539,7 +550,7 @@
             <h3 class="pub-title">${title}</h3>
             <p class="pub-meta">${where}</p>
             <p class="pub-authors">${highlightName(pub.authors)}</p>
-            ${pub.doi ? `<p class="pub-doi"><a href="https://doi.org/${encodeURI(pub.doi)}" rel="noopener">${esc(pub.doi)}</a></p>` : ""}
+            ${doi ? `<p class="pub-doi"><a href="https://doi.org/${encodeURI(doi)}" rel="noopener">${esc(doi)}</a></p>` : ""}
           </div>
         </article>`;
     }
@@ -712,10 +723,13 @@
     // <b> from content.json, so this block is written as trusted content.
     host.innerHTML = `
       <div class="feature-head">
-        <div>
-          <span class="line-n">${esc(A.role)}</span>
-          <h3>${esc(t("atenea.h"))}</h3>
-          <p class="feature-sub">${esc(A.expansion)}</p>
+        <div class="feature-id">
+          <span class="atenea-logo" aria-hidden="true"></span>
+          <div>
+            <span class="line-n">${esc(A.role)}</span>
+            <h3>${esc(t("atenea.h"))}</h3>
+            <p class="feature-sub">${esc(A.expansion)}</p>
+          </div>
         </div>
         <ul class="feature-stats">
           ${a.stats.map((s) => `
@@ -754,7 +768,6 @@
             <span>${esc(th.student)} · ${esc(th.programme[state.lang])} · ${esc(th.from)}–</span>
           </div>`).join("")}
       </div>
-      <p class="sup-src">${esc(t("sup.tfg"))}</p>
       </section>
     `;
     renderTfgs();

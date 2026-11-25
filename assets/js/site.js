@@ -20,7 +20,8 @@
     kinds: new Set(["journal"]),   // arranca priorizando los JCR
     year: null,                    // lo fija una barra del gráfico
     query: "",
-    expanded: { pubs: false, projects: false, awards: false, tfgs: false },
+    expanded: { pubs: false, projects: false, awards: false,
+               tfgs: false, tfms: false },
   };
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -271,7 +272,8 @@
     // El GIB tiene version espanola e inglesa de su imagotipo. La UVa
     // y el CIBER no, y tampoco hacen falta: son nombres propios.
     const gib = $("#logo-gib");
-    if (gib) gib.src = `assets/img/logos/gib-${state.lang}.png`;
+    if (gib) gib.style.setProperty(
+      "--src", `url("assets/img/logos/gib-${state.lang}.png")`);
 
     $$(".lang button").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -790,7 +792,8 @@
     if (!sup) return;
     const theses = state.content.theses;
     sup.innerHTML = `
-      <p><span class="big">${theses.length}</span>${esc(t("sup.phd"))}</p>
+      <section class="sup-block">
+      <h4>${esc(t("sup.h.phd"))}<span class="n">${theses.length}</span><i>${esc(t("sup.inprog"))}</i></h4>
       <p>${esc(t("sup.note"))}</p>
       <div class="courses">
         ${theses.map((th) => `
@@ -799,44 +802,56 @@
             <span>${esc(th.student)} · ${esc(th.programme[state.lang])} · ${esc(th.from)}–</span>
           </div>`).join("")}
       </div>
-      <p>${esc(t("sup.tfg"))}</p>
+      <p class="sup-src">${esc(t("sup.tfg"))}</p>
+      </section>
     `;
     renderTfgs();
   }
 
-  // Los TFG salen de un certificado de la Secretaria General. Van sin
-  // nombre de estudiante a proposito: el merito es la direccion, y
-  // publicar quienes fueron sus alumnos es exponer a terceros que no
-  // lo han pedido.
+  // Tesis, TFM y TFG son tres cosas distintas y antes se leian como
+  // una sola lista. Cada una va en su bloque, con su encabezado y su
+  // contador.
+  //
+  // Director y tutor no se distinguen: segun el son lo mismo, y la
+  // web no va a inventar una jerarquia que la universidad no hace.
   function renderTfgs() {
     const host = $("#tfg-list");
-    const tfgs = state.content.tfgs;
-    if (!host || !tfgs || !tfgs.length) return;
+    const todos = state.content.tfgs;
+    if (!host || !todos || !todos.length) return;
 
-    const limit = state.content.collapse?.tfgs ?? 4;
-    const total = tfgs.length;
-    const visible = state.expanded.tfgs ? tfgs : tfgs.slice(0, limit);
+    const limit = state.content.collapse?.tfgs ?? 5;
 
-    host.innerHTML = `
-      <p class="tfg-count">
-        <span class="big">${total}</span>${esc(t("sup.tfg.n"))}
-      </p>
-      <ol class="tfg-items">
-        ${visible.map((x) => `
-          <li>
-            <b>${esc(x[state.lang])}</b>
-            <span>${esc(t("sup.role." + x.role))}`
-              + ` \u00b7 ${esc(x.degree[state.lang])}`
-              + ` \u00b7 ${esc(x.course)}`
-              + ` \u00b7 ${esc(x.ects)} ECTS</span>
-          </li>`).join("")}
-      </ol>`;
+    const bloque = (kind, flag) => {
+      const items = todos.filter((x) => x.kind === kind);
+      if (!items.length) return "";
+      const visible = state.expanded[flag] ? items : items.slice(0, limit);
+      return `
+        <section class="sup-block" data-kind="${kind}" data-flag="${flag}">
+          <h4>${esc(t("sup.h." + kind))}<span class="n">${items.length}</span></h4>
+          <ol class="tfg-items">
+            ${visible.map((x) => `
+              <li>
+                <b>${esc(x[state.lang])}</b>
+                <span>`
+                  + (x.student ? `${esc(x.student)} \u00b7 ` : "")
+                  + `${esc(x.degree[state.lang])} \u00b7 ${esc(x.course)}`
+                  + (x.grade ? ` \u00b7 ${esc(x.grade)}` : "")
+                  + `</span>
+              </li>`).join("")}
+          </ol>
+        </section>`;
+    };
 
-    appendToggle(host, {
-      total, limit, flag: "tfgs",
-      moreKey: "more.generic", lessKey: "less.generic",
-      remaining: total - limit,
-      rerender: renderTfgs,
+    host.innerHTML = bloque("tfm", "tfms") + bloque("tfg", "tfgs");
+
+    $$(".sup-block", host).forEach((sec) => {
+      const n = todos.filter((x) => x.kind === sec.dataset.kind).length;
+      appendToggle(sec, {
+        total: n, limit, flag: sec.dataset.flag,
+        moreKey: "more.generic", lessKey: "less.generic",
+        remaining: n - limit,
+        rerender: renderTfgs,
+      });
     });
   }
 

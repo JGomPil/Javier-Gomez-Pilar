@@ -141,7 +141,11 @@
    "g.role.director": "Director del trabajo",
    "sup.tfg.n": "Trabajos de Fin de Grado dirigidos",
    "sup.role.director": "Director",
-   "sup.role.tutor": "Tutor"
+   "sup.role.tutor": "Tutor",
+   "sup.h.phd": "Tesis doctorales",
+   "sup.h.tfm": "Trabajos de Fin de Máster",
+   "sup.h.tfg": "Trabajos de Fin de Grado",
+   "sup.inprog": "en curso"
   },
   "en": {
    "skip": "Skip to content",
@@ -277,7 +281,11 @@
    "g.role.director": "Research supervisor",
    "sup.tfg.n": "supervised final-year projects",
    "sup.role.director": "Supervisor",
-   "sup.role.tutor": "Tutor"
+   "sup.role.tutor": "Tutor",
+   "sup.h.phd": "Doctoral theses",
+   "sup.h.tfm": "Master's theses",
+   "sup.h.tfg": "Final-year projects",
+   "sup.inprog": "ongoing"
   }
  },
  "lines": [
@@ -914,7 +922,7 @@
   "publications": 12,
   "projects": 5,
   "awards": 5,
-  "tfgs": 4
+  "tfgs": 5
  },
  "patents": [
   {
@@ -929,145 +937,194 @@
  ],
  "tfgs": [
   {
+   "kind": "tfg",
    "course": "2025/26",
-   "role": "tutor",
-   "ects": 12,
    "degree": {
-    "es": "Grado en Ingeniería Biomédica",
-    "en": "BSc in Biomedical Engineering"
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
    },
+   "student": "",
+   "grade": "",
    "es": "Técnicas de aprendizaje automático explicable para la predicción del desarrollo de fracaso renal agudo en pacientes de UCI",
    "en": "Explainable machine learning to predict the onset of acute kidney injury in ICU patients"
   },
   {
+   "kind": "tfg",
    "course": "2025/26",
-   "role": "tutor",
-   "ects": 12,
    "degree": {
-    "es": "Grado en Ingeniería Biomédica",
-    "en": "BSc in Biomedical Engineering"
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
    },
-   "es": "Identificación de fenotipos clínicamente relevantes en la enfermedad de Alzheimer mediante aprendizaje automático no supervisado aplicado a datos multimodales",
+   "student": "",
+   "grade": "",
+   "es": "Identificación de fenotipos clínicamente relevantes en la enfermedad de alzheimer mediante técnicas de aprendizaje automático no supervisado aplicadas a datos multimodales",
    "en": "Identifying clinically relevant phenotypes in Alzheimer’s disease with unsupervised machine learning on multimodal data"
   },
   {
+   "kind": "tfm",
    "course": "2024/25",
-   "role": "tutor",
-   "ects": 12,
    "degree": {
-    "es": "Grado en Ingeniería Biomédica",
-    "en": "BSc in Biomedical Engineering"
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
    },
+   "student": "José María Pallarés García",
+   "grade": "Sobresaliente",
+   "es": "Identificación de fenotipos de apnea obstructiva del sueño mediante aprendizaje no supervisado a partir de la señal de saturación del oxígeno en sangre",
+   "en": "Identifying obstructive sleep apnoea phenotypes with unsupervised learning"
+  },
+  {
+   "kind": "tfg",
+   "course": "2024/25",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "Elena Gómez Arranz",
+   "grade": "Sobresaliente",
    "es": "Investigación de la dinámica de redes cerebrales durante la terapia de observación de acciones mediante algoritmos de detección de comunidades multicapa",
    "en": "Brain-network dynamics during action-observation therapy, studied with multilayer community-detection algorithms"
   },
   {
+   "kind": "tfg",
    "course": "2024/25",
-   "role": "tutor",
-   "ects": 12,
    "degree": {
-    "es": "Grado en Ingeniería Biomédica",
-    "en": "BSc in Biomedical Engineering"
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
    },
-   "es": "Análisis de la señal de variabilidad del ritmo cardiaco para el fenotipado de la apnea obstructiva del sueño mediante métodos de agrupamiento",
-   "en": "Heart-rate variability for phenotyping obstructive sleep apnoea through clustering methods"
-  },
-  {
-   "course": "2024/25",
-   "role": "tutor",
-   "ects": 12,
-   "degree": {
-    "es": "Grado en Ingeniería Biomédica",
-    "en": "BSc in Biomedical Engineering"
-   },
-   "es": "Aplicación de algoritmos de aprendizaje automático para la predicción automática del grado de sedación y analgesia en un entorno de medicina intensiva",
+   "student": "Laura Pinilla Domingo",
+   "grade": "Sobresaliente",
+   "es": "Aplicación de algoritmos de machine learning para la predicción automática del grado de sedación y analgesia en un entorno de medicina intensiva",
    "en": "Machine-learning algorithms for the automatic prediction of sedation and analgesia depth in intensive care"
   },
   {
+   "kind": "tfg",
    "course": "2024/25",
-   "role": "tutor",
-   "ects": 12,
    "degree": {
-    "es": "Grado en Ingeniería Biomédica",
-    "en": "BSc in Biomedical Engineering"
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
    },
+   "student": "Sergio González Postigo",
+   "grade": "Sobresaliente",
    "es": "Análisis longitudinal de la reorganización neuronal y su impacto en la cognición tras el tratamiento de la apnea obstructiva del sueño en una cohorte pediátrica",
    "en": "Longitudinal analysis of neural reorganisation and its effect on cognition after treating obstructive sleep apnoea in a paediatric cohort"
   },
   {
-   "course": "2022/23",
-   "role": "director",
-   "ects": 12,
+   "kind": "tfg",
+   "course": "2024/25",
    "degree": {
-    "es": "Grado en Ingeniería Biomédica",
-    "en": "BSc in Biomedical Engineering"
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
    },
-   "es": "Análisis de la actividad neuronal para estimar la profundidad anestésica en niños",
-   "en": "Neural activity analysis to estimate anaesthetic depth in children"
+   "student": "Jesús Crego Ruiz",
+   "grade": "Sobresaliente",
+   "es": "Análisis de la señal de variabilidad del ritmo cardiaco para el fenotipado de la apnea obstructiva del sueño mediante métodos de clustering",
+   "en": "Heart-rate variability for phenotyping obstructive sleep apnoea through clustering methods"
   },
   {
+   "kind": "tfg",
    "course": "2022/23",
-   "role": "director",
-   "ects": 12,
    "degree": {
-    "es": "Grado en Ingeniería Biomédica",
-    "en": "BSc in Biomedical Engineering"
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
    },
+   "student": "Miguel Fernández Garrote",
+   "grade": "Sobresaliente",
    "es": "Análisis de la conectividad neuronal en electrofisiología basal en migraña",
    "en": "Neural connectivity in resting-state electrophysiology in migraine"
   },
   {
-   "course": "2019/20",
-   "role": "director",
-   "ects": 6,
+   "kind": "tfg",
+   "course": "2022/23",
    "degree": {
-    "es": "Grado en Medicina",
-    "en": "BSc in Medicine"
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
    },
-   "es": "Análisis de la recurrencia y el balance frecuencial del electroencefalograma en migraña para su identificación como posibles biomarcadores",
-   "en": "Recurrence and spectral balance of the EEG in migraine as candidate biomarkers"
+   "student": "Laura Gutiérrez de Pablo",
+   "grade": "Sobresaliente",
+   "es": "Análisis de la actividad neuronal para estimar la profundidad anestésica en niños",
+   "en": "Neural activity analysis to estimate anaesthetic depth in children"
   },
   {
+   "kind": "tfg",
    "course": "2019/20",
-   "role": "director",
-   "ects": 6,
    "degree": {
-    "es": "Grado en Medicina",
-    "en": "BSc in Medicine"
+    "es": "Medicina",
+    "en": "Medicine"
    },
+   "student": "Francisco Javier Martín Franco",
+   "grade": "Notable",
    "es": "Nuevas tecnologías de la información en medicina",
    "en": "New information technologies in medicine"
   },
   {
-   "course": "2018/19",
-   "role": "director",
-   "ects": 6,
+   "kind": "tfg",
+   "course": "2019/20",
    "degree": {
-    "es": "Grado en Medicina",
-    "en": "BSc in Medicine"
+    "es": "Medicina",
+    "en": "Medicine"
    },
+   "student": "David Duval Melchor",
+   "grade": "Sobresaliente",
+   "es": "Análisis de la recurrencia y el balance frecuencial del electroencefalograma en migraña para su identificación como posibles biomarcadores",
+   "en": "Recurrence and spectral balance of the EEG in migraine as candidate biomarkers"
+  },
+  {
+   "kind": "tfg",
+   "course": "2018/19",
+   "degree": {
+    "es": "Ingeniería de Tecnologías de Telecomunicación",
+    "en": "Telecommunication Technologies Engineering"
+   },
+   "student": "Marcos Revilla Vallejo",
+   "grade": "",
+   "es": "Simulación computacional de los mecanismos de neurodegeneración en la enfermedad de alzheimer",
+   "en": "Computational simulation of neurodegeneration mechanisms in Alzheimer’s disease"
+  },
+  {
+   "kind": "tfm",
+   "course": "2018/19",
+   "degree": {
+    "es": "Ingeniería de Telecomunicación",
+    "en": "Telecommunication Engineering"
+   },
+   "student": "Mario Calle Martín",
+   "grade": "Sobresaliente",
+   "es": "Modelado predictivo de la reorganización de la red neuronal en pacientes con esquizofrenia durante una tarea p300",
+   "en": "Predictive modelling of neural network reorganisation in patients with schizophrenia"
+  },
+  {
+   "kind": "tfg",
+   "course": "2018/19",
+   "degree": {
+    "es": "Medicina",
+    "en": "Medicine"
+   },
+   "student": "José Llópiz Castedo",
+   "grade": "Notable",
    "es": "Conectividad funcional evaluada por electroencefalografía en migraña",
    "en": "Functional connectivity assessed by electroencephalography in migraine"
   },
   {
+   "kind": "tfg",
    "course": "2017/18",
-   "role": "director",
-   "ects": 6,
    "degree": {
-    "es": "Grado en Medicina",
-    "en": "BSc in Medicine"
+    "es": "Medicina",
+    "en": "Medicine"
    },
+   "student": "Beatriz Pando Ruiz",
+   "grade": "Sobresaliente",
    "es": "Estimulación transcraneal en migraña crónica refractaria: modificaciones en el registro electroencefalográfico",
    "en": "Transcranial stimulation in refractory chronic migraine: changes in the EEG recording"
   },
   {
+   "kind": "tfg",
    "course": "2017/18",
-   "role": "director",
-   "ects": 6,
    "degree": {
-    "es": "Grado en Medicina",
-    "en": "BSc in Medicine"
+    "es": "Medicina",
+    "en": "Medicine"
    },
+   "student": "Claudia Gomez Lopez de san Roman",
+   "grade": "Sobresaliente",
    "es": "Análisis espectral y no lineal de actividad electroencefalográfica basal en pacientes migrañosos",
    "en": "Spectral and nonlinear analysis of resting EEG activity in migraine patients"
   }

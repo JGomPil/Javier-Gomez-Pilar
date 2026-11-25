@@ -26,8 +26,6 @@
   --rule:       #a9b6bf;
   --rule-soft:  #b8c3cb;
   --accent:     #1b4ea8;
-  --logo-bg:    #eef1f3;
-  --logo-rule:  #c2ccd3;
   --accent-ink: #123778;
   --accent-bg:  #bfcee4;
   color-scheme: light;
@@ -54,8 +52,6 @@
     --rule:       #27364a;
     --rule-soft:  #1c2836;
     --accent:     #6f9fe8;
-  --logo-bg:    #e9edf0;
-  --logo-rule:  #2a3a4f;
     --accent-ink: #a6c6f3;
     --accent-bg:  #16263d;
     color-scheme: dark;
@@ -72,8 +68,6 @@
     --rule:       #27364a;
     --rule-soft:  #1c2836;
     --accent:     #6f9fe8;
-  --logo-bg:    #e9edf0;
-  --logo-rule:  #2a3a4f;
     --accent-ink: #a6c6f3;
     --accent-bg:  #16263d;
     color-scheme: dark;
@@ -1341,51 +1335,6 @@ h2[data-icon] {
   .ranking li .bar i { transition: width .5s var(--ease, ease-out); }
 }
 
-/* ── tira de afiliación ──────────────────────────────────────── */
-
-/* Los tres logos llevan negro o azul marino en su rótulo, que sobre el
-   fondo del tema oscuro no se leería. Invertirlos destrozaría el sello
-   de la UVa, así que van sobre una banda clara en los dos temas: en el
-   claro apenas se distingue del papel, en el oscuro se lee como una
-   tarjeta. Es lo que hace cualquier sitio serio con logos ajenos:
-   respetar sus colores y darles el fondo que necesitan. */
-.affil {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 1.6rem 2.8rem;
-  margin: 0 0 1.9rem;
-  padding: 1.15rem 1.6rem;
-  list-style: none;
-  background: var(--logo-bg);
-  border: 1px solid var(--logo-rule);
-  border-radius: 2px;
-}
-
-.affil img {
-  display: block;
-  width: auto;
-  height: 2.5rem;
-  /* Apagados, para que no compitan con el contenido; a su color al
-     pasar por encima. */
-  filter: saturate(.72) opacity(.82);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .affil img { transition: filter .3s var(--ease); }
-}
-
-.affil img:hover { filter: none; }
-
-@media (max-width: 40rem) {
-  .affil {
-    gap: 1.1rem 1.6rem;
-    padding: .95rem 1rem;
-  }
-  .affil img { height: 2rem; }
-}
-
 /* ── proyectos: quién lo dirige ──────────────────────────────── */
 .project .people {
   margin: .3rem 0 0;
@@ -1424,36 +1373,121 @@ h2[data-icon] {
 
 .project .ref-link:hover { border-bottom-color: currentColor; }
 
-/* ── trabajos de fin de grado dirigidos ──────────────────────── */
-.tfgs { margin-top: 1.6rem; }
+/* ── logos de afiliación, bajo los enlaces del hero ──────────── */
 
-.tfg-count {
-  margin: 0 0 .9rem;
-  font-size: .9rem;
-  color: var(--ink-soft);
+/* Sobre fondo transparente estos tres logos no se leerían en el tema
+   oscuro: la UVa lleva su rótulo en negro y el CIBER en azul marino.
+   Van en monocromo y toman la tinta de la página, que es un uso
+   aceptado de un logo ajeno y el único que funciona en ambos temas.
+
+   Se hace con mask-image y no con un filtro: el PNG aporta solo la
+   silueta, el color lo pone el CSS. Un filter: invert() sobre el
+   original destrozaría el sello de la UVa. */
+.affil {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .7rem 1.5rem;
+  margin: .9rem 0 0;
+  padding: 0;
+  list-style: none;
 }
+
+.affil .logo {
+  display: block;
+  height: 1.45rem;
+  background: var(--muted);
+  -webkit-mask: var(--src) no-repeat left center / contain;
+          mask: var(--src) no-repeat left center / contain;
+  opacity: .78;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .affil .logo { transition: opacity .25s var(--ease); }
+}
+
+.affil:hover .logo { opacity: 1; }
+
+/* El ancho lo fija la proporción de cada imagen, que la máscara no
+   conoce: sin esto todos saldrían del mismo ancho y deformados. */
+#logo-uva   { --src: url("../img/logos/uva.png");       width: 4.6rem; }
+#logo-gib   { --src: url("../img/logos/gib-es.png");    width: 3.7rem; }
+#logo-ciber { --src: url("../img/logos/ciber-bbn.png"); width: 7.2rem; }
+
+@media (max-width: 40rem) {
+  .affil { gap: .6rem 1.1rem; }
+  .affil .logo { height: 1.2rem; }
+  #logo-uva   { width: 3.8rem; }
+  #logo-gib   { width: 3.05rem; }
+  #logo-ciber { width: 5.95rem; }
+}
+
+/* ── supervisión: tesis, TFM y TFG ───────────────────────────── */
+
+/* Eran una lista corrida y no se distinguía dónde acababa una cosa y
+   empezaba otra. Cada bloque lleva ahora encabezado, contador y una
+   banda de color a la izquierda, con un tono por tipo. */
+.sup-block {
+  --tono: var(--accent);
+  margin: 0 0 2.1rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--tono);
+}
+
+.sup-block:last-child { margin-bottom: 0; }
+
+.sup-block[data-kind="tfm"] { --tono: #6b7f99; }
+.sup-block[data-kind="tfg"] { --tono: var(--rule); }
+
+.sup-block h4 {
+  display: flex;
+  align-items: baseline;
+  gap: .55rem;
+  margin: 0 0 .7rem;
+  font: 500 .72rem/1 var(--data);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.sup-block h4 .n {
+  font-variant-numeric: tabular-nums;
+  padding: .2rem .42rem;
+  background: var(--tono);
+  color: var(--paper);
+  letter-spacing: .04em;
+}
+
+.sup-block h4 i {
+  font-style: normal;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+
+.sup-src { font-size: .8rem; color: var(--muted); }
 
 .tfg-items {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--rule-soft);
 }
 
 .tfg-items li {
-  padding: .7rem 0;
+  padding: .62rem 0;
   border-bottom: 1px solid var(--rule-soft);
 }
 
+.tfg-items li:first-child { padding-top: 0; }
+
 .tfg-items b {
   display: block;
-  font: 400 .92rem/1.42 var(--reading);
+  font: 400 .91rem/1.42 var(--reading);
   color: var(--ink);
 }
 
 .tfg-items span {
   display: block;
-  margin-top: .22rem;
-  font: 400 .76rem/1.5 var(--data);
+  margin-top: .2rem;
+  font: 400 .755rem/1.5 var(--data);
   color: var(--muted);
 }

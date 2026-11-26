@@ -509,6 +509,27 @@
               <span>Paseo de Belén 15, 47011 Valladolid, España</span>
               <span><a id="correo" href="#">—</a></span>
             </address>
+
+          <!-- El QR lleva la direccion de tarjeta.vcf, no la tarjeta
+               dentro: con la tarjeta dentro son 57 modulos, hacen falta
+               240 px y aun asi hubo telefonos que no ofrecian guardar
+               el contacto. Asi son 33, cabe en 128 px, y al escanearlo
+               el telefono abre la ficha y pregunta si la guarda. Va
+               sobre fondo claro tambien en tema oscuro: invertido no lo
+               lee todo el mundo. El .vcf lo escribe scripts/vcf.py con
+               los datos de content.json. -->
+          <div class="vcard" id="vcard">
+            <div class="vcard-qr">
+              <img src="assets/img/qr.svg" alt="" width="128" height="128">
+            </div>
+            <div>
+              <h3 data-i18n="contact.card">Tarjeta de contacto</h3>
+              <p class="vcard-pie" data-i18n="contact.qr">Escanea para guardar el contacto</p>
+              <a class="vcard-btn" id="vcard-btn"
+                 download="Javier-Gomez-Pilar.vcf" href="tarjeta.vcf"
+                 data-i18n="contact.vcf">Guardar en la agenda (.vcf)</a>
+            </div>
+          </div>
           </div>
           <div>
             <h3 data-i18n="contact.profiles">Perfiles</h3>
@@ -521,26 +542,6 @@
               <li><a href="https://portaldelaciencia.uva.es/investigadores/180080/detalle" rel="me noopener" data-i18n="contact.portal">Portal de la Ciencia UVa</a></li>
               <li><a href="https://cvn.fecyt.es/0000-0001-7882-7890" rel="me noopener" data-i18n="contact.cv">Currículum (CVN-FECYT)</a></li>
             </ul>
-          </div>
-        </div>
-        <!-- El QR lleva la direccion de tarjeta.vcf, no la tarjeta
-             dentro: con la tarjeta dentro son 57 modulos, hacen falta
-             240 px y aun asi hubo telefonos que no ofrecian guardar
-             el contacto. Asi son 33, cabe en 128 px, y al escanearlo
-             el telefono abre la ficha y pregunta si la guarda. Va
-             sobre fondo claro tambien en tema oscuro: invertido no lo
-             lee todo el mundo. El .vcf lo escribe scripts/vcf.py con
-             los datos de content.json. -->
-        <div class="vcard" id="vcard">
-          <div class="vcard-qr">
-            <img src="assets/img/qr.svg" alt="" width="128" height="128">
-          </div>
-          <div>
-            <h3 data-i18n="contact.card">Tarjeta de contacto</h3>
-            <p class="vcard-pie" data-i18n="contact.qr">Escanea para guardar el contacto</p>
-            <a class="vcard-btn" id="vcard-btn"
-               download="Javier-Gomez-Pilar.vcf" href="tarjeta.vcf"
-               data-i18n="contact.vcf">Guardar en la agenda (.vcf)</a>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-25T19:00:18Z",
+ "generated": "2026-11-26T13:44:34Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -19,7 +19,7 @@
   },
   "openalex": {
    "works": 122,
-   "citations": 3106,
+   "citations": 3108,
    "h_index": 34,
    "i10_index": 59,
    "citations_by_publication_year": [
@@ -53,7 +53,7 @@
     },
     {
      "year": 2020,
-     "citations": 418
+     "citations": 420
     },
     {
      "year": 2021,
@@ -132,7 +132,7 @@
    },
    {
     "year": 2023,
-    "citations": 378
+    "citations": 379
    },
    {
     "year": 2024,
@@ -144,13 +144,20 @@
    },
    {
     "year": 2026,
-    "citations": 467
+    "citations": 468
    }
   ],
   "orcid": {
    "works": 70,
    "title": "Multimodal Phenotyping of Sleep Apnea: Integrating SpO2 and HRV Through Subject-Based Correlation Networks",
    "year": 2027
+  },
+  "wos": {
+   "citations": 2037,
+   "h_index": 28,
+   "records": 89,
+   "as_of": "2026-11-26",
+   "source": "Web of Science Starter API"
   }
  },
  "publications": [

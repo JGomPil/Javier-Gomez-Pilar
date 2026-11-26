@@ -1720,3 +1720,12 @@ html[lang="en"] #logo-gib { --src: url("../img/logos/gib-en.png"); }
 .awards li:hover .yr { color: var(--warm); }
 .ranking li:hover .nom, .ranking li.on .nom { color: var(--warm-ink); }
 .ranking li:hover .bar i, .ranking li.on .bar i { background: var(--warm-mark); }
+
+/* Señalada desde el mapa, con el raton al otro lado del panel: tiene
+   que pesar mas que un simple paso por encima, porque hay que
+   encontrarla con la vista, no mirarla donde ya se esta mirando. */
+.ranking li.on {
+  background: color-mix(in oklab, var(--warm-mark) 15%, transparent);
+  box-shadow: inset 3px 0 0 var(--warm-mark);
+}
+.ranking li.on b { color: var(--warm-ink); }

@@ -698,10 +698,39 @@
     li.classList.add("on");
     // Si la institucion esta fuera de la parte visible de la lista,
     // no sirve de nada marcarla.
+    //
+    // La cuenta iba con offsetTop, que no se mide desde la lista sino
+    // desde el ancestro posicionado —y la lista no lo es—, asi que
+    // salia de mas y el panel saltaba a cualquier sitio: se veia
+    // moverse y la fila encendida se quedaba fuera. Con los
+    // rectangulos de verdad no hay que suponer donde empieza nada.
     const caja = host.querySelector("ol");
-    if (caja && (li.offsetTop < caja.scrollTop
-        || li.offsetTop > caja.scrollTop + caja.clientHeight - li.offsetHeight)) {
-      caja.scrollTop = li.offsetTop - caja.clientHeight / 2;
+    if (!caja) return;
+    const rc = caja.getBoundingClientRect();
+    const rl = li.getBoundingClientRect();
+
+    // Lo que cuenta no es la lista entera, sino el trozo de lista que
+    // cabe ahora mismo en la ventana. Mirando el mapa, el panel suele
+    // asomar solo por arriba: centrando dentro de la lista, la fila
+    // encendida caia por debajo del borde de la pantalla y lo unico
+    // que se veia era moverse el scroll.
+    const ventana = window.innerHeight || document.documentElement.clientHeight;
+    let arriba = Math.max(rc.top, 0);
+    let abajo = Math.min(rc.bottom, ventana);
+    if (abajo - arriba < rl.height + 8) { arriba = rc.top; abajo = rc.bottom; }
+
+    if (rl.top < arriba || rl.bottom > abajo) {
+      const destino = (arriba + abajo) / 2 - rl.height / 2;
+      caja.scrollTop += rl.top - destino;
+
+      // Y si la lista se queda sin recorrido —el panel asoma poco por
+      // arriba y la fila esta al final de todo—, que la traiga el
+      // navegador, que mueve lo justo y sabe de todos los marcos a la
+      // vez.
+      const ya = li.getBoundingClientRect();
+      if (ya.top < 0 || ya.bottom > ventana) {
+        li.scrollIntoView({ block: "nearest", inline: "nearest" });
+      }
     }
   }
 

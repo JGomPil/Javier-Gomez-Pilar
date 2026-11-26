@@ -1271,5 +1271,34 @@
  "simulab": {
   "_readme": "Los simuladores web que Javier escribe para sus clases, en JGomPil/simulab. El repositorio se llamaba 'docencia' y al renombrarlo GitHub Pages dejo de servir la direccion vieja, asi que los enlaces de documentos anteriores a noviembre de 2026 estan rotos. Cada asignatura apunta a su apartado.",
   "patron": "https://jgompil.github.io/simulab/{sitio}/"
+ },
+ "degree_logos": {
+  "_readme": "El logo del centro o la titulacion, en la cabecera de su grupo de asignaturas. Van como mascara, igual que los del hero: el PNG pone la silueta y el color lo pone el CSS, que es lo unico que funciona en los dos temas. La clave es el codigo de plan. La proporcion es ancho/alto, que la mascara no sabe deducir, y la escala corrige el tamano aparente: a la misma altura, un sello cuadrado pesa mucho menos que un rotulo apaisado.",
+  "carpeta": "assets/img/logos/",
+  "512": {
+   "archivo": "etsit.png",
+   "proporcion": 0.49,
+   "escala": 1.35
+  },
+  "637": {
+   "archivo": "gib-grado.png",
+   "proporcion": 1.0,
+   "escala": 1.2
+  },
+  "478": {
+   "archivo": "medicina.png",
+   "proporcion": 1.0,
+   "escala": 1.25
+  },
+  "723": {
+   "archivo": "eii.png",
+   "proporcion": 1.0,
+   "escala": 1.2
+  },
+  "725": {
+   "archivo": "mibta.png",
+   "proporcion": 2.18,
+   "escala": 1.0
+  }
  }
 }

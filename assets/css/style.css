@@ -988,6 +988,22 @@ h1 {
   content: ""; flex: 0 0 auto;
   width: .62rem; height: 2px; background: var(--accent);
 }
+/* Cuando la titulacion tiene el logo de su centro, el logo hace de
+   marca y la raya sobra. El logo va enmascarado, como los del hero:
+   el PNG pone la silueta y el color lo pone esta hoja, que es lo
+   unico que se lee igual en los dos temas. El ancho sale de la
+   proporcion que trae el JSON, porque una mascara no la deduce. */
+.courses-h.con-logo::before { content: none; }
+.courses-logo {
+  flex: 0 0 auto;
+  height: calc(1.55rem * var(--esc, 1));
+  width: calc(1.55rem * var(--esc, 1) * var(--prop, 1));
+  background: var(--accent);
+  opacity: .9;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: left center; mask-position: left center;
+  -webkit-mask-size: contain; mask-size: contain;
+}
 .courses-h:first-child { padding-top: 1.15rem; }
 .course { padding: .9rem 0; border-bottom: 1px solid var(--rule-soft); }
 .course b {

@@ -760,6 +760,24 @@
       .replace("{codigo}", c.guia.codigo);
   }
 
+  // El logo del centro de la titulacion, para la cabecera del grupo.
+  // Va como mascara: el ancho lo fija la proporcion, que la mascara
+  // no conoce, y el color lo pone la hoja de estilos.
+  function logoTit(c) {
+    const cfg = state.content.degree_logos;
+    const L = cfg && c.guia && cfg[String(c.guia.plan)];
+    if (!L) return "";
+    // La mascara va en el atributo y no en una variable: una url
+    // dentro de una propiedad personalizada se resuelve contra la
+    // hoja de estilos, y saldria assets/css/assets/img/... Ya paso
+    // una vez con el logo del GIB.
+    const ruta = esc(cfg.carpeta + L.archivo);
+    return `<span class="courses-logo" style="`
+      + `-webkit-mask-image:url('${ruta}');mask-image:url('${ruta}');`
+      + `--prop:${Number(L.proporcion) || 1};`
+      + `--esc:${Number(L.escala) || 1}"></span>`;
+  }
+
   function renderTeaching() {
     const host = $("#teaching-list");
     if (host) {
@@ -786,7 +804,8 @@
             + `${esc(t("teach.simu"))}</a></span>`
           : "";
         const cabecera = C.degree === titulacion
-          ? "" : `<h4 class="courses-h">${esc(C.degree)}</h4>`;
+          ? "" : `<h4 class="courses-h${logoTit(c) ? " con-logo" : ""}">`
+            + `${logoTit(c)}${esc(C.degree)}</h4>`;
         titulacion = C.degree;
         return `${cabecera}<div class="course"><b>${rotulo}</b>${extra}</div>`;
       }).join("");

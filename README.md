@@ -203,6 +203,13 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   de Telecomunicación), 637 (Grado en Ingeniería Biomédica), 723 (Máster en
   Ingeniería Biomédica) y 725 (Máster en Investigación Biomédica y Terapias
   Avanzadas).
+- **`degree_logos`** — el logo del centro o la titulacion que va en la cabecera
+  de cada grupo de asignaturas, con el codigo de plan como clave. Los PNG de
+  `assets/img/logos/` son siluetas: el color lo pone el CSS con `mask-image`,
+  que es lo unico que se lee igual en tema claro y oscuro. `proporcion` es
+  ancho/alto —una mascara no la deduce— y `escala` corrige el tamano aparente,
+  porque a la misma altura un sello cuadrado pesa mucho menos que un rotulo
+  apaisado. Los originales en color estan en `fuentes/logos/`.
 - **`simulab`** y el campo del mismo nombre en cada asignatura — los
   simuladores web que Javier escribe para sus clases, en JGomPil/simulab. Ojo:
   el repositorio se llamaba `docencia` y, al renombrarlo, GitHub Pages dejó de

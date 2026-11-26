@@ -197,18 +197,41 @@
 
   /* ── language ────────────────────────────────────────────── */
 
+  /* El idioma puede venir en la direccion (?lang=en). Manda sobre lo
+     guardado y sobre el navegador, porque un enlace compartido tiene
+     que abrirse en el idioma de quien lo mando. Al cambiarlo, la
+     direccion se reescribe sin recargar: asi la barra del navegador
+     siempre dice que se esta viendo, y el enlace se puede copiar. */
+  function langUrl() {
+    try {
+      const v = new URL(location.href).searchParams.get("lang");
+      return v === "en" || v === "es" ? v : "";
+    } catch { return ""; }
+  }
+
+  function marcaUrl() {
+    try {
+      const u = new URL(location.href);
+      if (state.lang === "es") u.searchParams.delete("lang");
+      else u.searchParams.set("lang", state.lang);
+      history.replaceState(null, "", u.pathname + u.search + u.hash);
+    } catch { /* en file:// no se puede, y no pasa nada */ }
+  }
+
   function initLang() {
     const saved = safeGet(LANG_KEY);
     const browser = (navigator.language || "es").slice(0, 2).toLowerCase();
-    state.lang = saved === "en" || saved === "es"
-      ? saved
-      : (browser === "es" ? "es" : "en");
+    state.lang = langUrl()
+      || (saved === "en" || saved === "es"
+        ? saved
+        : (browser === "es" ? "es" : "en"));
 
     $$(".lang button").forEach((btn) => {
       btn.addEventListener("click", () => {
         if (btn.dataset.lang === state.lang) return;
         state.lang = btn.dataset.lang;
         safeSet(LANG_KEY, state.lang);
+        marcaUrl();
         applyLang();
         renderAll();
       });
@@ -217,6 +240,7 @@
 
   function applyLang() {
     document.documentElement.lang = state.lang;
+    marcaUrl();
     $$("[data-i18n]").forEach((el) => {
       const value = state.content?.ui?.[state.lang]?.[el.dataset.i18n];
       if (value) el.textContent = value;

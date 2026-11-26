@@ -1,0 +1,53 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<!-- La tarjeta que se ve al compartir el enlace. Se regenera con:
+     chrome --headless --window-size=1200,630 --virtual-time-budget=16000 \
+       --screenshot=assets/img/og.png scripts/og-card.html
+     No lleva cifras a proposito: cambian cada semana y la imagen no. -->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box }
+  body { width:1200px; height:630px; overflow:hidden;
+         background:#101f3a; color:#eaf0f8;
+         font-family:Inter,system-ui,sans-serif; position:relative }
+  .trama { position:absolute; inset:0; opacity:.5 }
+  .caja { position:relative; height:100%; display:flex; align-items:center;
+          gap:64px; padding:0 86px }
+  .foto { flex:0 0 auto; width:300px; height:300px; border-radius:50%;
+          overflow:hidden; background:#1b3364;
+          box-shadow:0 0 0 2px rgba(234,240,248,.22), 0 24px 60px rgba(0,0,0,.35) }
+  .foto img { width:142%; height:142%; object-fit:cover; object-position:46% 22%;
+              display:block; margin:-2% 0 0 -22% }
+  .txt { min-width:0 }
+  .cargo { font-family:"IBM Plex Mono",monospace; font-size:21px;
+           letter-spacing:.14em; text-transform:uppercase; color:#e8863a;
+           margin-bottom:18px }
+  h1 { font-family:Manrope,sans-serif; font-weight:800; font-size:76px;
+       line-height:1.02; letter-spacing:-.02em; margin-bottom:22px }
+  .afil { font-size:25px; line-height:1.45; color:#b7c6dd }
+  .lineas { margin-top:30px; padding-top:24px; border-top:1px solid rgba(183,198,221,.3);
+            font-family:"IBM Plex Mono",monospace; font-size:16.5px;
+            letter-spacing:.1em; text-transform:uppercase; color:#8fa6c6 }
+  .pie { position:absolute; left:86px; bottom:34px;
+         font-family:"IBM Plex Mono",monospace; font-size:16px;
+         letter-spacing:.08em; color:#6f88ab }
+</style></head><body>
+<svg class="trama" viewBox="0 0 1200 630" preserveAspectRatio="none">
+  <path d="M0 556 C 150 528, 250 592, 400 562 S 650 512, 800 548 S 1050 596, 1200 552"
+        fill="none" stroke="#2f58a8" stroke-width="2.4"/>
+  <path d="M0 580 C 170 606, 260 540, 420 574 S 640 614, 810 578 S 1040 536, 1200 582"
+        fill="none" stroke="#b4571a" stroke-width="2.4"/>
+  <path d="M0 604 C 190 582, 300 626, 470 600 S 700 566, 880 604 S 1060 624, 1200 598"
+        fill="none" stroke="#2f58a8" stroke-width="1.6" opacity=".6"/>
+</svg>
+<div class="caja">
+  <div class="foto"><img src="../assets/img/javier.png" alt=""></div>
+  <div class="txt">
+    <p class="cargo">Profesor Contratado Doctor</p>
+    <h1>Javier<br>Gómez Pilar</h1>
+    <p class="afil">Universidad de Valladolid<br>Grupo de Ingeniería Biomédica · CIBER-BBN</p>
+    <p class="lineas">Neurociencia computacional · Señales biomédicas · IA</p>
+  </div>
+</div>
+<p class="pie">jgompil.github.io/Javier-Gomez-Pilar</p>
+</body></html>

@@ -203,6 +203,21 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   de Telecomunicación), 637 (Grado en Ingeniería Biomédica), 723 (Máster en
   Ingeniería Biomédica) y 725 (Máster en Investigación Biomédica y Terapias
   Avanzadas).
+### La cabecera de la página
+
+- **Datos estructurados** (`application/ld+json` en `index.html`) — quién es,
+  dónde trabaja y qué perfiles son suyos, para los buscadores. Se escribe en el
+  HTML, no desde el JSON, para que llegue sin ejecutar nada. No lleva cifras:
+  cambian cada semana.
+- **`?lang=en`** — el idioma viaja en la dirección y manda sobre lo guardado y
+  sobre el navegador, así que un enlace en inglés se abre en inglés. Al cambiar
+  de idioma la barra se reescribe sin recargar. Las etiquetas `hreflang` de la
+  cabecera le dicen al buscador que son la misma página en dos idiomas.
+- **`assets/img/og.png`** — la tarjeta que se ve al compartir el enlace
+  (1200×630). Se regenera desde `scripts/og-card.html`:
+  `chrome --headless --window-size=1200,630 --virtual-time-budget=16000
+  --screenshot=assets/img/og.png scripts/og-card.html`.
+
 - **`teaching_figures`** — las cuatro cifras que abren Docencia (asignaturas,
   titulaciones, centros y horas impartidas). Salen del autoinforme de calidad
   docente y se escriben a mano: no hay de dónde rasparlas. Conviene repasarlas

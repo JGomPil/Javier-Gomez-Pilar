@@ -820,6 +820,21 @@
   },
   {
    "es": {
+    "name": "Neurociencia Computacional",
+    "degree": "Grado en Ingeniería Biomédica"
+   },
+   "en": {
+    "name": "Computational Neuroscience",
+    "degree": "Degree in Biomedical Engineering"
+   },
+   "guia": {
+    "plan": 637,
+    "codigo": 47550
+   },
+   "simulab": "neurolab"
+  },
+  {
+   "es": {
     "name": "Inteligencia Artificial y Datos Biomédicos",
     "degree": "Máster en Ingeniería Biomédica"
    },

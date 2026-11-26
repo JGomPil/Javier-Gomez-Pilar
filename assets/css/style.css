@@ -498,6 +498,14 @@ h1 {
   font: 400 .715rem/1.45 var(--data);
   color: var(--muted); margin: .5rem 0 0;
 }
+/* Mismo codigo de color que en el PDF: en azul lo que uno produce
+   —articulos y cuartiles—, en naranja lo que otros hacen con ello
+   —citas e indice h—. Las etiquetas se quedan en gris: el color
+   distingue, no decora. */
+.metric .num[data-metric="jcr"],
+.metric .num[data-metric="q1"] { color: var(--accent); }
+.metric .num[data-metric="citations"],
+.metric .num[data-metric="h"] { color: var(--warm); }
 .stamp {
   font: 400 .715rem/1.5 var(--data);
   color: var(--muted); margin: 0;

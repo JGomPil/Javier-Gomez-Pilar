@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Gómez Pilar;Javier;;;
+FN:Javier Gómez Pilar
+TITLE:Profesor Contratado Doctor
+ORG:Universidad de Valladolid;Dpto. de Teoría de la Señal y Comunicacio
+ nes e Ingeniería Telemática
+EMAIL;TYPE=INTERNET,WORK:javier.gomez.pilar@uva.es
+ADR;TYPE=WORK:;;Paseo de Belén 15;Valladolid;;47011;España
+URL:https://jgompil.github.io/Javier-Gomez-Pilar/
+NOTE:ORCID 0000-0001-7882-7890 · Grupo de Ingeniería Biomédica\, UVa 
+ · CIBER-BBN
+END:VCARD

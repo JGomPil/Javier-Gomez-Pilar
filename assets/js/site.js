@@ -1249,66 +1249,22 @@
 
   /* ── la tarjeta de contacto ──────────────────────────────── */
 
-  /* El .vcf se arma aqui y no es un fichero del repositorio: el cargo
-     y el departamento ya estan traducidos en content.json, y un
-     fichero suelto se quedaria viejo el dia que cambie uno de los
-     dos. Version 3.0, que es la que entienden la agenda del telefono,
-     Outlook y Contactos de Apple sin rechistar. */
-  function vcard() {
-    const c = state.content.contact_card || {};
-    const esc2 = (x) => String(x || "")
-      .replace(/\\/g, "\\\\").replace(/([,;])/g, "\\$1");
-    const lineas = [
-      "BEGIN:VCARD",
-      "VERSION:3.0",
-      "N:Gómez Pilar;Javier;;;",
-      "FN:Javier Gómez Pilar",
-      `TITLE:${esc2(t("hero.pos"))}`,
-      `ORG:${esc2(c.org)};${esc2(t("contact.dept"))}`,
-      c.email ? `EMAIL;TYPE=INTERNET,WORK:${c.email}` : "",
-      `ADR;TYPE=WORK:;;${esc2(c.street)};${esc2(c.city)};;`
-        + `${esc2(c.zip)};${esc2(c.country)}`,
-      `URL:${c.url || ""}`,
-      c.orcid ? `NOTE:ORCID ${c.orcid} · ${esc2(t("hero.group"))} · CIBER-BBN` : "",
-      `REV:${new Date().toISOString().replace(/\.\d+Z$/, "Z")}`,
-      "END:VCARD",
-    ].filter(Boolean);
-
-    // Plegado a 75 octetos, que lo pide la norma y algun lector se
-    // pone tonto si no.
-    const plegada = lineas.map((l) => {
-      if (l.length <= 73) return l;
-      const trozos = [l.slice(0, 73)];
-      for (let i = 73; i < l.length; i += 72) trozos.push(" " + l.slice(i, i + 72));
-      return trozos.join("\r\n");
-    });
-    return plegada.join("\r\n") + "\r\n";
-  }
-
+  /* El .vcf es un fichero de verdad (assets/javier-gomez-pilar.vcf,
+     que hace scripts/vcf.py con los datos de content.json). Se armaba
+     aqui con un blob y habia navegadores que se tragaban la descarga
+     sin decir nada; un enlace normal lo abre cualquiera, y el telefono
+     ensena la ficha y pregunta si se guarda. Aqui solo queda el
+     correo, que si sale del JSON. */
   function initVcard() {
     const correo = $("#correo");
     const c = state.content.contact_card || {};
-    if (correo && c.email) {
+    if (!correo) return;
+    if (c.email) {
       correo.textContent = c.email;
       correo.href = `mailto:${c.email}`;
-    } else if (correo) {
+    } else {
       correo.closest("span")?.remove();
     }
-
-    const boton = $("#vcard-btn");
-    if (!boton) return;
-    boton.addEventListener("click", () => {
-      const blob = new Blob([vcard()],
-        { type: "text/vcard;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "Javier-Gomez-Pilar.vcf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    });
   }
 
   /* ── boot ────────────────────────────────────────────────── */

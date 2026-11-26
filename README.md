@@ -225,10 +225,11 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   siguen enseñando la vieja durante días.
 
 - **`contact_card`** — los datos de la tarjeta de contacto: correo, dirección
-  postal, organismo, ORCID y la dirección de la web. El `.vcf` **no es un
-  fichero del repositorio**: lo arma el navegador al pulsar el botón, con el
-  cargo y el departamento ya traducidos, para que no haya una copia que se
-  quede vieja. El QR es `assets/img/qr.svg`, lleva a la web y se regenera con
+  postal, organismo, ORCID y la dirección de la web. De ahí sale
+  `assets/javier-gomez-pilar.vcf`, que escribe `python3 scripts/vcf.py`:
+  **vuelve a lanzarlo si cambia el cargo o el departamento**. Antes se armaba
+  en el navegador, con un blob, y había navegadores —Safari y el iPhone— que
+  se tragaban la descarga sin decir nada. El QR es `assets/img/qr.svg`, lleva a la web y se regenera con
   `pip install segno && python3 scripts/qr.py`; va dibujado en `currentColor`,
   pero sobre fondo claro en los dos temas, porque un QR invertido no lo lee
   todo el mundo.

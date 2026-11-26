@@ -556,6 +556,7 @@ h1 {
 }
 .vcard-btn {
   display: inline-flex; align-items: center; cursor: pointer;
+  background-image: none; text-decoration: none;
   padding: .42rem .8rem;
   background: none; border: 1px solid var(--rule); border-radius: 999px;
   color: var(--ink-soft);

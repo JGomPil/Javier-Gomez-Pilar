@@ -655,16 +655,19 @@
        visible: el highlight despachado a mano apenas cambia la
        opacidad, ni crece ni cambia de color, y el globo no llega a
        aparecer. Una serie de un solo dato se dibuja siempre. */
-    const enciende = (li, punto) => {
-      if (!punto || !mapaChart) return;
-      li.addEventListener("mouseenter", () => marca(punto));
+    const enciende = (li, busca) => {
+      if (!mapaChart) return;
+      // El punto se busca al pasar el raton, no ahora: el corro de los
+      // centros se recalcula con cada acercamiento, y una posicion
+      // guardada aqui envejeceria en cuanto se moviera el mapa.
+      li.addEventListener("mouseenter", () => marca(busca()));
       li.addEventListener("mouseleave", () => marca(null));
     };
     host.querySelectorAll("li[data-code]").forEach((li) => {
-      enciende(li, mapaEstado?.puntoPais?.get(li.dataset.code));
+      enciende(li, () => mapaEstado?.puntoPais?.get(li.dataset.code));
     });
     host.querySelectorAll("li[data-inst]").forEach((li) => {
-      enciende(li, mapaEstado?.puntoCentro?.get(li.dataset.inst));
+      enciende(li, () => mapaEstado?.puntoCentro?.get(li.dataset.inst));
     });
 
     host.scrollTop = 0;
@@ -716,11 +719,17 @@
    * ancho. Si se ignora, el zoom sale corto por el factor de esa
    * diferencia, que aqui son tres veces. El 0,88 deja aire.
    */
+  /* Pixeles por grado a zoom 1: lo que mide el mapa cuando el mundo
+     entero cabe en el panel. */
+  function unidadMapa(w, h) {
+    return Math.min(w / (MUNDO.lon[1] - MUNDO.lon[0]),
+                    h / (MUNDO.lat[1] - MUNDO.lat[0]));
+  }
+
   function zoomPara(marco, w, h) {
     const ancho = Math.max(0.4, marco[2] - marco[0]);
     const alto = Math.max(0.4, marco[3] - marco[1]);
-    const unidad = Math.min(w / (MUNDO.lon[1] - MUNDO.lon[0]),
-                            h / (MUNDO.lat[1] - MUNDO.lat[0]));
+    const unidad = unidadMapa(w, h);
     const z = Math.min(w / (ancho * unidad), h / (alto * unidad)) * 0.88;
     return Math.max(1, Math.min(24, z));
   }
@@ -748,6 +757,80 @@
     return [x0 - mx, y0 - my, x1 + mx, y1 + my];
   }
 
+  /* Centros que comparten punto, abiertos en corro.
+   *
+   * OpenAlex sabe la ciudad, no la calle: los cuatro centros de
+   * Madrid llegan con las mismas coordenadas, y los dos hospitales de
+   * Valladolid tambien. Dibujados ahi, uno tapa al otro y no hay
+   * acercamiento que los separe, porque el punto es literalmente el
+   * mismo. A los que coinciden se les abre en corro alrededor de su
+   * ciudad, con un radio medido en pixeles y traducido a grados segun
+   * el zoom de cada momento. Asi se distinguen igual de cerca que de
+   * lejos, y nunca se alejan de su ciudad mas de lo que ocupan.
+   */
+  function enCorro(centros, tam, gradoPorPx) {
+    const grupos = new Map();
+    centros.forEach((c) => {
+      const clave = `${c.lon.toFixed(3)},${c.lat.toFixed(3)}`;
+      if (!grupos.has(clave)) grupos.set(clave, []);
+      grupos.get(clave).push(c);
+    });
+
+    const sitio = new Map();
+    grupos.forEach((grupo) => {
+      if (grupo.length === 1) {
+        sitio.set(grupo[0].name, [grupo[0].lon, grupo[0].lat]);
+        return;
+      }
+      // Radio que deja hueco entre vecinos del corro: ni los simbolos
+      // se tocan ni el corro se va mas lejos de lo necesario.
+      const mayor = Math.max(...grupo.map((c) => tam(c.works)));
+      const vuelta = grupo.reduce((n, c) => n + tam(c.works) + 5, 0);
+      const r = Math.max(mayor / 2 + 4, vuelta / (2 * Math.PI)) * gradoPorPx;
+      const paso = (2 * Math.PI) / grupo.length;
+      grupo.forEach((c, i) => {
+        const a = -Math.PI / 2 + i * paso;
+        sitio.set(c.name, [c.lon + r * Math.cos(a), c.lat + r * Math.sin(a)]);
+      });
+    });
+    return sitio;
+  }
+
+  /* Pinta los centros del pais actual para un zoom dado. Se repite en
+     cada acercamiento, que es lo que mantiene el corro del tamano de
+     siempre en pantalla. */
+  function pintaCentros(zoom) {
+    const pais = mapaEstado?.pais;
+    if (!mapaChart || !pais) return;
+    const centros = (pais.institutions || []).filter((c) => c.lat != null);
+    if (!centros.length) return;
+    const tope = Math.max(1, ...centros.map((c) => c.works));
+    const tam = (w) => 8 + 22 * Math.sqrt(w / tope);
+    const porPx = 1 / (unidadMapa(mapaChart.getWidth(),
+                                  mapaChart.getHeight()) * zoom);
+    const sitio = enCorro(centros, tam, porPx);
+    mapaEstado.zoom = zoom;
+    mapaEstado.puntoCentro = new Map(centros.map((c) => {
+      const [lon, lat] = sitio.get(c.name);
+      return [c.name, [lon, lat, tam(c.works) + 10, c.name]];
+    }));
+    mapaChart.setOption({
+      series: [{
+        id: "centros",
+        data: centros.map((c) => {
+          const [lon, lat] = sitio.get(c.name);
+          return {
+            name: c.name,
+            value: [lon, lat, c.works],
+            centro: c,
+            itemStyle: { color: tonoCentro(c.works, tope) },
+          };
+        }),
+        symbolSize: (val) => tam(val[2]),
+      }],
+    });
+  }
+
   /* Pasa a la vista de un pais: acerca el mapa a su encuadre y cambia
      las burbujas de pais por las de sus centros. Sin pais, vuelve al
      mundo. */
@@ -764,40 +847,27 @@
         ],
       });
       mapaChart.dispatchAction({ type: "geoUnselect", name: undefined });
+      mapaEstado.pais = null;
       marca(null);
       return;
     }
 
     const bb = marco.get(pais.code);
-    const centros = (pais.institutions || []).filter((c) => c.lat != null);
-    const tope = Math.max(1, ...centros.map((c) => c.works));
-    const tam = (w) => 8 + 22 * Math.sqrt(w / tope);
-    mapaEstado.puntoCentro = new Map(centros.map((c) =>
-      [c.name, [c.lon, c.lat, tam(c.works) + 10, c.name]]));
-
     const encuadre = marcoDeCentros(pais.institutions || []) || bb;
+    const zoom = encuadre
+      ? zoomPara(encuadre, mapaChart.getWidth(), mapaChart.getHeight())
+      : (mapaEstado.zoom || 1);
 
+    mapaEstado.pais = pais;
     mapaChart.setOption({
       geo: encuadre
         ? { center: [(encuadre[0] + encuadre[2]) / 2,
                      (encuadre[1] + encuadre[3]) / 2],
-            zoom: zoomPara(encuadre, mapaChart.getWidth(),
-                           mapaChart.getHeight()) }
+            zoom }
         : {},
-      series: [
-        { id: "paises", data: [] },
-        {
-          id: "centros",
-          data: centros.map((c) => ({
-            name: c.name,
-            value: [c.lon, c.lat, c.works],
-            centro: c,
-            itemStyle: { color: tonoCentro(c.works, tope) },
-          })),
-          symbolSize: (val) => tam(val[2]),
-        },
-      ],
+      series: [{ id: "paises", data: [] }],
     });
+    pintaCentros(zoom);
     mapaChart.dispatchAction({ type: "geoUnselect", name: undefined });
     mapaChart.dispatchAction({ type: "geoSelect", name: pais.code });
     marca(null);
@@ -892,7 +962,7 @@
           // Lo que informa son las burbujas, y esas lo conservan.
           tooltip: { show: false },
           silent: false,
-          scaleLimit: { min: 1, max: 48 },
+          scaleLimit: { min: 1, max: 160 },
           // Sin la Antartida el mundo habitado ocupa el doble de alto.
           boundingCoords: [[MUNDO.lon[0], MUNDO.lat[1]],
                            [MUNDO.lon[1], MUNDO.lat[0]]],
@@ -947,6 +1017,22 @@
         if (pt.seriesId === "centros") return;   // ya estamos dentro
         const pais = porCodigo.get(pt.name);
         if (pais) { vistaMapa(pais); pintaPanel(pais); }
+      });
+
+      // Rueda y arrastre cambian el zoom, y con el la traduccion de
+      // pixeles a grados del corro. La rueda dispara el evento muchas
+      // veces seguidas, asi que se espera a que pare y se rehace una
+      // vez, y solo si el zoom ha cambiado algo que se note.
+      let encolado = 0;
+      mapaChart.on("georoam", () => {
+        if (!mapaEstado?.pais) return;
+        clearTimeout(encolado);
+        encolado = setTimeout(() => {
+          const z = mapaChart.getOption()?.geo?.[0]?.zoom;
+          const antes = mapaEstado.zoom || 0;
+          if (!z || Math.abs(z - antes) < antes * 0.02) return;
+          pintaCentros(z);
+        }, 60);
       });
 
       // Y el camino de vuelta: lo que se senala en el mapa se marca

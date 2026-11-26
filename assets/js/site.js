@@ -760,7 +760,6 @@
     sup.innerHTML = `
       <section class="sup-block">
       <h4>${esc(t("sup.h.phd"))}<span class="n">${theses.length}</span><i>${esc(t("sup.inprog"))}</i></h4>
-      <p>${esc(t("sup.note"))}</p>
       <div class="courses">
         ${theses.map((th) => `
           <div class="course">

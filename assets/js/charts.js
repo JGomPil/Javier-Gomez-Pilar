@@ -627,49 +627,61 @@
           </li>`).join("")}
       </ol>`;
 
+    // Primero el mapa y despues la lista, siempre: la lista se
+    // engancha a los puntos que acaba de calcular el mapa, y al
+    // reves llegaba tarde y las instituciones no marcaban nada.
     host.querySelector(".back")?.addEventListener("click", () => {
-      pintaPanel(null);
       vistaMapa(null);
+      pintaPanel(null);
     });
     host.querySelectorAll("li[data-code]").forEach((li) => {
       const abre = () => {
         const p2 = rows.find((r) => r.code === li.dataset.code);
         if (!p2) return;
-        pintaPanel(p2);
         vistaMapa(p2);
+        pintaPanel(p2);
       };
       li.addEventListener("click", abre);
       li.addEventListener("keydown", (ev) => {
         if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); abre(); }
       });
     });
-    /* Pasar el raton por una fila enciende su burbuja en el mapa, y
-       al reves. Son dos vistas de lo mismo y hasta ahora no se
-       sabian la una de la otra. */
-    const enciende = (li, serie, indice) => {
-      if (indice == null || !mapaChart) return;
-      li.addEventListener("mouseenter", () => {
-        mapaChart.dispatchAction({ type: "highlight", seriesId: serie,
-                                   dataIndex: indice });
-        // Y el globo, que es lo que dice cual es el punto y cuantos
-        // trabajos tiene sin tener que buscarlo.
-        mapaChart.dispatchAction({ type: "showTip", seriesId: serie,
-                                   dataIndex: indice });
-      });
-      li.addEventListener("mouseleave", () => {
-        mapaChart.dispatchAction({ type: "downplay", seriesId: serie,
-                                   dataIndex: indice });
-        mapaChart.dispatchAction({ type: "hideTip" });
-      });
+    /* Pasar el raton por una fila marca su punto en el mapa, y al
+       reves. Son dos vistas de lo mismo y hasta ahora no se sabian
+       la una de la otra.
+
+       El anillo lo pinta una serie aparte en lugar del "emphasis" de
+       ECharts. Esa via se probo primero y en este mapa no hace nada
+       visible: el highlight despachado a mano apenas cambia la
+       opacidad, ni crece ni cambia de color, y el globo no llega a
+       aparecer. Una serie de un solo dato se dibuja siempre. */
+    const enciende = (li, punto) => {
+      if (!punto || !mapaChart) return;
+      li.addEventListener("mouseenter", () => marca(punto));
+      li.addEventListener("mouseleave", () => marca(null));
     };
     host.querySelectorAll("li[data-code]").forEach((li) => {
-      enciende(li, "paises", mapaEstado?.idxPais?.get(li.dataset.code));
+      enciende(li, mapaEstado?.puntoPais?.get(li.dataset.code));
     });
     host.querySelectorAll("li[data-inst]").forEach((li) => {
-      enciende(li, "centros", mapaEstado?.idxCentro?.get(li.dataset.inst));
+      enciende(li, mapaEstado?.puntoCentro?.get(li.dataset.inst));
     });
 
     host.scrollTop = 0;
+  }
+
+  /* El anillo sobre un punto del mapa. punto = [lon, lat, diametro,
+     nombre]; sin punto, se apaga. */
+  function marca(punto) {
+    if (!mapaChart) return;
+    mapaChart.setOption({
+      series: [{
+        id: "marca",
+        data: punto
+          ? [{ value: [punto[0], punto[1], punto[2]], name: punto[3] }]
+          : [],
+      }],
+    });
   }
 
   /* El camino de vuelta: del mapa a la lista. */
@@ -752,15 +764,16 @@
         ],
       });
       mapaChart.dispatchAction({ type: "geoUnselect", name: undefined });
+      marca(null);
       return;
     }
 
     const bb = marco.get(pais.code);
     const centros = (pais.institutions || []).filter((c) => c.lat != null);
     const tope = Math.max(1, ...centros.map((c) => c.works));
-    // La lista lateral necesita saber que indice tiene cada
-    // institucion para poder encenderla desde una fila.
-    mapaEstado.idxCentro = new Map(centros.map((c, i) => [c.name, i]));
+    const tam = (w) => 8 + 22 * Math.sqrt(w / tope);
+    mapaEstado.puntoCentro = new Map(centros.map((c) =>
+      [c.name, [c.lon, c.lat, tam(c.works) + 10, c.name]]));
 
     const encuadre = marcoDeCentros(pais.institutions || []) || bb;
 
@@ -781,12 +794,13 @@
             centro: c,
             itemStyle: { color: tonoCentro(c.works, tope) },
           })),
-          symbolSize: (val) => 8 + 22 * Math.sqrt(val[2] / tope),
+          symbolSize: (val) => tam(val[2]),
         },
       ],
     });
     mapaChart.dispatchAction({ type: "geoUnselect", name: undefined });
     mapaChart.dispatchAction({ type: "geoSelect", name: pais.code });
+    marca(null);
   }
 
   function burbujasPais(rows, centro, radio) {
@@ -799,7 +813,12 @@
         itemStyle: { color: tonoPais(r.works, tope) },
       }));
     if (mapaEstado) {
-      mapaEstado.idxPais = new Map(datos.map((d, i) => [d.name, i]));
+      // Donde esta cada pais y de que tamano se ha dibujado, que es
+      // lo que necesita el anillo para caer encima y no dentro.
+      mapaEstado.puntoPais = new Map(rows
+        .filter((r) => centro.get(r.code))
+        .map((r) => [r.code, [...centro.get(r.code),
+                              radio(r.works) + 10, r.name]]));
     }
     return datos;
   }
@@ -825,7 +844,7 @@
       const radio = (n) => 5 + 24 * Math.sqrt(n / tope);
 
       mapaEstado = { rows, centro, marco, radio,
-                     idxPais: new Map(), idxCentro: new Map() };
+                     puntoPais: new Map(), puntoCentro: new Map() };
 
       const marcador = (id, datos, tam) => ({
         id,
@@ -894,6 +913,30 @@
           marcador("paises", burbujasPais(rows, centro, radio),
                    (val) => radio(val[2])),
           marcador("centros", [], 10),
+          // El anillo que marca lo que se esta senalando en la lista.
+          // Vacio casi siempre; cuando lleva un punto, va encima de
+          // todo y no estorba al raton.
+          {
+            id: "marca",
+            type: "scatter",
+            coordinateSystem: "geo",
+            data: [],
+            silent: true,
+            symbol: "circle",
+            symbolSize: (val) => val[2],
+            itemStyle: { color: "transparent", borderWidth: 2.5,
+                         borderColor: css("--warm-mark", "#d2650f") },
+            label: {
+              show: true, position: "top", distance: 7,
+              formatter: (pt) => pt.name,
+              color: b.ink, fontSize: 11, fontFamily: b.data,
+              backgroundColor: b.paper, borderColor: b.rule, borderWidth: 1,
+              padding: [3, 5],
+            },
+            z: 9,
+            animationDuration: 180,
+            animationDurationUpdate: 180,
+          },
         ],
         animationDuration: 600,
         animationDurationUpdate: 500,
@@ -903,7 +946,7 @@
       mapaChart.on("click", (pt) => {
         if (pt.seriesId === "centros") return;   // ya estamos dentro
         const pais = porCodigo.get(pt.name);
-        if (pais) { pintaPanel(pais); vistaMapa(pais); }
+        if (pais) { vistaMapa(pais); pintaPanel(pais); }
       });
 
       // Y el camino de vuelta: lo que se senala en el mapa se marca

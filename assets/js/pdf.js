@@ -703,7 +703,6 @@
     // Tesis en dirección.
     bloques.push(barra(t("sup.h.phd"),
       `${ctx.content.theses.length} ${t("sup.inprog")}`));
-    bloques.push({ text: t("sup.note"), style: "meta", margin: [0, 0, 0, 8] });
     ctx.content.theses.forEach((th, i) => {
       bloques.push(entradaTrabajo(i + 1, th[ctx.lang],
         `${th.student} · ${th.programme[ctx.lang]} · ${th.from}–`));

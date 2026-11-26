@@ -1,9 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="5" fill="#0c6a70"/>
-  <g fill="#ffffff">
-    <rect x="6"  y="18" width="4" height="8"  rx="2"/>
-    <rect x="12" y="12" width="4" height="14" rx="2"/>
-    <rect x="18" y="7"  width="4" height="19" rx="2"/>
-    <rect x="24" y="15" width="4" height="11" rx="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img"
+     aria-label="JGP">
+  <!-- Las iniciales de Javier Gomez Pilar en el hexagono de su
+       boceto. Trazo unico de 4.4, altura de mayuscula 22, y la G en
+       el naranja que la pagina usa para lo que otros hacen con su
+       trabajo. A 16 px no se leen tres letras —no las lee ningun
+       icono—, pero la silueta y la mancha calida del centro
+       distinguen la pestana. -->
+  <path d="M2.6,32 L17.8,5.6 H46.2 L61.4,32 L46.2,58.4 H17.8 Z" fill="#123778"/>
+  <g transform="translate(6.40,6.40) scale(0.8)" fill="none" stroke-width="4.4"
+     stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M18.00,21.0 V37.90 A5.1,5.1 0 0 1 7.80,37.90" stroke="#ffffff"/>
+    <path d="M39.06,36.66 A8.80,8.80 0 1 1 39.06,27.34 M39.06,36.66 V32.0 H32.92" stroke="#e8863a"/>
+    <path d="M47.40,43.0 V21.0 H51.80 A6.6,6.6 0 0 1 51.80,34.20 H47.40" stroke="#ffffff"/>
   </g>
 </svg>

@@ -477,6 +477,15 @@
     };
   }
 
+  /* "IPs: A, B y C", igual que en la web. */
+  function ips(x) {
+    const n = x.ips || [];
+    if (!n.length) return "";
+    const lista = n.length === 1 ? n[0]
+      : `${n.slice(0, -1).join(", ")} ${t("conj.y")} ${n[n.length - 1]}`;
+    return `${t("pid.ips")}: ${lista}`;
+  }
+
   function publicaciones() {
     const todas = ctx.profile.publications;
     const m = ctx.profile.metrics;
@@ -670,11 +679,7 @@
     const bloques = [cabecera(4, "sec-doc", t("teach.h"), null)];
 
     const dentro = [
-      { text: [
-          { text: t("atenea.h"), bold: true, fontSize: 12.5, color: AZUL },
-          { text: `     ${A.role.toUpperCase()}`, color: NARANJA,
-            fontSize: 7.5, bold: true, characterSpacing: 1.2 },
-        ] },
+      { text: t("atenea.h"), bold: true, fontSize: 12.5, color: AZUL },
       { text: [
           { text: A.expansion },
           { text: "   " },
@@ -726,7 +731,7 @@
       bloques.push(barra(t("pid.h"), pid.items.length));
       pid.items.forEach((x, i) => {
         bloques.push(entradaTrabajo(i + 1, x[ctx.lang],
-          `${x.call} \u00b7 ${x.course} \u00b7 ${t("pid.role")}`));
+          `${x.call} \u00b7 ${x.course} \u00b7 ${ips(x)}`));
       });
     }
 

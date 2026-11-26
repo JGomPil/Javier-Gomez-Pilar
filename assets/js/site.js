@@ -726,7 +726,6 @@
         <div class="feature-id">
           <span class="atenea-logo" aria-hidden="true"></span>
           <div>
-            <span class="line-n">${esc(A.role)}</span>
             <h3>${esc(t("atenea.h"))}</h3>
             <p class="feature-sub">${esc(A.expansion)}</p>
           </div>
@@ -763,6 +762,16 @@
 
   /* Las convocatorias de innovacion docente del programa ATENEA, bajo
      su ficha: son la misma historia contada por sus concesiones. */
+  /* "IPs: A, B y C". La conjuncion y el rotulo estan traducidos; los
+     nombres, en orden, van en cada convocatoria. */
+  function ips(x) {
+    const n = x.ips || [];
+    if (!n.length) return "";
+    const lista = n.length === 1 ? n[0]
+      : `${n.slice(0, -1).join(", ")} ${t("conj.y")} ${n[n.length - 1]}`;
+    return `${t("pid.ips")}: ${lista}`;
+  }
+
   function renderPids() {
     const host = $("#pid-list");
     const cfg = state.content.teaching_projects;
@@ -773,7 +782,7 @@
         <div class="course">
           <b>${esc(x[state.lang])}</b>
           <span>${esc(x.call)} \u00b7 ${esc(x.course)} \u00b7 `
-          + `${esc(t("pid.role"))}</span>
+          + `${esc(ips(x))}</span>
         </div>`).join("");
   }
 

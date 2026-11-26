@@ -163,7 +163,7 @@
    "pdf.uvadoc": "Texto completo",
    "sup.h.prac": "Prácticas externas",
    "tm.asig": "Asignaturas",
-   "tm.asig.src": "siete distintas desde 2017/18",
+   "tm.asig.src": "siete distintas desde 2022/23",
    "tm.titul": "Titulaciones",
    "tm.titul.src": "tres grados y dos másteres",
    "tm.centros": "Centros",
@@ -171,7 +171,8 @@
    "tm.horas": "Horas impartidas",
    "tm.horas.src": "como Contratado Doctor, desde 2022/23",
    "pid.h": "Proyectos de innovación docente",
-   "pid.role": "IP, con Clara García Vicente"
+   "pid.ips": "IPs",
+   "conj.y": "y"
   },
   "en": {
    "skip": "Skip to content",
@@ -329,7 +330,7 @@
    "pdf.uvadoc": "Full text",
    "sup.h.prac": "External placements",
    "tm.asig": "Courses",
-   "tm.asig.src": "seven different ones since 2017/18",
+   "tm.asig.src": "seven different ones since 2022/23",
    "tm.titul": "Degree programmes",
    "tm.titul.src": "three bachelor's and two master's",
    "tm.centros": "Faculties and schools",
@@ -337,7 +338,8 @@
    "tm.horas": "Teaching hours",
    "tm.horas.src": "as Associate Professor, since 2022/23",
    "pid.h": "Teaching innovation projects",
-   "pid.role": "PI, with Clara García Vicente"
+   "pid.ips": "PIs",
+   "conj.y": "and"
   }
  },
  "epigraph": {
@@ -805,14 +807,12 @@
    }
   ],
   "es": {
-   "role": "Codirector",
    "expansion": "Apoyo a la Transición Educativa y Nuevas Experiencias Académicas",
    "text": "ATENEA es el programa de mentoría y orientación del Grado en Ingeniería Biomédica de la UVa, en codirección. Funciona en tres ramas: <b>Orienta</b>, donde el profesorado tutoriza a los estudiantes de primero y segundo; <b>Mentum</b>, donde los de tercero y cuarto acompañan a los más nuevos; y <b>Professio</b>, que trae a egresados y profesionales a hablar de salidas reales. Nació en 2019 como Programa Orienta, sobrevivió a la interrupción de la pandemia y se reconstruyó en 2023 con su forma actual.",
    "award": "Premio a la Innovación en Mentoría de la Universidad de Valladolid, 2024-2025.",
    "next": "La edición 2026-2027, <b>ATENEA 4.0</b>, ha sido concedida como Proyecto de Innovación Docente con calificación de excelente. Incorpora un estudiante de referencia por clase, seguimiento longitudinal del alumnado, uso crítico y responsable de IA generativa en la tutela del TFG, y un <b>Toolkit ATENEA</b> pensado para que otras titulaciones puedan reutilizar el modelo."
   },
   "en": {
-   "role": "Co-director",
    "expansion": "Support for Educational Transition and New Academic Experiences",
    "text": "ATENEA is the mentoring and guidance programme of the Biomedical Engineering degree at UVa, under joint direction. It runs on three branches: <b>Orienta</b>, where faculty tutor first- and second-year students; <b>Mentum</b>, where third- and fourth-year students support the newer ones; and <b>Professio</b>, which brings graduates and working professionals in to talk about real career paths. It began in 2019 as Programa Orienta, survived the interruption of the pandemic, and was rebuilt in 2023 into its present form.",
    "award": "University of Valladolid Award for Innovation in Mentoring, 2024-2025.",
@@ -1462,31 +1462,48 @@
   ]
  },
  "teaching_projects": {
-  "_readme": "Las cuatro convocatorias del programa ATENEA, como Proyecto de Innovacion Docente (PID) o como Mentor-UVa. En todas es IP junto con Clara Garcia Vicente; el papel esta en ui/pid.role.",
+  "_readme": "Las cuatro convocatorias del programa ATENEA, como Proyecto de Innovacion Docente (PID) o como Mentor-UVa. 'ips' son los investigadores principales de cada una, en orden; el rotulo y la conjuncion salen de ui (pid.ips, conj.y).",
   "items": [
    {
     "course": "2026/27",
     "call": "PID",
     "es": "ATENEA 4.0: hacia un modelo participativo, evaluable y transferible de mentoría y orientación universitaria",
-    "en": "ATENEA 4.0: towards a participatory, assessable and transferable model of university mentoring and guidance"
+    "en": "ATENEA 4.0: towards a participatory, assessable and transferable model of university mentoring and guidance",
+    "ips": [
+     "Javier Gómez Pilar",
+     "Clara García Vicente",
+     "Fernando Vaquerizo Villar"
+    ]
    },
    {
     "course": "2025/26",
     "call": "Mentor-UVa",
     "es": "ATENEA: programa de orientación, mentorización y profesionalización integral en el Grado en Ingeniería Biomédica. Creación de un espacio colaborativo centrado en los Trabajos de Fin de Grado",
-    "en": "ATENEA: guidance, mentoring and professional development programme in the Biomedical Engineering degree. A collaborative space for final-year projects"
+    "en": "ATENEA: guidance, mentoring and professional development programme in the Biomedical Engineering degree. A collaborative space for final-year projects",
+    "ips": [
+     "Javier Gómez Pilar",
+     "Clara García Vicente"
+    ]
    },
    {
     "course": "2024/25",
     "call": "Mentor-UVa",
     "es": "Programa de orientación, mentorización y profesionalización integral en el Grado en Ingeniería Biomédica: consolidación, superación de limitaciones y mejora del grado de satisfacción",
-    "en": "Guidance, mentoring and professional development programme in the Biomedical Engineering degree: consolidation, overcoming limitations and improving satisfaction"
+    "en": "Guidance, mentoring and professional development programme in the Biomedical Engineering degree: consolidation, overcoming limitations and improving satisfaction",
+    "ips": [
+     "Javier Gómez Pilar",
+     "Clara García Vicente"
+    ]
    },
    {
     "course": "2023/24",
     "call": "PID",
     "es": "Proyecto ATENEA: apoyo a la transición educativa y nuevas experiencias académicas. Orientación, mentorización y profesionalización integral en el Grado en Ingeniería Biomédica",
-    "en": "ATENEA: support for the educational transition and new academic experiences. Guidance, mentoring and professional development in the Biomedical Engineering degree"
+    "en": "ATENEA: support for the educational transition and new academic experiences. Guidance, mentoring and professional development in the Biomedical Engineering degree",
+    "ips": [
+     "Javier Gómez Pilar",
+     "Clara García Vicente"
+    ]
    }
   ]
  }

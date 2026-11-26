@@ -159,7 +159,8 @@
    "pdf.note": "Citas e índice h: Web of Science, a fecha de {date}. Publicaciones y cuartiles: repositorio del Grupo de Ingeniería Biomédica, actualizado automáticamente cada semana. Proyectos: Portal de la Ciencia de la UVa y CVN-FECYT.",
    "teach.guia": "Guía docente {curso}",
    "sup.uvadoc": "Texto completo en UVaDOC",
-   "teach.simu": "Simuladores"
+   "teach.simu": "Simuladores",
+   "pdf.uvadoc": "Texto completo"
   },
   "en": {
    "skip": "Skip to content",
@@ -313,7 +314,8 @@
    "pdf.note": "Citations and h-index: Web of Science, as of {date}. Publications and quartiles: Biomedical Engineering Group repository, refreshed automatically every week. Projects: UVa Portal de la Ciencia and CVN-FECYT.",
    "teach.guia": "Course guide {curso}",
    "sup.uvadoc": "Full text in UVaDOC",
-   "teach.simu": "Simulators"
+   "teach.simu": "Simulators",
+   "pdf.uvadoc": "Full text"
   }
  },
  "epigraph": {
@@ -1276,7 +1278,7 @@
   "_readme": "El logo del centro o la titulacion, en la cabecera de su grupo de asignaturas. Van como mascara, igual que los del hero: el PNG pone la silueta y el color lo pone el CSS, que es lo unico que funciona en los dos temas. La clave es el codigo de plan. La proporcion es ancho/alto, que la mascara no sabe deducir, y la escala corrige el tamano aparente: a la misma altura, un sello cuadrado pesa mucho menos que un rotulo apaisado.",
   "carpeta": "assets/img/logos/",
   "512": {
-   "archivo": "etsit.png",
+   "archivo": "etsit-simbolo.png",
    "proporcion": 0.54,
    "escala": 1.3
   },

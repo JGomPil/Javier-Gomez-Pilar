@@ -289,6 +289,27 @@
     decoration: "underline", decorationColor: "#c3d2ea",
   });
 
+  /* Las mismas direcciones que arma la web: la guia docente de cada
+     asignatura, sus simuladores y el texto completo del TFG o el TFM
+     en UVaDOC. El CV se imprime, pero el que lo recibe por correo
+     pincha. */
+  function urlGuia(c) {
+    const cfg = ctx.content.teaching_guides;
+    if (!c.guia || !cfg || !cfg.patron) return "";
+    return cfg.patron.replace("{curso}", cfg.curso)
+      .replace("{plan}", c.guia.plan).replace("{codigo}", c.guia.codigo);
+  }
+  function urlSimu(c) {
+    const cfg = ctx.content.simulab;
+    if (!c.simulab || !cfg || !cfg.patron) return "";
+    return cfg.patron.replace("{sitio}", c.simulab);
+  }
+  function urlUvadoc(x) {
+    const cfg = ctx.content.tfg_repo;
+    if (!x.uvadoc || !cfg || !cfg.patron) return "";
+    return cfg.patron.replace("{id}", x.uvadoc);
+  }
+
   /* El nombre propio en negrita dentro de la lista de autores.
      pdfmake no entiende HTML, así que la línea se parte en trozos con
      estilo propio: split() con un grupo de captura deja las
@@ -623,7 +644,11 @@
 
   /* ── 04 docencia ─────────────────────────────────────────── */
 
-  function entradaTrabajo(n, titulo, pie) {
+  function entradaTrabajo(n, titulo, pie, extra) {
+    // extra son trozos ya formados —un enlace— que cuelgan del pie
+    const linea = extra && extra.length
+      ? { text: [pie, " \u00b7 ", ...extra], style: "meta" }
+      : { text: pie, style: "meta" };
     return {
       unbreakable: true,
       margin: [0, 0, 0, 6],
@@ -631,7 +656,7 @@
         { text: `${n}.`, width: 22, style: "num" },
         { stack: [
             { text: titulo, bold: true, fontSize: 9 },
-            { text: pie, style: "meta" },
+            linea,
           ] },
       ],
     };
@@ -679,13 +704,25 @@
 
     // Asignaturas: dos columnas, con las filas alternadas para no
     // perder el renglón en una lista de veintitantas.
-    const cursos = ctx.content.teaching.map((c) => c[ctx.lang]);
+    const cursos = ctx.content.teaching;
     bloques.push(barra(t("teach.courses"), cursos.length));
     const mitad = Math.ceil(cursos.length / 2);
-    const celda = (C) => (C
-      ? { stack: [{ text: C.name, bold: true, fontSize: 8.9 },
-                  { text: C.degree, style: "meta" }] }
-      : { text: "" });
+    const celda = (c) => {
+      if (!c) return { text: "" };
+      const C = c[ctx.lang];
+      const guia = urlGuia(c);
+      const simu = urlSimu(c);
+      // El titulo es el enlace a la guia, como en la web. Poner
+      // ademas un "Guia docente" al pie repetia el enlace y, en
+      // media columna, empujaba "Simuladores" a un renglon suelto.
+      const titulo = guia
+        ? { text: C.name, bold: true, fontSize: 8.9, link: guia,
+            color: AZUL, decoration: "underline", decorationColor: "#c3d2ea" }
+        : { text: C.name, bold: true, fontSize: 8.9 };
+      const pie = [C.degree];
+      if (simu) pie.push(" \u00b7 ", enlace(t("teach.simu"), simu, 7.2));
+      return { stack: [titulo, { text: pie, style: "meta" }] };
+    };
     const filas = [];
     for (let i = 0; i < mitad; i += 1) {
       filas.push([celda(cursos[i]), celda(cursos[i + mitad])]);
@@ -714,9 +751,11 @@
       if (!items.length) return;
       bloques.push(barra(t("sup.h." + kind), items.length));
       items.forEach((x, i) => {
+        const doc = urlUvadoc(x);
         bloques.push(entradaTrabajo(i + 1, x[ctx.lang],
           [x.student, x.degree[ctx.lang], x.course].filter(Boolean)
-            .join(" · ")));
+            .join(" · "),
+          doc ? [enlace(t("pdf.uvadoc"), doc, 7.2)] : null));
       });
     });
 

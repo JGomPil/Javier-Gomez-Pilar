@@ -231,6 +231,7 @@ a:hover { color: var(--accent-ink); background-size: 0 1px; background-position:
           mask-image: linear-gradient(90deg, #000 88%, transparent);
   }
   .bar-nav::-webkit-scrollbar { display: none; }
+
   .bar-nav a { white-space: nowrap; }
 }
 
@@ -1779,3 +1780,17 @@ html[lang="en"] #logo-gib { --src: url("../img/logos/gib-en.png"); }
   box-shadow: inset 3px 0 0 var(--warm-mark);
 }
 .ranking li.on b { color: var(--warm-ink); }
+
+/* ── blancos de toque ─────────────────────────────────────────
+   Dedos, no raton. Lo que se ve no cambia; cambia cuanto hay que
+   acertar: un enlace de 21px de alto y un ES/EN de 11 no se tocan, se
+   adivinan. El area va en el relleno, que no mueve nada de sitio.
+   Esto vive al final del fichero a proposito: los rellenos de .lang y
+   .tablist se declaran mas arriba y, puestas antes, estas reglas
+   perdian sin decir nada. */
+@media (max-width: 46rem) {
+  .bar-nav a { padding-block: .62rem; }
+  .lang button { padding: .55rem .25rem; }
+  .pdf-btn, .theme { min-width: 42px; min-height: 42px; }
+  .tablist button { padding-block: 1rem; }
+}

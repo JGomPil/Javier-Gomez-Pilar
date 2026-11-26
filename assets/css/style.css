@@ -548,7 +548,12 @@ h1 {
   padding: .5rem; background: #e9edf0; color: #121d2b;
   border-radius: .3rem;
 }
-.vcard-qr img { display: block; width: 104px; height: 104px; }
+/* 240 px, medido y no estimado: el QR lleva la tarjeta dentro, son
+   57 modulos, y a 200 px un lector normal ya no lo saca. */
+.vcard-qr img {
+  display: block;
+  width: 240px; height: 240px; max-width: 72vw; max-height: 72vw;
+}
 .vcard h3 { margin: 0 0 .25rem; }
 .vcard-pie {
   margin: 0 0 .7rem;

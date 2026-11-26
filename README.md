@@ -230,9 +230,15 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   **vuelve a lanzarlo si cambia el cargo o el departamento**. Antes se armaba
   en el navegador, con un blob, y había navegadores —Safari y el iPhone— que
   se tragaban la descarga sin decir nada. El QR es `assets/img/qr.svg`, lleva a la web y se regenera con
-  `pip install segno && python3 scripts/qr.py`; va dibujado en `currentColor`,
-  pero sobre fondo claro en los dos temas, porque un QR invertido no lo lee
-  todo el mundo.
+  `pip install segno && python3 scripts/qr.py`. **Dentro lleva la tarjeta**,
+  recortada a nombre, cargo, organismo, correo y web: así el teléfono guarda
+  el contacto sin conexión. Con la tarjeta entera —departamento, dirección
+  postal, ORCID— se iba a 73 módulos y dejaba de leerse en pantalla; recortada
+  son 57, y hacen falta 240 px, comprobado decodificándolo a 184, 200 y 240.
+  `scripts/qr.py web` y `scripts/qr.py vcf-url` cambian lo que lleva dentro,
+  si alguna vez se prefiere que el QR solo abra una dirección. Va dibujado en
+  `currentColor`, pero sobre fondo claro en los dos temas, porque un QR
+  invertido no lo lee todo el mundo.
 - **`teaching_figures`** — las cuatro cifras que abren Docencia (asignaturas,
   titulaciones, centros y horas impartidas). Salen del autoinforme de calidad
   docente y se escriben a mano: no hay de dónde rasparlas. Conviene repasarlas

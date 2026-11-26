@@ -186,7 +186,7 @@
    "cv.note": "Citas e índice h: Web of Science, a fecha de {date}. Todo el detalle, en {url}.",
    "contact.card": "Tarjeta de contacto",
    "contact.vcf": "Guardar en la agenda (.vcf)",
-   "contact.qr": "Escanea para abrir esta página",
+   "contact.qr": "Escanea para guardar el contacto",
    "contact.mail": "Correo"
   },
   "en": {
@@ -368,7 +368,7 @@
    "cv.note": "Citations and h-index: Web of Science, as of {date}. Full detail at {url}.",
    "contact.card": "Contact card",
    "contact.vcf": "Save to contacts (.vcf)",
-   "contact.qr": "Scan to open this page",
+   "contact.qr": "Scan to save the contact",
    "contact.mail": "Email"
   }
  },
@@ -1538,7 +1538,7 @@
   ]
  },
  "contact_card": {
-  "_readme": "La tarjeta de contacto: el .vcf se arma en el navegador con estos datos y con los rotulos traducidos, asi que el cargo y el departamento no se repiten en ningun sitio. El QR es assets/img/qr.svg y lleva a la web; se regenera con scripts/qr.py.",
+  "_readme": "La tarjeta de contacto. De aqui salen el .vcf (scripts/vcf.py, que escribe assets/javier-gomez-pilar.vcf) y el QR (scripts/qr.py, que mete dentro ese mismo .vcf). Si cambia el cargo o el departamento, hay que relanzar los dos.",
   "email": "javier.gomez.pilar@uva.es",
   "street": "Paseo de Belén 15",
   "city": "Valladolid",

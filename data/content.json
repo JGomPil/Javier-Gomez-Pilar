@@ -183,7 +183,11 @@
    "pdf.m.cv.d": "Dos páginas, para adjuntar a una convocatoria",
    "pdf.m.dosier": "Dosier académico",
    "pdf.m.dosier.d": "Todo el contenido de la web, con sus enlaces",
-   "cv.note": "Citas e índice h: Web of Science, a fecha de {date}. Todo el detalle, en {url}."
+   "cv.note": "Citas e índice h: Web of Science, a fecha de {date}. Todo el detalle, en {url}.",
+   "contact.card": "Tarjeta de contacto",
+   "contact.vcf": "Guardar en la agenda (.vcf)",
+   "contact.qr": "Escanea para abrir esta página",
+   "contact.mail": "Correo"
   },
   "en": {
    "skip": "Skip to content",
@@ -361,7 +365,11 @@
    "pdf.m.cv.d": "Two pages, to attach to a call",
    "pdf.m.dosier": "Academic dossier",
    "pdf.m.dosier.d": "Everything on the site, with its links",
-   "cv.note": "Citations and h-index: Web of Science, as of {date}. Full detail at {url}."
+   "cv.note": "Citations and h-index: Web of Science, as of {date}. Full detail at {url}.",
+   "contact.card": "Contact card",
+   "contact.vcf": "Save to contacts (.vcf)",
+   "contact.qr": "Scan to open this page",
+   "contact.mail": "Email"
   }
  },
  "epigraph": {
@@ -1528,5 +1536,16 @@
     ]
    }
   ]
+ },
+ "contact_card": {
+  "_readme": "La tarjeta de contacto: el .vcf se arma en el navegador con estos datos y con los rotulos traducidos, asi que el cargo y el departamento no se repiten en ningun sitio. El QR es assets/img/qr.svg y lleva a la web; se regenera con scripts/qr.py.",
+  "email": "javier.gomez.pilar@uva.es",
+  "street": "Paseo de Belén 15",
+  "city": "Valladolid",
+  "zip": "47011",
+  "country": "España",
+  "org": "Universidad de Valladolid",
+  "orcid": "0000-0001-7882-7890",
+  "url": "https://jgompil.github.io/Javier-Gomez-Pilar/"
  }
 }

@@ -16,8 +16,9 @@
   .foto { flex:0 0 auto; width:300px; height:300px; border-radius:50%;
           overflow:hidden; background:#1b3364;
           box-shadow:0 0 0 2px rgba(234,240,248,.22), 0 24px 60px rgba(0,0,0,.35) }
-  .foto img { width:142%; height:142%; object-fit:cover; object-position:46% 22%;
-              display:block; margin:-2% 0 0 -22% }
+  /* El encuadre lo trae ya la imagen (scripts/recorta_og.py): hacerlo
+     aqui con porcentajes dejaba la coronilla fuera del circulo. */
+  .foto img { width:100%; height:100%; object-fit:cover; display:block }
   .txt { min-width:0 }
   .cargo { font-family:"IBM Plex Mono",monospace; font-size:21px;
            letter-spacing:.14em; text-transform:uppercase; color:#e8863a;
@@ -41,7 +42,7 @@
         fill="none" stroke="#2f58a8" stroke-width="1.6" opacity=".6"/>
 </svg>
 <div class="caja">
-  <div class="foto"><img src="../assets/img/javier.png" alt=""></div>
+  <div class="foto"><img src="../assets/img/retrato-tarjeta.png" alt=""></div>
   <div class="txt">
     <p class="cargo">Profesor Contratado Doctor</p>
     <h1>Javier<br>Gómez Pilar</h1>

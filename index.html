@@ -12,7 +12,7 @@
 <meta property="og:title" content="Javier Gómez Pilar">
 <meta property="og:description" content="Neurociencia computacional y procesado de señales biomédicas. Universidad de Valladolid · CIBER-BBN.">
 <meta property="og:url" content="https://jgompil.github.io/Javier-Gomez-Pilar/">
-<meta property="og:image" content="https://jgompil.github.io/Javier-Gomez-Pilar/assets/img/og.png">
+<meta property="og:image" content="https://jgompil.github.io/Javier-Gomez-Pilar/assets/img/og-tarjeta.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Javier Gómez Pilar, Profesor Contratado Doctor, Universidad de Valladolid">
@@ -21,7 +21,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Javier Gómez Pilar">
 <meta name="twitter:description" content="Neurociencia computacional y procesado de señales biomédicas. Universidad de Valladolid · CIBER-BBN.">
-<meta name="twitter:image" content="https://jgompil.github.io/Javier-Gomez-Pilar/assets/img/og.png">
+<meta name="twitter:image" content="https://jgompil.github.io/Javier-Gomez-Pilar/assets/img/og-tarjeta.png">
 
 <!-- Las dos versiones de la pagina son la misma direccion con el
      idioma en la consulta, asi que el enlace en ingles se puede
@@ -44,7 +44,7 @@
   "familyName": "Gómez Pilar",
   "jobTitle": "Profesor Contratado Doctor",
   "url": "https://jgompil.github.io/Javier-Gomez-Pilar/",
-  "image": "https://jgompil.github.io/Javier-Gomez-Pilar/assets/img/og.png",
+  "image": "https://jgompil.github.io/Javier-Gomez-Pilar/assets/img/og-tarjeta.png",
   "worksFor": [
     {
       "@type": "CollegeOrUniversity",
@@ -507,7 +507,25 @@
               <span data-i18n="contact.dept">Dpto. de Teoría de la Señal y Comunicaciones e Ingeniería Telemática</span>
               <span data-i18n="contact.school">E.T.S.I. de Telecomunicación, Universidad de Valladolid</span>
               <span>Paseo de Belén 15, 47011 Valladolid, España</span>
+              <span><a id="correo" href="#">—</a></span>
             </address>
+
+            <!-- El .vcf se arma en el navegador con los datos de
+                 content.json, asi que el cargo no vive en dos sitios.
+                 El QR va sobre fondo claro tambien en tema oscuro:
+                 invertido lo leen casi todos los lectores, pero
+                 "casi" no vale para algo que se proyecta. -->
+            <div class="vcard" id="vcard">
+              <div class="vcard-qr">
+                <img src="assets/img/qr.svg" alt="" width="104" height="104">
+              </div>
+              <div>
+                <h3 data-i18n="contact.card">Tarjeta de contacto</h3>
+                <p class="vcard-pie" data-i18n="contact.qr">Escanea para abrir esta página</p>
+                <button type="button" class="vcard-btn" id="vcard-btn"
+                        data-i18n="contact.vcf">Guardar en la agenda (.vcf)</button>
+              </div>
+            </div>
           </div>
           <div>
             <h3 data-i18n="contact.profiles">Perfiles</h3>

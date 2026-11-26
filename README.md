@@ -213,10 +213,16 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   sobre el navegador, así que un enlace en inglés se abre en inglés. Al cambiar
   de idioma la barra se reescribe sin recargar. Las etiquetas `hreflang` de la
   cabecera le dicen al buscador que son la misma página en dos idiomas.
-- **`assets/img/og.png`** — la tarjeta que se ve al compartir el enlace
-  (1200×630). Se regenera desde `scripts/og-card.html`:
+- **`assets/img/og-tarjeta.png`** — la tarjeta que se ve al compartir el
+  enlace (1200×630). El retrato que lleva dentro, `retrato-tarjeta.png`, sale
+  de `scripts/recorta_og.py`, que encuadra el original sobre la cara; hacer
+  ese encuadre con porcentajes de CSS dejaba la coronilla fuera del círculo.
+  La tarjeta se regenera desde `scripts/og-card.html`:
   `chrome --headless --window-size=1200,630 --virtual-time-budget=16000
-  --screenshot=assets/img/og.png scripts/og-card.html`.
+  --screenshot=assets/img/og-tarjeta.png scripts/og-card.html`.
+  Si la cambias, **cámbiale también el nombre**: WhatsApp, LinkedIn y
+  compañía guardan la previsualización en caché y, con el mismo nombre,
+  siguen enseñando la vieja durante días.
 
 - **`teaching_figures`** — las cuatro cifras que abren Docencia (asignaturas,
   titulaciones, centros y horas impartidas). Salen del autoinforme de calidad

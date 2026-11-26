@@ -855,16 +855,30 @@
   },
   {
    "es": {
-    "name": "Radiodeterminación y Sistemas de Radionavegación",
+    "name": "Radiodeterminación",
     "degree": "Grado en Ingeniería de Telecomunicación"
    },
    "en": {
-    "name": "Radiodetermination and Radionavigation Systems",
+    "name": "Radiodetermination",
     "degree": "Degree in Telecommunications Engineering"
    },
    "guia": {
     "plan": 512,
     "codigo": 46632
+   }
+  },
+  {
+   "es": {
+    "name": "Sistemas de Radionavegación",
+    "degree": "Grado en Ingeniería de Telecomunicación"
+   },
+   "en": {
+    "name": "Radionavigation Systems",
+    "degree": "Degree in Telecommunications Engineering"
+   },
+   "guia": {
+    "plan": 512,
+    "codigo": 46669
    }
   }
  ],

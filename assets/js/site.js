@@ -765,6 +765,11 @@
     if (host) {
       const cfg = state.content.teaching_guides || {};
       const curso = cfg.curso ? `${cfg.curso}-${cfg.curso + 1}` : "";
+      // Agrupadas por titulacion: siete titulos seguidos no dicen de
+      // donde sale cada uno, y la titulacion repetida debajo de cada
+      // uno es un estribillo. Va de cabecera, y el orden lo pone el
+      // JSON, que ya viene de grado a master.
+      let titulacion = null;
       host.innerHTML = state.content.teaching.map((c) => {
         const C = c[state.lang];
         const url = urlGuia(c);
@@ -776,12 +781,14 @@
         // Los simuladores que escribe para la asignatura, cuando los hay
         const sim = state.content.simulab;
         const extra = (c.simulab && sim && sim.patron)
-          ? ` \u00b7 <a class="simu" target="_blank" rel="noopener"`
+          ? `<span><a class="simu" target="_blank" rel="noopener"`
             + ` href="${esc(sim.patron.replace("{sitio}", c.simulab))}">`
-            + `${esc(t("teach.simu"))}</a>`
+            + `${esc(t("teach.simu"))}</a></span>`
           : "";
-        return `<div class="course"><b>${rotulo}</b>`
-          + `<span>${esc(C.degree)}${extra}</span></div>`;
+        const cabecera = C.degree === titulacion
+          ? "" : `<h4 class="courses-h">${esc(C.degree)}</h4>`;
+        titulacion = C.degree;
+        return `${cabecera}<div class="course"><b>${rotulo}</b>${extra}</div>`;
       }).join("");
     }
 

@@ -818,6 +818,56 @@ def orcid_latest() -> dict:
 
 # --- main --------------------------------------------------------------------
 
+# ── Red de seguridad ─────────────────────────────────────────────────
+#
+# Las fuentes de aqui son paginas ajenas y una API. El dia que gib.uva.es
+# cambie su HTML, que el Portal devuelva media respuesta o que OpenAlex
+# falle a medias, este script no se rompe: raspa menos y se queda tan
+# ancho. Sin nadie mirando, el lunes siguiente la web publicaria una
+# version empobrecida de si misma —menos articulos, menos paises, sin
+# premios— y el primero en enterarse seria quien la leyera.
+#
+# Asi que antes de escribir se compara con lo ultimo publicado. Si
+# alguna cifra se desploma, no se escribe nada y la ejecucion termina en
+# rojo, que es la unica forma de que se note. Para un recorte
+# deliberado —quitar una fuente, por ejemplo— esta JGP_SIN_RED=1.
+
+MARGEN = 0.85            # por debajo de esto, algo se ha roto
+
+VIGILADOS = (
+    ("articulos JCR", lambda d: d["metrics"]["jcr_articles"]),
+    ("publicaciones", lambda d: len(d["publications"])),
+    ("paises", lambda d: len(d["countries"])),
+    ("premios", lambda d: len(d["awards"])),
+    ("proyectos", lambda d: len(d["projects"]["overlay"])
+                          + len(d["projects"]["new"])),
+    ("coautores", lambda d: d["collaboration"]["total_coauthors"]),
+    ("citas (WoS)", lambda d: (d["metrics"].get("wos") or {}).get("citations")),
+    ("indice h (WoS)", lambda d: (d["metrics"].get("wos") or {}).get("h_index")),
+    ("citas (OpenAlex)", lambda d: d["metrics"]["openalex"]["citations"]),
+)
+
+
+def desplomes(antes: dict, ahora: dict) -> list[str]:
+    """Cifras que caen mas de lo admisible respecto a lo publicado."""
+    malas = []
+    for nombre, saca in VIGILADOS:
+        try:
+            viejo, nuevo = saca(antes), saca(ahora)
+        except (KeyError, TypeError, IndexError):
+            continue
+        if not isinstance(viejo, (int, float)) or viejo <= 0:
+            continue          # no habia nada antes: nada que proteger
+        if nuevo is None:
+            malas.append(f"{nombre}: habia {viejo} y ahora no viene nada")
+        elif not isinstance(nuevo, (int, float)):
+            malas.append(f"{nombre}: {viejo} -> {nuevo!r}, que no es un numero")
+        elif nuevo < viejo * MARGEN:
+            caida = (1 - nuevo / viejo) * 100
+            malas.append(f"{nombre}: {viejo} -> {nuevo} ({caida:.0f}% menos)")
+    return malas
+
+
 def main() -> int:
     print("Fetching GIB publication list ...", flush=True)
     publications: list[dict] = []
@@ -894,6 +944,29 @@ def main() -> int:
 
     publications.sort(key=lambda p: (-p["year"], -p["month"], p["title"]))
 
+    # Lo ultimo publicado, que hace de referencia dos veces: para
+    # heredar lo que esta vuelta no haya podido averiguar y para
+    # comparar al final.
+    anterior = None
+    if OUT.exists():
+        try:
+            anterior = json.loads(OUT.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            anterior = None
+
+    # Si esta vuelta no trae cifras de Web of Science, se conservan las
+    # que ya hubiera. Perderlas degradaria la web en silencio, y basta
+    # una ejecucion a mano sin la clave —en el ordenador de casa, por
+    # ejemplo— para vaciarlas sin querer. Que la consulta falle
+    # teniendo clave es otra cosa, y se avisa mas abajo.
+    wos_roto = bool(os.environ.get("WOS_API_KEY", "").strip()) and not wos
+    if not wos and anterior:
+        heredado = (anterior.get("metrics") or {}).get("wos")
+        if heredado:
+            wos = dict(heredado)
+            print(f"  se conservan las cifras de WoS ya publicadas "
+                  f"({heredado.get('as_of', 'sin fecha')}).", flush=True)
+
     print("Reading funded projects from the UVa Portal ...", flush=True)
     portal = portal_projects()
     proyectos = merge_projects(portal)
@@ -922,19 +995,32 @@ def main() -> int:
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
 
+    malas = desplomes(anterior, data) if anterior else []
+    if wos_roto:
+        malas.append("Web of Science: la clave esta puesta pero la consulta "
+                     "no ha devuelto citas")
+    if malas and not os.environ.get("JGP_SIN_RED"):
+        print("ERROR: los datos de esta vuelta no son de fiar; no se escribe "
+              "nada y se deja lo que ya habia.", file=sys.stderr)
+        for m in malas:
+            print(f"  - {m}", file=sys.stderr)
+        print("Lo normal es que una fuente haya cambiado o haya respondido a "
+              "medias. Si el recorte es a proposito, repite con "
+              "JGP_SIN_RED=1.", file=sys.stderr)
+        return 1
+    if malas:
+        print("AVISO: se escribe con JGP_SIN_RED pese a: " + "; ".join(malas),
+              flush=True)
+
     # Leave the file alone when only the timestamp would move. Otherwise
     # every weekly run would produce a commit with no change in substance,
     # and the page's "as of" date would claim freshness it does not have.
-    if OUT.exists():
-        try:
-            previous = json.loads(OUT.read_text(encoding="utf-8"))
-            if {k: v for k, v in previous.items() if k != "generated"} == \
-               {k: v for k, v in data.items() if k != "generated"}:
-                print(f"No substantive change; {OUT.relative_to(ROOT)} left as it was "
-                      f"(data unchanged since {previous.get('generated', '?')}).", flush=True)
-                return 0
-        except (json.JSONDecodeError, OSError):
-            pass  # unreadable or corrupt: fall through and rewrite it
+    if anterior is not None and \
+       {k: v for k, v in anterior.items() if k != "generated"} == \
+       {k: v for k, v in data.items() if k != "generated"}:
+        print(f"No substantive change; {OUT.relative_to(ROOT)} left as it was "
+              f"(data unchanged since {anterior.get('generated', '?')}).", flush=True)
+        return 0
 
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"Wrote {OUT.relative_to(ROOT)}", flush=True)

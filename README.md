@@ -301,6 +301,25 @@ El script **se niega a escribir** si parsea cero artículos o si el número no
 cuadra con el que declara la página del GIB. Así, si el grupo cambia su HTML, la
 web se queda con los últimos datos buenos en lugar de vaciarse.
 
+Y antes de escribir compara lo recién raspado con lo que ya estaba publicado.
+Si alguna cifra se desploma —artículos JCR, publicaciones, países, premios,
+proyectos, coautores, citas o índice h— no escribe nada y termina en rojo, de
+modo que la ejecución de los lunes falla a la vista en lugar de publicar una
+versión empobrecida de la web. El margen es un 15%: por debajo de eso, lo
+normal es que una fuente haya cambiado o haya respondido a medias. Si el
+recorte es deliberado —quitar una fuente, por ejemplo— se repite con la red
+quitada:
+
+```sh
+JGP_SIN_RED=1 python3 scripts/update_data.py
+```
+
+Las cifras de Web of Science se heredan del fichero anterior cuando esta vuelta
+no las trae, que es lo que pasa al ejecutarlo en tu ordenador sin la clave: así
+una prueba a mano no las borra sin querer. Si la clave está puesta y aun así la
+consulta no devuelve citas, eso sí se considera una avería y la ejecución
+falla.
+
 ---
 
 ## Publicar en GitHub Pages

@@ -956,6 +956,68 @@
    "en": "DOMO-BCI — home automation control through a brain-computer interface (VA-99-2015)"
   }
  ],
+
+ "awards_en": {
+  "_readme": "Los premios se raspan de gib.uva.es cada lunes y llegan en español, asi que su traduccion no puede vivir en profile.json: se guarda aqui. 'match' es un fragmento que solo aparece en ese premio; si no encuentra pareja, la version inglesa enseña el texto original, que es mejor que un hueco.",
+  "items": [
+   {
+    "match": "Mutual Médica Bioingeniería",
+    "text": "'Mutual Médica Bioingeniería' Award from the Royal Academy of Medicine and Surgery of Valladolid for the work 'Nuevas perspectivas en la fisiopatología de la sepsis gracias a las redes de coexpresión genéticas', by Javier Gómez, Pedro Martínez, Esther Gómez, Roberto Hornero and Eduardo Tamayo"
+   },
+   {
+    "match": "European Headache Congress",
+    "text": "Poster award at the European Headache Congress (EHC) 2022 for the work “Characterization of the spectral content of resting-state electroencephalographic activity in chronic migraine female patients”, by Víctor Gutiérrez-de Pablo, Ángel Luis Guerrero, David García-Azorín, Álvaro Sierra-Mencía, Javier Gomez-Pilar, Jesús Poza, Roberto Hornero and Carlos Gómez"
+   },
+   {
+    "match": "Enrique Fuentes Quintana",
+    "text": "Enrique Fuentes Quintana Award (FUNCAS) for the best doctoral thesis in Engineering, Mathematics, Architecture or Physics, for the thesis “Characterization of neural activity using Complex Network Theory. Application to the identification of the altered neural substrates in schizophrenia”, by Javier Gómez Pilar, supervised by Roberto Hornero and Jesús Poza (2018-2019 call)"
+   },
+   {
+    "match": "Premio Extraordinario de Doctorado",
+    "text": "Extraordinary Doctorate Award in the 'Engineering and Architecture' branch for the doctoral thesis by Javier Gómez Pilar, 'Characterization of Neural Activity using Complex Network Theory. Application to the Identification of the Altered Neural Substrates in Schizophrenia'. Supervisors: Roberto Hornero and Jesús Poza. Granted by the University of Valladolid"
+   },
+   {
+    "match": "Comité Español de Automática",
+    "text": "Best Thesis Award in 'Bioengineering and Biomedical Engineering' for the doctoral thesis by Javier Gómez Pilar, 'Characterization of Neural Activity using Complex Network Theory. Application to the Identification of the Altered Neural Substrates in Schizophrenia'. Supervisors: Roberto Hornero and Jesús Poza. Granted by the Spanish Committee of Automatic Control (CEA)"
+   },
+   {
+    "match": "Brain-Computer Interface Scientific Challenge",
+    "text": "Second prize in the Brain-Computer Interface Scientific Challenge, awarded by the International Federation of Medical and Biological Engineering at the XV Mediterranean Conference on Medical and Biological Engineering and Computing (MEDICON 2019), for the work ‘Deep learning architecture based on the combination of convolutional and recurrent layers for ERP-based brain-computer interfaces’, by Eduardo Santamaría Vázquez, Víctor Martínez Cagigal, Javier Gomez Pilar and Roberto Hornero Sánchez. Coimbra, Portugal"
+   },
+   {
+    "match": "Young Investigator Award",
+    "text": "Young Investigator Award in the competition for researchers under 45 held at the XV Mediterranean Conference on Medical and Biological Engineering and Computing (MEDICON 2019), for the work 'Network analysis on overnight EEG spectrum to assess relationships between paediatric sleep apnoea and cognition', by Gonzalo César Gutiérrez Tobal, Javier Gomez Pilar, Leila Kheirandish-Gozal, Adrián Martín Montero, Jesús Poza Crespo, Daniel Álvarez González, Félix del Campo Matías, David Gozal and Roberto Hornero Sánchez. Coimbra, Portugal"
+   },
+   {
+    "match": "III Jornada de Investigación",
+    "text": "Best oral presentation award at the III Research Conference on Information and Telecommunication Technologies, to Javier Gomez-Pilar"
+   },
+   {
+    "match": "Soluciones Innovadoras",
+    "text": "Innovative Solutions for Quality of Life Award from the Triangular E-3 International Campus of Excellence (CEI), group category, in the ‘Ageing’ category, for the project “Plataforma Brain-Computer Interface de Entrenamiento Cognitivo para Atenuar los Efectos del Envejecimiento”, by Víctor Martínez-Cagigal, Javier Gomez-Pilar and Roberto Hornero"
+   },
+   {
+    "match": "CASEIB 2015",
+    "text": "Second prize in the Student Researchers Competition at the XXXIII Annual Conference of the Spanish Society of Biomedical Engineering (CASEIB 2015) for the work 'Caracterización de la Dinámica en la Eficiencia de la Red Neuronal en Esquizofrenia en Tarea Cognitiva Auditiva', by Javier Gomez-Pilar, Jesús Poza, Alejandro Bachiller, Carlos Gómez, Vicente Molina and Roberto Hornero"
+   },
+   {
+    "match": "BCI Research Award 2014",
+    "text": "Finalist in The Annual BCI Research Award 2014 for the study 'Neurofeedback training by motor imagery based-BCI improves neurocognitive areas in elderly people', by Javier Gomez-Pilar, Rebeca Corralejo, Daniel Álvarez and Roberto Hornero. 5th International Brain-Computer Interface Meeting, University of Technology, Graz, Austria"
+   },
+   {
+    "match": "CASEIB 2014",
+    "text": "Second prize in the Student Researchers Competition at the XXXII Annual Conference of the Spanish Society of Biomedical Engineering (CASEIB 2014) for the work 'Caracterización de Potenciales Evocados del EEG en Esquizofrenia mediante Teoría de Redes Complejas', by Javier Gomez-Pilar, Alejandro Bachiller, Jesús Poza, Carlos Gómez, Vicente Molina and Roberto Hornero"
+   },
+   {
+    "match": "ASISA",
+    "text": "ASISA Finalist Award in Engineering and Medicine for the best final-year project, 'Análisis Espectral y No Lineal de la Variabilidad del Ritmo Cardiaco para la Ayuda al Diagnóstico del Síndrome de Apnea-Hipopnea del Sueño', to Javier Gómez Pilar. Supervisors: Roberto Hornero and Daniel Álvarez"
+   },
+   {
+    "match": "Young Investigator Competition",
+    "text": "First prize in the Young Investigator Competition held at the XIII Mediterranean Conference on Medical and Biological Engineering and Computing (MEDICON 2013) for the work 'AdaBoost Classification to Detect Sleep Apnea from Airflow Recordings', by Gonzalo César Gutiérrez Tobal, Daniel Álvarez González, Javier Gómez Pilar, Félix del Campo Matías and Roberto Hornero Sánchez"
+   }
+  ]
+ },
  "awards_confirmed_by_cv": [
   "Mutual Médica Bioingeniería"
  ],

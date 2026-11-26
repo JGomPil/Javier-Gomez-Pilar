@@ -820,6 +820,16 @@
 
   /* ── recognition ─────────────────────────────────────────── */
 
+  /* El raspado trae los premios en español. La version inglesa busca
+     su traduccion en content.json por un fragmento del texto; si no
+     la encuentra, deja el original, que es mejor que un hueco. */
+  function enIngles(texto) {
+    if (state.lang !== "en") return texto;
+    const tabla = state.content.awards_en?.items || [];
+    const hallado = tabla.find((x) => texto.includes(x.match));
+    return hallado ? hallado.text : texto;
+  }
+
   function renderRecognition() {
     const awardsHost = $("#awards-list");
     if (awardsHost) {
@@ -829,7 +839,7 @@
       const allow = state.content.awards_confirmed_by_cv || [];
       const scraped = (state.profile.awards || [])
         .filter((a) => a.confirmed || allow.some((needle) => a.text.includes(needle)))
-        .map((a) => ({ year: a.year, text: a.text }));
+        .map((a) => ({ year: a.year, text: enIngles(a.text) }));
 
       // Teaching awards do not appear in the group's research repository,
       // so they are kept by hand in content.json and merged in here.

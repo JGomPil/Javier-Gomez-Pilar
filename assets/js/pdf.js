@@ -725,6 +725,15 @@
 
   /* ── 05 reconocimiento ───────────────────────────────────── */
 
+  /* Igual que en la web: el raspado los trae en español y la
+     traduccion vive en content.json, emparejada por un fragmento. */
+  function enIngles(texto) {
+    if (ctx.lang !== "en") return texto;
+    const tabla = ctx.content.awards_en?.items || [];
+    const hallado = tabla.find((x) => texto.includes(x.match));
+    return hallado ? hallado.text : texto;
+  }
+
   function reconocimiento() {
     // Mismo criterio que la web: del raspado solo entran los premios
     // confirmados, y los docentes vienen a mano de content.json.
@@ -732,7 +741,7 @@
     const raspados = (ctx.profile.awards || [])
       .filter((a) => a.confirmed
         || permitidos.some((aguja) => a.text.includes(aguja)))
-      .map((a) => ({ year: a.year, text: a.text }));
+      .map((a) => ({ year: a.year, text: enIngles(a.text) }));
     const extra = (ctx.content.awards_extra || [])
       .map((a) => ({ year: a.year, text: a[ctx.lang] }));
     const premios = [...raspados, ...extra]

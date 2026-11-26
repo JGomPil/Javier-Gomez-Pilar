@@ -190,6 +190,12 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
 - **`service`**, **`ip`** — servicio científico y propiedad intelectual.
 - **`awards_extra`** — premios que no están en el repositorio del grupo, como
   los de innovación docente.
+- **`awards_en`** — los premios se raspan de gib.uva.es y llegan en español,
+  y el raspado se repite cada lunes, así que su traducción no puede vivir en
+  `profile.json`: está aquí. Cada entrada lleva un `match`, un fragmento que
+  solo aparezca en ese premio, y el `text` inglés. Si un premio nuevo no
+  encuentra pareja, la versión inglesa enseña el texto español, que es mejor
+  que un hueco; para traducirlo, añade su entrada.
 - **`awards_confirmed_by_cv`** — red de seguridad. La página de premios del GIB
   lista los de todo el grupo y no tiene filtro por autor, así que el script
   selecciona por nombre. Las entradas que dicen «Javier Gómez Pilar» se aceptan

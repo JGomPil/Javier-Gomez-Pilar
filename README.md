@@ -224,6 +224,14 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   compañía guardan la previsualización en caché y, con el mismo nombre,
   siguen enseñando la vieja durante días.
 
+- **`contact_card`** — los datos de la tarjeta de contacto: correo, dirección
+  postal, organismo, ORCID y la dirección de la web. El `.vcf` **no es un
+  fichero del repositorio**: lo arma el navegador al pulsar el botón, con el
+  cargo y el departamento ya traducidos, para que no haya una copia que se
+  quede vieja. El QR es `assets/img/qr.svg`, lleva a la web y se regenera con
+  `pip install segno && python3 scripts/qr.py`; va dibujado en `currentColor`,
+  pero sobre fondo claro en los dos temas, porque un QR invertido no lo lee
+  todo el mundo.
 - **`teaching_figures`** — las cuatro cifras que abren Docencia (asignaturas,
   titulaciones, centros y horas impartidas). Salen del autoinforme de calidad
   docente y se escriben a mano: no hay de dónde rasparlas. Conviene repasarlas

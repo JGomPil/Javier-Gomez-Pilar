@@ -353,6 +353,8 @@
 
   /* ── cabecera del currículum ─────────────────────────────── */
 
+  const correoDe = () => (ctx.content.contact_card || {}).email || "";
+
   function identidad(img, rotulo) {
     const datos = [
       { text: (rotulo || t("pdf.kicker")).toUpperCase(), style: "kicker" },
@@ -372,6 +374,12 @@
       identificadores.push(
         enlace((n + (id ? ` ${id}` : "")).replace(/ /g, "\u00a0"), url, 7.8));
     });
+    // El curriculum no tiene seccion de contacto, asi que el correo
+    // va aqui; en el dosier esta en su ficha y repetirlo sobraba.
+    if (modo === "cv" && correoDe()) {
+      datos.push({ text: [enlace(correoDe(), `mailto:${correoDe()}`, 9)],
+                   margin: [0, 7, 0, 0] });
+    }
     datos.push({ text: identificadores, margin: [0, 9, 0, 0],
                  lineHeight: 1.5 });
 
@@ -880,8 +888,13 @@
     bloques.push(caja([{
       columns: [
         { width: "*", style: "cuerpo", lineHeight: 1.5,
-          text: [t("contact.dept"), t("contact.school"),
-                 "Paseo de Belén 15, 47011 Valladolid, España"].join("\n") },
+          text: [
+            { text: [t("contact.dept"), t("contact.school"),
+                     "Paseo de Belén 15, 47011 Valladolid, España"]
+                .join("\n") + "\n" },
+            ...(correoDe() ? [enlace(correoDe(), `mailto:${correoDe()}`, 9)]
+                           : []),
+          ] },
         { width: "*", stack: [
             { text: t("contact.profiles"), style: "grupoH",
               margin: [0, 0, 0, 6] },

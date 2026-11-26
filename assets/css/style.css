@@ -534,6 +534,42 @@ h1 {
   h1 { font-size: clamp(1.9rem, 10.5vw, 3.4rem); }
 }
 
+/* La tarjeta de contacto: el QR y el boton del .vcf. El QR va
+   siempre sobre fondo claro, tambien en tema oscuro; invertido lo
+   leen casi todos los lectores, pero "casi" no vale para algo que se
+   proyecta en una sala. */
+.vcard {
+  display: flex; align-items: center; gap: 1.1rem;
+  margin-top: 1.9rem; padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+}
+.vcard-qr {
+  flex: 0 0 auto; display: grid; place-items: center;
+  padding: .5rem; background: #e9edf0; color: #121d2b;
+  border-radius: .3rem;
+}
+.vcard-qr img { display: block; width: 104px; height: 104px; }
+.vcard h3 { margin: 0 0 .25rem; }
+.vcard-pie {
+  margin: 0 0 .7rem;
+  font: 400 .72rem/1.4 var(--data); color: var(--muted);
+}
+.vcard-btn {
+  display: inline-flex; align-items: center; cursor: pointer;
+  padding: .42rem .8rem;
+  background: none; border: 1px solid var(--rule); border-radius: 999px;
+  color: var(--ink-soft);
+  font: 500 .72rem/1 var(--data); letter-spacing: .04em;
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.vcard-btn:hover, .vcard-btn:focus-visible {
+  color: var(--accent); border-color: var(--accent);
+}
+
+@media (max-width: 34rem) {
+  .vcard { flex-direction: column; align-items: flex-start; gap: .9rem; }
+}
+
 /* ── the trace strip ──────────────────────────────────────── */
 /* Cuatro curvas que se cruzan, dos frias y dos calidas. El filete
    superior se mantiene, pero en el gris mas suave: quien separa de

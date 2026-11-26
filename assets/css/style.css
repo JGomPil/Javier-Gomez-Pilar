@@ -981,27 +981,31 @@ h1 {
 }
 /* Cada asignatura lleva a su guia docente del curso. El titulo se
    queda en tinta con el filete tenue, y el acento aparece al pasar
-   por encima: ocho titulos en azul serian un sarpullido. */
-.course b a, .tfg-items li b a {
-  color: inherit;
-  background-image: linear-gradient(var(--rule), var(--rule));
+   por encima: ocho titulos en azul serian un sarpullido.
+   Estos enlaces no se llevan el filete al pasar por encima, como
+   hacen los del texto corrido: en una lista de ocho, la linea que se
+   retrae es un barrido que distrae. Aqui se queda quieta y solo
+   cambia de color, con calma. */
+.course b a, .tfg-items li b a, .course span a.simu {
+  background-image: none;          /* el filete del enlace corriente */
+  text-decoration: underline;      /* se cambia por un subrayado de */
+  text-decoration-thickness: 1px;  /* verdad, cuyo color si funde:   */
+  text-underline-offset: .22em;    /* un degradado de fondo no lo    */
+  text-decoration-color: var(--rule);  /* hace, y el color de fondo  */
+  transition: text-decoration-color .45s var(--ease),  /* pinta toda */
+              color .45s var(--ease);                  /* la caja.   */
 }
+.course b a, .tfg-items li b a { color: inherit; }
 .course b a:hover, .course b a:focus-visible,
-.tfg-items li b a:hover, .tfg-items li b a:focus-visible {
+.tfg-items li b a:hover, .tfg-items li b a:focus-visible,
+.course span a.simu:hover, .course span a.simu:focus-visible {
   color: var(--accent);
-  background-image: linear-gradient(currentColor, currentColor);
+  text-decoration-color: var(--accent);
 }
 
 /* El enlace a los simuladores va en la linea de la titulacion, con
    su cuerpo: es un apunte, no un titulo. */
-.course span a.simu {
-  color: var(--ink-soft);
-  background-image: linear-gradient(var(--rule), var(--rule));
-}
-.course span a.simu:hover, .course span a.simu:focus-visible {
-  color: var(--accent);
-  background-image: linear-gradient(currentColor, currentColor);
-}
+.course span a.simu { color: var(--ink-soft); }
 
 .course span {
   display: block; font: 400 .745rem/1.5 var(--data);

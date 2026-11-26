@@ -805,18 +805,47 @@
  "teaching": [
   {
    "es": {
-    "name": "Neurociencia Avanzada",
-    "degree": "Grado en Medicina"
+    "name": "Radiodeterminación",
+    "degree": "Grado en Ingeniería de Telecomunicación"
    },
    "en": {
-    "name": "Advanced Neuroscience",
-    "degree": "Degree in Medicine"
+    "name": "Radiodetermination",
+    "degree": "Degree in Telecommunications Engineering"
    },
    "guia": {
-    "plan": 478,
-    "codigo": 46331
+    "plan": 512,
+    "codigo": 46632
    },
-   "simulab": "neurolab"
+   "simulab": "radionav"
+  },
+  {
+   "es": {
+    "name": "Sistemas de Radionavegación",
+    "degree": "Grado en Ingeniería de Telecomunicación"
+   },
+   "en": {
+    "name": "Radionavigation Systems",
+    "degree": "Degree in Telecommunications Engineering"
+   },
+   "guia": {
+    "plan": 512,
+    "codigo": 46669
+   },
+   "simulab": "radionav"
+  },
+  {
+   "es": {
+    "name": "Tratamiento de Señales Biomédicas",
+    "degree": "Grado en Ingeniería de Telecomunicación"
+   },
+   "en": {
+    "name": "Biomedical Signal Processing",
+    "degree": "Degree in Telecommunications Engineering"
+   },
+   "guia": {
+    "plan": 512,
+    "codigo": 46638
+   }
   },
   {
    "es": {
@@ -830,6 +859,21 @@
    "guia": {
     "plan": 637,
     "codigo": 47550
+   },
+   "simulab": "neurolab"
+  },
+  {
+   "es": {
+    "name": "Neurociencia Avanzada",
+    "degree": "Grado en Medicina"
+   },
+   "en": {
+    "name": "Advanced Neuroscience",
+    "degree": "Degree in Medicine"
+   },
+   "guia": {
+    "plan": 478,
+    "codigo": 46331
    },
    "simulab": "neurolab"
   },
@@ -862,49 +906,6 @@
     "codigo": 55428
    },
    "simulab": "datalab"
-  },
-  {
-   "es": {
-    "name": "Tratamiento de Señales Biomédicas",
-    "degree": "Grado en Ingeniería de Telecomunicación"
-   },
-   "en": {
-    "name": "Biomedical Signal Processing",
-    "degree": "Degree in Telecommunications Engineering"
-   },
-   "guia": {
-    "plan": 512,
-    "codigo": 46638
-   }
-  },
-  {
-   "es": {
-    "name": "Radiodeterminación",
-    "degree": "Grado en Ingeniería de Telecomunicación"
-   },
-   "en": {
-    "name": "Radiodetermination",
-    "degree": "Degree in Telecommunications Engineering"
-   },
-   "guia": {
-    "plan": 512,
-    "codigo": 46632
-   }
-  },
-  {
-   "es": {
-    "name": "Sistemas de Radionavegación",
-    "degree": "Grado en Ingeniería de Telecomunicación"
-   },
-   "en": {
-    "name": "Radionavigation Systems",
-    "degree": "Degree in Telecommunications Engineering"
-   },
-   "guia": {
-    "plan": 512,
-    "codigo": 46669
-   },
-   "simulab": "radionav"
   }
  ],
  "theses": [

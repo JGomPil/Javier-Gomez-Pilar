@@ -494,7 +494,9 @@ h1 {
   .hero-grid .hero-links{ order: 6; }
   .hero-grid .affil     { order: 7; }
 
-  .hero-photo { justify-content: flex-start; }
+  /* Centrado: alineado a la izquierda, bajo un titular que ocupa
+     todo el ancho, el retrato parecia descolgado. */
+  .hero-photo { justify-content: center; }
   .retrato { max-width: 10.5rem; }
   /* En movil las tres lineas no caben: fluyen como un parrafo. */
   .epigraph p span { display: inline; }
@@ -977,16 +979,20 @@ h1 {
 /* Cabecera de cada titulacion: en acento y con su marca a la
    izquierda, para que se vea que manda sobre las asignaturas que
    lleva debajo y no se confunda con ellas. */
+/* Nada de flex aqui: en un movil "Master en Investigacion Biomedica
+   y Terapias Avanzadas" no cabe en una linea, y como item de flex no
+   se parte, se sale. En linea normal, el rotulo fluye y la marca o
+   el logo se quedan a su izquierda. */
 .courses-h {
-  display: flex; align-items: center; gap: .55rem;
   margin: 0; padding: 1.6rem 0 .45rem;
-  font: 600 .735rem/1 var(--data);
+  font: 600 .735rem/1.45 var(--data);
   letter-spacing: .14em; text-transform: uppercase;
   color: var(--accent);
 }
 .courses-h::before {
-  content: ""; flex: 0 0 auto;
-  width: .62rem; height: 2px; background: var(--accent);
+  content: ""; display: inline-block; vertical-align: middle;
+  width: .62rem; height: 2px; margin-inline-end: .55rem;
+  background: var(--accent);
 }
 /* Cuando la titulacion tiene el logo de su centro, el logo hace de
    marca y la raya sobra. El logo va enmascarado, como los del hero:
@@ -995,7 +1001,8 @@ h1 {
    proporcion que trae el JSON, porque una mascara no la deduce. */
 .courses-h.con-logo::before { content: none; }
 .courses-logo {
-  flex: 0 0 auto;
+  display: inline-block; vertical-align: middle;
+  margin-inline-end: .55rem;
   height: calc(1.55rem * var(--esc, 1));
   width: calc(1.55rem * var(--esc, 1) * var(--prop, 1));
   background: var(--accent);
@@ -1041,6 +1048,14 @@ h1 {
 .course span {
   display: block; font: 400 .745rem/1.5 var(--data);
   color: var(--muted); margin-top: .3rem;
+}
+
+@media (max-width: 46rem) {
+  .courses-h { font-size: .68rem; letter-spacing: .08em; }
+  .courses-logo {
+    height: calc(1.3rem * var(--esc, 1));
+    width: calc(1.3rem * var(--esc, 1) * var(--prop, 1));
+  }
 }
 
 /* Listas largas y planas: un realce al pasar por encima dice en que

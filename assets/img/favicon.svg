@@ -1,10 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="JGP">
   <!-- Las iniciales de Javier Gomez Pilar. El hexagono no rodea a
        las letras: las dibuja. Arista plana arriba y abajo y punta a
-       media altura, que es donde la G lleva el travesano y donde la
-       P cierra el ojo. Sin pastilla de fondo, las letras ocupan el
-       lienzo entero, que es lo que hace falta para que se lean a los
-       32 px de una pestana. -->
+       media altura, que es donde la G gira hacia dentro y donde la P
+       cierra el ojo. La G baja por la izquierda, da la vuelta por
+       abajo y sube por la derecha hasta esa punta: la boca le queda
+       arriba a la derecha. Sin pastilla, las letras ocupan el lienzo
+       entero y se leen a los 32 px de una pestana. -->
   <style>
     .tinta { stroke: #123778 } .calida { stroke: #c05a10 }
     @media (prefers-color-scheme: dark) {
@@ -13,7 +14,7 @@
   </style>
   <g fill="none" stroke-width="5.4" stroke-linecap="butt" stroke-linejoin="miter">
     <path d="M14.45,12.70 V47.52 L10.67,51.30 H7.23 L5.85,48.20" class="tinta"/>
-    <path d="M34.11,51.30 H26.49 L24.45,32.00 L26.49,12.70 H36.01 L38.05,32.00 H32.61" class="calida"/>
+    <path d="M32.20,12.70 H26.49 L24.45,32.00 L26.49,51.30 H36.01 L38.05,32.00 H31.25" class="calida"/>
     <path d="M48.05,51.30 V12.70 H54.92 L58.15,22.35 L54.92,32.00 H48.05" class="tinta"/>
   </g>
 </svg>

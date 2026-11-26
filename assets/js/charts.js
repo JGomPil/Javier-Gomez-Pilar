@@ -125,6 +125,52 @@
     };
   }
 
+  /* ── sitio para la leyenda ──────────────────────────────────── */
+
+  /* Cuanto alto ocupa la leyenda al ancho que haya.
+   *
+   * ECharts la parte en varias lineas cuando no cabe, pero no se lo
+   * dice a nadie: el grafico se sigue dibujando como si ocupara una
+   * sola, y en un movil la segunda linea de la leyenda cae encima de
+   * las primeras barras. Aqui se mide el texto con un lienzo y se
+   * cuentan las lineas que saldran, para dejarle su sitio.
+   */
+  function altoLeyenda(etiquetas, ancho, b) {
+    if (!ancho || !etiquetas.length) return 18;
+    const medidor = altoLeyenda.medidor
+      || (altoLeyenda.medidor =
+            document.createElement("canvas").getContext("2d"));
+    medidor.font = `11px ${b.data}`;
+    const ICONO = 10 + 5;            // cuadradito mas su hueco
+    const HUECO = 16;                // itemGap
+    let fila = 0, lineas = 1;
+    etiquetas.forEach((txt) => {
+      const ancho1 = ICONO + medidor.measureText(String(txt)).width;
+      if (fila && fila + HUECO + ancho1 > ancho) {
+        lineas += 1;
+        fila = ancho1;
+      } else {
+        fila += (fila ? HUECO : 0) + ancho1;
+      }
+    });
+    return lineas * 18;
+  }
+
+  /* Ancho util del contenedor del grafico.
+   *
+   * Una pestana que todavia no se ha abierto mide cero, y cero se
+   * parece peligrosamente a "pantalla estrecha": el grafico se
+   * montaria con la disposicion de movil en un ordenador. Cuando no
+   * hay medida, manda el ancho de la ventana. */
+  function anchoDe(host) {
+    return host?.clientWidth
+      || host?.parentNode?.clientWidth
+      || document.documentElement.clientWidth
+      || 0;
+  }
+
+  const ESTRECHO = 560;              // de aqui abajo, pantalla de movil
+
   /* ── carga perezosa ─────────────────────────────────────────── */
 
   function loadECharts() {
@@ -169,7 +215,9 @@
       tooltip: { ...b.tooltip, trigger: "axis",
                  axisPointer: { type: "shadow" },
                  order: "seriesDesc" },
-      grid: { ...b.grid, top: 34 },
+      grid: { ...b.grid,
+              top: altoLeyenda(GROUPS.map((g) => t("g." + g.key)),
+                               anchoDe(host), b) + 16 },
       xAxis: { type: "category", data: years, ...b.axisCommon,
                splitLine: { show: false } },
       yAxis: { type: "value", ...b.axisCommon, minInterval: 1 },
@@ -207,6 +255,8 @@
     const maxDeg = Math.max(1, ...degree);
     const minDeg = Math.min(...degree, maxDeg);
 
+    const angosto = anchoDe(host) < ESTRECHO;
+
     mount(host, () => ({
       ...b,
       tooltip: {
@@ -233,7 +283,10 @@
           // El color lo pone la barra de abajo, a partir de "value".
           itemStyle: { borderColor: b.paper, borderWidth: 1 },
           label: {
-            show: n.works >= max * 0.28,     // solo los centrales llevan nombre
+            // Solo los centrales llevan nombre, y en un movil
+            // ninguno: cinco rotulos en 390px se pisan entre si y se
+            // salen por el lado. Ahi el nombre lo da el toque.
+            show: !angosto && n.works >= max * 0.28,
             position: "right",
             color: b.ink,
             fontSize: 10,
@@ -299,7 +352,10 @@
     const colours = ramp(keys.length);
     const total = keys.reduce((s, k) => s + q[k], 0);
     const d1 = q.D1 || 0;
-    const CENTRO = ["40%", "50%"];
+    // En un movil la leyenda no cabe al lado: se va debajo y el
+    // anillo se centra y sube un poco para dejarle sitio.
+    const angosto = anchoDe(host) < ESTRECHO;
+    const CENTRO = angosto ? ["50%", "44%"] : ["40%", "50%"];
 
     const leyenda = keys.slice();
     if (d1) leyenda.push(t("g.q.d1"));
@@ -352,8 +408,11 @@
       ...b,
       tooltip: { ...b.tooltip, trigger: "item",
                  formatter: (p) => `<b>${p.name}</b><br>${p.value} \u00b7 ${p.percent}%` },
-      legend: { ...b.legend, orient: "vertical", right: 0, top: "middle",
-                left: "auto", data: leyenda },
+      legend: angosto
+        ? { ...b.legend, orient: "horizontal", left: "center", right: "auto",
+            top: "auto", bottom: 0, data: leyenda }
+        : { ...b.legend, orient: "vertical", right: 0, top: "middle",
+            left: "auto", data: leyenda },
       series,
       /* El total iba como "graphic" anclado por su borde izquierdo, de
          modo que quedaba descentrado justo por media palabra. El
@@ -362,7 +421,7 @@
       title: {
         text: String(total),
         subtext: t("m.jcr"),
-        left: CENTRO[0], top: "center",
+        left: CENTRO[0], top: CENTRO[1],
         textAlign: "center", textVerticalAlign: "middle",
         itemGap: 2,
         textStyle: { color: b.ink, fontSize: 28,
@@ -473,6 +532,9 @@
     const from = Math.min(...projects.map((p) => p.from));
     const to = Math.max(...projects.map((p) => p.to));
 
+    const etiquetas = ROLES.filter((r) => projects.some((p) => p.role === r))
+                          .map((r) => t("g.role." + r));
+
     mount(host, () => ({
       ...b,
       tooltip: {
@@ -489,11 +551,12 @@
       },
       legend: {
         ...b.legend,
-        data: ROLES.filter((r) => projects.some((p) => p.role === r))
-                   .map((r) => t("g.role." + r)),
+        data: etiquetas,
         selectedMode: false,
       },
-      grid: { ...b.grid, top: 34, left: 2 },
+      grid: { ...b.grid,
+              top: altoLeyenda(etiquetas, anchoDe(host), b) + 16,
+              left: 2 },
       xAxis: { type: "value", min: from, max: to + 1, ...b.axisCommon,
                minInterval: 1, axisLabel: { ...b.axisCommon.axisLabel,
                                             formatter: (v) => String(v) } },

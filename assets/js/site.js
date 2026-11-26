@@ -951,6 +951,11 @@
         .replace("{n}", nf().format(net.nodes.length))
         .replace("{m}", net.threshold)
         .replace("{total}", nf().format(net.total_coauthors));
+      // En un movil los nodos van sin nombre, porque se pisarian: hay
+      // que decir donde esta el nombre.
+      if (window.matchMedia("(max-width: 560px)").matches) {
+        sub.textContent += ` \u00b7 ${t("g.net.tap")}`;
+      }
     }
 
     window.JGPCharts.render({

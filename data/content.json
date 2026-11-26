@@ -145,7 +145,7 @@
    "sup.h.tfg": "Trabajos de Fin de Grado",
    "sup.inprog": "en curso",
    "pdf.btn": "PDF",
-   "pdf.aria": "Descargar toda la web en PDF",
+   "pdf.aria": "Descargar en PDF",
    "pdf.wait": "Generando…",
    "pdf.fail": "No se ha podido generar",
    "pdf.kicker": "Dosier académico",
@@ -172,7 +172,18 @@
    "tm.horas.src": "como Contratado Doctor, desde 2022/23",
    "pid.h": "Proyectos de innovación docente",
    "pid.ips": "IPs",
-   "conj.y": "y"
+   "conj.y": "y",
+   "pdf.kicker.cv": "Currículum abreviado",
+   "cv.pubs": "Publicaciones seleccionadas",
+   "cv.pubs.rule": "Artículos JCR de primer decil y, tras ellos, de primer cuartil, de más reciente a más antigua.",
+   "cv.proj": "Proyectos seleccionados",
+   "cv.atenea": "programa de mentoría del Grado en Ingeniería Biomédica; {n} convocatorias concedidas como IP (PID y Mentor-UVa).",
+   "cv.full": "Las {n} publicaciones, los proyectos y la supervisión al completo están en el dosier académico.",
+   "pdf.m.cv": "Currículum abreviado",
+   "pdf.m.cv.d": "Dos páginas, para adjuntar a una convocatoria",
+   "pdf.m.dosier": "Dosier académico",
+   "pdf.m.dosier.d": "Todo el contenido de la web, con sus enlaces",
+   "cv.note": "Citas e índice h: Web of Science, a fecha de {date}. Todo el detalle, en {url}."
   },
   "en": {
    "skip": "Skip to content",
@@ -312,7 +323,7 @@
    "sup.h.tfg": "Final-year projects",
    "sup.inprog": "ongoing",
    "pdf.btn": "PDF",
-   "pdf.aria": "Download the whole site as a PDF",
+   "pdf.aria": "Download as PDF",
    "pdf.wait": "Generating…",
    "pdf.fail": "Could not generate it",
    "pdf.kicker": "Academic dossier",
@@ -339,7 +350,18 @@
    "tm.horas.src": "as Associate Professor, since 2022/23",
    "pid.h": "Teaching innovation projects",
    "pid.ips": "PIs",
-   "conj.y": "and"
+   "conj.y": "and",
+   "pdf.kicker.cv": "Short CV",
+   "cv.pubs": "Selected publications",
+   "cv.pubs.rule": "JCR articles in the first decile and then in the first quartile, newest first.",
+   "cv.proj": "Selected projects",
+   "cv.atenea": "mentoring programme of the Biomedical Engineering degree; {n} funded editions as PI (PID and Mentor-UVa).",
+   "cv.full": "The full list of {n} publications, projects and supervision is in the academic dossier.",
+   "pdf.m.cv": "Short CV",
+   "pdf.m.cv.d": "Two pages, to attach to a call",
+   "pdf.m.dosier": "Academic dossier",
+   "pdf.m.dosier.d": "Everything on the site, with its links",
+   "cv.note": "Citations and h-index: Web of Science, as of {date}. Full detail at {url}."
   }
  },
  "epigraph": {

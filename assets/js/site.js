@@ -1187,15 +1187,23 @@
      parece que el boton no ha hecho nada. */
   function initPdf() {
     const boton = $("#pdf-btn");
+    const menu = $("#pdf-menu");
     if (!boton) return;
     if (!window.JGPPdf) { boton.hidden = true; return; }
 
     const etiqueta = boton.querySelector("span");
     let ocupado = false;
 
-    boton.addEventListener("click", () => {
+    const abre = (si) => {
+      if (!menu) return;
+      menu.hidden = !si;
+      boton.setAttribute("aria-expanded", String(si));
+    };
+
+    const descarga = (cual) => {
       if (ocupado) return;
       ocupado = true;
+      abre(false);
       boton.disabled = true;
       if (etiqueta) etiqueta.textContent = t("pdf.wait");
 
@@ -1203,7 +1211,7 @@
         content: state.content,
         profile: state.profile,
         lang: state.lang,
-      }).catch((err) => {
+      }, cual).catch((err) => {
         console.error("PDF:", err);
         if (etiqueta) etiqueta.textContent = t("pdf.fail");
       }).finally(() => {
@@ -1215,6 +1223,27 @@
           if (etiqueta) etiqueta.textContent = t("pdf.btn");
         }, 2600);
       });
+    };
+
+    // Sin menu en el HTML —una version vieja en cache— el boton
+    // sigue bajando el dosier, que es lo que hacia antes.
+    if (!menu) {
+      boton.addEventListener("click", () => descarga("dosier"));
+      return;
+    }
+
+    boton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      abre(menu.hidden);
+    });
+    menu.querySelectorAll("[data-pdf]").forEach((b) => {
+      b.addEventListener("click", () => descarga(b.dataset.pdf));
+    });
+    document.addEventListener("click", (e) => {
+      if (!menu.hidden && !menu.contains(e.target)) abre(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !menu.hidden) { abre(false); boton.focus(); }
     });
   }
 

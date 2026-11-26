@@ -273,10 +273,20 @@ python3 -c "import json; json.load(open('data/content.json', encoding='utf-8'))"
 
 ## Exportar la web en PDF
 
-El botón **PDF** de la barra superior **genera un PDF y lo descarga**. No abre
-el diálogo de impresión ni imprime la página: compone un currículum de verdad,
-con sus páginas, su numeración, su texto seleccionable y sus enlaces vivos, en
-el idioma que esté activo. Son unas 20 páginas y unos 550 KB.
+El botón **PDF** de la barra superior abre un menú con **dos documentos**, que
+salen de los mismos datos y se descargan como PDF de verdad —páginas,
+numeración, texto seleccionable y enlaces vivos— en el idioma que esté activo:
+
+- **Currículum abreviado**, dos páginas, para adjuntar a una convocatoria. No
+  es un resumen escrito aparte: es una selección de lo mismo. Ocho artículos
+  (primero los de primer decil, después los de primer cuartil, dentro de cada
+  grupo del más reciente al más antiguo), seis proyectos (primero los que
+  dirige, luego los más recientes), la docencia y la supervisión en dos
+  renglones de cifras, y los cuatro premios más recientes. Las reglas están en
+  `cvSeleccion()` y en `cvContenido()`; cambiar cuántos entran es cambiar
+  `CV_PUBS` y los `slice`.
+- **Dosier académico**, veintitantas páginas, con todo el contenido de la web y
+  cada sección empezando en página nueva.
 
 Lo hace `assets/js/pdf.js` con [pdfmake](https://pdfmake.github.io/), en el
 navegador. En el navegador y no en un servidor porque no hay servidor: esto es

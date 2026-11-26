@@ -232,7 +232,7 @@
     // Cada seccion grande abre pagina, menos la primera, que va
     // detras de la portada. Asi el dosier se hojea por secciones y
     // ninguna empieza a tres lineas del pie.
-    const abre = n > 1;
+    const abre = n > 1 && modo !== "cv";
     return {
       unbreakable: true,
       headlineLevel: 1,
@@ -269,7 +269,7 @@
   function barra(texto, cuenta, { color = NARANJA, fondo = NARANJA_BG } = {}) {
     return {
       unbreakable: true,
-      margin: [0, 11, 0, 7],
+      margin: modo === "cv" ? [0, 9, 0, 5] : [0, 11, 0, 7],
       table: {
         widths: ["*", "auto"],
         body: [[
@@ -353,9 +353,9 @@
 
   /* ── cabecera del currículum ─────────────────────────────── */
 
-  function identidad(img) {
+  function identidad(img, rotulo) {
     const datos = [
-      { text: t("pdf.kicker").toUpperCase(), style: "kicker" },
+      { text: (rotulo || t("pdf.kicker")).toUpperCase(), style: "kicker" },
       { text: "Javier Gómez Pilar", style: "nombre" },
       { text: t("hero.pos"), style: "cargo" },
       { text: [t("contact.dept"), t("contact.school"),
@@ -491,6 +491,44 @@
     return `${t("pid.ips")}: ${lista}`;
   }
 
+  /* Una referencia, numerada. La usan el dosier y el curriculum
+     abreviado, que no pueden citar lo mismo de dos maneras. */
+  function referencia(p, i) {
+    const doi = doiLimpio(p.doi);
+    const donde = [
+      p.journal || "",
+      p.volume ? `vol. ${p.volume}` : "",
+      p.pages ? `pp. ${p.pages}` : "",
+    ].filter(Boolean).join(", ");
+
+    const texto = [
+      ...autores(p.authors),
+      { text: ` (${p.year}). `, color: SUAVE },
+      { text: p.title, bold: true, color: TINTA },
+    ];
+    if (donde) texto.push({ text: `. ${donde}`, color: SUAVE, italics: true });
+    if (doi) {
+      texto.push({ text: ". ", color: SUAVE });
+      texto.push(enlace(`doi.org/${doi}`, `https://doi.org/${doi}`, 7.4));
+    } else if (p.url) {
+      texto.push({ text: ". ", color: SUAVE });
+      texto.push(enlace(t("pdf.link"), p.url, 7.4));
+    }
+    if (p.quartile) texto.push({ text: `   ${p.quartile}`, color: AZUL,
+                                 bold: true, fontSize: 7.6 });
+    if (p.top_decile) texto.push({ text: "   D1", color: NARANJA,
+                                   bold: true, fontSize: 7.6 });
+
+    return {
+      unbreakable: true,
+      margin: [0, 0, 0, modo === "cv" ? 3.5 : 5],
+      columns: [
+        { text: String(i + 1), width: 24, style: "num" },
+        { text: texto, style: "ref" },
+      ],
+    };
+  }
+
   function publicaciones() {
     const todas = ctx.profile.publications;
     const m = ctx.profile.metrics;
@@ -531,42 +569,7 @@
 
       // De la más reciente a la más antigua, pero numeradas 1, 2,
       // 3... Contar hacia atrás desde sesenta y ocho no lo hace nadie.
-      items.forEach((p, i) => {
-        const doi = doiLimpio(p.doi);
-        const donde = [
-          p.journal || "",
-          p.volume ? `vol. ${p.volume}` : "",
-          p.pages ? `pp. ${p.pages}` : "",
-        ].filter(Boolean).join(", ");
-
-        const texto = [
-          ...autores(p.authors),
-          { text: ` (${p.year}). `, color: SUAVE },
-          { text: p.title, bold: true, color: TINTA },
-        ];
-        if (donde) texto.push({ text: `. ${donde}`, color: SUAVE,
-                                italics: true });
-        if (doi) {
-          texto.push({ text: ". " , color: SUAVE });
-          texto.push(enlace(`doi.org/${doi}`, `https://doi.org/${doi}`, 7.4));
-        } else if (p.url) {
-          texto.push({ text: ". ", color: SUAVE });
-          texto.push(enlace(t("pdf.link"), p.url, 7.4));
-        }
-        if (p.quartile) texto.push({ text: `   ${p.quartile}`, color: AZUL,
-                                     bold: true, fontSize: 7.6 });
-        if (p.top_decile) texto.push({ text: "   D1", color: NARANJA,
-                                       bold: true, fontSize: 7.6 });
-
-        bloques.push({
-          unbreakable: true,
-          margin: [0, 0, 0, 5],
-          columns: [
-            { text: String(i + 1), width: 24, style: "num" },
-            { text: texto, style: "ref" },
-          ],
-        });
-      });
+      items.forEach((p, i) => { bloques.push(referencia(p, i)); });
     });
 
     return bloques;
@@ -920,9 +923,191 @@
     return bloques;
   }
 
+  /* ── el curriculum abreviado ─────────────────────────────── */
+
+  /* El dosier lo cuenta todo; esto cabe en un adjunto. Mismos datos,
+     ninguna cifra nueva que mantener: lo que se elige es cuanto se
+     enseña de cada cosa. */
+
+  /* Ocho, no diez: con diez, los dos premios de tesis y el colofon se
+     caian a una tercera pagina a cuarto de llenar. */
+  const CV_PUBS = 8;
+
+  /* Diez articulos, con un criterio que se puede decir en voz alta:
+     primero los de primer decil, luego los de primer cuartil, y
+     dentro de cada grupo del mas reciente al mas antiguo. */
+  function cvSeleccion() {
+    const peso = (p) => (p.top_decile ? 0 : p.quartile === "Q1" ? 1 : 2);
+    return ctx.profile.publications
+      .filter((p) => (p.kind || "journal") === "journal")
+      .slice()
+      .sort((a, b) => peso(a) - peso(b)
+        || (b.year - a.year)
+        || ((b.month || 0) - (a.month || 0)))
+      .slice(0, CV_PUBS);
+  }
+
+  /* Una linea de "7 asignaturas · 5 titulaciones · ..." a partir de
+     las mismas cifras que abren Docencia en la web. */
+  function cvLinea(pares) {
+    const trozos = [];
+    pares.forEach(([valor, etiqueta], i) => {
+      if (i) trozos.push({ text: "   ·   ", color: FILETE });
+      trozos.push({ text: String(valor), bold: true, color: AZUL });
+      trozos.push({ text: ` ${etiqueta}`, color: SUAVE });
+    });
+    return { text: trozos, style: "cuerpo", margin: [0, 0, 0, 2] };
+  }
+
+  function cvContenido(img) {
+    const fmt = nf();
+    const m = ctx.profile.metrics;
+    const bloques = [identidad(img, t("pdf.kicker.cv")), cifras()];
+
+    // Las tres lineas de investigacion, en un renglon
+    const lineas = (ctx.content.lines || [])
+      .map((l) => (l[ctx.lang] || {}).title).filter(Boolean);
+    if (lineas.length) {
+      bloques.push({
+        text: lineas.join("   ·   "),
+        style: "meta", margin: [0, 13, 0, 0],
+      });
+    }
+
+    // Publicaciones seleccionadas
+    bloques.push(barra(t("cv.pubs"), `${CV_PUBS} / ${fmt.format(m.jcr_articles)}`,
+      { color: AZUL, fondo: AZUL_BG }));
+    bloques.push({ text: t("cv.pubs.rule"), style: "meta",
+                   margin: [0, 0, 0, 7] });
+    cvSeleccion().forEach((pub, i) => { bloques.push(referencia(pub, i)); });
+
+    // Proyectos: primero los que dirige, luego los mas recientes
+    const lidera = (x) => x.role === "ip" || x.role === "co-ip"
+      || x.role === "director";
+    const papel = {
+      "ip": ctx.lang === "es" ? "IP" : "PI",
+      "co-ip": ctx.lang === "es" ? "Co-IP" : "Co-PI",
+      "director": t("proj.director"),
+      "researcher": t("g.role.researcher"),
+    };
+    const elegidos = ctx.content.projects.slice()
+      .sort((a, b) => (lidera(b) ? 1 : 0) - (lidera(a) ? 1 : 0)
+        || Number(b.from) - Number(a.from))
+      .slice(0, 6);
+    if (elegidos.length) {
+      const ahora = new Date().getFullYear();
+      const eur = euros();
+      bloques.push(barra(t("cv.proj"),
+        `${elegidos.length} / ${ctx.content.projects.length}`));
+      elegidos.forEach((x) => {
+        const X = x[ctx.lang] || {};
+        const vivo = x.live !== undefined ? x.live : Number(x.to) >= ahora;
+        const titulo = [];
+        if (x.acronym) titulo.push({ text: `${x.acronym}  `, bold: true,
+                                     color: vivo ? NARANJA : AZUL });
+        titulo.push({ text: X.title || "", bold: true });
+        const pie = [papel[x.role] || "", x.funder || ""];
+        if (x.amount) pie.push(eur.format(Number(x.amount))
+          + (x.amount_basis === "uva" ? ` (${t("pr.uva")})` : ""));
+        bloques.push({
+          unbreakable: true,
+          margin: [0, 0, 0, 6],
+          columns: [
+            { text: `${x.from}–${x.to}`, width: 54, fontSize: 8.2,
+              color: vivo ? NARANJA : APAGADO, bold: vivo },
+            { stack: [
+              { text: titulo, fontSize: 9 },
+              { text: pie.filter(Boolean).join("   ·   "), style: "meta" },
+            ] },
+          ],
+        });
+      });
+    }
+
+    // Docencia y supervision, en cifras y en dos renglones
+    bloques.push(barra(t("teach.h"), null, { color: AZUL, fondo: AZUL_BG }));
+    const cifrasDoc = ctx.content.teaching_figures;
+    if (cifrasDoc) {
+      bloques.push(cvLinea(cifrasDoc.items
+        .map((x) => [fmt.format(x.value), t(x.key).toLowerCase()])));
+    }
+    const sup = [[ctx.content.theses.length, t("sup.h.phd").toLowerCase()]];
+    ["tfm", "tfg", "prac"].forEach((kind) => {
+      const n = (ctx.content.tfgs || []).filter((x) => x.kind === kind).length;
+      if (n) sup.push([n, t("sup.h." + kind).toLowerCase()]);
+    });
+    bloques.push(cvLinea(sup));
+    const pid = ctx.content.teaching_projects;
+    if (pid) {
+      bloques.push({
+        text: [
+          { text: t("atenea.h"), bold: true },
+          { text: " — " + t("cv.atenea").replace("{n}", pid.items.length),
+            color: SUAVE },
+        ],
+        style: "cuerpo", margin: [0, 5, 0, 0],
+      });
+    }
+
+    // Reconocimiento: los premios recientes y la propiedad industrial
+    const permitidos = ctx.content.awards_confirmed_by_cv || [];
+    const premios = [
+      ...(ctx.profile.awards || [])
+        .filter((a) => a.confirmed
+          || permitidos.some((aguja) => a.text.includes(aguja)))
+        .map((a) => ({ year: a.year, text: enIngles(a.text) })),
+      ...(ctx.content.awards_extra || [])
+        .map((a) => ({ year: a.year, text: a[ctx.lang] })),
+    ].sort((a, b) => (b.year || 0) - (a.year || 0));
+
+    bloques.push(barra(t("rec.h"), premios.length));
+    premios.slice(0, 4).forEach((a) => {
+      bloques.push({
+        unbreakable: true,
+        margin: [0, 0, 0, 5],
+        columns: [
+          { text: String(a.year || "—"), width: 34, fontSize: 8.6,
+            bold: true, color: NARANJA },
+          { text: a.text, style: "cuerpo" },
+        ],
+      });
+    });
+    const patentes = ctx.content.patents || [];
+    const soft = ctx.content.ip || [];
+    if (patentes.length || soft.length) {
+      const resumen = [];
+      patentes.forEach((x) => resumen.push(
+        [1, `${t("rec.patent").toLowerCase()} (${x.number})`]));
+      if (soft.length) resumen.push([soft.length,
+        t("rec.ip.soft").toLowerCase()]);
+      bloques.push(cvLinea(resumen));
+    }
+
+    // Colofon: de donde salen los numeros y donde esta todo lo demas
+    // Colofon corto: el largo del dosier se comia dos lineas mas y
+    // empujaba el documento a una tercera pagina.
+    const comoVa = m.wos || ctx.content.wos || {};
+    bloques.push(regla(FILETE, 0.5, 13, 6));
+    bloques.push({
+      text: [
+        { text: t("cv.full").replace("{n}", fmt.format(m.jcr_articles)) + " " },
+        { text: t("cv.note").replace("{date}",
+            comoVa.as_of ? fechaLarga(comoVa.as_of) : "—")
+            .replace("{url}", URL_SITIO) },
+      ],
+      style: "colofon",
+    });
+    return bloques;
+  }
+
   /* ── el documento ────────────────────────────────────────── */
 
-  function documento(recursos) {
+  /* "dosier" o "cv". Lo mira la cabecera de seccion, que solo abre
+     pagina en el dosier. */
+  let modo = "dosier";
+
+  function documento(recursos, cual) {
+    modo = cual === "cv" ? "cv" : "dosier";
     // Admite la foto suelta por compatibilidad con la pagina de
     // prueba, que llamaba a documento(dataUri).
     imagenes = typeof recursos === "string"
@@ -934,11 +1119,12 @@
       pageSize: "A4",
       pageMargins: [52, 46, 52, 56],
       info: {
-        title: `Javier Gómez Pilar — ${t("pdf.kicker")}`,
+        title: `Javier Gómez Pilar — `
+          + `${modo === "cv" ? t("pdf.kicker.cv") : t("pdf.kicker")}`,
         author: "Javier Gómez Pilar",
         subject: t("hero.eyebrow"),
       },
-      content: [
+      content: modo === "cv" ? cvContenido(img) : [
         identidad(img),
         cifras(),
         indice(),
@@ -958,7 +1144,9 @@
       footer: (pagina, total) => (pagina === 1 ? null : {
         margin: [52, 16, 52, 0],
         columns: [
-          { text: `Javier Gómez Pilar · ${t("pdf.kicker")}`, style: "pie" },
+          { text: `Javier Gómez Pilar · `
+              + `${modo === "cv" ? t("pdf.kicker.cv") : t("pdf.kicker")}`,
+            style: "pie" },
           { text: `${pagina} / ${total}`, style: "pie", alignment: "right" },
         ],
       }),
@@ -1025,20 +1213,21 @@
     return cargando;
   }
 
-  function nombreFichero() {
+  function nombreFichero(cual) {
     const hoy = new Date().toISOString().slice(0, 10);
-    return `Javier-Gomez-Pilar-CV-${ctx.lang}-${hoy}.pdf`;
+    const que = cual === "cv" ? "CV" : "Dosier";
+    return `Javier-Gomez-Pilar-${que}-${ctx.lang}-${hoy}.pdf`;
   }
 
-  function genera(contexto) {
+  function genera(contexto, cual) {
     ctx = contexto;
     if (!ctx?.content || !ctx?.profile) {
       return Promise.reject(new Error("sin datos"));
     }
     return Promise.all([libreria(), foto(), silueta(RUTA_ATENEA, AZUL)])
       .then(([, retrato, atenea]) => {
-        window.pdfMake.createPdf(documento({ retrato, atenea }))
-          .download(nombreFichero());
+        window.pdfMake.createPdf(documento({ retrato, atenea }, cual))
+          .download(nombreFichero(cual));
       });
   }
 

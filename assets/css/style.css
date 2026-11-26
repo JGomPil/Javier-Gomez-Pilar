@@ -258,12 +258,42 @@ a:hover { color: var(--accent-ink); background-size: 0 1px; background-position:
   transition: color .2s var(--ease), border-color .2s var(--ease);
 }
 .pdf-btn:hover { color: var(--accent); border-color: var(--accent); }
+.pdf-btn[aria-expanded="true"] { color: var(--accent); border-color: var(--accent); }
 .pdf-btn svg { flex: none; }
+
+/* El menu de los dos documentos: cuelga del boton, alineado a la
+   derecha para no salirse por el borde en pantalla estrecha. */
+.pdf-wrap { position: relative; }
+.pdf-menu {
+  position: absolute; top: calc(100% + .5rem); right: 0; z-index: 60;
+  min-width: 16.5rem; max-width: min(21rem, calc(100vw - 2rem));
+  display: flex; flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--rule); border-radius: .4rem;
+  box-shadow: 0 14px 34px rgba(18, 29, 43, .16);
+  overflow: hidden;
+}
+.pdf-menu button {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  padding: .62rem .78rem; background: none; border: 0;
+  border-bottom: 1px solid var(--rule-soft);
+  color: var(--ink);
+  transition: background .18s var(--ease);
+}
+.pdf-menu button:last-child { border-bottom: 0; }
+.pdf-menu button:hover,
+.pdf-menu button:focus-visible { background: var(--paper-alt); }
+.pdf-menu b {
+  display: block; font: 600 .78rem/1.25 var(--ui); margin-bottom: .12rem;
+}
+.pdf-menu span {
+  display: block; font: 400 .68rem/1.35 var(--data); color: var(--muted);
+}
 
 @media (max-width: 34rem) {
   /* En movil manda la barra de secciones: el icono basta. */
   .pdf-btn { padding: 0 .5rem; }
-  .pdf-btn span { display: none; }
+  .pdf-btn > span { display: none; }
 }
 
 .theme {

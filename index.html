@@ -207,15 +207,30 @@
         <button type="button" data-lang="es" aria-pressed="true">ES</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
-      <button type="button" class="pdf-btn" id="pdf-btn"
-              data-i18n-aria="pdf.aria" aria-label="Descargar toda la web en PDF">
-        <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
-          <path d="M12 3.5v10.5m0 0 4-4m-4 4-4-4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
-                stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
-                stroke-linejoin="round" fill="none"/>
-        </svg>
-        <span data-i18n="pdf.btn">PDF</span>
-      </button>
+      <!-- Dos documentos salen de los mismos datos: el dosier, que lo
+           cuenta todo, y un curriculum de dos páginas para adjuntar. -->
+      <div class="pdf-wrap">
+        <button type="button" class="pdf-btn" id="pdf-btn"
+                aria-haspopup="true" aria-expanded="false" aria-controls="pdf-menu"
+                data-i18n-aria="pdf.aria" aria-label="Descargar en PDF">
+          <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
+            <path d="M12 3.5v10.5m0 0 4-4m-4 4-4-4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                  stroke-linejoin="round" fill="none"/>
+          </svg>
+          <span data-i18n="pdf.btn">PDF</span>
+        </button>
+        <div class="pdf-menu" id="pdf-menu" role="menu" hidden>
+          <button type="button" role="menuitem" data-pdf="cv">
+            <b data-i18n="pdf.m.cv">Currículum abreviado</b>
+            <span data-i18n="pdf.m.cv.d">Dos páginas, para adjuntar a una convocatoria</span>
+          </button>
+          <button type="button" role="menuitem" data-pdf="dosier">
+            <b data-i18n="pdf.m.dosier">Dosier académico</b>
+            <span data-i18n="pdf.m.dosier.d">Todo el contenido de la web, con sus enlaces</span>
+          </button>
+        </div>
+      </div>
       <button type="button" class="theme" id="theme-toggle" aria-label="Cambiar tema">
         <svg viewBox="0 0 24 24" aria-hidden="true" width="17" height="17">
           <g class="ico-sun">

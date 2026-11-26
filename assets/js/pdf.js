@@ -229,10 +229,15 @@
   /* Cabecera de sección: el número en un cuadro lleno de color y el
      título sobre un fondo claro, con la cuenta a la derecha. */
   function cabecera(n, ancla, titulo, extra) {
+    // Cada seccion grande abre pagina, menos la primera, que va
+    // detras de la portada. Asi el dosier se hojea por secciones y
+    // ninguna empieza a tres lineas del pie.
+    const abre = n > 1;
     return {
       unbreakable: true,
       headlineLevel: 1,
-      margin: [0, 18, 0, 11],
+      ...(abre ? { pageBreak: "before" } : {}),
+      margin: [0, abre ? 0 : 18, 0, 11],
       // Sin cuenta a la derecha la tabla lleva dos columnas y no
       // tres: una tercera celda vacia deja una muesca blanca en el
       // extremo de la barra.

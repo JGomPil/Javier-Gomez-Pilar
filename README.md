@@ -203,6 +203,13 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   de Telecomunicación), 637 (Grado en Ingeniería Biomédica), 723 (Máster en
   Ingeniería Biomédica) y 725 (Máster en Investigación Biomédica y Terapias
   Avanzadas).
+- **`teaching_figures`** — las cuatro cifras que abren Docencia (asignaturas,
+  titulaciones, centros y horas impartidas). Salen del autoinforme de calidad
+  docente y se escriben a mano: no hay de dónde rasparlas. Conviene repasarlas
+  al cerrar cada curso.
+- **`teaching_projects`** — las convocatorias de innovación docente del
+  programa ATENEA (PID y Mentor-UVa), bajo su ficha. El papel es el mismo en
+  todas y vive en `ui/pid.role`, no repetido en cada entrada.
 - **Prácticas externas** — son entradas de `tfgs` con `kind: "prac"`, que es
   lo que las agrupa en su propio bloque detrás de los TFG. El título es la
   entidad de acogida y su unidad. Los datos salen de las memorias, que son

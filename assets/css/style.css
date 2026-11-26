@@ -975,6 +975,23 @@ h1 {
   align-items: start;
 }
 
+/* Las cifras de docencia reutilizan el bloque de las bibliometricas,
+   con menos aire: aqui van bajo un titular de seccion, no abriendo
+   pagina. */
+.metrics-teach { margin: .2rem 0 1.9rem; }
+
+/* Las convocatorias del programa, bajo su ficha. */
+.pids { margin-top: 2.1rem; }
+.pids-h {
+  display: flex; align-items: baseline; gap: .55rem;
+  margin: 0 0 .2rem;
+  font: 500 .72rem/1 var(--data);
+  letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink);
+}
+.pids .course { border-bottom: 1px solid var(--rule-soft); }
+.pids .course:first-of-type { border-top: 1px solid var(--rule); }
+
 .courses { display: flex; flex-direction: column; border-top: 1px solid var(--rule); }
 /* Cabecera de cada titulacion: en acento y con su marca a la
    izquierda, para que se vea que manda sobre las asignaturas que

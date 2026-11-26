@@ -161,7 +161,17 @@
    "sup.uvadoc": "Texto completo en UVaDOC",
    "teach.simu": "Simuladores",
    "pdf.uvadoc": "Texto completo",
-   "sup.h.prac": "Prácticas externas"
+   "sup.h.prac": "Prácticas externas",
+   "tm.asig": "Asignaturas",
+   "tm.asig.src": "siete distintas desde 2017/18",
+   "tm.titul": "Titulaciones",
+   "tm.titul.src": "tres grados y dos másteres",
+   "tm.centros": "Centros",
+   "tm.centros.src": "Telecomunicación, Medicina e Industriales",
+   "tm.horas": "Horas impartidas",
+   "tm.horas.src": "como Contratado Doctor, desde 2022/23",
+   "pid.h": "Proyectos de innovación docente",
+   "pid.role": "IP, con Clara García Vicente"
   },
   "en": {
    "skip": "Skip to content",
@@ -317,7 +327,17 @@
    "sup.uvadoc": "Full text in UVaDOC",
    "teach.simu": "Simulators",
    "pdf.uvadoc": "Full text",
-   "sup.h.prac": "External placements"
+   "sup.h.prac": "External placements",
+   "tm.asig": "Courses",
+   "tm.asig.src": "seven different ones since 2017/18",
+   "tm.titul": "Degree programmes",
+   "tm.titul.src": "three bachelor's and two master's",
+   "tm.centros": "Faculties and schools",
+   "tm.centros.src": "Telecommunications, Medicine and Industrial Engineering",
+   "tm.horas": "Teaching hours",
+   "tm.horas.src": "as Associate Professor, since 2022/23",
+   "pid.h": "Teaching innovation projects",
+   "pid.role": "PI, with Clara García Vicente"
   }
  },
  "epigraph": {
@@ -1415,5 +1435,59 @@
    "proporcion": 2.18,
    "escala": 1.0
   }
+ },
+ "teaching_figures": {
+  "_readme": "Las cifras de docencia, del autoinforme de calidad docente (fuentes/AnexoIII_...docx). Se escriben a mano porque no hay de donde rasparlas; revisar al cerrar cada curso.",
+  "items": [
+   {
+    "key": "tm.asig",
+    "value": 7,
+    "src": "tm.asig.src"
+   },
+   {
+    "key": "tm.titul",
+    "value": 5,
+    "src": "tm.titul.src"
+   },
+   {
+    "key": "tm.centros",
+    "value": 3,
+    "src": "tm.centros.src"
+   },
+   {
+    "key": "tm.horas",
+    "value": 613,
+    "src": "tm.horas.src"
+   }
+  ]
+ },
+ "teaching_projects": {
+  "_readme": "Las cuatro convocatorias del programa ATENEA, como Proyecto de Innovacion Docente (PID) o como Mentor-UVa. En todas es IP junto con Clara Garcia Vicente; el papel esta en ui/pid.role.",
+  "items": [
+   {
+    "course": "2026/27",
+    "call": "PID",
+    "es": "ATENEA 4.0: hacia un modelo participativo, evaluable y transferible de mentoría y orientación universitaria",
+    "en": "ATENEA 4.0: towards a participatory, assessable and transferable model of university mentoring and guidance"
+   },
+   {
+    "course": "2025/26",
+    "call": "Mentor-UVa",
+    "es": "ATENEA: programa de orientación, mentorización y profesionalización integral en el Grado en Ingeniería Biomédica. Creación de un espacio colaborativo centrado en los Trabajos de Fin de Grado",
+    "en": "ATENEA: guidance, mentoring and professional development programme in the Biomedical Engineering degree. A collaborative space for final-year projects"
+   },
+   {
+    "course": "2024/25",
+    "call": "Mentor-UVa",
+    "es": "Programa de orientación, mentorización y profesionalización integral en el Grado en Ingeniería Biomédica: consolidación, superación de limitaciones y mejora del grado de satisfacción",
+    "en": "Guidance, mentoring and professional development programme in the Biomedical Engineering degree: consolidation, overcoming limitations and improving satisfaction"
+   },
+   {
+    "course": "2023/24",
+    "call": "PID",
+    "es": "Proyecto ATENEA: apoyo a la transición educativa y nuevas experiencias académicas. Orientación, mentorización y profesionalización integral en el Grado en Ingeniería Biomédica",
+    "en": "ATENEA: support for the educational transition and new academic experiences. Guidance, mentoring and professional development in the Biomedical Engineering degree"
+   }
+  ]
  }
 }

@@ -326,6 +326,9 @@
       <p class="idx"><span data-i18n="idx.teaching">Docencia</span></p>
       <div class="band-body">
         <h2 data-i18n="teach.h" data-icon="i-teach">Docencia y supervisión</h2>
+        <!-- Las cifras de docencia van fuera de las pestañas: valen
+             para las tres. -->
+        <dl class="metrics metrics-teach" id="teach-metrics"></dl>
         <div class="tabs" data-tabs="teaching">
           <div class="tablist" role="tablist">
             <button type="button" role="tab" id="t-mentoring" aria-controls="p-mentoring" aria-selected="true" tabindex="0" data-i18n="teach.tab.mentoring">teach.tab.mentoring</button>
@@ -334,6 +337,7 @@
           </div>
           <div role="tabpanel" id="p-mentoring" aria-labelledby="t-mentoring">
             <article class="feature" id="atenea"></article>
+            <div id="pid-list" class="pids"></div>
           </div>
           <div role="tabpanel" id="p-courses" aria-labelledby="t-courses" hidden>
             <div id="teaching-list" class="courses"></div>

@@ -745,6 +745,38 @@
       </div>`;
   }
 
+  /* Docencia en cifras, con el mismo bloque que las bibliometricas:
+     la seccion era la unica que entraba sin un solo numero. Salen a
+     mano de content.json, que no hay de donde rasparlas. */
+  function renderTeachingFigures() {
+    const host = $("#teach-metrics");
+    const cfg = state.content.teaching_figures;
+    if (!host || !cfg) return;
+    const fmt = nf();
+    host.innerHTML = cfg.items.map((m) => `
+      <div class="metric">
+        <dt>${esc(t(m.key))}</dt>
+        <dd class="num">${fmt.format(m.value)}</dd>
+        <dd class="src">${esc(t(m.src))}</dd>
+      </div>`).join("");
+  }
+
+  /* Las convocatorias de innovacion docente del programa ATENEA, bajo
+     su ficha: son la misma historia contada por sus concesiones. */
+  function renderPids() {
+    const host = $("#pid-list");
+    const cfg = state.content.teaching_projects;
+    if (!host || !cfg) return;
+    host.innerHTML = `
+      <h4 class="pids-h">${esc(t("pid.h"))}</h4>`
+      + cfg.items.map((x) => `
+        <div class="course">
+          <b>${esc(x[state.lang])}</b>
+          <span>${esc(x.call)} \u00b7 ${esc(x.course)} \u00b7 `
+          + `${esc(t("pid.role"))}</span>
+        </div>`).join("");
+  }
+
   /* La guia docente de cada asignatura, en la web de la UVa.
    *
    * El enlace no se guarda entero: en content.json van el plan y el
@@ -1166,6 +1198,8 @@
     paintCharts();
     renderProjects();
     renderAtenea();
+    renderTeachingFigures();
+    renderPids();
     renderTeaching();
     renderRecognition();
   }

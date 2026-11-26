@@ -694,6 +694,23 @@
       { text: conNegritas(A.next), style: "cuerpo" },
     ];
 
+    // Las cifras de docencia, antes de la ficha del programa
+    const cifras = ctx.content.teaching_figures;
+    if (cifras) {
+      bloques.push({
+        columns: [
+          tablaCifras(t("teach.h"),
+            cifras.items.slice(0, 2).map((m) => [t(m.key), fmt.format(m.value)]),
+            AZUL),
+          { width: 18, text: "" },
+          tablaCifras(" ",
+            cifras.items.slice(2).map((m) => [t(m.key), fmt.format(m.value)]),
+            AZUL),
+        ],
+        margin: [0, 0, 0, 12],
+      });
+    }
+
     bloques.push(caja([
       imagenes.atenea
         ? { columns: [{ image: imagenes.atenea, width: 40,
@@ -702,6 +719,16 @@
             columnGap: 13 }
         : { stack: dentro },
     ], { banda: AZUL, fondo: AZUL_BG, abajo: 4 }));
+
+    // Las convocatorias de innovacion docente del programa
+    const pid = ctx.content.teaching_projects;
+    if (pid && pid.items.length) {
+      bloques.push(barra(t("pid.h"), pid.items.length));
+      pid.items.forEach((x, i) => {
+        bloques.push(entradaTrabajo(i + 1, x[ctx.lang],
+          `${x.call} \u00b7 ${x.course} \u00b7 ${t("pid.role")}`));
+      });
+    }
 
     // Asignaturas: dos columnas, con las filas alternadas para no
     // perder el renglón en una lista de veintitantas.

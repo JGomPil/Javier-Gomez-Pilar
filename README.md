@@ -314,8 +314,10 @@ quitada:
 JGP_SIN_RED=1 python3 scripts/update_data.py
 ```
 
-Las cifras de Web of Science se heredan del fichero anterior cuando esta vuelta
-no las trae, que es lo que pasa al ejecutarlo en tu ordenador sin la clave: así
+Cuando una fuente no contesta, lo publicado se hereda en lugar de perderse. El
+Portal de la Ciencia se cae con un 503 de vez en cuando: en esa vuelta los
+proyectos se quedan como estaban y lo demás se refresca igual. Las cifras de
+Web of Science se heredan igual cuando esta vuelta no las trae, que es lo que pasa al ejecutarlo en tu ordenador sin la clave: así
 una prueba a mano no las borra sin querer. Si la clave está puesta y aun así la
 consulta no devuelve citas, eso sí se considera una avería y la ejecución
 falla.

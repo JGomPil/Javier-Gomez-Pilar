@@ -346,7 +346,7 @@ def portal_text(page: str) -> list[str]:
     return [p.strip() for p in flat.split("\x00") if p.strip()]
 
 
-def portal_projects() -> list[dict]:
+def portal_projects() -> list[dict] | None:
     """Competitive projects from the UVa's Portal de la Ciencia.
 
     Only the ones marked "Con carácter Público": the Portal uses that
@@ -362,7 +362,10 @@ def portal_projects() -> list[dict]:
     except Exception as exc:                       # noqa: BLE001
         print(f"  Portal unreachable ({exc}); projects keep their "
               f"hand-kept data.", file=sys.stderr)
-        return []
+        # None, no una lista vacia: quien llama tiene que poder
+        # distinguir "el Portal no contesta" de "el Portal dice que no
+        # hay ninguno", que son cosas muy distintas.
+        return None
 
     ids = sorted(set(re.findall(r"/proyectos/(\d+)", listing)))
     out: list[dict] = []
@@ -969,11 +972,22 @@ def main() -> int:
 
     print("Reading funded projects from the UVa Portal ...", flush=True)
     portal = portal_projects()
-    proyectos = merge_projects(portal)
-    print(f"  {len(portal)} competitive projects, "
-          f"{len(proyectos['overlay'])} matched, "
-          f"{len(proyectos['new'])} not on the list, "
-          f"{len(proyectos['conflicts'])} disagreements", flush=True)
+    if portal is None:
+        # El Portal se cae con un 503 de vez en cuando. Publicar un
+        # fichero sin proyectos por eso seria cambiar un corte ajeno
+        # por un destrozo propio, asi que se conservan los que ya
+        # estaban y lo demas se refresca igual.
+        proyectos = (anterior or {}).get("projects") \
+            or {"overlay": {}, "new": [], "conflicts": []}
+        print(f"  el Portal no contesta; se conservan los "
+              f"{len(proyectos['overlay']) + len(proyectos['new'])} "
+              f"proyectos ya publicados", flush=True)
+    else:
+        proyectos = merge_projects(portal)
+        print(f"  {len(portal)} competitive projects, "
+              f"{len(proyectos['overlay'])} matched, "
+              f"{len(proyectos['new'])} not on the list, "
+              f"{len(proyectos['conflicts'])} disagreements", flush=True)
 
     data = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),

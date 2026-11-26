@@ -203,6 +203,12 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   de Telecomunicación), 637 (Grado en Ingeniería Biomédica), 723 (Máster en
   Ingeniería Biomédica) y 725 (Máster en Investigación Biomédica y Terapias
   Avanzadas).
+- **Prácticas externas** — son entradas de `tfgs` con `kind: "prac"`, que es
+  lo que las agrupa en su propio bloque detrás de los TFG. Van sin nombre de
+  estudiante, a propósito: un TFG o un TFM está depositado en UVaDOC y su
+  autoría ya es pública, pero una memoria de prácticas no se publica en ningún
+  sitio, así que ahí el nombre sería un dato nuevo. El título es la entidad de
+  acogida y su unidad.
 - **`degree_logos`** — el logo del centro o la titulacion que va en la cabecera
   de cada grupo de asignaturas, con el codigo de plan como clave. Los PNG de
   `assets/img/logos/` son siluetas: el color lo pone el CSS con `mask-image`,

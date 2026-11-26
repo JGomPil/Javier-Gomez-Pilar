@@ -160,7 +160,8 @@
    "teach.guia": "Guía docente {curso}",
    "sup.uvadoc": "Texto completo en UVaDOC",
    "teach.simu": "Simuladores",
-   "pdf.uvadoc": "Texto completo"
+   "pdf.uvadoc": "Texto completo",
+   "sup.h.prac": "Prácticas externas"
   },
   "en": {
    "skip": "Skip to content",
@@ -315,7 +316,8 @@
    "teach.guia": "Course guide {curso}",
    "sup.uvadoc": "Full text in UVaDOC",
    "teach.simu": "Simulators",
-   "pdf.uvadoc": "Full text"
+   "pdf.uvadoc": "Full text",
+   "sup.h.prac": "External placements"
   }
  },
  "epigraph": {
@@ -1304,6 +1306,72 @@
    "es": "Análisis espectral y no lineal de actividad electroencefalográfica basal en pacientes migrañosos",
    "en": "Spectral and nonlinear analysis of resting EEG activity in migraine patients",
    "uvadoc": "10324/30233"
+  },
+  {
+   "kind": "prac",
+   "course": "2025/26",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "",
+   "es": "Hospital Clínico Universitario de Valladolid · Unidad de Cuidados Intensivos",
+   "en": "Hospital Clínico Universitario de Valladolid · Intensive Care Unit"
+  },
+  {
+   "kind": "prac",
+   "course": "2024/25",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "",
+   "es": "Rapture Games · Rehabilitación y educación gamificada",
+   "en": "Rapture Games · Gamified rehabilitation and education"
+  },
+  {
+   "kind": "prac",
+   "course": "2024/25",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "",
+   "es": "Hospital Clínico Universitario de Valladolid · Unidad de Cuidados Intensivos",
+   "en": "Hospital Clínico Universitario de Valladolid · Intensive Care Unit"
+  },
+  {
+   "kind": "prac",
+   "course": "2023/24",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "",
+   "es": "Hospital Clínico Universitario de Valladolid · Servicio de Radiología",
+   "en": "Hospital Clínico Universitario de Valladolid · Radiology Department"
+  },
+  {
+   "kind": "prac",
+   "course": "2022/23",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "",
+   "es": "Hospital Clínico Universitario de Valladolid · Bloque Quirúrgico",
+   "en": "Hospital Clínico Universitario de Valladolid · Surgical Block"
+  },
+  {
+   "kind": "prac",
+   "course": "2022/23",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "",
+   "es": "Grupo de Ingeniería Biomédica, Universidad de Valladolid",
+   "en": "Biomedical Engineering Group, Universidad de Valladolid"
   }
  ],
  "teaching_guides": {

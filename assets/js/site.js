@@ -24,7 +24,7 @@
     year: null,                    // lo fija una barra del gráfico
     query: "",
     expanded: { pubs: false, projects: false, awards: false,
-               tfgs: false, tfms: false },
+               tfgs: false, tfms: false, pracs: false },
   };
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -879,7 +879,11 @@
         </section>`;
     };
 
-    host.innerHTML = bloque("tfm", "tfms") + bloque("tfg", "tfgs");
+    // Las practicas externas van detras, y sin nombre de alumno: una
+    // memoria de practicas no se deposita en ningun repositorio
+    // publico, asi que ahi el nombre no es un dato ya publicado.
+    host.innerHTML = bloque("tfm", "tfms") + bloque("tfg", "tfgs")
+      + bloque("prac", "pracs");
 
     $$(".sup-block", host).forEach((sec) => {
       const n = todos.filter((x) => x.kind === sec.dataset.kind).length;

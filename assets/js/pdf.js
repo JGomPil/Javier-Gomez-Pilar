@@ -747,7 +747,7 @@
     });
 
     // TFM y TFG.
-    ["tfm", "tfg"].forEach((kind) => {
+    ["tfm", "tfg", "prac"].forEach((kind) => {
       const items = (ctx.content.tfgs || []).filter((x) => x.kind === kind);
       if (!items.length) return;
       bloques.push(barra(t("sup.h." + kind), items.length));

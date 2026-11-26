@@ -992,6 +992,17 @@ h1 {
   background-image: linear-gradient(currentColor, currentColor);
 }
 
+/* El enlace a los simuladores va en la linea de la titulacion, con
+   su cuerpo: es un apunte, no un titulo. */
+.course span a.simu {
+  color: var(--ink-soft);
+  background-image: linear-gradient(var(--rule), var(--rule));
+}
+.course span a.simu:hover, .course span a.simu:focus-visible {
+  color: var(--accent);
+  background-image: linear-gradient(currentColor, currentColor);
+}
+
 .course span {
   display: block; font: 400 .745rem/1.5 var(--data);
   color: var(--muted); margin-top: .3rem;

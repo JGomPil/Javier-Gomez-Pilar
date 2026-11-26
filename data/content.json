@@ -158,7 +158,8 @@
    "pdf.record": "Ficha del proyecto",
    "pdf.note": "Citas e índice h: Web of Science, a fecha de {date}. Publicaciones y cuartiles: repositorio del Grupo de Ingeniería Biomédica, actualizado automáticamente cada semana. Proyectos: Portal de la Ciencia de la UVa y CVN-FECYT.",
    "teach.guia": "Guía docente {curso}",
-   "sup.uvadoc": "Texto completo en UVaDOC"
+   "sup.uvadoc": "Texto completo en UVaDOC",
+   "teach.simu": "Simuladores"
   },
   "en": {
    "skip": "Skip to content",
@@ -311,7 +312,8 @@
    "pdf.record": "Project record",
    "pdf.note": "Citations and h-index: Web of Science, as of {date}. Publications and quartiles: Biomedical Engineering Group repository, refreshed automatically every week. Projects: UVa Portal de la Ciencia and CVN-FECYT.",
    "teach.guia": "Course guide {curso}",
-   "sup.uvadoc": "Full text in UVaDOC"
+   "sup.uvadoc": "Full text in UVaDOC",
+   "teach.simu": "Simulators"
   }
  },
  "epigraph": {
@@ -813,7 +815,8 @@
    "guia": {
     "plan": 478,
     "codigo": 46331
-   }
+   },
+   "simulab": "neurolab"
   },
   {
    "es": {
@@ -827,7 +830,8 @@
    "guia": {
     "plan": 723,
     "codigo": 55376
-   }
+   },
+   "simulab": "datalab"
   },
   {
    "es": {
@@ -837,7 +841,12 @@
    "en": {
     "name": "Artificial Intelligence and Big Data",
     "degree": "MSc in Biomedical Research and Advanced Therapies"
-   }
+   },
+   "guia": {
+    "plan": 725,
+    "codigo": 55428
+   },
+   "simulab": "datalab"
   },
   {
    "es": {
@@ -879,7 +888,8 @@
    "guia": {
     "plan": 512,
     "codigo": 46669
-   }
+   },
+   "simulab": "radionav"
   }
  ],
  "theses": [
@@ -1241,5 +1251,9 @@
  "tfg_repo": {
   "_readme": "Los TFG y TFM defendidos se depositan en UVaDOC. Aqui va solo el identificador handle (10324/NNNNN) de cada uno, en su entrada; los que no lo tienen salen sin enlace, porque o no estan depositados o aun no se han defendido.",
   "patron": "https://uvadoc.uva.es/handle/{id}"
+ },
+ "simulab": {
+  "_readme": "Los simuladores web que Javier escribe para sus clases, en JGomPil/simulab. El repositorio se llamaba 'docencia' y al renombrarlo GitHub Pages dejo de servir la direccion vieja, asi que los enlaces de documentos anteriores a noviembre de 2026 estan rotos. Cada asignatura apunta a su apartado.",
+  "patron": "https://jgompil.github.io/simulab/{sitio}/"
  }
 }

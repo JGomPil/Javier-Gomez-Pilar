@@ -195,13 +195,20 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   entero: en la asignatura van `plan` y `codigo`, que no cambian de un año a
   otro, y el curso va una sola vez en `teaching_guides.curso`. Para pasar a
   2027-2028 basta cambiar ese número. Las asignaturas sin bloque `guia` salen
-  sin enlace, que es mejor que un enlace roto: hoy son Neumología
-  Computacional y Inteligencia Artificial y Big Data, cuyos códigos no pude
-  verificar (el servidor `apps.stic.uva.es` no contesta desde fuera de la UVa).
-  Los planes conocidos son 478 (Grado en Medicina), 512 (Grado en Ingeniería
-  de Tecnologías Específicas de Telecomunicación), 637 (Grado en Ingeniería
-  Biomédica), 723 (Máster en Ingeniería Biomédica) y 725 (Máster en
-  Investigación Biomédica y Terapias Avanzadas).
+  sin enlace, que es mejor que un enlace roto. Los códigos salen del
+  autoinforme de calidad docente (`fuentes/AnexoIII_Autoinforme_CalidadDocente.docx`),
+  que los lista uno a uno; el servidor `apps.stic.uva.es` no contesta desde
+  fuera de la UVa, así que no se pueden comprobar abriéndolos. Los planes son
+  478 (Grado en Medicina), 512 (Grado en Ingeniería de Tecnologías Específicas
+  de Telecomunicación), 637 (Grado en Ingeniería Biomédica), 723 (Máster en
+  Ingeniería Biomédica) y 725 (Máster en Investigación Biomédica y Terapias
+  Avanzadas).
+- **`simulab`** y el campo del mismo nombre en cada asignatura — los
+  simuladores web que Javier escribe para sus clases, en JGomPil/simulab. Ojo:
+  el repositorio se llamaba `docencia` y, al renombrarlo, GitHub Pages dejó de
+  servir la dirección antigua; los documentos anteriores a noviembre de 2026
+  —el autoinforme entre ellos— enlazan a `jgompil.github.io/docencia/`, que da
+  404.
 - **`tfg_repo`** y el campo `uvadoc` de cada TFG/TFM — el titulo de cada
   trabajo defendido enlaza a su ficha en UVaDOC. Se guarda solo el handle
   (`10324/NNNNN`), que es la parte estable: la URL se arma con el patron. Los

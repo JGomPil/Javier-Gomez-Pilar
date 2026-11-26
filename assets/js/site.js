@@ -773,7 +773,15 @@
             + ` title="${esc(t("teach.guia").replace("{curso}", curso))}">`
             + `${esc(C.name)}</a>`
           : esc(C.name);
-        return `<div class="course"><b>${rotulo}</b><span>${esc(C.degree)}</span></div>`;
+        // Los simuladores que escribe para la asignatura, cuando los hay
+        const sim = state.content.simulab;
+        const extra = (c.simulab && sim && sim.patron)
+          ? ` \u00b7 <a class="simu" target="_blank" rel="noopener"`
+            + ` href="${esc(sim.patron.replace("{sitio}", c.simulab))}">`
+            + `${esc(t("teach.simu"))}</a>`
+          : "";
+        return `<div class="course"><b>${rotulo}</b>`
+          + `<span>${esc(C.degree)}${extra}</span></div>`;
       }).join("");
     }
 

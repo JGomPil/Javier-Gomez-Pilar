@@ -801,6 +801,20 @@
   //
   // Director y tutor no se distinguen: segun el son lo mismo, y la
   // web no va a inventar una jerarquia que la universidad no hace.
+  /* El texto completo, en UVaDOC.
+   *
+   * De cada trabajo se guarda solo el handle: el que no lo tiene sale
+   * sin enlace, porque o no esta depositado o aun no se ha
+   * defendido. */
+  function rotuloTfg(x) {
+    const titulo = esc(x[state.lang]);
+    const cfg = state.content.tfg_repo;
+    if (!x.uvadoc || !cfg || !cfg.patron) return titulo;
+    const url = cfg.patron.replace("{id}", x.uvadoc);
+    return `<a href="${esc(url)}" target="_blank" rel="noopener"`
+      + ` title="${esc(t("sup.uvadoc"))}">${titulo}</a>`;
+  }
+
   function renderTfgs() {
     const host = $("#tfg-list");
     const todos = state.content.tfgs;
@@ -818,7 +832,7 @@
           <ol class="tfg-items">
             ${visible.map((x) => `
               <li>
-                <b>${esc(x[state.lang])}</b>
+                <b>${rotuloTfg(x)}</b>
                 <span>`
                   + (x.student ? `${esc(x.student)} \u00b7 ` : "")
                   + `${esc(x.degree[state.lang])} \u00b7 ${esc(x.course)}`

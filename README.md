@@ -202,6 +202,13 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   de Tecnologías Específicas de Telecomunicación), 637 (Grado en Ingeniería
   Biomédica), 723 (Máster en Ingeniería Biomédica) y 725 (Máster en
   Investigación Biomédica y Terapias Avanzadas).
+- **`tfg_repo`** y el campo `uvadoc` de cada TFG/TFM — el titulo de cada
+  trabajo defendido enlaza a su ficha en UVaDOC. Se guarda solo el handle
+  (`10324/NNNNN`), que es la parte estable: la URL se arma con el patron. Los
+  que no lo llevan salen sin enlace, porque o no estan depositados o aun no se
+  han defendido. Hoy faltan dos: el TFM de 2024/25 sobre fenotipos de apnea y
+  el TFG de 2018/19 sobre conectividad en migraña, que no aparecen en el
+  repositorio.
 - **`awards_en`** — los premios se raspan de gib.uva.es y llegan en español,
   y el raspado se repite cada lunes, así que su traducción no puede vivir en
   `profile.json`: está aquí. Cada entrada lleva un `match`, un fragmento que

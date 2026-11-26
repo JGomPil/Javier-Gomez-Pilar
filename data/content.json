@@ -157,7 +157,8 @@
    "pdf.link": "enlace",
    "pdf.record": "Ficha del proyecto",
    "pdf.note": "Citas e índice h: Web of Science, a fecha de {date}. Publicaciones y cuartiles: repositorio del Grupo de Ingeniería Biomédica, actualizado automáticamente cada semana. Proyectos: Portal de la Ciencia de la UVa y CVN-FECYT.",
-   "teach.guia": "Guía docente {curso}"
+   "teach.guia": "Guía docente {curso}",
+   "sup.uvadoc": "Texto completo en UVaDOC"
   },
   "en": {
    "skip": "Skip to content",
@@ -309,7 +310,8 @@
    "pdf.link": "link",
    "pdf.record": "Project record",
    "pdf.note": "Citations and h-index: Web of Science, as of {date}. Publications and quartiles: Biomedical Engineering Group repository, refreshed automatically every week. Projects: UVa Portal de la Ciencia and CVN-FECYT.",
-   "teach.guia": "Course guide {curso}"
+   "teach.guia": "Course guide {curso}",
+   "sup.uvadoc": "Full text in UVaDOC"
   }
  },
  "epigraph": {
@@ -815,44 +817,6 @@
   },
   {
    "es": {
-    "name": "Investigación Biomédica y Nuevas Tecnologías",
-    "degree": "Grado en Medicina"
-   },
-   "en": {
-    "name": "Biomedical Research and New Technologies",
-    "degree": "Degree in Medicine"
-   },
-   "guia": {
-    "plan": 478,
-    "codigo": 46273
-   }
-  },
-  {
-   "es": {
-    "name": "Introducción a la Ingeniería Biomédica",
-    "degree": "Grado en Ingeniería Biomédica"
-   },
-   "en": {
-    "name": "Introduction to Biomedical Engineering",
-    "degree": "Degree in Biomedical Engineering"
-   },
-   "guia": {
-    "plan": 637,
-    "codigo": 47512
-   }
-  },
-  {
-   "es": {
-    "name": "Neumología Computacional",
-    "degree": "Grado en Ingeniería Biomédica"
-   },
-   "en": {
-    "name": "Computational Pulmonology",
-    "degree": "Degree in Biomedical Engineering"
-   }
-  },
-  {
-   "es": {
     "name": "Inteligencia Artificial y Datos Biomédicos",
     "degree": "Máster en Ingeniería Biomédica"
    },
@@ -1108,7 +1072,8 @@
    },
    "student": "Elena Gómez Arranz",
    "es": "Investigación de la dinámica de redes cerebrales durante la terapia de observación de acciones mediante algoritmos de detección de comunidades multicapa",
-   "en": "Brain-network dynamics during action-observation therapy, studied with multilayer community-detection algorithms"
+   "en": "Brain-network dynamics during action-observation therapy, studied with multilayer community-detection algorithms",
+   "uvadoc": "10324/79109"
   },
   {
    "kind": "tfg",
@@ -1119,7 +1084,8 @@
    },
    "student": "Laura Pinilla Domingo",
    "es": "Aplicación de algoritmos de machine learning para la predicción automática del grado de sedación y analgesia en un entorno de medicina intensiva",
-   "en": "Machine-learning algorithms for the automatic prediction of sedation and analgesia depth in intensive care"
+   "en": "Machine-learning algorithms for the automatic prediction of sedation and analgesia depth in intensive care",
+   "uvadoc": "10324/79144"
   },
   {
    "kind": "tfg",
@@ -1130,7 +1096,8 @@
    },
    "student": "Sergio González Postigo",
    "es": "Análisis longitudinal de la reorganización neuronal y su impacto en la cognición tras el tratamiento de la apnea obstructiva del sueño en una cohorte pediátrica",
-   "en": "Longitudinal analysis of neural reorganisation and its effect on cognition after treating obstructive sleep apnoea in a paediatric cohort"
+   "en": "Longitudinal analysis of neural reorganisation and its effect on cognition after treating obstructive sleep apnoea in a paediatric cohort",
+   "uvadoc": "10324/79628"
   },
   {
    "kind": "tfg",
@@ -1141,7 +1108,8 @@
    },
    "student": "Jesús Crego Ruiz",
    "es": "Análisis de la señal de variabilidad del ritmo cardiaco para el fenotipado de la apnea obstructiva del sueño mediante métodos de clustering",
-   "en": "Heart-rate variability for phenotyping obstructive sleep apnoea through clustering methods"
+   "en": "Heart-rate variability for phenotyping obstructive sleep apnoea through clustering methods",
+   "uvadoc": "10324/79074"
   },
   {
    "kind": "tfg",
@@ -1152,7 +1120,8 @@
    },
    "student": "Miguel Fernández Garrote",
    "es": "Análisis de la conectividad neuronal en electrofisiología basal en migraña",
-   "en": "Neural connectivity in resting-state electrophysiology in migraine"
+   "en": "Neural connectivity in resting-state electrophysiology in migraine",
+   "uvadoc": "10324/62109"
   },
   {
    "kind": "tfg",
@@ -1163,7 +1132,8 @@
    },
    "student": "Laura Gutiérrez de Pablo",
    "es": "Análisis de la actividad neuronal para estimar la profundidad anestésica en niños",
-   "en": "Neural activity analysis to estimate anaesthetic depth in children"
+   "en": "Neural activity analysis to estimate anaesthetic depth in children",
+   "uvadoc": "10324/62110"
   },
   {
    "kind": "tfg",
@@ -1174,7 +1144,8 @@
    },
    "student": "Francisco Javier Martín Franco",
    "es": "Nuevas tecnologías de la información en medicina",
-   "en": "New information technologies in medicine"
+   "en": "New information technologies in medicine",
+   "uvadoc": "10324/41725"
   },
   {
    "kind": "tfg",
@@ -1185,7 +1156,8 @@
    },
    "student": "David Duval Melchor",
    "es": "Análisis de la recurrencia y el balance frecuencial del electroencefalograma en migraña para su identificación como posibles biomarcadores",
-   "en": "Recurrence and spectral balance of the EEG in migraine as candidate biomarkers"
+   "en": "Recurrence and spectral balance of the EEG in migraine as candidate biomarkers",
+   "uvadoc": "10324/41494"
   },
   {
    "kind": "tfg",
@@ -1196,7 +1168,8 @@
    },
    "student": "Marcos Revilla Vallejo",
    "es": "Simulación computacional de los mecanismos de neurodegeneración en la enfermedad de alzheimer",
-   "en": "Computational simulation of neurodegeneration mechanisms in Alzheimer’s disease"
+   "en": "Computational simulation of neurodegeneration mechanisms in Alzheimer’s disease",
+   "uvadoc": "10324/38798"
   },
   {
    "kind": "tfm",
@@ -1207,7 +1180,8 @@
    },
    "student": "Mario Calle Martín",
    "es": "Modelado predictivo de la reorganización de la red neuronal en pacientes con esquizofrenia durante una tarea p300",
-   "en": "Predictive modelling of neural network reorganisation in patients with schizophrenia"
+   "en": "Predictive modelling of neural network reorganisation in patients with schizophrenia",
+   "uvadoc": "10324/39008"
   },
   {
    "kind": "tfg",
@@ -1229,7 +1203,8 @@
    },
    "student": "Beatriz Pando Ruiz",
    "es": "Estimulación transcraneal en migraña crónica refractaria: modificaciones en el registro electroencefalográfico",
-   "en": "Transcranial stimulation in refractory chronic migraine: changes in the EEG recording"
+   "en": "Transcranial stimulation in refractory chronic migraine: changes in the EEG recording",
+   "uvadoc": "10324/31232"
   },
   {
    "kind": "tfg",
@@ -1240,12 +1215,17 @@
    },
    "student": "Claudia Gomez Lopez de san Roman",
    "es": "Análisis espectral y no lineal de actividad electroencefalográfica basal en pacientes migrañosos",
-   "en": "Spectral and nonlinear analysis of resting EEG activity in migraine patients"
+   "en": "Spectral and nonlinear analysis of resting EEG activity in migraine patients",
+   "uvadoc": "10324/30233"
   }
  ],
  "teaching_guides": {
   "_readme": "Las guias docentes de la UVa viven en apps.stic.uva.es con la forma uploads/<curso>/<plan>/<codigo>/1/Documento.pdf, donde <curso> es el ano en que empieza el curso academico. Para pasar al curso siguiente basta cambiar 'curso' aqui: los codigos no cambian. Las asignaturas sin bloque 'guia' salen sin enlace.",
   "curso": 2026,
   "patron": "https://apps.stic.uva.es/guias_docentes/uploads/{curso}/{plan}/{codigo}/1/Documento.pdf"
+ },
+ "tfg_repo": {
+  "_readme": "Los TFG y TFM defendidos se depositan en UVaDOC. Aqui va solo el identificador handle (10324/NNNNN) de cada uno, en su entrada; los que no lo tienen salen sin enlace, porque o no estan depositados o aun no se han defendido.",
+  "patron": "https://uvadoc.uva.es/handle/{id}"
  }
 }

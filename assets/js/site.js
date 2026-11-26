@@ -879,9 +879,8 @@
         </section>`;
     };
 
-    // Las practicas externas van detras, y sin nombre de alumno: una
-    // memoria de practicas no se deposita en ningun repositorio
-    // publico, asi que ahi el nombre no es un dato ya publicado.
+    // Las practicas externas van detras, con la misma ficha que un
+    // trabajo dirigido: entidad de acogida, estudiante y curso.
     host.innerHTML = bloque("tfm", "tfms") + bloque("tfg", "tfgs")
       + bloque("prac", "pracs");
 

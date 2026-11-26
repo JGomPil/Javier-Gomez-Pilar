@@ -745,12 +745,35 @@
       </div>`;
   }
 
+  /* La guia docente de cada asignatura, en la web de la UVa.
+   *
+   * El enlace no se guarda entero: en content.json van el plan y el
+   * codigo, que no cambian, y el curso va una sola vez. Asi, pasar al
+   * curso siguiente es cambiar un numero. Quien no tiene codigo sale
+   * sin enlace, que es mejor que un enlace roto. */
+  function urlGuia(c) {
+    const cfg = state.content.teaching_guides;
+    if (!c.guia || !cfg || !cfg.patron) return "";
+    return cfg.patron
+      .replace("{curso}", cfg.curso)
+      .replace("{plan}", c.guia.plan)
+      .replace("{codigo}", c.guia.codigo);
+  }
+
   function renderTeaching() {
     const host = $("#teaching-list");
     if (host) {
+      const cfg = state.content.teaching_guides || {};
+      const curso = cfg.curso ? `${cfg.curso}-${cfg.curso + 1}` : "";
       host.innerHTML = state.content.teaching.map((c) => {
         const C = c[state.lang];
-        return `<div class="course"><b>${esc(C.name)}</b><span>${esc(C.degree)}</span></div>`;
+        const url = urlGuia(c);
+        const rotulo = url
+          ? `<a href="${esc(url)}" target="_blank" rel="noopener"`
+            + ` title="${esc(t("teach.guia").replace("{curso}", curso))}">`
+            + `${esc(C.name)}</a>`
+          : esc(C.name);
+        return `<div class="course"><b>${rotulo}</b><span>${esc(C.degree)}</span></div>`;
       }).join("");
     }
 

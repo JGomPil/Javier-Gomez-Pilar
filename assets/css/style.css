@@ -979,6 +979,18 @@ h1 {
   font: 500 .99rem/1.4 var(--reading);
   color: var(--ink); display: block;
 }
+/* Cada asignatura lleva a su guia docente del curso. El titulo se
+   queda en tinta con el filete tenue, y el acento aparece al pasar
+   por encima: ocho titulos en azul serian un sarpullido. */
+.course b a {
+  color: inherit;
+  background-image: linear-gradient(var(--rule), var(--rule));
+}
+.course b a:hover, .course b a:focus-visible {
+  color: var(--accent);
+  background-image: linear-gradient(currentColor, currentColor);
+}
+
 .course span {
   display: block; font: 400 .745rem/1.5 var(--data);
   color: var(--muted); margin-top: .3rem;

@@ -190,6 +190,18 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
 - **`service`**, **`ip`** — servicio científico y propiedad intelectual.
 - **`awards_extra`** — premios que no están en el repositorio del grupo, como
   los de innovación docente.
+- **`teaching_guides`** y el bloque `guia` de cada asignatura — el título de
+  cada asignatura enlaza a su guía docente en la UVa. El enlace no se guarda
+  entero: en la asignatura van `plan` y `codigo`, que no cambian de un año a
+  otro, y el curso va una sola vez en `teaching_guides.curso`. Para pasar a
+  2027-2028 basta cambiar ese número. Las asignaturas sin bloque `guia` salen
+  sin enlace, que es mejor que un enlace roto: hoy son Neumología
+  Computacional y Inteligencia Artificial y Big Data, cuyos códigos no pude
+  verificar (el servidor `apps.stic.uva.es` no contesta desde fuera de la UVa).
+  Los planes conocidos son 478 (Grado en Medicina), 512 (Grado en Ingeniería
+  de Tecnologías Específicas de Telecomunicación), 637 (Grado en Ingeniería
+  Biomédica), 723 (Máster en Ingeniería Biomédica) y 725 (Máster en
+  Investigación Biomédica y Terapias Avanzadas).
 - **`awards_en`** — los premios se raspan de gib.uva.es y llegan en español,
   y el raspado se repite cada lunes, así que su traducción no puede vivir en
   `profile.json`: está aquí. Cada entrada lleva un `match`, un fragmento que

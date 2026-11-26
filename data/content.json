@@ -1079,7 +1079,51 @@
     "es": "Ingeniería Biomédica",
     "en": "Biomedical Engineering"
    },
-   "student": "",
+   "student": "Nadia Andrés Núñez",
+   "es": "Integración multimodal de EEG-fMRI para la identificación de marcadores electrofisiológicos del aprendizaje de autorregulación de la corteza visual mediante neurofeedback",
+   "en": "Multimodal EEG–fMRI integration to identify electrophysiological markers of visual-cortex self-regulation learning through neurofeedback"
+  },
+  {
+   "kind": "tfg",
+   "course": "2025/26",
+   "degree": {
+    "es": "Ingeniería de Tecnologías Específicas de Telecomunicación",
+    "en": "Specific Telecommunication Technologies Engineering"
+   },
+   "student": "Mario Esteban Sancho",
+   "es": "Fenotipado de la apnea del sueño mediante procesado avanzado de señal y algoritmos de clustering",
+   "en": "Sleep apnoea phenotyping with advanced signal processing and clustering algorithms"
+  },
+  {
+   "kind": "tfg",
+   "course": "2025/26",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "Lara González Argüello",
+   "es": "Identificación de patrones neurofisiológicos en discapacidad visual cerebral (CVI) mediante EEG y realidad virtual",
+   "en": "Identifying neurophysiological patterns in cerebral visual impairment (CVI) with EEG and virtual reality"
+  },
+  {
+   "kind": "tfg",
+   "course": "2025/26",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "Rodrigo Barrigón Bernal",
+   "es": "Validación de un modelo de inteligencia artificial explicable para la toma de decisiones en pacientes cardiovasculares",
+   "en": "Validation of an explainable artificial intelligence model for decision-making in cardiovascular patients"
+  },
+  {
+   "kind": "tfg",
+   "course": "2025/26",
+   "degree": {
+    "es": "Ingeniería Biomédica",
+    "en": "Biomedical Engineering"
+   },
+   "student": "Daniel Velayos Monreal",
    "es": "Técnicas de aprendizaje automático explicable para la predicción del desarrollo de fracaso renal agudo en pacientes de UCI",
    "en": "Explainable machine learning to predict the onset of acute kidney injury in ICU patients"
   },
@@ -1090,8 +1134,8 @@
     "es": "Ingeniería Biomédica",
     "en": "Biomedical Engineering"
    },
-   "student": "",
-   "es": "Identificación de fenotipos clínicamente relevantes en la enfermedad de alzheimer mediante técnicas de aprendizaje automático no supervisado aplicadas a datos multimodales",
+   "student": "Paula Rodríguez Martín",
+   "es": "Identificación de fenotipos clínicamente relevantes en la enfermedad de Alzheimer mediante técnicas de aprendizaje automático no supervisado aplicadas a datos multimodales",
    "en": "Identifying clinically relevant phenotypes in Alzheimer’s disease with unsupervised machine learning on multimodal data"
   },
   {

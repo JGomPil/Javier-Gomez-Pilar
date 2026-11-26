@@ -307,7 +307,8 @@
   function urlUvadoc(x) {
     const cfg = ctx.content.tfg_repo;
     if (!x.uvadoc || !cfg || !cfg.patron) return "";
-    return cfg.patron.replace("{id}", x.uvadoc);
+    return /^https?:/.test(x.uvadoc)
+      ? x.uvadoc : cfg.patron.replace("{id}", x.uvadoc);
   }
 
   /* El nombre propio en negrita dentro de la lista de autores.

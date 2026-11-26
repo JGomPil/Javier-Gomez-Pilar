@@ -844,7 +844,10 @@
     const titulo = esc(x[state.lang]);
     const cfg = state.content.tfg_repo;
     if (!x.uvadoc || !cfg || !cfg.patron) return titulo;
-    const url = cfg.patron.replace("{id}", x.uvadoc);
+    // Admite el handle (10324/NNNNN) y la direccion entera, que es
+    // como UVaDOC las da desde que cambio de version.
+    const url = /^https?:/.test(x.uvadoc)
+      ? x.uvadoc : cfg.patron.replace("{id}", x.uvadoc);
     return `<a href="${esc(url)}" target="_blank" rel="noopener"`
       + ` title="${esc(t("sup.uvadoc"))}">${titulo}</a>`;
   }

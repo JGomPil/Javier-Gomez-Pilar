@@ -226,17 +226,18 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
 
 - **`contact_card`** — los datos de la tarjeta de contacto: correo, dirección
   postal, organismo, ORCID y la dirección de la web. De ahí sale
-  `assets/javier-gomez-pilar.vcf`, que escribe `python3 scripts/vcf.py`:
-  **vuelve a lanzarlo si cambia el cargo o el departamento**. Antes se armaba
-  en el navegador, con un blob, y había navegadores —Safari y el iPhone— que
-  se tragaban la descarga sin decir nada. El QR es `assets/img/qr.svg`, lleva a la web y se regenera con
-  `pip install segno && python3 scripts/qr.py`. **Dentro lleva la tarjeta**,
-  recortada a nombre, cargo, organismo, correo y web: así el teléfono guarda
-  el contacto sin conexión. Con la tarjeta entera —departamento, dirección
-  postal, ORCID— se iba a 73 módulos y dejaba de leerse en pantalla; recortada
-  son 57, y hacen falta 240 px, comprobado decodificándolo a 184, 200 y 240.
-  `scripts/qr.py web` y `scripts/qr.py vcf-url` cambian lo que lleva dentro,
-  si alguna vez se prefiere que el QR solo abra una dirección. Va dibujado en
+  `tarjeta.vcf`, que escribe `python3 scripts/vcf.py`: **vuelve a lanzarlo si
+  cambia el cargo o el departamento**. Está en la raíz y con nombre corto
+  porque su dirección es lo que lleva dentro el QR, y cada carácter de más lo
+  hace más denso.
+- **El QR** (`assets/img/qr.svg`, de `pip install segno && python3
+  scripts/qr.py`) lleva **la dirección de `tarjeta.vcf`**: se escanea, el
+  teléfono abre la ficha y pregunta si la guarda. Son 33 módulos y 128 px,
+  comprobado decodificando el QR renderizado —a 104 px ya no sale—. Se probó
+  antes a meter la tarjeta entera dentro del QR, que funcionaría sin
+  conexión, pero son 57 módulos, hacen falta 240 px y aun así hubo teléfonos
+  que no ofrecieron guardar el contacto. `scripts/qr.py vcf` y `scripts/qr.py
+  web` vuelven a esas dos variantes, si alguna vez hace falta. Va dibujado en
   `currentColor`, pero sobre fondo claro en los dos temas, porque un QR
   invertido no lo lee todo el mundo.
 - **`teaching_figures`** — las cuatro cifras que abren Docencia (asignaturas,

@@ -2,16 +2,19 @@
 """El QR de la seccion Contacto, en SVG y con un solo trazo.
 
    pip install segno
-   python3 scripts/qr.py            # la tarjeta entera, sin internet
-   python3 scripts/qr.py vcf-url    # la direccion del .vcf
+   python3 scripts/qr.py            # la direccion del .vcf
+   python3 scripts/qr.py vcf        # la tarjeta dentro del QR
    python3 scripts/qr.py web        # la direccion de la web
 
 Que lleva dentro cambia cuanto ocupa, y eso decide a que tamano hay
 que ensenarlo:
 
-  tarjeta corta    57x57 modulos   necesita unos 240 px o 4 cm impreso
-  direccion .vcf   33x33           con 104 px sobra
-  direccion web    33x33           con 104 px sobra
+  direccion .vcf   33x33 modulos   con 128 px va sobrado
+  direccion web    33x33           con 128 px va sobrado
+  tarjeta corta    57x57           necesita 240 px, y aun asi hubo
+                                   telefonos que no ofrecieron guardar
+                                   el contacto: por eso no es la opcion
+                                   por defecto
 
 Con la tarjeta dentro, el telefono guarda el contacto sin conexion y
 sin abrir ninguna pagina; con una direccion, el QR es diminuto pero
@@ -25,7 +28,7 @@ import segno
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 SALIDA = RAIZ / "assets/img/qr.svg"
-QUE = (sys.argv[1] if len(sys.argv) > 1 else "vcf").lower()
+QUE = (sys.argv[1] if len(sys.argv) > 1 else "vcf-url").lower()
 
 datos = json.loads((RAIZ / "data/content.json").read_text(encoding="utf-8"))
 WEB = datos["contact_card"]["url"]
@@ -33,7 +36,7 @@ WEB = datos["contact_card"]["url"]
 if QUE == "web":
     texto, rotulo, ecc = WEB, WEB, "m"
 elif QUE == "vcf-url":
-    texto = WEB + "assets/javier-gomez-pilar.vcf"
+    texto = WEB + "tarjeta.vcf"
     rotulo, ecc = texto, "m"
 else:
     # La tarjeta, pero recortada: nombre, cargo, organismo, correo y

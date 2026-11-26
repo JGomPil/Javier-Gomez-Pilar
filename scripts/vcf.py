@@ -62,6 +62,8 @@ for l in lineas:
         partes.append(" " + t.decode("utf-8"))
     plegadas.append("\r\n".join(partes))
 
-salida = RAIZ / "assets/javier-gomez-pilar.vcf"
+# En la raiz y con nombre corto: su direccion es lo que lleva
+# dentro el QR, y cada caracter de mas lo hace mas denso.
+salida = RAIZ / "tarjeta.vcf"
 salida.write_bytes(("\r\n".join(plegadas) + "\r\n").encode("utf-8"))
 print(f"{salida}  ·  {salida.stat().st_size} bytes")

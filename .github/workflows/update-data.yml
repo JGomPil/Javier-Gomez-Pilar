@@ -5,6 +5,11 @@ on:
     # Mondays, 05:10 UTC. GitHub may delay scheduled runs under load.
     - cron: "10 5 * * 1"
   workflow_dispatch:
+    inputs:
+      probar_aviso:
+        description: "Abrir el aviso de proyectos viejos aunque esten al dia (para ver el correo)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -73,6 +78,10 @@ jobs:
               print(999)
           ")
           echo "Ultima lectura completa del Portal: hace $DIAS dias."
+          if [ "${{ inputs.probar_aviso }}" = "true" ]; then
+            echo "Prueba pedida a mano: se abre el aviso como si tuviera 31 dias."
+            DIAS=31
+          fi
           NUM=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number -q '.[0].number')
           if [ "$DIAS" -gt 30 ]; then
             BODY="El Portal de la Ciencia no contesta desde GitHub y los proyectos de la web llevan $DIAS días sin refrescarse. Desde un ordenador de casa o de la UVa sí contesta:

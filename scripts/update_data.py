@@ -370,10 +370,26 @@ def portal_projects() -> list[dict] | None:
     ids = sorted(set(re.findall(r"/proyectos/(\d+)", listing)))
     out: list[dict] = []
     for pid in ids:
-        try:
-            parts = portal_text(fetch(PORTAL_DETAIL.format(pid)))
-        except Exception:                          # noqa: BLE001
-            continue
+        # El Portal se atraganta a veces con veinte fichas seguidas y
+        # deja alguna sin contestar. Saltarse la ficha daba una lista a
+        # medias (6 de 16 el 27-11-2026) que la red de desplomes paraba,
+        # pero dejando la ejecucion en rojo. Se reintenta con pausa, y si
+        # una ficha sigue sin llegar, el Portal cuenta como caido en esta
+        # vuelta: los proyectos heredan lo publicado, que es completo.
+        parts = None
+        for intento in range(3):
+            try:
+                parts = portal_text(fetch(PORTAL_DETAIL.format(pid)))
+                break
+            except Exception as exc:               # noqa: BLE001
+                ultimo = exc
+                time.sleep(3 * (intento + 1))
+        if parts is None:
+            print(f"  Portal answered only in part (project {pid}: "
+                  f"{ultimo}); projects keep their published data.",
+                  file=sys.stderr)
+            return None
+        time.sleep(0.5)                            # sin prisa con el Portal
 
         joined = " ".join(parts)
         caracter = re.search(r"Con carácter\s*(\w+)", joined)

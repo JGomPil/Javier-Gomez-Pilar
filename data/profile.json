@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-27T23:23:14Z",
+ "generated": "2026-11-27T23:49:39Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -2234,6 +2234,7 @@
    "top_decile": false
   }
  ],
+ "portal_checked": "2026-11-27",
  "collaboration": {
   "threshold": 5,
   "total_coauthors": 226,

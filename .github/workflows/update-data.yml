@@ -49,6 +49,52 @@ jobs:
             echo "No change in data/profile.json or index.html."
           fi
 
+      - name: Warn if the Portal has not answered for a month
+        # El Portal de la Ciencia corta casi siempre las conexiones que
+        # vienen de GitHub. El script no falla por eso: hereda los
+        # proyectos. Pero si pasa mucho tiempo, los proyectos se quedan
+        # viejos sin que nadie se entere. Aqui se mira cuando contesto
+        # entero por ultima vez (portal_checked en profile.json) y, a
+        # partir de 30 dias, se abre un aviso; cuando vuelve a estar al
+        # dia, el aviso se cierra solo.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          TITLE="Los proyectos del Portal llevan más de un mes sin actualizarse"
+          # Cualquier cosa rara (sin fecha, fecha mal escrita) cuenta
+          # como vieja: mejor un aviso de mas que uno de menos.
+          DIAS=$(python3 -c "
+          import json, datetime
+          try:
+              d = json.load(open('data/profile.json'))['portal_checked']
+              print((datetime.date.today() - datetime.date.fromisoformat(d)).days)
+          except Exception:
+              print(999)
+          ")
+          echo "Ultima lectura completa del Portal: hace $DIAS dias."
+          NUM=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number -q '.[0].number')
+          if [ "$DIAS" -gt 30 ]; then
+            BODY="El Portal de la Ciencia no contesta desde GitHub y los proyectos de la web llevan $DIAS días sin refrescarse. Desde un ordenador de casa o de la UVa sí contesta:
+
+          \`\`\`sh
+          cd ~/PersonalWeb
+          git pull
+          python3 scripts/update_data.py
+          python3 scripts/prerender.py
+          git add data/profile.json index.html
+          git commit -m \"data: proyectos del Portal, regenerado en local\"
+          git push
+          \`\`\`
+
+          Este issue se cierra solo en la siguiente ejecución del cron después de eso."
+            if [ -z "$NUM" ]; then
+              gh issue create --title "$TITLE" --body "$BODY"
+            fi
+          elif [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "Los proyectos vuelven a estar al día (última lectura del Portal hace $DIAS días)."
+          fi
+
       - name: Open an issue if the run failed
         # Una ejecucion en rojo no avisa a nadie; un issue nuevo si, por
         # correo. Si ya hay uno abierto, se comenta en el en lugar de

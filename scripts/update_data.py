@@ -1034,6 +1034,13 @@ def main() -> int:
             **({"wos": wos} if wos else {}),
         },
         "publications": publications,
+        # Fecha de la ultima vez que el Portal contesto entero. Desde
+        # GitHub suele cortar la conexion, y entonces los proyectos se
+        # heredan sin que nada falle; el cron mira esta fecha y abre un
+        # aviso si pasa de 30 dias (ver update-data.yml).
+        "portal_checked": (datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                           if portal is not None
+                           else (anterior or {}).get("portal_checked")),
         "collaboration": network,
         "countries": countries,
         "awards": awards,

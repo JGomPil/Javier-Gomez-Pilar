@@ -473,6 +473,20 @@ manda por correo. Si ya hay uno abierto, comenta en él en lugar de abrir
 otro. Ciérralo cuando esté arreglado; si no, los fallos siguientes se
 acumulan como comentarios en ese mismo issue.
 
+**El Portal de la Ciencia no contesta desde GitHub.** Corta casi todas las
+conexiones que llegan de los servidores de GitHub (un 503 o «connection
+reset»), mientras que desde un ordenador normal contesta siempre: todo apunta
+a un filtro de la UVa contra centros de datos. No se sortea con un proxy a
+propósito: es una restricción de la propia universidad. El cron no falla por
+eso, hereda los proyectos; y para que no envejezcan sin aviso, `profile.json`
+guarda en `portal_checked` la fecha de la última lectura completa. **Si pasa
+de 30 días, el cron abre un issue** con los comandos para regenerar los datos
+desde tu ordenador (`python3 scripts/update_data.py`, `prerender.py`, commit y
+push), y lo cierra solo cuando la fecha vuelve a estar al día. Los proyectos
+cambian una o dos veces al año, así que el aviso será raro. La salida limpia
+sería que el equipo del Portal (`portal.investigacion@uva.es`) ofreciera una
+API o permitiera este acceso.
+
 ---
 
 ## Publicar en GitHub Pages

@@ -483,9 +483,8 @@ guarda en `portal_checked` la fecha de la última lectura completa. **Si pasa
 de 30 días, el cron abre un issue** con los comandos para regenerar los datos
 desde tu ordenador (`python3 scripts/update_data.py`, `prerender.py`, commit y
 push), y lo cierra solo cuando la fecha vuelve a estar al día. Los proyectos
-cambian una o dos veces al año, así que el aviso será raro. La salida limpia
-sería que el equipo del Portal (`portal.investigacion@uva.es`) ofreciera una
-API o permitiera este acceso.
+cambian una o dos veces al año, así que el aviso será raro. El Portal no tiene
+API, así que no hay otra vía automática que leer sus páginas.
 
 ---
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-26T13:44:34Z",
+ "generated": "2026-11-27T23:07:39Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -19,7 +19,7 @@
   },
   "openalex": {
    "works": 122,
-   "citations": 3108,
+   "citations": 3109,
    "h_index": 34,
    "i10_index": 59,
    "citations_by_publication_year": [
@@ -65,7 +65,7 @@
     },
     {
      "year": 2023,
-     "citations": 83
+     "citations": 84
     },
     {
      "year": 2024,
@@ -140,7 +140,7 @@
    },
    {
     "year": 2025,
-    "citations": 496
+    "citations": 497
    },
    {
     "year": 2026,
@@ -156,7 +156,7 @@
    "citations": 2037,
    "h_index": 28,
    "records": 89,
-   "as_of": "2026-11-26",
+   "as_of": "2026-11-27",
    "source": "Web of Science Starter API"
   }
  },

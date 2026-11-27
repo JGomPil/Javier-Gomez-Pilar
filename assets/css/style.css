@@ -7,11 +7,59 @@
    running heads in the margin. One accent, one card, no gradients.
 
    Type roles
-     display  Instrument Serif  — name, section titles, numerals
-     reading  Source Serif 4    — pull quote, publication titles
+     display  Manrope           — name, section titles, numerals
+     reading  Inter             — pull quote, publication titles
      ui       Inter             — body, controls, labels
      data     IBM Plex Mono     — micro-caps, figures, DOIs
    ───────────────────────────────────────────────────────────── */
+
+/* Las fuentes se sirven desde el propio sitio, no desde Google
+   Fonts: dos dominios menos que resolver antes de pintar, una hoja
+   de estilos ajena menos que bloquea la carga, y ninguna IP de
+   visitante enviada a un tercero. Son los mismos woff2 que sirve
+   Google, solo latin y latin-ext; Inter y Manrope son variables, un
+   fichero por alfabeto para todos los pesos. */
+@font-face {
+  font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../fonts/ibm-plex-mono-400-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../fonts/ibm-plex-mono-400-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("../fonts/ibm-plex-mono-500-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("../fonts/ibm-plex-mono-500-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter"; font-style: normal; font-weight: 400 600; font-display: swap;
+  src: url("../fonts/inter-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter"; font-style: normal; font-weight: 400 600; font-display: swap;
+  src: url("../fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Manrope"; font-style: normal; font-weight: 500 800; font-display: swap;
+  src: url("../fonts/manrope-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Manrope"; font-style: normal; font-weight: 500 800; font-display: swap;
+  src: url("../fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 
 :root {
   /* Gris azulado medio: la página nunca es blanca. Los neutros
@@ -1199,36 +1247,17 @@ h1 {
 }
 .more:hover { background: var(--ink); color: var(--paper); }
 
+/* ── sin JavaScript ───────────────────────────────────────── */
+/* Lo que escribe scripts/prerender.py dentro de <noscript>: solo lo
+   ve quien no ejecuta JS. Lista llana, sin adornos. */
+.static { max-width: var(--measure); margin-top: 1.5rem; color: var(--ink-soft); }
+.static h3 { margin: 1.5rem 0 .6rem; }
+.static ol, .static ul { padding-left: 1.2rem; margin: 0; }
+.static li { margin: 0 0 .55rem; line-height: 1.5; }
+
 /* ── contacto ─────────────────────────────────────────────── */
-/* La direccion de correo no aparece en la pagina. La via es la ficha
-   institucional, donde la UVa ya publica los datos de contacto. */
-
-.contact-route { margin: 0 0 1.6rem; }
-
-.cta {
-  display: inline-flex; align-items: center; gap: .7rem;
-  padding: .85rem 1.15rem;
-  border: 1px solid var(--rule);
-  background: var(--surface);
-  color: var(--ink);
-  font: 500 .95rem/1.3 var(--reading);
-  letter-spacing: -.004em;
-  transition: border-color .2s var(--ease), background .2s var(--ease),
-              color .2s var(--ease);
-}
-.cta svg {
-  width: 1.05em; height: 1.05em; flex: none;
-  fill: none; stroke: currentColor; stroke-width: 1.6;
-  stroke-linecap: round; stroke-linejoin: round;
-  transition: transform .25s var(--ease);
-}
-.cta:hover {
-  border-color: var(--accent);
-  background: var(--accent-bg);
-  color: var(--accent-ink);
-}
-.cta:hover svg { transform: translateX(3px); }
-.cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* La direccion, el correo y la tarjeta van juntos en la columna
+   izquierda; la ficha del Portal de la Ciencia queda en Perfiles. */
 
 /* ── footer ───────────────────────────────────────────────── */
 

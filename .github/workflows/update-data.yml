@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  issues: write     # para abrir un aviso si la ejecucion falla
 
 concurrency:
   group: refresh-bibliometrics
@@ -31,14 +32,40 @@ jobs:
         env:
           WOS_API_KEY: ${{ secrets.WOS_API_KEY }}
 
+      - name: Write the static summary into index.html
+        # Lo que leen los buscadores y lectores que no ejecutan JS. Si
+        # los datos no han cambiado, deja index.html igual.
+        run: python3 scripts/prerender.py
+
       - name: Commit if anything changed
         run: |
-          if [ -n "$(git status --porcelain data/profile.json)" ]; then
+          if [ -n "$(git status --porcelain data/profile.json index.html)" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/profile.json
+            git add data/profile.json index.html
             git commit -m "data: refresh bibliometrics ($(date -u +%Y-%m-%d))"
             git push
           else
-            echo "No change in data/profile.json."
+            echo "No change in data/profile.json or index.html."
+          fi
+
+      - name: Open an issue if the run failed
+        # Una ejecucion en rojo no avisa a nadie; un issue nuevo si, por
+        # correo. Si ya hay uno abierto, se comenta en el en lugar de
+        # abrir otro cada lunes.
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TITLE="El refresco de los lunes ha fallado"
+          BODY="La ejecucion de $(date -u +%Y-%m-%d) termino en rojo: $RUN_URL
+
+          Lo mas probable es que el script se haya negado a escribir porque alguna cifra se desplomaba o una fuente cambio su HTML (ver «Regenerar los datos a mano» en el README). La web sigue con los ultimos datos buenos. Cierra este issue cuando este resuelto."
+          NUM=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number -q '.[0].number')
+          if [ -n "$NUM" ]; then
+            gh issue comment "$NUM" --body "$BODY"
+          else
+            gh issue create --title "$TITLE" --body "$BODY"
           fi

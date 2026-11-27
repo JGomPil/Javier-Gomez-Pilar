@@ -17,6 +17,7 @@ fichero JSON.
 | Proyectos: aportación UVa, si sigue vigente, ficha, altas nuevas | Portal de la Ciencia (`investigadores/180080/financiacion`) | Automático, lunes |
 | Citas e índice h (Web of Science) | Web of Science Starter API (ResearcherID `B-9123-2018`) | Automático, lunes |
 | Bio, líneas, proyectos, docencia, tesis, ATENEA, premios docentes | `data/content.json` | A mano, 1-2 veces al año |
+| Resumen sin JavaScript en `index.html` (líneas, primer decil, proyectos) | `scripts/prerender.py`, desde los dos JSON | Automático, lunes |
 
 ### Citas e índice h de Web of Science
 
@@ -214,12 +215,46 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   de idioma la barra se reescribe sin recargar. Las etiquetas `hreflang` de la
   cabecera le dicen al buscador que son la misma página en dos idiomas.
 - **`assets/img/og-tarjeta.png`** — la tarjeta que se ve al compartir el
-  enlace (1200×630). El retrato que lleva dentro, `retrato-tarjeta.png`, sale
-  de `scripts/recorta_og.py`, que encuadra el original sobre la cara; hacer
-  ese encuadre con porcentajes de CSS dejaba la coronilla fuera del círculo.
-  La tarjeta se regenera desde `scripts/og-card.html`:
-  `chrome --headless --window-size=1200,630 --virtual-time-budget=16000
-  --screenshot=assets/img/og-tarjeta.png scripts/og-card.html`.
+  enlace (1200×630). El retrato que lleva dentro, `scripts/retrato-tarjeta.png`,
+  sale de `scripts/recorta_og.py`, que encuadra el original sobre la cara;
+  hacer ese encuadre con porcentajes de CSS dejaba la coronilla fuera del
+  círculo. Es una pieza intermedia y no está en el repositorio (`.gitignore`):
+  la página nunca la carga. Para regenerar la tarjeta, primero el recorte y
+  luego la captura:
+  `python3 scripts/recorta_og.py && chrome --headless --window-size=1200,630
+  --virtual-time-budget=16000 --screenshot=assets/img/og-tarjeta.png
+  scripts/og-card.html`.
+- **El retrato** — la web sirve `assets/img/javier.webp`, 600×600 y unos
+  47 KB; el PNG de 800×800 que había antes pesaba 519 KB y era lo primero
+  que se descargaba. El original con fondo transparente está en
+  `fuentes/javier-original.png`, fuera del repositorio, y es de donde parten
+  `recorta_og.py` y cualquier versión nueva:
+  `python3 -c "from PIL import Image; Image.open('fuentes/javier-original.png').resize((600,600), Image.LANCZOS).save('assets/img/javier.webp', quality=88, method=6)"`.
+- **Las fuentes** — Inter, Manrope e IBM Plex Mono se sirven desde
+  `assets/fonts/`, no desde Google Fonts: dos dominios menos antes de pintar
+  y ninguna IP de visitante enviada a Google, que en la UE no es un detalle.
+  Son los mismos `woff2` que da Google, solo alfabeto latino; las reglas
+  `@font-face` están al principio de `style.css`.
+- **El resumen sin JavaScript** — la página se pinta desde los JSON, y lo que
+  no ejecuta JS (buscadores que no son Google, previsualizaciones, resúmenes
+  de IA) solo veía la cabecera. `python3 scripts/prerender.py` escribe en
+  `index.html`, entre marcadores `<!-- prerender:… -->`, las líneas de
+  investigación (con el mismo marcado que pinta `site.js`, que luego las
+  reemplaza) y dos `<noscript>`: las cifras con los artículos de primer
+  decil, y los proyectos. Lo lanza el cron de los lunes; **lánzalo también tú
+  si cambias las líneas o los proyectos en `content.json`**. Las cifras no
+  van en sus casillas de la portada porque el contador las haría saltar de
+  68 a 0 y vuelta a subir.
+- **`404.html`** — lo que GitHub Pages enseña ante una dirección que no
+  existe. Es el único fichero con rutas absolutas (`/Javier-Gomez-Pilar/…`),
+  porque se sirve a cualquier profundidad.
+- **`sitemap.xml`** — las dos versiones de idioma, cada una apuntando a la
+  otra. Solo sirve si se da de alta: en Google Search Console, añade la
+  propiedad `https://jgompil.github.io/Javier-Gomez-Pilar/` (prefijo de URL)
+  y envía `sitemap.xml`. **No hay `robots.txt` a propósito**: los buscadores
+  solo lo leen en la raíz del dominio, `jgompil.github.io/robots.txt`, que
+  pertenecería a un repositorio `jgompil.github.io` que no existe; uno en
+  esta carpeta no lo miraría nadie.
   Si la cambias, **cámbiale también el nombre**: WhatsApp, LinkedIn y
   compañía guardan la previsualización en caché y, con el mismo nombre,
   siguen enseñando la vieja durante días.
@@ -289,6 +324,7 @@ Tras editar, comprueba que el JSON sigue siendo válido:
 
 ```sh
 python3 -c "import json; json.load(open('data/content.json', encoding='utf-8'))"
+python3 scripts/prerender.py   # si tocaste líneas o proyectos
 ```
 
 ---
@@ -355,8 +391,9 @@ documento, lo rasteriza con pdf.js y escupe cada página en base64; está en el
 cuaderno de trabajo, no en el repo. Lo más rápido es levantar el sitio en local
 y pulsar el botón.
 
-Y lo que **no** entra en el PDF: el correo electrónico, que no está en ninguna
-parte del sitio, y las calificaciones de los trabajos dirigidos.
+Y lo que **no** entra en el PDF: las calificaciones de los trabajos
+dirigidos. El correo sí entra, enlazado, en la cabecera y en Contacto; sale
+de `contact_card.email`.
 
 Quien pulse Ctrl+P sobre la página en lugar de usar el botón no se lleva un
 desastre: hay unas pocas reglas `@media print` al final de `style.css` que
@@ -414,6 +451,12 @@ una prueba a mano no las borra sin querer. Si la clave está puesta y aun así l
 consulta no devuelve citas, eso sí se considera una avería y la ejecución
 falla.
 
+**Cuando la ejecución de los lunes falla, abre un issue** titulado «El
+refresco de los lunes ha fallado», con el enlace a la ejecución, y GitHub lo
+manda por correo. Si ya hay uno abierto, comenta en él en lugar de abrir
+otro. Ciérralo cuando esté arreglado; si no, los fallos siguientes se
+acumulan como comentarios en ese mismo issue.
+
 ---
 
 ## Publicar en GitHub Pages
@@ -421,7 +464,9 @@ falla.
 El repositorio es `JGomPil/Javier-Gomez-Pilar` y la web se sirve en
 <https://jgompil.github.io/Javier-Gomez-Pilar/>. Al ser una *project page* vive
 en un subdirectorio, así que todas las rutas del HTML son relativas. Si alguna
-vez escribes una ruta que empiece por `/`, romperá.
+vez escribes una ruta que empiece por `/`, romperá. La excepción es
+`404.html`, que lleva `/Javier-Gomez-Pilar/` delante de todo porque GitHub
+la sirve en cualquier ruta.
 
 Para publicar un cambio basta con:
 
@@ -438,19 +483,25 @@ GitHub Pages reconstruye en menos de un minuto.
 
 Con `javiergomezpilar.com` tienes dos caminos. El sencillo es renombrar el
 repositorio a `jgompil.github.io`, que lo convierte en *user page* y lo sirve en
-la raíz; entonces hay que quitar `/Javier-Gomez-Pilar` del `canonical` y de las
-etiquetas `og:`. El otro es dejarlo donde está, añadir un fichero `CNAME` en la
+la raíz; entonces hay que quitar `/Javier-Gomez-Pilar` del `canonical`, de las
+etiquetas `og:`, de `sitemap.xml` y de `404.html`. El otro es dejarlo donde está, añadir un fichero `CNAME` en la
 raíz con el dominio dentro y apuntar el DNS a GitHub Pages.
 
 ---
 
 ## Contacto
 
-La direccion de correo no aparece en ninguna parte de la web, a proposito. La
-seccion de contacto enlaza a la ficha del **Portal de la Ciencia de la UVa**,
-donde la universidad ya publica los datos de contacto institucionales. Asi no
-hay formulario que mantener, ni servicio de terceros, ni direccion que
-cosechen los robots.
+La sección de contacto da la dirección postal, el correo y la tarjeta de
+contacto (QR y `.vcf`). La ficha del **Portal de la Ciencia de la UVa** queda
+en la lista de Perfiles, no como botón aparte: con el correo a la vista ya no
+es la vía principal.
+
+El correo **no está escrito en el HTML**: lo pone `initVcard()` en
+`site.js` desde `contact_card.email` al cargar la página. Los robots que
+recolectan direcciones leen el HTML sin ejecutar nada, así que no lo ven.
+No es una barrera completa —está en `data/content.json` y en `tarjeta.vcf`,
+y es la dirección que la UVa ya publica—, pero quita el grueso del correo
+basura. Por eso `scripts/prerender.py` tampoco lo escribe.
 
 Si algun dia quieres un formulario, hace falta un servicio que reenvie el
 mensaje: GitHub Pages solo sirve ficheros estaticos y no ejecuta PHP ni nada

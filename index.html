@@ -108,9 +108,10 @@
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<!-- Las fuentes viven en assets/fonts (ver la cabecera de style.css).
+     Se adelantan las dos que pinta la portada nada mas abrir. -->
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -284,7 +285,7 @@
           <div class="retrato">
             <span class="aro" aria-hidden="true"></span>
             <div class="portrait">
-              <img src="assets/img/javier.png" alt="Javier Gómez Pilar" width="800" height="800" loading="eager">
+              <img src="assets/img/javier.webp" alt="Javier Gómez Pilar" width="600" height="600" loading="eager" fetchpriority="high">
             </div>
           </div>
         </figure>
@@ -313,7 +314,27 @@
       <div class="band-body">
         <h2 data-i18n="research.h" data-icon="i-research">Líneas de investigación</h2>
         <p class="lede" data-i18n="research.lede">Trato la actividad cerebral como un sistema dinámico en red y busco en su geometría temporal lo que separa un cerebro enfermo de uno sano.</p>
-        <div class="lines" id="lines"></div>
+        <!-- Lo de dentro lo escribe scripts/prerender.py para quien no
+             ejecuta JS; site.js lo reemplaza al cargar. -->
+        <div class="lines" id="lines"><!-- prerender:lines -->
+        <article class="line">
+          <span class="line-n"><svg class="icon line-icon" aria-hidden="true" focusable="false"><use href="#i-line-1"></use></svg><b>01</b></span>
+          <h3>Dinámica temporal y redes funcionales</h3>
+          <p>Cada región cortical integra información en su propia ventana temporal, y esas ventanas forman una jerarquía que converge con la organización centro-periferia del córtex. Modelado como grafo funcional, el EEG revela un déficit de modulación de esa red en distintas patologías neurológicas y psiquiátricas.</p>
+          <ul class="signals"><li>EEG</li><li>MEG</li><li>fMRI</li><li>Teoría de grafos</li></ul>
+        </article>
+        <article class="line">
+          <span class="line-n"><svg class="icon line-icon" aria-hidden="true" focusable="false"><use href="#i-line-2"></use></svg><b>02</b></span>
+          <h3>Fenotipado de la apnea del sueño</h3>
+          <p>La apnea no es una enfermedad única: distintos fenotipos responden de forma distinta al tratamiento. Las redes de correlacion basadas en sujeto, construidas a partir de oximetría y variabilidad cardíaca, separan esos fenotipos y predicen quién se recupera.</p>
+          <ul class="signals"><li>SpO₂</li><li>HRV</li><li>Polisomnografía</li><li>Deep learning</li></ul>
+        </article>
+        <article class="line">
+          <span class="line-n"><svg class="icon line-icon" aria-hidden="true" focusable="false"><use href="#i-line-3"></use></svg><b>03</b></span>
+          <h3>Interfaces cerebro-ordenador</h3>
+          <p>Sistemas no invasivos que convierten actividad cerebral en control: un navegador web manejado con P300 para personas con discapacidad severa, y entrenamiento cognitivo por neurofeedback para atenuar los efectos del envejecimiento sobre la atención y la memoria.</p>
+          <ul class="signals"><li>BCI</li><li>Neurofeedback</li><li>P300</li><li>c-VEP</li></ul>
+        </article><!-- /prerender:lines --></div>
       </div>
     </div>
   </section>
@@ -385,6 +406,28 @@
         <p class="year-note" id="year-note" hidden></p>
         <p class="count" id="pub-count" aria-live="polite"></p>
         <div id="pub-list" class="pubs"></div>
+        <noscript><div class="static"><!-- prerender:d1 -->
+          <p>68 artículos en revistas JCR, 44 de ellos en el primer cuartil; 2037 citas e índice h 28 en Web of Science.</p>
+          <h3>Artículos en revistas del primer decil (16)</h3>
+          <ol>
+            <li><a href="https://doi.org/10.1016/j.smrv.2026.102308">The Potential of Clustering Methods for Pre-Test Triage in Sleep Medicine: A Systematic Review</a>. <i>Sleep Medicine Reviews</i>, 2026.</li>
+            <li><a href="https://doi.org/10.1016/j.cmpb.2025.109209">A subject-based association network defines new pediatric sleep apnea phenotypes with different odds of recovery after treatment</a>. <i>Computer Methods and Programs in Biomedicine</i>, 2026.</li>
+            <li><a href="https://doi.org/10.1109/jbhi.2025.3544966">Beyond the ground truth, XGBoost model applied to sleep spindle event detection</a>. <i>IEEE Journal of Biomedical and Health Informatics</i>, 2025.</li>
+            <li><a href="https://doi.org/10.1109/tcbb.2023.3309998">Gene Co-Expression Networks Offer New Perspectives on Sepsis Pathophysiology</a>. <i>IEEE-Acm Transactions on Computational Biology and Bioinformatics</i>, 2023.</li>
+            <li><a href="https://doi.org/10.1016/j.neuroimage.2022.119802">Disrupted relationship between intrinsic timescales and alpha peak frequency during unconscious states – A high-density EEG study</a>. <i>Neuroimage</i>, 2023.</li>
+            <li><a href="https://doi.org/10.1186/s10194-022-01465-1">Headache-related circuits and high frequencies evaluated by EEG, MRI, PET as potential biomarkers to differentiate chronic and episodic migraine: Evidence from a systematic review</a>. <i>Journal of Headache and Pain</i>, 2022.</li>
+            <li><a href="https://doi.org/10.1016/j.neuroimage.2022.119245">Variability and task-responsiveness of electrophysiological dynamics: scale-free stability and oscillatory flexibility</a>. <i>Neuroimage</i>, 2022.</li>
+            <li><a href="https://doi.org/10.1016/j.tics.2021.11.007">Intrinsic neural timescales: temporal integration and segregation</a>. <i>Trends in Cognitive Sciences</i>, 2022.</li>
+            <li><a href="https://doi.org/10.1093/schbul/sbz140">Main symptomatic treatment targets in suspected and early psychosis: new insights from network analysis</a>. <i>Schizophrenia Bulletin</i>, 2020.</li>
+            <li><a href="https://doi.org/10.1016/j.neuroimage.2019.116015">From Neuronal to Psychological noise – Long-range temporal correlations in EEG intrinsic activity reduce noise in internally-guided decision making</a>. <i>Neuroimage</i>, 2019.</li>
+            <li><a href="https://doi.org/10.1109/tnsre.2019.2934645">Asynchronous Control of ERP-based BCI Spellers Using Steady-State Visual Evoked Potentials Elicited by Peripheral Stimuli</a>. <i>IEEE Transactions on Neural Systems and Rehabilitation Engineering</i>, 2019.</li>
+            <li><a href="https://doi.org/10.1016/j.neuroimage.2019.02.070">Neural variability quenching during decision-making: neural individuality and its prestimulus complexity</a>. <i>Neuroimage</i>, 2019.</li>
+            <li><a href="https://doi.org/10.1016/j.eswa.2018.11.026">Towards an Accessible Use of Smartphone-Based Social Networks through Brain-Computer Interfaces</a>. <i>Expert Systems With Applications</i>, 2019.</li>
+            <li><a href="https://doi.org/10.1142/s0129065717500320">Quantification of graph complexity based on the edge weight distribution balance: Application to brain networks</a>. <i>International Journal of Neural Systems</i>, 2018.</li>
+            <li><a href="https://doi.org/10.1109/tnsre.2016.2623381">An Asynchronous P300-Based Brain-Computer Interface Web Browser for Severely Disabled People</a>. <i>IEEE Transactions on Neural Systems and Rehabilitation Engineering</i>, 2017.</li>
+            <li><a href="https://doi.org/10.1109/tnsre.2015.2398573">Adaptive Stacked Generalization for Multiclass Motor Imagery-based Brain Computer Interfaces</a>. <i>IEEE Transactions on Neural Systems and Rehabilitation Engineering</i>, 2015.</li>
+          </ol>
+        <!-- /prerender:d1 --></div></noscript>
       </div>
     </div>
   </section>
@@ -423,6 +466,30 @@
             <div id="projects-list" class="projects"></div>
           </div>
         </div>
+        <noscript><div class="static"><!-- prerender:projects -->
+          <h3>Proyectos de investigación (19)</h3>
+          <ul>
+            <li>Identificación de las huellas neuropatológicas de la demencia mediante análisis dinámico de redes cerebrales · Junta de Castilla y León · FSE+ · 2026–2030 · Director del trabajo de investigación</li>
+            <li>CALLIOPE: formación en rehabilitación de la discapacidad visual desde un enfoque de competencias · Erasmus+ · Comisión Europea · 2025–2028</li>
+            <li>Medicina de precisión y diagnóstico avanzado en la enfermedad de Stargardt en España · Plan Estatal · ISCIII · Next Generation EU · 2025–2026</li>
+            <li>PhenoXleep: Definición de fenotipos en la apnea del sueño mediante aprendizaje profundo multitarea e inteligencia artificial explicable · Plan Estatal · AEI · FEDER · 2024–2027</li>
+            <li>CRONOS: El cerebro cronectómico: identificando las huellas neuropatológicas de la demencia · Plan Estatal · AEI · FEDER · 2023–2027</li>
+            <li>NET4SLEEP: Dinamización de una red I+D+i colaborativa transfronteriza para el fenotipado integral de la apnea del sueño · Interreg POCTEP · FEDER · 2023–2026 · co-IP · coordinador</li>
+            <li>EuroAGE+: Red internacional de investigación, innovación y transferencia de tecnologías para la promoción del envejecimiento activo · Interreg POCTEP · FEDER · 2023–2026</li>
+            <li>Tattoo4Sleep: Electrodos cutáneos tipo tatuaje para la monitorización de trastornos del sueño · CIBER-BBN · 2023–2024</li>
+            <li>DEEPSCREENAMD: Técnicas de deep learning e interpretación de inteligencia artificial en el cribado de la degeneración macular asociada a la edad · Plan Estatal · AEI · Next Generation EU · 2022–2025</li>
+            <li>BRAINGYM: Hacia la digitalización del entrenamiento cognitivo mediante sistemas brain-computer interface, ejercicio físico y autoevaluación neuropsicológica · Plan Estatal · AEI · Next Generation EU · 2022–2025</li>
+            <li>DEEPXSLEEP: Diseño de modelos predictivos automáticos interpretables en la apnea del sueño pediátrica · Plan Estatal · AEI · 2021–2025</li>
+            <li>SLEEPCONCEPT: Diagnóstico automático de la apnea del sueño infantil: prueba de concepto en un entorno clínico · Prueba de Concepto · AEI · Next Generation EU · 2021–2024</li>
+            <li>Modelo predictivo basado en inteligencia artificial para predecir la evolución de la COVID-19 · Fondo COVID-19 · ISCIII · Junta de Castilla y León · 2020–2021</li>
+            <li>COGNITION: Estimación automática de la capacidad cognitiva en niños con apnea del sueño · Retos-Colaboración · MINECO · FEDER · 2018–2022</li>
+            <li>SIMPLICITY: Simplificación del diagnóstico de la apnea del sueño infantil mediante nuevas técnicas de procesado de señales cardiorrespiratorias · Plan Estatal · Retos de la Sociedad · MINECO · FEDER · 2018–2021</li>
+            <li>MIGRAINEE: Análisis y correlación entre la epigenética y la actividad cerebral para evaluar el riesgo de migraña crónica y episódica en mujeres · Interreg POCTEP · FEDER · 2017–2022</li>
+            <li>Caracterización de la actividad neuronal en la enfermedad de Alzheimer mediante la teoría de redes complejas · Plan Estatal · Retos de la Sociedad · MINECO · 2015–2018</li>
+            <li>ESC-MEG: Extracción, selección y clasificación de características de la señal de magnetoencefalograma · Plan Nacional de I+D+i · MINECO · 2012–2015</li>
+            <li>Interfaz cerebro-ordenador para entrenamiento cognitivo y asistencia domótica frente a los efectos del envejecimiento · Plan Nacional de I+D+i · MINECO · 2012–2015</li>
+          </ul>
+        <!-- /prerender:projects --></div></noscript>
       </div>
     </div>
   </section>
@@ -495,14 +562,6 @@
         <h2 data-i18n="contact.h" data-icon="i-contact">Contacto</h2>
         <div class="two">
           <div>
-
-            <p class="contact-route">
-              <a class="cta" href="https://portaldelaciencia.uva.es/investigadores/180080/detalle" rel="me noopener">
-                <span data-i18n="contact.cta">Mis datos de contacto en el Portal de la Ciencia de la UVa</span>
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
-              </a>
-            </p>
-
             <address class="addr">
               <span data-i18n="contact.dept">Dpto. de Teoría de la Señal y Comunicaciones e Ingeniería Telemática</span>
               <span data-i18n="contact.school">E.T.S.I. de Telecomunicación, Universidad de Valladolid</span>

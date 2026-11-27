@@ -1249,12 +1249,13 @@
 
   /* ── la tarjeta de contacto ──────────────────────────────── */
 
-  /* El .vcf es un fichero de verdad (assets/javier-gomez-pilar.vcf,
-     que hace scripts/vcf.py con los datos de content.json). Se armaba
+  /* El .vcf es un fichero de verdad (tarjeta.vcf, en la raiz, que
+     hace scripts/vcf.py con los datos de content.json). Se armaba
      aqui con un blob y habia navegadores que se tragaban la descarga
      sin decir nada; un enlace normal lo abre cualquiera, y el telefono
      ensena la ficha y pregunta si se guarda. Aqui solo queda el
-     correo, que si sale del JSON. */
+     correo, que sale del JSON y se escribe desde aqui: asi no esta
+     en el HTML que leen los robots que recolectan direcciones. */
   function initVcard() {
     const correo = $("#correo");
     const c = state.content.contact_card || {};

@@ -29,3 +29,10 @@ Screenshot*.png
 /*.jpeg
 /*.svg
 /*.eps
+
+# Pieza intermedia de la tarjeta de compartir: la escribe
+# scripts/recorta_og.py y solo la lee scripts/og-card.html.
+scripts/retrato-tarjeta.png
+
+# Ajustes locales de Claude Code (permisos de esta maquina)
+.claude/settings.local.json

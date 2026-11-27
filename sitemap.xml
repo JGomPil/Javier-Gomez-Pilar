@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Una sola pagina en dos idiomas. Cada version declara a la otra
+     como alternativa, igual que las etiquetas hreflang de index.html.
+     Sin lastmod a proposito: los datos cambian cada lunes y una fecha
+     que no se mantenga es peor que ninguna. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://jgompil.github.io/Javier-Gomez-Pilar/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://jgompil.github.io/Javier-Gomez-Pilar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jgompil.github.io/Javier-Gomez-Pilar/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jgompil.github.io/Javier-Gomez-Pilar/"/>
+  </url>
+  <url>
+    <loc>https://jgompil.github.io/Javier-Gomez-Pilar/?lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://jgompil.github.io/Javier-Gomez-Pilar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jgompil.github.io/Javier-Gomez-Pilar/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jgompil.github.io/Javier-Gomez-Pilar/"/>
+  </url>
+</urlset>

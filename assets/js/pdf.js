@@ -26,7 +26,7 @@
   const BASE = `https://cdnjs.cloudflare.com/ajax/libs/pdfmake/${VERSION}`;
 
   const URL_SITIO = "jgompil.github.io/Javier-Gomez-Pilar";
-  const RUTA_FOTO = "assets/img/javier.png";
+  const RUTA_FOTO = "assets/img/javier.webp";
   const RUTA_ATENEA = "assets/img/logos/atenea.png";
 
   /* El nombre entero en negrita, no solo el apellido: en una lista de

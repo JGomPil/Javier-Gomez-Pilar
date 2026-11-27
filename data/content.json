@@ -65,7 +65,6 @@
    "less.generic": "Ver menos",
    "hero.pos": "Profesor Contratado Doctor",
    "hero.group": "Grupo de Ingeniería Biomédica, UVa",
-   "contact.cta": "Mis datos de contacto en el Portal de la Ciencia de la UVa",
    "f.kind": "Tipo",
    "f.quality": "Filtrar",
    "k.journal": "Revistas JCR",
@@ -247,7 +246,6 @@
    "less.generic": "Show less",
    "hero.pos": "Associate Professor",
    "hero.group": "Biomedical Engineering Group, UVa",
-   "contact.cta": "My contact details on the UVa science portal",
    "f.kind": "Type",
    "f.quality": "Filter",
    "k.journal": "JCR journals",
@@ -1538,7 +1536,7 @@
   ]
  },
  "contact_card": {
-  "_readme": "La tarjeta de contacto. De aqui salen el .vcf (scripts/vcf.py, que escribe assets/javier-gomez-pilar.vcf) y el QR (scripts/qr.py, que mete dentro ese mismo .vcf). Si cambia el cargo o el departamento, hay que relanzar los dos.",
+  "_readme": "La tarjeta de contacto. De aqui salen tarjeta.vcf (scripts/vcf.py) y el correo que se ve en Contacto. El QR (scripts/qr.py) lleva solo la direccion de tarjeta.vcf, asi que no hay que rehacerlo al cambiar estos datos; el .vcf si: relanza scripts/vcf.py si cambia el cargo, el departamento o el correo.",
   "email": "javier.gomez.pilar@uva.es",
   "street": "Paseo de Belén 15",
   "city": "Valladolid",

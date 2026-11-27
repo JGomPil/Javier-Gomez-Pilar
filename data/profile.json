@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-27T23:07:39Z",
+ "generated": "2026-11-27T23:23:14Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -4028,15 +4028,45 @@
     "live": true,
     "url": "https://portaldelaciencia.uva.es/proyectos/1550903/detalle"
    },
+   "STR": {
+    "amount_uva": 116065,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/165424/detalle"
+   },
    "Demencia JCyL": {
     "amount_uva": 113700,
     "live": true,
     "url": "https://portaldelaciencia.uva.es/proyectos/1696709/detalle"
    },
+   "ESC-MEG": {
+    "amount_uva": 130075,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/178842/detalle"
+   },
+   "BCI domótica": {
+    "amount_uva": 174257,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/178913/detalle"
+   },
+   "Retinopatía diabética": {
+    "amount_uva": 7957,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/179644/detalle"
+   },
+   "Alzhéimer lúdico": {
+    "amount_uva": 8987,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/179647/detalle"
+   },
    "Alzhéimer": {
     "amount_uva": 162745,
     "live": false,
     "url": "https://portaldelaciencia.uva.es/proyectos/179762/detalle"
+   },
+   "Alzhéimer terapias": {
+    "amount_uva": 10028,
+    "live": false,
+    "url": "https://portaldelaciencia.uva.es/proyectos/179887/detalle"
    },
    "MIGRAINEE": {
     "amount_uva": 109679,

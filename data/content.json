@@ -478,7 +478,8 @@
    "label": "Stargardt",
    "scope": "nacional",
    "amount": 140250,
-   "amount_basis": "uva"
+   "amount_basis": "uva",
+   "ref": "PMPER24/00022"
   },
   {
    "acronym": "cALLIOPE",
@@ -685,7 +686,7 @@
    "role": "researcher",
    "from": "2020",
    "to": "2021",
-   "funder": "Fondo COVID-19 · ISCIII · Junta de Castilla y León",
+   "funder": "Fondo COVID-19 · ISCIII · Junta de Castilla y León · FEDER",
    "ref": "",
    "amount": 110000,
    "es": {
@@ -763,7 +764,7 @@
    "from": "2015",
    "to": "2018",
    "funder": "Plan Estatal · Retos de la Sociedad · MINECO",
-   "ref": "TEC2014-64498-R",
+   "ref": "TEC2014-53196-R",
    "amount": 162745,
    "es": {
     "title": "Caracterización de la actividad neuronal en la enfermedad de Alzheimer mediante la teoría de redes complejas"
@@ -777,11 +778,88 @@
    "amount_basis": "total"
   },
   {
+   "acronym": "",
+   "role": "researcher",
+   "from": "2015",
+   "to": "2015",
+   "funder": "Biomedicina, Gestión Sanitaria y Atención Sociosanitaria · Junta de Castilla y León",
+   "es": {
+    "title": "Evaluación de la eficacia de nuevas terapias no farmacológicas para la enfermedad de Alzheimer"
+   },
+   "en": {
+    "title": "Evaluating the efficacy of new non-pharmacological therapies for Alzheimer’s disease"
+   },
+   "label": "Alzhéimer terapias",
+   "scope": "autonomico",
+   "ip": "Carlos Gómez Peña",
+   "amount": 10028,
+   "amount_basis": "uva",
+   "ref": "BIO/VA08/15"
+  },
+  {
+   "acronym": "",
+   "role": "researcher",
+   "from": "2014",
+   "to": "2022",
+   "funder": "Contrato art. 60 · ISCIII, SEPAR, Hospital Clínico Universitario y otros",
+   "es": {
+    "title": "STR - Tratamiento de Señales Biomédicas",
+    "note": "Contrato del artículo 60 que agrupa la financiación de varias entidades: ISCIII, SEPAR, Hospital Clínico Universitario de Valladolid, ASPACE Salamanca y el clúster SIVI."
+   },
+   "en": {
+    "title": "STR - Biomedical Signal Processing",
+    "note": "Article 60 contract pooling funding from several bodies: ISCIII, SEPAR, Valladolid University Hospital, ASPACE Salamanca and the SIVI cluster."
+   },
+   "label": "STR",
+   "scope": "nacional",
+   "ip": "Roberto Hornero Sánchez",
+   "amount": 116065,
+   "amount_basis": "uva"
+  },
+  {
+   "acronym": "",
+   "role": "researcher",
+   "from": "2014",
+   "to": "2014",
+   "funder": "Biomedicina, Gestión Sanitaria y Atención Sociosanitaria · Junta de Castilla y León",
+   "es": {
+    "title": "Análisis de retinografías de alta resolución para la localización automática de lesiones asociadas a la retinopatía diabética y la detección de las formas de riesgo de la enfermedad"
+   },
+   "en": {
+    "title": "High-resolution retinography analysis for the automatic location of diabetic-retinopathy lesions and the detection of high-risk forms of the disease"
+   },
+   "label": "Retinopatía diabética",
+   "scope": "autonomico",
+   "ip": "María García Gadañón",
+   "amount": 7957,
+   "amount_basis": "uva",
+   "ref": "BIO/VA24/14"
+  },
+  {
+   "acronym": "",
+   "role": "researcher",
+   "from": "2014",
+   "to": "2014",
+   "funder": "Biomedicina, Gestión Sanitaria y Atención Sociosanitaria · Junta de Castilla y León",
+   "es": {
+    "title": "Evaluación de una intervención no farmacológica de carácter lúdico para enfermos de Alzheimer"
+   },
+   "en": {
+    "title": "Evaluation of a playful non-pharmacological intervention for Alzheimer’s patients"
+   },
+   "label": "Alzhéimer lúdico",
+   "scope": "autonomico",
+   "ip": "Carlos Gómez Peña",
+   "amount": 8987,
+   "amount_basis": "uva",
+   "ref": "BIO/VA38/14"
+  },
+  {
    "acronym": "ESC-MEG",
    "role": "researcher",
    "from": "2012",
    "to": "2015",
-   "funder": "Plan Nacional de I+D+i · MINECO",
+   "funder": "Plan Nacional de I+D+i · MICINN",
    "ref": "TEC2011-22987",
    "amount": 130075,
    "es": {
@@ -799,7 +877,7 @@
    "role": "researcher",
    "from": "2012",
    "to": "2015",
-   "funder": "Plan Nacional de I+D+i · MINECO",
+   "funder": "Convenio · Fundación General CSIC",
    "ref": "",
    "amount": 248274,
    "es": {

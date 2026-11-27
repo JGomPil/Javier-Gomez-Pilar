@@ -89,7 +89,7 @@ gh run watch
 
 ### Cómo se escribe el financiador de un proyecto
 
-Un criterio único para los diecinueve, porque antes cada uno decía lo suyo y
+Un criterio único para todos, porque antes cada uno decía lo suyo y
 tres proyectos del mismo programa se leían como si fueran de tres sitios
 distintos:
 
@@ -105,10 +105,18 @@ proyectos son «Programa de Cooperación Interreg España-Portugal (POCTEP)»
 financiado por FEDER, y lo único que cambia entre ellos es el periodo —V-A
 para MIGRAINEE, VI-A para los otros dos—, que ya se deduce de los años.
 
-**No es un descuido que dos proyectos digan «Plan Nacional» y el resto «Plan
+**No es un descuido que ESC-MEG diga «Plan Nacional» y el resto «Plan
 Estatal».** El programa se llamó Plan Nacional de I+D+i hasta 2013 y Plan
 Estatal de Investigación Científica y Técnica y de Innovación desde entonces.
-Los de 2012-2015 son de la etapa anterior.
+ESC-MEG es de la convocatoria de 2011, del MICINN.
+
+**Cada financiador se ha comprobado contra su ficha del Portal** (noviembre de
+2026), no contra el CVN: en la ficha se leen el tipo (proyecto, convenio,
+contrato), la lista de financiadores, la convocatoria y la referencia. Así
+salieron tres errores que venían del CVN: «BCI domótica» no es del Plan
+Nacional sino un convenio con la Fundación General del CSIC, ESC-MEG es del
+MICINN y no del MINECO, y la referencia del proyecto de alzhéimer es
+TEC2014-53196-R (la que citan los artículos del grupo), no TEC2014-64498-R.
 
 Esto se mantiene a mano: traducir el nombre largo y en mayúsculas del Portal a
 una etiqueta legible exige criterio, y automatizarlo daría cadenas como
@@ -121,9 +129,17 @@ El Portal de la Ciencia recoge los proyectos gestionados por la UVa, no los
 del CIBER ni los de la Gerencia Regional de Salud. Esos se añaden a mano en
 `data/content.json`.
 
+El listado del Portal enseña **20 por página** si no se le pide otra cosa, y
+los más antiguos quedaban fuera sin aviso. El script pide `?size=40`
+(`PORTAL_PAGE_SIZE`) y compara lo leído con el «N resultados» que declara la
+página: si faltan, no publica una lista recortada y hereda la anterior, y el
+log dice que hay que subir ese número.
+
 De los que sí están, el script se queda **solo con los de «carácter
 Público»**: el Portal usa ese campo para separar una convocatoria competitiva
-de un contrato con empresa, y la web lista las primeras. También descarta los
+de un contrato con empresa, y la web lista las primeras. No es infalible: STR
+es un contrato del artículo 60 y el Portal lo marca como público. Está en la
+web porque así se decidió, con su naturaleza dicha en el financiador. También descarta los
 apuntes de menos de 1.000 €, porque hay asientos administrativos colados entre
 los proyectos: la incorporación de un grupo al consorcio CIBER figura con una
 dotación de 0,01 €.

@@ -324,8 +324,12 @@ def parse_awards(page: str) -> list[dict]:
 # --- OpenAlex: citation metrics, recomputed over merged profiles -------------
 
 PORTAL_ID = "180080"
+# Sin ?size el Portal enseña solo los 20 primeros, y los mas antiguos
+# (los de 2012-2014) se quedaban fuera sin que nada lo dijera. Con 40
+# caben todos; ademas se compara con el total que declara la pagina.
+PORTAL_PAGE_SIZE = 40
 PORTAL_FUNDING = (f"https://portaldelaciencia.uva.es/investigadores/"
-                  f"{PORTAL_ID}/financiacion")
+                  f"{PORTAL_ID}/financiacion?size={PORTAL_PAGE_SIZE}")
 PORTAL_DETAIL = "https://portaldelaciencia.uva.es/proyectos/{}/detalle"
 
 PORTAL_SCOPE = {
@@ -368,6 +372,16 @@ def portal_projects() -> list[dict] | None:
         return None
 
     ids = sorted(set(re.findall(r"/proyectos/(\d+)", listing)))
+    total = re.search(r"(\d+)\s*resultados", re.sub(r"<[^>]+>", " ", listing))
+    if total and int(total.group(1)) > len(ids):
+        # Faltan proyectos en el listado: o han pasado de
+        # PORTAL_PAGE_SIZE o el Portal ha cambiado. Mejor heredar lo
+        # publicado que publicar una lista recortada.
+        print(f"  Portal lists {total.group(1)} projects but only "
+              f"{len(ids)} came back; raise PORTAL_PAGE_SIZE. Projects "
+              f"keep their published data.", file=sys.stderr)
+        return None
+    print(f"  {len(ids)} projects listed on the Portal", flush=True)
     out: list[dict] = []
     for pid in ids:
         # El Portal se atraganta a veces con veinte fichas seguidas y
@@ -424,7 +438,10 @@ def portal_projects() -> list[dict] | None:
 
         out.append({
             "portal_id": pid,
-            "title": parts[0] if parts else "",
+            # parts[0] es el <title> de la pestaña, que lleva detras
+            # " | Financiación - Universidad de Valladolid".
+            "title": re.sub(r"\s*\|\s*Financiaci[oó]n\b.*$", "",
+                            parts[0]) if parts else "",
             "from": fechas.group(3) if fechas else "",
             "to": fechas.group(6) if fechas else "",
             "amount_uva": int(amount.group(1).replace(".", ""))

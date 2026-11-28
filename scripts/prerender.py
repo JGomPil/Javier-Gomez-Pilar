@@ -12,7 +12,10 @@ Este script mete en el HTML, en espanol, lo que mas pesa:
   asi que al cargar el JS las reemplaza sin que se note el cambio;
 - un <noscript> con las cuatro cifras de la portada y los artículos de
   primer decil;
-- un <noscript> con los proyectos.
+- un <noscript> con los proyectos;
+- los textos de la interfaz (data-i18n, data-i18n-aria y data-i18n-ph)
+  copiados de content.json -> ui.es, para que el HTML no se quede con
+  textos viejos ni con claves como "g.tab.output" en las pestañas.
 
 Las cifras no se escriben en sus <dd> de la portada, aunque seria lo
 natural: initCounters() las hace subir desde cero al verlas, y con un
@@ -148,6 +151,38 @@ def cifras(content: dict, profile: dict) -> dict:
     return out
 
 
+def textos_ui(texto: str, ui: dict) -> str:
+    """Pone en el HTML los mismos textos que pone applyLang() en site.js.
+    Solo toca elementos sin hijos: applyLang() usa textContent, asi que
+    todos los data-i18n son texto plano."""
+    def cuerpo(mt):
+        clave = mt.group(3)
+        if clave not in ui or "<" in mt.group(5):
+            return mt.group(0)
+        return (mt.group(1) + mt.group(4) + ">"
+                + html.escape(ui[clave], quote=False) + "</" + mt.group(2) + ">")
+    texto = re.sub(
+        r'(<([a-z0-9]+)\b[^>]*?\bdata-i18n="([^"]+)")([^>]*)>([^<]*)</\2>',
+        cuerpo, texto)
+
+    def atributo(nombre_data, atributo_html):
+        def cambia(mt):
+            etiqueta, clave = mt.group(0), mt.group(1)
+            if clave not in ui:
+                return etiqueta
+            valor = html.escape(ui[clave], quote=True)
+            if re.search(rf'\b{atributo_html}="[^"]*"', etiqueta):
+                return re.sub(rf'\b{atributo_html}="[^"]*"',
+                              f'{atributo_html}="{valor}"', etiqueta)
+            return etiqueta[:-1] + f' {atributo_html}="{valor}">'
+        return lambda t: re.sub(
+            rf'<[a-z0-9]+\b[^>]*\b{nombre_data}="([^"]+)"[^>]*>', cambia, t)
+
+    texto = atributo("data-i18n-aria", "aria-label")(texto)
+    texto = atributo("data-i18n-ph", "placeholder")(texto)
+    return texto
+
+
 def sustituye(texto: str, nombre: str, nuevo: str) -> str:
     patron = re.compile(
         rf"(<!-- prerender:{nombre} -->)(.*?)(<!-- /prerender:{nombre} -->)", re.S)
@@ -165,6 +200,7 @@ def main() -> int:
     texto = sustituye(antes, "lines", lineas(content))
     texto = sustituye(texto, "d1", primer_decil(content, profile))
     texto = sustituye(texto, "projects", proyectos(content))
+    texto = textos_ui(texto, content["ui"]["es"])
 
     if texto == antes:
         print("prerender: index.html ya estaba al dia.")

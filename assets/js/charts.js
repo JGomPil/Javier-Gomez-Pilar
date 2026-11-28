@@ -557,9 +557,18 @@
       grid: { ...b.grid,
               top: altoLeyenda(etiquetas, anchoDe(host), b) + 16,
               left: 2 },
-      xAxis: { type: "value", min: from, max: to + 1, ...b.axisCommon,
-               minInterval: 1, axisLabel: { ...b.axisCommon.axisLabel,
-                                            formatter: (v) => String(v) } },
+      // Con min en el primer año y las marcas "redondas" de ECharts, el
+      // eje ponia 2012 y 2013 casi pegados. Asi las marcas salen a paso
+      // fijo desde el primer año, y el final se estira hasta caer en
+      // una marca para que tampoco se amontonen al final.
+      xAxis: (() => {
+        const paso = anchoDe(host) < 560 ? 4 : 2;
+        const fin = from + Math.ceil((to + 1 - from) / paso) * paso;
+        return { type: "value", min: from, max: fin, interval: paso,
+                 ...b.axisCommon,
+                 axisLabel: { ...b.axisCommon.axisLabel,
+                              formatter: (v) => String(v) } };
+      })(),
       yAxis: {
         type: "category",
         data: projects.map(rotulo),

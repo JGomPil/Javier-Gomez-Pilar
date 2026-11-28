@@ -1158,7 +1158,9 @@
       const ms = 900;
 
       const tick = (now) => {
-        const k = Math.min(1, (now - t0) / ms);
+        // El primer fotograma puede traer una marca de tiempo anterior
+        // a t0, y sin el max la cifra salia en negativo un instante.
+        const k = Math.min(1, Math.max(0, (now - t0) / ms));
         const eased = 1 - Math.pow(1 - k, 3);      // frena al final
         el.textContent = nf().format(Math.round(target * eased)) + suffix;
         if (k < 1) requestAnimationFrame(tick);

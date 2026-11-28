@@ -1850,6 +1850,13 @@ h2[data-icon] {
 
 .affil:hover .logo { opacity: 1; }
 
+/* En oscuro, --muted con opacidad se hundia en el fondo: los sellos
+   de la UVa y del GIB tienen trazo fino y casi no se leian. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .affil .logo { background: var(--ink-soft); opacity: .9; }
+}
+:root[data-theme="dark"] .affil .logo { background: var(--ink-soft); opacity: .9; }
+
 /* El ancho lo fija la proporción de cada imagen, que la máscara no
    conoce: sin esto todos saldrían del mismo ancho y deformados. */
 #logo-uva   { --src: url("../img/logos/uva.png");       width: 4.6rem; }

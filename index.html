@@ -252,7 +252,7 @@
     <div class="wrap">
       <div class="hero-grid">
         <div class="hero-text">
-          <p class="eyebrow" data-i18n="hero.eyebrow">Neurociencia computacional · Procesado de señales biomédicas</p>
+          <p class="eyebrow" data-i18n="hero.eyebrow">Neurociencia computacional · Procesado de señales biomédicas · Inteligencia artificial</p>
           <h1>Javier Gómez Pilar</h1>
           <ul class="hero-meta">
             <li data-i18n="hero.pos">Profesor Contratado Doctor</li>
@@ -303,7 +303,7 @@
         <div class="metric"><dt data-i18n="m.cit">Citas</dt><dd class="num" data-metric="citations">—</dd><dd class="src" data-metric="cit-src">—</dd></div>
         <div class="metric"><dt data-i18n="m.h">Índice h</dt><dd class="num" data-metric="h">—</dd><dd class="src" data-metric="h-src">—</dd></div>
       </dl>
-      <p class="stamp"><span data-i18n="stamp.pre">Métricas bibliométricas actualizadas automáticamente</span> · <span id="stamp-date">—</span></p>
+      <p class="stamp"><span data-i18n="stamp.pre">Publicaciones y cuartiles a fecha de</span> · <span id="stamp-date">—</span></p>
     </div>
   </section>
 
@@ -313,7 +313,7 @@
       <p class="idx"><span data-i18n="idx.research">Investigación</span></p>
       <div class="band-body">
         <h2 data-i18n="research.h" data-icon="i-research">Líneas de investigación</h2>
-        <p class="lede" data-i18n="research.lede">Trato la actividad cerebral como un sistema dinámico en red y busco en su geometría temporal lo que separa un cerebro enfermo de uno sano.</p>
+        <p class="lede" data-i18n="research.lede">La actividad cerebral tratada como un sistema dinámico en red, y su geometría temporal como marcador de enfermedad.</p>
         <!-- Lo de dentro lo escribe scripts/prerender.py para quien no
              ejecuta JS; site.js lo reemplaza al cargar. -->
         <div class="lines" id="lines"><!-- prerender:lines -->
@@ -348,11 +348,11 @@
 
         <div class="tabs" data-tabs="charts">
           <div class="tablist" role="tablist">
-            <button type="button" role="tab" id="t-output" aria-controls="p-output" aria-selected="true" tabindex="0" data-i18n="g.tab.output">g.tab.output</button>
-            <button type="button" role="tab" id="t-cites" aria-controls="p-cites" aria-selected="false" tabindex="-1" data-i18n="g.tab.cites">g.tab.cites</button>
-            <button type="button" role="tab" id="t-quart" aria-controls="p-quart" aria-selected="false" tabindex="-1" data-i18n="g.tab.quart">g.tab.quart</button>
-            <button type="button" role="tab" id="t-net" aria-controls="p-net" aria-selected="false" tabindex="-1" data-i18n="g.tab.net">g.tab.net</button>
-            <button type="button" role="tab" id="t-countries" aria-controls="p-countries" aria-selected="false" tabindex="-1" data-i18n="g.tab.countries">g.tab.countries</button>
+            <button type="button" role="tab" id="t-output" aria-controls="p-output" aria-selected="true" tabindex="0" data-i18n="g.tab.output">Producción</button>
+            <button type="button" role="tab" id="t-cites" aria-controls="p-cites" aria-selected="false" tabindex="-1" data-i18n="g.tab.cites">Citas</button>
+            <button type="button" role="tab" id="t-quart" aria-controls="p-quart" aria-selected="false" tabindex="-1" data-i18n="g.tab.quart">Cuartiles</button>
+            <button type="button" role="tab" id="t-net" aria-controls="p-net" aria-selected="false" tabindex="-1" data-i18n="g.tab.net">Coautoría</button>
+            <button type="button" role="tab" id="t-countries" aria-controls="p-countries" aria-selected="false" tabindex="-1" data-i18n="g.tab.countries">Países</button>
           </div>
           <div role="tabpanel" id="p-output" aria-labelledby="t-output">
             <p class="tab-note" data-i18n="g.output.sub">Pulsa una barra para filtrar la lista</p>
@@ -369,7 +369,7 @@
             <div id="chart-network" data-chart class="chart-box huge"></div>
           </div>
           <div role="tabpanel" id="p-countries" aria-labelledby="t-countries" hidden>
-            <p class="tab-note" data-i18n="g.countries.sub">Países de las instituciones coautoras.</p>
+            <p class="tab-note" data-i18n="g.countries.sub">Países de las instituciones coautoras. España queda fuera por ser la propia.</p>
             <div class="country-split">
               <div id="chart-map" data-chart class="chart-box huge"></div>
               <aside id="country-panel" class="ranking"></aside>
@@ -440,8 +440,8 @@
         <h2 data-i18n="proj.h" data-icon="i-proj">Proyectos</h2>
         <div class="tabs" data-tabs="projects">
           <div class="tablist" role="tablist">
-            <button type="button" role="tab" id="t-timeline" aria-controls="p-timeline" aria-selected="true" tabindex="0" data-i18n="proj.tab.timeline">proj.tab.timeline</button>
-            <button type="button" role="tab" id="t-plist" aria-controls="p-plist" aria-selected="false" tabindex="-1" data-i18n="proj.tab.list">proj.tab.list</button>
+            <button type="button" role="tab" id="t-timeline" aria-controls="p-timeline" aria-selected="true" tabindex="0" data-i18n="proj.tab.timeline">Cronología</button>
+            <button type="button" role="tab" id="t-plist" aria-controls="p-plist" aria-selected="false" tabindex="-1" data-i18n="proj.tab.list">Lista</button>
           </div>
           <div role="tabpanel" id="p-timeline" aria-labelledby="t-timeline">
             <div id="chart-projects" data-chart class="chart-box huge"></div>
@@ -455,7 +455,7 @@
                   <button type="button" data-scope="all" aria-pressed="true"
                           data-i18n="pf.all">Todos</button>
                   <button type="button" data-scope="europeo" aria-pressed="false"
-                          data-i18n="pf.europeo">Europeos</button>
+                          data-i18n="pf.europeo">Internacionales</button>
                   <button type="button" data-scope="nacional" aria-pressed="false"
                           data-i18n="pf.nacional">Nacionales</button>
                   <button type="button" data-scope="autonomico" aria-pressed="false"
@@ -509,9 +509,9 @@
         <dl class="metrics metrics-teach" id="teach-metrics"></dl>
         <div class="tabs" data-tabs="teaching">
           <div class="tablist" role="tablist">
-            <button type="button" role="tab" id="t-mentoring" aria-controls="p-mentoring" aria-selected="true" tabindex="0" data-i18n="teach.tab.mentoring">teach.tab.mentoring</button>
-            <button type="button" role="tab" id="t-courses" aria-controls="p-courses" aria-selected="false" tabindex="-1" data-i18n="teach.tab.courses">teach.tab.courses</button>
-            <button type="button" role="tab" id="t-sup" aria-controls="p-sup" aria-selected="false" tabindex="-1" data-i18n="teach.tab.sup">teach.tab.sup</button>
+            <button type="button" role="tab" id="t-mentoring" aria-controls="p-mentoring" aria-selected="true" tabindex="0" data-i18n="teach.tab.mentoring">Mentorización</button>
+            <button type="button" role="tab" id="t-courses" aria-controls="p-courses" aria-selected="false" tabindex="-1" data-i18n="teach.tab.courses">Asignaturas</button>
+            <button type="button" role="tab" id="t-sup" aria-controls="p-sup" aria-selected="false" tabindex="-1" data-i18n="teach.tab.sup">Supervisión</button>
           </div>
           <div role="tabpanel" id="p-mentoring" aria-labelledby="t-mentoring">
             <article class="feature" id="atenea"></article>
@@ -538,9 +538,9 @@
         <p class="lede" data-i18n="rec.lede">Tesis doctoral por compendio de publicaciones, con mención internacional y cum laude.</p>
         <div class="tabs" data-tabs="recognition">
           <div class="tablist" role="tablist">
-            <button type="button" role="tab" id="t-awards" aria-controls="p-awards" aria-selected="true" tabindex="0" data-i18n="rec.tab.awards">rec.tab.awards</button>
-            <button type="button" role="tab" id="t-service" aria-controls="p-service" aria-selected="false" tabindex="-1" data-i18n="rec.tab.service">rec.tab.service</button>
-            <button type="button" role="tab" id="t-ip" aria-controls="p-ip" aria-selected="false" tabindex="-1" data-i18n="rec.tab.ip">rec.tab.ip</button>
+            <button type="button" role="tab" id="t-awards" aria-controls="p-awards" aria-selected="true" tabindex="0" data-i18n="rec.tab.awards">Premios</button>
+            <button type="button" role="tab" id="t-service" aria-controls="p-service" aria-selected="false" tabindex="-1" data-i18n="rec.tab.service">Servicio y evaluación</button>
+            <button type="button" role="tab" id="t-ip" aria-controls="p-ip" aria-selected="false" tabindex="-1" data-i18n="rec.tab.ip">Propiedad intelectual</button>
           </div>
           <div role="tabpanel" id="p-awards" aria-labelledby="t-awards">
             <ol id="awards-list" class="awards"></ol>
@@ -550,7 +550,7 @@
           </div>
           <div role="tabpanel" id="p-ip" aria-labelledby="t-ip" hidden>
             <div id="patents"></div>
-            <h3 class="sub" data-i18n="rec.ip.soft">rec.ip.soft</h3>
+            <h3 class="sub" data-i18n="rec.ip.soft">Registros de software</h3>
             <ul id="ip-list" class="service"></ul>
           </div>
         </div>

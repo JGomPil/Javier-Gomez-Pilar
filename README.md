@@ -257,7 +257,10 @@ tiene un bloque `es` y un bloque `en`; si añades uno, añade los dos.
   `index.html`, entre marcadores `<!-- prerender:… -->`, las líneas de
   investigación (con el mismo marcado que pinta `site.js`, que luego las
   reemplaza) y dos `<noscript>`: las cifras con los artículos de primer
-  decil, y los proyectos. Lo lanza el cron de los lunes; **lánzalo también tú
+  decil, y los proyectos. También copia los textos de la interfaz
+  (`data-i18n`, sus `aria-label` y `placeholder`) desde `ui.es`: antes el
+  HTML llevaba textos viejos y, en las pestañas, las claves tal cual
+  (`g.tab.output`), que es lo que leía un buscador. Lo lanza el cron de los lunes; **lánzalo también tú
   si cambias las líneas o los proyectos en `content.json`**. Las cifras no
   van en sus casillas de la portada porque el contador las haría saltar de
   68 a 0 y vuelta a subir.

@@ -1204,10 +1204,20 @@
 
   let cargando = null;
 
+  /* Huellas de los dos ficheros (las de cdnjs, comprobadas
+     descargandolos): si alguien los alterase en el CDN, el navegador no
+     los ejecutaria. Al cambiar VERSION hay que cambiarlas tambien. */
+  const SRI = {
+    "pdfmake.min.js": "sha512-axXaF5grZBaYl7qiM6OMHgsgVXdSLxqq0w7F4CQxuFyrcPmn0JfnqsOtYHUun80g6mRRdvJDrTCyL8LQqBOt/Q==",
+    "vfs_fonts.js": "sha512-nNkHPz+lD0Wf0eFGO0ZDxr+lWiFalFutgVeGkPdVgrG4eXDYUnhfEj9Zmg1QkrJFLC0tGs8ZExyU/1mjs4j93w==",
+  };
+
   function carga(url) {
     return new Promise((ok, mal) => {
       const s = document.createElement("script");
       s.src = url;
+      s.integrity = SRI[url.split("/").pop()] || "";
+      s.crossOrigin = "anonymous";
       s.onload = ok;
       s.onerror = () => mal(new Error(url));
       document.head.appendChild(s);

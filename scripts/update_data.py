@@ -146,6 +146,16 @@ def parse_gib(page: str, kind: str = "journal") -> list[dict]:
 
             doi_match = DOI_RE.search(raw)
             link_match = LINK_RE.search(raw)
+            # El GIB enlaza a veces un ISBN como si fuera un DOI
+            # (doi.org/978-84-...), y el enlace da error. Todo DOI empieza
+            # por "10."; lo demas se guarda aparte y no se enlaza.
+            doi = normalise_doi(doi_match.group(1)) if doi_match else ""
+            isbn = ""
+            # Unos llegan como "10.xxxx" y otros con "https://doi.org/"
+            # delante: se mira sin ese prefijo.
+            nucleo = re.sub(r"^https?://(dx\.)?doi\.org/", "", doi)
+            if doi and not nucleo.startswith("10."):
+                isbn, doi = doi, ""
 
             publications.append({
                 "kind": kind,
@@ -156,7 +166,8 @@ def parse_gib(page: str, kind: str = "journal") -> list[dict]:
                 "journal": journal,
                 "volume": vol.group(1).strip() if vol else "",
                 "pages": pages.group(1).strip() if pages else "",
-                "doi": normalise_doi(doi_match.group(1)) if doi_match else "",
+                "doi": doi,
+                **({"isbn": isbn} if isbn else {}),
                 "url": link_match.group(1) if link_match else "",
                 "quartile": "",
                 "top_decile": False,

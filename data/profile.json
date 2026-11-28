@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-28T00:06:39Z",
+ "generated": "2026-11-28T00:24:55Z",
  "metrics": {
   "jcr_articles": 68,
   "by_kind": {
@@ -492,7 +492,8 @@
    "journal": "XLI Congreso Anual de la Sociedad Española de Ingeniería Biomédica (CASEIB 2023)",
    "volume": "",
    "pages": "642-645",
-   "doi": "978-84-17853-76-1",
+   "doi": "",
+   "isbn": "978-84-17853-76-1",
    "url": "",
    "quartile": "",
    "top_decile": false

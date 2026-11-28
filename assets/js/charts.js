@@ -21,6 +21,12 @@
 
   const ECHARTS_URL =
     "https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js";
+  /* Huella del fichero (la que publica cdnjs, comprobada descargandolo):
+     si alguien lo alterase en el CDN, el navegador no lo ejecutaria. Al
+     cambiar de version hay que cambiarla tambien, o los graficos no
+     cargan. */
+  const ECHARTS_SRI =
+    "sha512-EmNxF3E6bM0Xg1zvmkeYD3HDBeGxtsG92IxFt1myNZhXdCav9MzvuH/zNMBU1DmIPN6njrhX1VTbqdJxQ2wHDg==";
 
   /* Las tres series y las categorías de GIB que agrupa cada una. */
   const GROUPS = [
@@ -180,6 +186,8 @@
     loading = new Promise((resolve, reject) => {
       const tag = document.createElement("script");
       tag.src = ECHARTS_URL;
+      tag.integrity = ECHARTS_SRI;
+      tag.crossOrigin = "anonymous";
       tag.async = true;
       tag.onload = () => window.echarts ? resolve(window.echarts)
                                         : reject(new Error("echarts ausente"));

@@ -371,6 +371,13 @@ GitHub Pages. La librería pesa dos megas, así que se descarga de cdnjs la
 primera vez que se pulsa el botón y no al cargar la página; mientras tanto el
 botón dice «Generando…».
 
+Las dos librerías de cdnjs (pdfmake y ECharts, la de los gráficos) se cargan
+con su **huella** (`integrity`, SHA-512, la que publica cdnjs): si alguien
+alterase el fichero en el CDN, el navegador no lo ejecutaría. **Al cambiar de
+versión hay que cambiar también la huella** (`SRI` en `pdf.js`, `ECHARTS_SRI`
+en `charts.js`), o el PDF y los gráficos dejan de cargar. La nueva está en
+`https://api.cdnjs.com/libraries/<lib>/<versión>?fields=sri`.
+
 El documento se arma con los mismos datos que la web —`content.json` y
 `profile.json`—, así que **no hay nada que mantener aparte**: cuando el lunes
 entren publicaciones nuevas, entran también en el PDF.
@@ -488,6 +495,19 @@ desde tu ordenador (`python3 scripts/update_data.py`, `prerender.py`, commit y
 push), y lo cierra solo cuando la fecha vuelve a estar al día. Los proyectos
 cambian una o dos veces al año, así que el aviso será raro. El Portal no tiene
 API, así que no hay otra vía automática que leer sus páginas.
+
+**Revisión mensual de enlaces.** El día 1 de cada mes, el workflow «Check
+links» pasa `scripts/check_links.py` por los enlaces externos de la web (DOI,
+fichas de UVaDOC, simuladores, perfiles; unos 130). Si alguno da 404/410, o un
+DOI que doi.org no reconoce, **abre un issue** con la lista, y lo cierra solo
+en la primera revisión limpia. Lo que no se puede comprobar desde fuera (un 403
+de ScienceDirect o Scopus, que bloquean robots; un servidor que no contesta)
+se apunta pero no avisa. Las guías docentes no se revisan: su servidor no
+contesta desde fuera de la UVa. Se puede lanzar a mano en local
+(`python3 scripts/check_links.py`) o desde Actions → Check links.
+
+Si el GIB enlaza un ISBN como si fuera un DOI (`doi.org/978-…`), el script lo
+guarda en `isbn` y la publicación sale sin enlace, en vez de con uno roto.
 
 ---
 

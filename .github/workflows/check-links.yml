@@ -1,0 +1,60 @@
+name: Check links
+
+# Una vez al mes revisa los enlaces externos de la web (DOI, UVaDOC,
+# simuladores, perfiles) con scripts/check_links.py. Si alguno esta
+# roto abre un issue con la lista, que llega por correo; cuando ya no
+# hay ninguno roto, lo cierra solo. Ver el README.
+
+on:
+  schedule:
+    # Dia 1 de cada mes, 06:20 UTC.
+    - cron: "20 6 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Check links and report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TITLE="Hay enlaces rotos en la web"
+          set +e
+          python3 scripts/check_links.py --md rotos.md
+          CODIGO=$?
+          set -e
+          NUM=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number -q '.[0].number')
+          if [ "$CODIGO" -eq 1 ]; then
+            BODY="La revisión mensual ha encontrado enlaces que ya no existen (404/410, o un DOI que doi.org no reconoce):
+
+          $(cat rotos.md)
+
+          Detalle de la ejecución: $RUN_URL
+
+          Casi siempre se arreglan en \`data/content.json\` (un handle de UVaDOC, un simulador renombrado) o vienen de la página del GIB. Este issue se cierra solo en la siguiente revisión sin enlaces rotos; para repetirla ya: Actions → Check links → Run workflow."
+            if [ -n "$NUM" ]; then
+              gh issue comment "$NUM" --body "$BODY"
+            else
+              gh issue create --title "$TITLE" --body "$BODY"
+            fi
+          elif [ "$CODIGO" -eq 0 ]; then
+            if [ -n "$NUM" ]; then
+              gh issue close "$NUM" --comment "La revisión de enlaces ya no encuentra ninguno roto."
+            fi
+          else
+            echo "El script fallo con codigo $CODIGO"
+            exit "$CODIGO"
+          fi
